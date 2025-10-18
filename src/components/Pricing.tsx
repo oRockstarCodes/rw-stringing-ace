@@ -27,7 +27,7 @@ const Pricing = () => {
           </p>
           <div className="mt-6 flex justify-center gap-6 text-sm">
             <div className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded-full bg-accent"></div>
+              <div className="w-3 h-3 rounded-full bg-red-600"></div>
               <span className="text-muted-foreground">Phoenix Team Price</span>
             </div>
             <div className="flex items-center gap-2">
@@ -49,7 +49,7 @@ const Pricing = () => {
                     <tr className="border-b border-border">
                       <th className="text-left py-3 px-4 font-semibold text-foreground">Brand</th>
                       <th className="text-left py-3 px-4 font-semibold text-foreground">Model</th>
-                      <th className="text-right py-3 px-4 font-semibold text-accent">Phoenix Team Price</th>
+                      <th className="text-right py-3 px-4 font-semibold text-red-600">Phoenix Team Price</th>
                       <th className="text-right py-3 px-4 font-semibold text-muted-foreground">Regular Price</th>
                     </tr>
                   </thead>
@@ -61,7 +61,7 @@ const Pricing = () => {
                       >
                         <td className="py-3 px-4 text-foreground font-medium">{string.brand}</td>
                         <td className="py-3 px-4 text-foreground">{string.model}</td>
-                        <td className="py-3 px-4 text-right text-accent font-semibold">{string.teamPrice}</td>
+                        <td className="py-3 px-4 text-right text-red-600 font-semibold">{string.teamPrice}</td>
                         <td className="py-3 px-4 text-right text-muted-foreground">{string.regularPrice}</td>
                       </tr>
                     ))}
