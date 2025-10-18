@@ -35,13 +35,18 @@ const Pricing = () => {
           </p>
           <div className="mt-8 flex justify-center gap-8 text-sm">
             <div className="flex items-center gap-3 bg-zinc-800/70 px-4 py-2 rounded-lg border border-zinc-700">
-              <div className="w-3 h-3 rounded-full bg-gradient-to-r from-yellow-400 to-yellow-500 shadow-lg shadow-yellow-400/50"></div>
-              <span className="text-yellow-400 font-medium">Phoenix Team Price</span>
+              <div className="w-3 h-3 rounded-full bg-gradient-to-r from-red-500 to-red-600 shadow-lg shadow-red-500/50"></div>
+              <span className="text-red-500 font-medium">Phoenix Team Price</span>
             </div>
             <div className="flex items-center gap-3 bg-zinc-800/70 px-4 py-2 rounded-lg border border-zinc-700">
-              <div className="w-3 h-3 rounded-full border-2 border-zinc-400"></div>
-              <span className="text-zinc-300 font-medium">Regular Price</span>
+              <div className="w-3 h-3 rounded-full border-2 border-zinc-100"></div>
+              <span className="text-zinc-100 font-medium">Regular Price</span>
             </div>
+          </div>
+          <div className="mt-4 text-center">
+            <p className="text-zinc-300 text-sm">
+              <span className="text-red-500 font-semibold">Phoenix Badminton Academy Team Members</span> receive exclusive pricing on all strings
+            </p>
           </div>
         </div>
 
@@ -59,8 +64,8 @@ const Pricing = () => {
                   <thead>
                     <tr className="border-b-2 border-zinc-700 bg-zinc-800/50">
                       <th className="text-left py-4 px-6 font-bold text-zinc-200 uppercase tracking-wide text-sm">String</th>
-                      <th className="text-right py-4 px-6 font-bold text-yellow-400 uppercase tracking-wide text-sm">Phoenix Team</th>
-                      <th className="text-right py-4 px-6 font-bold text-zinc-400 uppercase tracking-wide text-sm">Regular</th>
+                      <th className="text-right py-4 px-6 font-bold text-red-500 uppercase tracking-wide text-sm">Phoenix Team</th>
+                      <th className="text-right py-4 px-6 font-bold text-zinc-100 uppercase tracking-wide text-sm">Regular</th>
                     </tr>
                   </thead>
                   <tbody className="bg-zinc-850">
@@ -70,12 +75,18 @@ const Pricing = () => {
                         className="border-b border-zinc-700/50 hover:bg-zinc-750 transition-all duration-300 group"
                       >
                         <td className="py-4 px-6 text-zinc-100 font-semibold group-hover:text-yellow-400 transition-colors">
-                          <span className="text-yellow-400/80 font-normal">{string.brand}</span> {string.model}
+                          {string.category === "own" ? (
+                            <span className="text-yellow-400">Own String</span>
+                          ) : (
+                            <>
+                              <span className="text-yellow-400/80 font-normal">{string.brand}</span> {string.model}
+                            </>
+                          )}
                         </td>
-                        <td className="py-4 px-6 text-right text-yellow-400 font-bold text-lg group-hover:scale-110 transition-transform">
+                        <td className="py-4 px-6 text-right text-red-500 font-bold text-lg group-hover:scale-110 transition-transform">
                           {string.teamPrice}
                         </td>
-                        <td className="py-4 px-6 text-right text-zinc-400 font-medium line-through">
+                        <td className="py-4 px-6 text-right text-zinc-100 font-medium">
                           {string.regularPrice}
                         </td>
                       </tr>
@@ -85,12 +96,6 @@ const Pricing = () => {
               </div>
             </CardContent>
           </Card>
-
-          <div className="mt-8 text-center">
-            <p className="text-zinc-400 text-sm">
-              <span className="text-yellow-400 font-semibold">Phoenix Team members</span> receive exclusive pricing on all strings
-            </p>
-          </div>
         </div>
       </div>
     </section>
