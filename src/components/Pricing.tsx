@@ -47,20 +47,18 @@ const Pricing = () => {
                 <table className="w-full">
                   <thead>
                     <tr className="border-b border-border">
-                      <th className="text-left py-3 px-4 font-semibold text-foreground">Brand</th>
-                      <th className="text-left py-3 px-4 font-semibold text-foreground">Model</th>
+                      <th className="text-left py-3 px-4 font-semibold text-foreground">String</th>
                       <th className="text-right py-3 px-4 font-semibold text-red-600">Phoenix Team Price</th>
                       <th className="text-right py-3 px-4 font-semibold text-muted-foreground">Regular Price</th>
                     </tr>
                   </thead>
                   <tbody>
                     {stringPricing.map((string, index) => (
-                      <tr 
-                        key={index} 
+                      <tr
+                        key={index}
                         className="border-b border-border/50 hover:bg-secondary/50 transition-colors"
                       >
-                        <td className="py-3 px-4 text-foreground font-medium">{string.brand}</td>
-                        <td className="py-3 px-4 text-foreground">{string.model}</td>
+                        <td className="py-3 px-4 text-foreground font-medium">{string.brand} {string.model}</td>
                         <td className="py-3 px-4 text-right text-red-600 font-semibold">{string.teamPrice}</td>
                         <td className="py-3 px-4 text-right text-muted-foreground">{string.regularPrice}</td>
                       </tr>
@@ -68,14 +66,14 @@ const Pricing = () => {
                   </tbody>
                 </table>
               </div>
-              
+
               <div className="mt-8 p-4 bg-secondary/30 rounded-lg">
                 <p className="text-sm text-muted-foreground mb-4">
                   <strong className="text-foreground">Note:</strong> All prices include professional stringing service with custom tension setup.
                   Bring your own string for our special rate!
                 </p>
-                <Button 
-                  className="w-full sm:w-auto" 
+                <Button
+                  className="w-full sm:w-auto"
                   onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
                 >
                   Book Your Stringing
