@@ -83,7 +83,7 @@ const Pricing = () => {
                             </>
                           )}
                         </td>
-                        <td className="py-4 px-6 text-right text-red-500 font-bold text-lg group-hover:scale-110 transition-transform">
+                        <td className="py-4 px-6 text-right text-red-500 font-bold text-lg">
                           {string.teamPrice}
                         </td>
                         <td className="py-4 px-6 text-right text-zinc-100 font-medium">
