@@ -1,45 +1,17 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Check } from "lucide-react";
 
-const pricingPlans = [
-  {
-    name: "Basic Stringing",
-    price: "$15",
-    description: "Essential restringing service",
-    features: [
-      "Professional stringing",
-      "Standard strings included",
-      "Tension customization",
-      "48-hour turnaround",
-    ],
-  },
-  {
-    name: "Premium Stringing",
-    price: "$25",
-    description: "Enhanced performance",
-    features: [
-      "Expert stringing",
-      "Premium strings included",
-      "Custom tension setup",
-      "24-hour turnaround",
-      "Grip replacement",
-    ],
-    popular: true,
-  },
-  {
-    name: "Pro Stringing",
-    price: "$35",
-    description: "Tournament-ready performance",
-    features: [
-      "Master-level stringing",
-      "Top-tier strings included",
-      "Personalized consultation",
-      "Same-day service",
-      "Grip replacement",
-      "Frame inspection",
-    ],
-  },
+const stringPricing = [
+  { name: "Yonex BG 65", teamPrice: "CA$20.00", regularPrice: "CA$22.00", category: "yonex" },
+  { name: "Yonex BG 65TI", teamPrice: "CA$22.00", regularPrice: "CA$24.00", category: "yonex" },
+  { name: "Yonex BG 66 Ultimax", teamPrice: "CA$23.00", regularPrice: "CA$25.00", category: "yonex" },
+  { name: "Yonex BG 80", teamPrice: "CA$24.00", regularPrice: "CA$25.00", category: "yonex" },
+  { name: "Yonex Exbolt 65", teamPrice: "CA$26.00", regularPrice: "CA$28.00", category: "yonex" },
+  { name: "Yonex Aerobite", teamPrice: "CA$27.00", regularPrice: "CA$29.00", category: "yonex" },
+  { name: "GXS S63", teamPrice: "CA$20.00", regularPrice: "CA$21.00", category: "gxs" },
+  { name: "GXS K66", teamPrice: "CA$19.00", regularPrice: "CA$20.00", category: "gxs" },
+  { name: "GXS Z68", teamPrice: "CA$17.00", regularPrice: "CA$18.00", category: "gxs" },
+  { name: "Own String", teamPrice: "CA$14.00", regularPrice: "CA$16.00", category: "own" },
 ];
 
 const Pricing = () => {
@@ -48,55 +20,67 @@ const Pricing = () => {
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <h2 className="text-4xl md:text-5xl font-bold mb-4 text-foreground">
-            Pricing
+            String Pricing
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Affordable pricing for professional quality service
+            Professional stringing with premium quality strings
           </p>
+          <div className="mt-6 flex justify-center gap-6 text-sm">
+            <div className="flex items-center gap-2">
+              <div className="w-3 h-3 rounded-full bg-accent"></div>
+              <span className="text-muted-foreground">Phoenix Team Price</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-3 h-3 rounded-full border-2 border-muted-foreground"></div>
+              <span className="text-muted-foreground">Regular Price</span>
+            </div>
+          </div>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-          {pricingPlans.map((plan, index) => (
-            <Card 
-              key={index}
-              className={`relative border-border hover:shadow-xl transition-all duration-300 ${
-                plan.popular ? 'border-accent border-2 scale-105' : ''
-              }`}
-            >
-              {plan.popular && (
-                <div className="absolute -top-4 left-1/2 -translate-x-1/2">
-                  <span className="bg-accent text-accent-foreground px-4 py-1 rounded-full text-sm font-medium">
-                    Most Popular
-                  </span>
-                </div>
-              )}
-              <CardHeader>
-                <CardTitle className="text-2xl text-card-foreground">{plan.name}</CardTitle>
-                <CardDescription className="text-muted-foreground">{plan.description}</CardDescription>
-                <div className="mt-4">
-                  <span className="text-4xl font-bold text-foreground">{plan.price}</span>
-                  <span className="text-muted-foreground"> / racket</span>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <ul className="space-y-3 mb-6">
-                  {plan.features.map((feature, idx) => (
-                    <li key={idx} className="flex items-start gap-2">
-                      <Check className="w-5 h-5 text-accent flex-shrink-0 mt-0.5" />
-                      <span className="text-muted-foreground">{feature}</span>
-                    </li>
-                  ))}
-                </ul>
+        <div className="max-w-4xl mx-auto">
+          <Card className="border-border">
+            <CardHeader>
+              <CardTitle className="text-2xl text-card-foreground">String Selection</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="overflow-x-auto">
+                <table className="w-full">
+                  <thead>
+                    <tr className="border-b border-border">
+                      <th className="text-left py-3 px-4 font-semibold text-foreground">String</th>
+                      <th className="text-right py-3 px-4 font-semibold text-accent">Phoenix Team Price</th>
+                      <th className="text-right py-3 px-4 font-semibold text-muted-foreground">Regular Price</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {stringPricing.map((string, index) => (
+                      <tr 
+                        key={index} 
+                        className="border-b border-border/50 hover:bg-secondary/50 transition-colors"
+                      >
+                        <td className="py-3 px-4 text-foreground font-medium">{string.name}</td>
+                        <td className="py-3 px-4 text-right text-accent font-semibold">{string.teamPrice}</td>
+                        <td className="py-3 px-4 text-right text-muted-foreground">{string.regularPrice}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              
+              <div className="mt-8 p-4 bg-secondary/30 rounded-lg">
+                <p className="text-sm text-muted-foreground mb-4">
+                  <strong className="text-foreground">Note:</strong> All prices include professional stringing service with custom tension setup.
+                  Bring your own string for our special rate!
+                </p>
                 <Button 
-                  className="w-full" 
-                  variant={plan.popular ? "default" : "outline"}
+                  className="w-full sm:w-auto" 
                   onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
                 >
-                  Select Plan
+                  Book Your Stringing
                 </Button>
-              </CardContent>
-            </Card>
-          ))}
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </div>
     </section>
