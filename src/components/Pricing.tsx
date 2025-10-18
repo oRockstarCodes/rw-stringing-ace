@@ -1,5 +1,4 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 
 const stringPricing = [
   { brand: "Yonex", model: "BG 65", teamPrice: "CA$20.00", regularPrice: "CA$22.00", category: "yonex" },
@@ -16,71 +15,82 @@ const stringPricing = [
 
 const Pricing = () => {
   return (
-    <section id="pricing" className="py-20 bg-background">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-foreground">
+    <section id="pricing" className="py-20 bg-gradient-to-b from-zinc-900 via-zinc-800 to-zinc-900 relative overflow-hidden">
+      {/* Decorative elements */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(234,179,8,0.15),transparent_50%)]"></div>
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(234,179,8,0.12),transparent_50%)]"></div>
+      
+      <div className="container mx-auto px-4 relative z-10">
+        <div className="text-center mb-16">
+          <div className="inline-block mb-4">
+            <span className="text-yellow-400 text-sm font-semibold tracking-wider uppercase border border-yellow-400/40 px-4 py-2 rounded-full bg-yellow-400/10">
+              Premium Quality
+            </span>
+          </div>
+          <h2 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-yellow-300 via-yellow-400 to-yellow-300 bg-clip-text text-transparent">
             String Pricing
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Professional stringing with premium quality strings
+          <p className="text-lg text-zinc-300 max-w-2xl mx-auto">
+            Professional stringing with premium quality strings for peak performance
           </p>
-          <div className="mt-6 flex justify-center gap-6 text-sm">
-            <div className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded-full bg-red-600"></div>
-              <span className="text-muted-foreground">Phoenix Team Price</span>
+          <div className="mt-8 flex justify-center gap-8 text-sm">
+            <div className="flex items-center gap-3 bg-zinc-800/70 px-4 py-2 rounded-lg border border-zinc-700">
+              <div className="w-3 h-3 rounded-full bg-gradient-to-r from-yellow-400 to-yellow-500 shadow-lg shadow-yellow-400/50"></div>
+              <span className="text-yellow-400 font-medium">Phoenix Team Price</span>
             </div>
-            <div className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded-full border-2 border-muted-foreground"></div>
-              <span className="text-muted-foreground">Regular Price</span>
+            <div className="flex items-center gap-3 bg-zinc-800/70 px-4 py-2 rounded-lg border border-zinc-700">
+              <div className="w-3 h-3 rounded-full border-2 border-zinc-400"></div>
+              <span className="text-zinc-300 font-medium">Regular Price</span>
             </div>
           </div>
         </div>
 
-        <div className="max-w-4xl mx-auto">
-          <Card className="border-border">
-            <CardHeader>
-              <CardTitle className="text-2xl text-card-foreground">String Selection</CardTitle>
+        <div className="max-w-5xl mx-auto">
+          <Card className="bg-zinc-800/90 backdrop-blur border-2 border-zinc-700 shadow-2xl shadow-yellow-400/10 overflow-hidden">
+            <CardHeader className="border-b border-zinc-700 bg-gradient-to-r from-zinc-800 via-zinc-750 to-zinc-800 pb-6">
+              <CardTitle className="text-3xl text-yellow-400 flex items-center gap-3">
+                <div className="w-1 h-8 bg-gradient-to-b from-yellow-400 to-yellow-500 rounded-full"></div>
+                String Selection
+              </CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="p-0">
               <div className="overflow-x-auto">
                 <table className="w-full">
                   <thead>
-                    <tr className="border-b border-border">
-                      <th className="text-left py-3 px-4 font-semibold text-foreground">String</th>
-                      <th className="text-right py-3 px-4 font-semibold text-red-600">Phoenix Team Price</th>
-                      <th className="text-right py-3 px-4 font-semibold text-muted-foreground">Regular Price</th>
+                    <tr className="border-b-2 border-zinc-700 bg-zinc-800/50">
+                      <th className="text-left py-4 px-6 font-bold text-zinc-200 uppercase tracking-wide text-sm">String</th>
+                      <th className="text-right py-4 px-6 font-bold text-yellow-400 uppercase tracking-wide text-sm">Phoenix Team</th>
+                      <th className="text-right py-4 px-6 font-bold text-zinc-400 uppercase tracking-wide text-sm">Regular</th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody className="bg-zinc-850">
                     {stringPricing.map((string, index) => (
                       <tr
                         key={index}
-                        className="border-b border-border/50 hover:bg-secondary/50 transition-colors"
+                        className="border-b border-zinc-700/50 hover:bg-zinc-750 transition-all duration-300 group"
                       >
-                        <td className="py-3 px-4 text-foreground font-medium">{string.brand} {string.model}</td>
-                        <td className="py-3 px-4 text-right text-red-600 font-semibold">{string.teamPrice}</td>
-                        <td className="py-3 px-4 text-right text-muted-foreground">{string.regularPrice}</td>
+                        <td className="py-4 px-6 text-zinc-100 font-semibold group-hover:text-yellow-400 transition-colors">
+                          <span className="text-yellow-400/80 font-normal">{string.brand}</span> {string.model}
+                        </td>
+                        <td className="py-4 px-6 text-right text-yellow-400 font-bold text-lg group-hover:scale-110 transition-transform">
+                          {string.teamPrice}
+                        </td>
+                        <td className="py-4 px-6 text-right text-zinc-400 font-medium line-through">
+                          {string.regularPrice}
+                        </td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
               </div>
-
-              <div className="mt-8 p-4 bg-secondary/30 rounded-lg">
-                <p className="text-sm text-muted-foreground mb-4">
-                  <strong className="text-foreground">Note:</strong> All prices include professional stringing service with custom tension setup.
-                  Bring your own string for our special rate!
-                </p>
-                <Button
-                  className="w-full sm:w-auto"
-                  onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
-                >
-                  Book Your Stringing
-                </Button>
-              </div>
             </CardContent>
           </Card>
+
+          <div className="mt-8 text-center">
+            <p className="text-zinc-400 text-sm">
+              <span className="text-yellow-400 font-semibold">Phoenix Team members</span> receive exclusive pricing on all strings
+            </p>
+          </div>
         </div>
       </div>
     </section>
