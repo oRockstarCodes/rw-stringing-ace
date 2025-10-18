@@ -48,7 +48,7 @@ const services = [
 
 const Services = () => {
   return (
-    <section id="services" className="py-20 bg-gradient-to-b from-zinc-800 via-zinc-900 to-black relative overflow-hidden">
+    <section id="services" className="py-20 bg-gradient-to-b from-zinc-900 via-zinc-850 to-zinc-800 relative overflow-hidden">
       {/* Animated background */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(234,179,8,0.08),transparent_70%)]"></div>
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-yellow-400/10 rounded-full blur-3xl"></div>
@@ -76,7 +76,7 @@ const Services = () => {
               className={`relative overflow-hidden transition-all duration-500 ${
                 service.comingSoon 
                   ? 'bg-zinc-800/70 border-2 border-dashed border-zinc-700 opacity-85 hover:opacity-100 hover:border-yellow-400/40' 
-                  : 'bg-gradient-to-br from-zinc-700 to-black border-2 border-zinc-700 hover:border-yellow-400/60 hover:shadow-2xl hover:shadow-yellow-400/15 hover:scale-105'
+                  : 'bg-gradient-to-br from-black to-zinc-700 border-2 border-zinc-700 hover:border-yellow-400/60 hover:shadow-2xl hover:shadow-yellow-400/15 hover:scale-105'
               }`}
             >
               {/* Gradient overlay on hover */}

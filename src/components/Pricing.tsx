@@ -15,7 +15,7 @@ const stringPricing = [
 
 const Pricing = () => {
   return (
-    <section id="pricing" className="py-20 bg-gradient-to-b from-zinc-900 via-zinc-800 to-zinc-900 relative overflow-hidden">
+    <section id="pricing" className="py-20 bg-gradient-to-b from-zinc-800 via-zinc-750 to-zinc-700 relative overflow-hidden">
       {/* Decorative elements */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(234,179,8,0.15),transparent_50%)]"></div>
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(234,179,8,0.12),transparent_50%)]"></div>
