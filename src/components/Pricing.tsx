@@ -27,7 +27,7 @@ const Pricing = () => {
               Premium Quality
             </span>
           </div>
-          <h2 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-yellow-300 via-yellow-400 to-yellow-300 bg-clip-text text-transparent">
+          <h2 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-yellow-300 via-yellow-400 to-yellow-300 bg-clip-text text-transparent pb-2">
             String Pricing
           </h2>
           <p className="text-lg text-zinc-300 max-w-2xl mx-auto">
