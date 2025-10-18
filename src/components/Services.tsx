@@ -1,5 +1,5 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Zap, Award, Wrench, Grip, Palette, Settings, Sparkles } from "lucide-react";
+import { Zap, Award, Wrench, Grip, Palette, Settings, Sparkles, Stamp } from "lucide-react";
 
 const services = [
   {
@@ -36,6 +36,12 @@ const services = [
     icon: Palette,
     title: "Decals & Paint Retouch",
     description: "Restore your racket's appearance with professional cosmetic services.",
+    comingSoon: true,
+  },
+  {
+    icon: Stamp,
+    title: "Custom Stencils",
+    description: "Personalized stencil designs to add unique branding and style to your racket strings.",
     comingSoon: true,
   },
   {
