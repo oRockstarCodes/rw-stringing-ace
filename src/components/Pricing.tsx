@@ -2,16 +2,16 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
 const stringPricing = [
-  { name: "Yonex BG 65", teamPrice: "CA$20.00", regularPrice: "CA$22.00", category: "yonex" },
-  { name: "Yonex BG 65TI", teamPrice: "CA$22.00", regularPrice: "CA$24.00", category: "yonex" },
-  { name: "Yonex BG 66 Ultimax", teamPrice: "CA$23.00", regularPrice: "CA$25.00", category: "yonex" },
-  { name: "Yonex BG 80", teamPrice: "CA$24.00", regularPrice: "CA$25.00", category: "yonex" },
-  { name: "Yonex Exbolt 65", teamPrice: "CA$26.00", regularPrice: "CA$28.00", category: "yonex" },
-  { name: "Yonex Aerobite", teamPrice: "CA$27.00", regularPrice: "CA$29.00", category: "yonex" },
-  { name: "GXS S63", teamPrice: "CA$20.00", regularPrice: "CA$21.00", category: "gxs" },
-  { name: "GXS K66", teamPrice: "CA$19.00", regularPrice: "CA$20.00", category: "gxs" },
-  { name: "GXS Z68", teamPrice: "CA$17.00", regularPrice: "CA$18.00", category: "gxs" },
-  { name: "Own String", teamPrice: "CA$14.00", regularPrice: "CA$16.00", category: "own" },
+  { brand: "Yonex", model: "BG 65", teamPrice: "CA$20.00", regularPrice: "CA$22.00", category: "yonex" },
+  { brand: "Yonex", model: "BG 65TI", teamPrice: "CA$22.00", regularPrice: "CA$24.00", category: "yonex" },
+  { brand: "Yonex", model: "BG 66 Ultimax", teamPrice: "CA$23.00", regularPrice: "CA$25.00", category: "yonex" },
+  { brand: "Yonex", model: "BG 80", teamPrice: "CA$24.00", regularPrice: "CA$25.00", category: "yonex" },
+  { brand: "Yonex", model: "Exbolt 65", teamPrice: "CA$26.00", regularPrice: "CA$28.00", category: "yonex" },
+  { brand: "Yonex", model: "Aerobite", teamPrice: "CA$27.00", regularPrice: "CA$29.00", category: "yonex" },
+  { brand: "GXS", model: "S63", teamPrice: "CA$20.00", regularPrice: "CA$21.00", category: "gxs" },
+  { brand: "GXS", model: "K66", teamPrice: "CA$19.00", regularPrice: "CA$20.00", category: "gxs" },
+  { brand: "GXS", model: "Z68", teamPrice: "CA$17.00", regularPrice: "CA$18.00", category: "gxs" },
+  { brand: "Own", model: "String", teamPrice: "CA$14.00", regularPrice: "CA$16.00", category: "own" },
 ];
 
 const Pricing = () => {
@@ -47,7 +47,8 @@ const Pricing = () => {
                 <table className="w-full">
                   <thead>
                     <tr className="border-b border-border">
-                      <th className="text-left py-3 px-4 font-semibold text-foreground">String</th>
+                      <th className="text-left py-3 px-4 font-semibold text-foreground">Brand</th>
+                      <th className="text-left py-3 px-4 font-semibold text-foreground">Model</th>
                       <th className="text-right py-3 px-4 font-semibold text-accent">Phoenix Team Price</th>
                       <th className="text-right py-3 px-4 font-semibold text-muted-foreground">Regular Price</th>
                     </tr>
@@ -58,7 +59,8 @@ const Pricing = () => {
                         key={index} 
                         className="border-b border-border/50 hover:bg-secondary/50 transition-colors"
                       >
-                        <td className="py-3 px-4 text-foreground font-medium">{string.name}</td>
+                        <td className="py-3 px-4 text-foreground font-medium">{string.brand}</td>
+                        <td className="py-3 px-4 text-foreground">{string.model}</td>
                         <td className="py-3 px-4 text-right text-accent font-semibold">{string.teamPrice}</td>
                         <td className="py-3 px-4 text-right text-muted-foreground">{string.regularPrice}</td>
                       </tr>
