@@ -8,12 +8,12 @@ const Header = () => {
   const location = useLocation();
   const isHomePage = location.pathname === '/';
 
-  const scrollToSection = (sectionId: string) => {
+  const scrollToServices = () => {
     if (!isHomePage) {
-      window.location.href = `/#${sectionId}`;
+      window.location.href = '/#services';
       return;
     }
-    const element = document.getElementById(sectionId);
+    const element = document.getElementById('services');
     element?.scrollIntoView({ behavior: 'smooth' });
     setIsMenuOpen(false);
   };
@@ -36,7 +36,7 @@ const Header = () => {
           <nav className="hidden md:flex items-center gap-8">
             {isHomePage ? (
               <button
-                onClick={() => scrollToSection('services')}
+                onClick={scrollToServices}
                 className="text-zinc-100 hover:text-yellow-400 transition-colors font-medium relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-yellow-400 after:transition-all after:duration-300 hover:after:w-full"
               >
                 Services
@@ -61,29 +61,21 @@ const Header = () => {
             >
               About
             </Link>
-            {isHomePage ? (
-              <button
-                onClick={() => scrollToSection('contact')}
-                className="text-zinc-100 hover:text-yellow-400 transition-colors font-medium relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-yellow-400 after:transition-all after:duration-300 hover:after:w-full"
-              >
-                Contact
-              </button>
-            ) : (
-              <Link
-                to="/#contact"
-                className="text-zinc-100 hover:text-yellow-400 transition-colors font-medium relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-yellow-400 after:transition-all after:duration-300 hover:after:w-full"
-              >
-                Contact
-              </Link>
-            )}
-            <Button
-              variant="hero"
-              size="default"
-              className="rounded-full px-6 bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-black font-semibold shadow-lg shadow-yellow-400/30"
-              onClick={() => scrollToSection('contact')}
+            <Link
+              to="/contact"
+              className="text-zinc-100 hover:text-yellow-400 transition-colors font-medium relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-yellow-400 after:transition-all after:duration-300 hover:after:w-full"
             >
-              Book Now
-            </Button>
+              Contact
+            </Link>
+            <Link to="/contact">
+              <Button
+                variant="hero"
+                size="default"
+                className="rounded-full px-6 bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-black font-semibold shadow-lg shadow-yellow-400/30"
+              >
+                Book Now
+              </Button>
+            </Link>
           </nav>
 
           {/* Mobile Menu Button */}
@@ -102,7 +94,7 @@ const Header = () => {
             <div className="flex flex-col gap-4">
               {isHomePage ? (
                 <button
-                  onClick={() => scrollToSection('services')}
+                  onClick={scrollToServices}
                   className="text-zinc-100 hover:text-yellow-400 transition-colors font-medium text-left py-2 px-2 hover:bg-yellow-400/10 rounded-md"
                 >
                   Services
@@ -130,29 +122,21 @@ const Header = () => {
               >
                 About
               </Link>
-              {isHomePage ? (
-                <button
-                  onClick={() => scrollToSection('contact')}
-                  className="text-zinc-100 hover:text-yellow-400 transition-colors font-medium text-left py-2 px-2 hover:bg-yellow-400/10 rounded-md"
-                >
-                  Contact
-                </button>
-              ) : (
-                <Link
-                  to="/#contact"
-                  className="text-zinc-100 hover:text-yellow-400 transition-colors font-medium text-left py-2 px-2 hover:bg-yellow-400/10 rounded-md"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Contact
-                </Link>
-              )}
-              <Button
-                variant="hero"
-                className="w-full rounded-full bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-black font-semibold shadow-lg shadow-yellow-400/30"
-                onClick={() => scrollToSection('contact')}
+              <Link
+                to="/contact"
+                className="text-zinc-100 hover:text-yellow-400 transition-colors font-medium text-left py-2 px-2 hover:bg-yellow-400/10 rounded-md"
+                onClick={() => setIsMenuOpen(false)}
               >
-                Book Now
-              </Button>
+                Contact
+              </Link>
+              <Link to="/contact" className="w-full" onClick={() => setIsMenuOpen(false)}>
+                <Button
+                  variant="hero"
+                  className="w-full rounded-full bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-black font-semibold shadow-lg shadow-yellow-400/30"
+                >
+                  Book Now
+                </Button>
+              </Link>
             </div>
           </nav>
         )}
