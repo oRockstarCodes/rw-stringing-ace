@@ -12,14 +12,14 @@ const Header = () => {
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-primary/95 backdrop-blur-sm border-b border-primary-foreground/10">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-zinc-900/95 backdrop-blur-md border-b border-yellow-400/20 shadow-lg shadow-yellow-400/5">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <div className="flex items-center">
             <button
               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-              className="text-2xl font-bold text-primary-foreground hover:text-primary-foreground/80 transition-colors"
+              className="text-2xl font-bold bg-gradient-to-r from-yellow-300 via-yellow-400 to-yellow-300 bg-clip-text text-transparent hover:from-yellow-400 hover:via-yellow-500 hover:to-yellow-400 transition-all duration-300"
             >
               RW Stringing
             </button>
@@ -29,26 +29,26 @@ const Header = () => {
           <nav className="hidden md:flex items-center gap-8">
             <button
               onClick={() => scrollToSection('services')}
-              className="text-primary-foreground/90 hover:text-primary-foreground transition-colors font-medium"
+              className="text-zinc-100 hover:text-yellow-400 transition-colors font-medium relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-yellow-400 after:transition-all after:duration-300 hover:after:w-full"
             >
               Services
             </button>
             <button
               onClick={() => scrollToSection('pricing')}
-              className="text-primary-foreground/90 hover:text-primary-foreground transition-colors font-medium"
+              className="text-zinc-100 hover:text-yellow-400 transition-colors font-medium relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-yellow-400 after:transition-all after:duration-300 hover:after:w-full"
             >
               Pricing
             </button>
             <button
               onClick={() => scrollToSection('contact')}
-              className="text-primary-foreground/90 hover:text-primary-foreground transition-colors font-medium"
+              className="text-zinc-100 hover:text-yellow-400 transition-colors font-medium relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-yellow-400 after:transition-all after:duration-300 hover:after:w-full"
             >
               Contact
             </button>
             <Button
               variant="hero"
               size="default"
-              className="rounded-full px-6"
+              className="rounded-full px-6 bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-black font-semibold shadow-lg shadow-yellow-400/30"
               onClick={() => scrollToSection('contact')}
             >
               Book Now
@@ -58,7 +58,7 @@ const Header = () => {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="md:hidden p-2 text-primary-foreground hover:text-primary-foreground/80 transition-colors"
+            className="md:hidden p-2 text-zinc-100 hover:text-yellow-400 transition-colors"
             aria-label="Toggle menu"
           >
             {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -67,29 +67,29 @@ const Header = () => {
 
         {/* Mobile Navigation */}
         {isMenuOpen && (
-          <nav className="md:hidden py-4 border-t border-primary-foreground/10">
+          <nav className="md:hidden py-4 border-t border-yellow-400/20 bg-zinc-900/50 backdrop-blur-sm rounded-b-lg">
             <div className="flex flex-col gap-4">
               <button
                 onClick={() => scrollToSection('services')}
-                className="text-primary-foreground/90 hover:text-primary-foreground transition-colors font-medium text-left py-2"
+                className="text-zinc-100 hover:text-yellow-400 transition-colors font-medium text-left py-2 px-2 hover:bg-yellow-400/10 rounded-md"
               >
                 Services
               </button>
               <button
                 onClick={() => scrollToSection('pricing')}
-                className="text-primary-foreground/90 hover:text-primary-foreground transition-colors font-medium text-left py-2"
+                className="text-zinc-100 hover:text-yellow-400 transition-colors font-medium text-left py-2 px-2 hover:bg-yellow-400/10 rounded-md"
               >
                 Pricing
               </button>
               <button
                 onClick={() => scrollToSection('contact')}
-                className="text-primary-foreground/90 hover:text-primary-foreground transition-colors font-medium text-left py-2"
+                className="text-zinc-100 hover:text-yellow-400 transition-colors font-medium text-left py-2 px-2 hover:bg-yellow-400/10 rounded-md"
               >
                 Contact
               </button>
               <Button
                 variant="hero"
-                className="w-full rounded-full"
+                className="w-full rounded-full bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-black font-semibold shadow-lg shadow-yellow-400/30"
                 onClick={() => scrollToSection('contact')}
               >
                 Book Now
