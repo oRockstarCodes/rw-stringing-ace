@@ -53,6 +53,40 @@ const AboutUs = () => {
         </div>
       </section>
 
+       {/* Our Team Section */}
+      <section className="py-20 bg-zinc-900 relative overflow-hidden">
+        <div className="absolute top-0 left-1/3 w-96 h-96 bg-yellow-400/10 rounded-full blur-3xl"></div>
+        
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-yellow-300 via-yellow-400 to-yellow-300 bg-clip-text text-transparent">
+              Meet Our Team
+            </h2>
+            <p className="text-lg text-zinc-300 max-w-2xl mx-auto">
+              Experienced professionals dedicated to providing the best stringing service
+            </p>
+          </div>
+
+          <div className="max-w-md mx-auto">
+            {/* Team Member */}
+            <div className="bg-gradient-to-br from-black to-zinc-700 border-2 border-zinc-700 hover:border-yellow-400/60 rounded-xl overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-yellow-400/15">
+              <div className="aspect-square bg-gradient-to-br from-zinc-700 to-zinc-600 flex items-center justify-center">
+                <div className="w-32 h-32 rounded-full bg-gradient-to-br from-yellow-400/20 to-yellow-500/10 border-4 border-yellow-400/30 flex items-center justify-center">
+                  <Users className="w-16 h-16 text-yellow-400" />
+                </div>
+              </div>
+              <div className="p-6">
+                <h3 className="text-2xl font-bold text-zinc-50 mb-2">Ryan Wong</h3>
+                <p className="text-yellow-400 font-semibold mb-3">Founder & Master Stringer</p>
+                <p className="text-zinc-300 text-sm leading-relaxed">
+                  With over 10 years of experience, Ryan has strung thousands of rackets and specializes in precision tension control and hybrid string setups.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Values Section */}
       <section className="py-20 bg-gradient-to-b from-zinc-800 via-zinc-850 to-zinc-900 relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(234,179,8,0.08),transparent_70%)]"></div>
