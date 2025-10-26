@@ -28,7 +28,7 @@ const Header = () => {
               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
               className="text-2xl font-bold bg-gradient-to-r from-yellow-300 via-yellow-400 to-yellow-300 bg-clip-text text-transparent hover:from-yellow-400 hover:via-yellow-500 hover:to-yellow-400 transition-all duration-300"
             >
-              RW Stringing
+              RW Stringing Service
             </button>
           </div>
 
