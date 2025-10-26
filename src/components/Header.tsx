@@ -1,11 +1,18 @@
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const location = useLocation();
+  const isHomePage = location.pathname === '/';
 
   const scrollToSection = (sectionId: string) => {
+    if (!isHomePage) {
+      window.location.href = `/#${sectionId}`;
+      return;
+    }
     const element = document.getElementById(sectionId);
     element?.scrollIntoView({ behavior: 'smooth' });
     setIsMenuOpen(false);
@@ -27,24 +34,48 @@ const Header = () => {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-8">
-            <button
-              onClick={() => scrollToSection('services')}
-              className="text-zinc-100 hover:text-yellow-400 transition-colors font-medium relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-yellow-400 after:transition-all after:duration-300 hover:after:w-full"
-            >
-              Services
-            </button>
-            <button
-              onClick={() => scrollToSection('pricing')}
+            {isHomePage ? (
+              <button
+                onClick={() => scrollToSection('services')}
+                className="text-zinc-100 hover:text-yellow-400 transition-colors font-medium relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-yellow-400 after:transition-all after:duration-300 hover:after:w-full"
+              >
+                Services
+              </button>
+            ) : (
+              <Link
+                to="/#services"
+                className="text-zinc-100 hover:text-yellow-400 transition-colors font-medium relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-yellow-400 after:transition-all after:duration-300 hover:after:w-full"
+              >
+                Services
+              </Link>
+            )}
+            <Link
+              to="/pricing"
               className="text-zinc-100 hover:text-yellow-400 transition-colors font-medium relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-yellow-400 after:transition-all after:duration-300 hover:after:w-full"
             >
               Pricing
-            </button>
-            <button
-              onClick={() => scrollToSection('contact')}
+            </Link>
+            <Link
+              to="/about"
               className="text-zinc-100 hover:text-yellow-400 transition-colors font-medium relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-yellow-400 after:transition-all after:duration-300 hover:after:w-full"
             >
-              Contact
-            </button>
+              About
+            </Link>
+            {isHomePage ? (
+              <button
+                onClick={() => scrollToSection('contact')}
+                className="text-zinc-100 hover:text-yellow-400 transition-colors font-medium relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-yellow-400 after:transition-all after:duration-300 hover:after:w-full"
+              >
+                Contact
+              </button>
+            ) : (
+              <Link
+                to="/#contact"
+                className="text-zinc-100 hover:text-yellow-400 transition-colors font-medium relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-yellow-400 after:transition-all after:duration-300 hover:after:w-full"
+              >
+                Contact
+              </Link>
+            )}
             <Button
               variant="hero"
               size="default"
@@ -69,24 +100,52 @@ const Header = () => {
         {isMenuOpen && (
           <nav className="md:hidden py-4 border-t border-yellow-400/20 bg-zinc-900/50 backdrop-blur-sm rounded-b-lg">
             <div className="flex flex-col gap-4">
-              <button
-                onClick={() => scrollToSection('services')}
+              {isHomePage ? (
+                <button
+                  onClick={() => scrollToSection('services')}
+                  className="text-zinc-100 hover:text-yellow-400 transition-colors font-medium text-left py-2 px-2 hover:bg-yellow-400/10 rounded-md"
+                >
+                  Services
+                </button>
+              ) : (
+                <Link
+                  to="/#services"
+                  className="text-zinc-100 hover:text-yellow-400 transition-colors font-medium text-left py-2 px-2 hover:bg-yellow-400/10 rounded-md"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Services
+                </Link>
+              )}
+              <Link
+                to="/pricing"
                 className="text-zinc-100 hover:text-yellow-400 transition-colors font-medium text-left py-2 px-2 hover:bg-yellow-400/10 rounded-md"
-              >
-                Services
-              </button>
-              <button
-                onClick={() => scrollToSection('pricing')}
-                className="text-zinc-100 hover:text-yellow-400 transition-colors font-medium text-left py-2 px-2 hover:bg-yellow-400/10 rounded-md"
+                onClick={() => setIsMenuOpen(false)}
               >
                 Pricing
-              </button>
-              <button
-                onClick={() => scrollToSection('contact')}
+              </Link>
+              <Link
+                to="/about"
                 className="text-zinc-100 hover:text-yellow-400 transition-colors font-medium text-left py-2 px-2 hover:bg-yellow-400/10 rounded-md"
+                onClick={() => setIsMenuOpen(false)}
               >
-                Contact
-              </button>
+                About
+              </Link>
+              {isHomePage ? (
+                <button
+                  onClick={() => scrollToSection('contact')}
+                  className="text-zinc-100 hover:text-yellow-400 transition-colors font-medium text-left py-2 px-2 hover:bg-yellow-400/10 rounded-md"
+                >
+                  Contact
+                </button>
+              ) : (
+                <Link
+                  to="/#contact"
+                  className="text-zinc-100 hover:text-yellow-400 transition-colors font-medium text-left py-2 px-2 hover:bg-yellow-400/10 rounded-md"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Contact
+                </Link>
+              )}
               <Button
                 variant="hero"
                 className="w-full rounded-full bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-black font-semibold shadow-lg shadow-yellow-400/30"
