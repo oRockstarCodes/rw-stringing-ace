@@ -52,8 +52,8 @@ const AboutUs = () => {
           </div>
         </div>
       </section>
-
-       {/* Our Team Section */}
+      
+      {/* Our Team Section */}
       <section className="py-20 bg-zinc-900 relative overflow-hidden">
         <div className="absolute top-0 left-1/3 w-96 h-96 bg-yellow-400/10 rounded-full blur-3xl"></div>
         
@@ -67,20 +67,44 @@ const AboutUs = () => {
             </p>
           </div>
 
-          <div className="max-w-md mx-auto">
-            {/* Team Member */}
-            <div className="bg-gradient-to-br from-black to-zinc-700 border-2 border-zinc-700 hover:border-yellow-400/60 rounded-xl overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-yellow-400/15">
-              <div className="aspect-square bg-gradient-to-br from-zinc-700 to-zinc-600 flex items-center justify-center">
-                <div className="w-32 h-32 rounded-full bg-gradient-to-br from-yellow-400/20 to-yellow-500/10 border-4 border-yellow-400/30 flex items-center justify-center">
-                  <Users className="w-16 h-16 text-yellow-400" />
+          <div className="max-w-4xl mx-auto">
+            <div className="flex flex-col md:flex-row gap-8 items-center md:items-start">
+              {/* Photo */}
+              <div className="flex-shrink-0">
+                <div className="w-64 h-64 rounded-2xl bg-gradient-to-br from-zinc-700 to-zinc-600 flex items-center justify-center overflow-hidden">
+                  <div className="w-40 h-40 rounded-full bg-gradient-to-br from-yellow-400/20 to-yellow-500/10 border-4 border-yellow-400/30 flex items-center justify-center">
+                    <Users className="w-20 h-20 text-yellow-400" />
+                  </div>
                 </div>
               </div>
-              <div className="p-6">
-                <h3 className="text-2xl font-bold text-zinc-50 mb-2">Ryan Wong</h3>
-                <p className="text-yellow-400 font-semibold mb-3">Founder & Master Stringer</p>
-                <p className="text-zinc-300 text-sm leading-relaxed">
+
+              {/* Info */}
+              <div className="flex-1">
+                <h3 className="text-3xl md:text-4xl font-bold text-zinc-50 mb-2">Ryan Wong</h3>
+                <p className="text-yellow-400 font-semibold text-xl mb-6">Founder & Master Stringer</p>
+                
+                <p className="text-zinc-300 text-lg leading-relaxed mb-6">
                   With over 10 years of experience, Ryan has strung thousands of rackets and specializes in precision tension control and hybrid string setups.
                 </p>
+
+                <ul className="space-y-3 text-zinc-300">
+                  <li className="flex items-start gap-3">
+                    <span className="text-yellow-400 mt-1">•</span>
+                    <span>Certified professional stringer with 10+ years of experience</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="text-yellow-400 mt-1">•</span>
+                    <span>Specialized in precision tension control and hybrid string configurations</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="text-yellow-400 mt-1">•</span>
+                    <span>Former competitive badminton player with deep understanding of game mechanics</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="text-yellow-400 mt-1">•</span>
+                    <span>Passionate about helping players of all levels achieve their best performance</span>
+                  </li>
+                </ul>
               </div>
             </div>
           </div>
