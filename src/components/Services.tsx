@@ -126,23 +126,6 @@ const Services = () => {
             </Card>
           ))}
         </div>
-
-        {/* Additional info section */}
-        <div className="mt-16 text-center max-w-3xl mx-auto">
-          <div className="bg-gradient-to-r from-zinc-800 via-zinc-750 to-zinc-800 border-2 border-zinc-700 rounded-2xl p-8">
-            <div className="flex items-center justify-center gap-3 mb-4">
-              <div className="w-12 h-1 bg-gradient-to-r from-transparent to-yellow-400"></div>
-              <Sparkles className="w-6 h-6 text-yellow-400" />
-              <div className="w-12 h-1 bg-gradient-to-l from-transparent to-yellow-400"></div>
-            </div>
-            <p className="text-zinc-200 text-lg">
-              All services performed by certified technicians using professional equipment
-            </p>
-            <p className="text-zinc-400 text-sm mt-2">
-              Services marked as <span className="text-yellow-400 font-semibold">"Coming Soon"</span> will be available in the near future
-            </p>
-          </div>
-        </div>
       </div>
     </section>
   );
