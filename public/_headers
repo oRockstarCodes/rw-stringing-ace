@@ -3,11 +3,3 @@
 
 /*.mjs
   Content-Type: text/javascript
-
-/*.css
-  Content-Type: text/css
-```
-
-Also create a `_redirects` file for SPA routing:
-```
-/*    /index.html   200
