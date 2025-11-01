@@ -3,16 +3,22 @@ export async function onRequest(context) {
   const newHeaders = new Headers(response.headers);
   
   const url = new URL(context.request.url);
+  const pathname = url.pathname.toLowerCase();
   
-  // Set correct MIME type for JavaScript files
-  if (url.pathname.endsWith('.js') || url.pathname.endsWith('.mjs')) {
-    newHeaders.set('Content-Type', 'application/javascript');
+  // Force correct MIME types for all JavaScript files
+  if (pathname.endsWith('.js') || pathname.endsWith('.mjs') || pathname.includes('/assets/') && pathname.match(/\.(js|mjs)$/)) {
+    newHeaders.set('Content-Type', 'application/javascript; charset=utf-8');
+    newHeaders.delete('X-Content-Type-Options');
   }
   
-  // Set correct MIME type for CSS files
-  if (url.pathname.endsWith('.css')) {
-    newHeaders.set('Content-Type', 'text/css');
+  // Force correct MIME type for all CSS files
+  if (pathname.endsWith('.css') || pathname.includes('/assets/') && pathname.endsWith('.css')) {
+    newHeaders.set('Content-Type', 'text/css; charset=utf-8');
+    newHeaders.delete('X-Content-Type-Options');
   }
+  
+  // Add security headers
+  newHeaders.set('X-Content-Type-Options', 'nosniff');
   
   return new Response(response.body, {
     status: response.status,
