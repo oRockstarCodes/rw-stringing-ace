@@ -12,3 +12,9 @@
 
 /*.mjs
   Content-Type: application/javascript
+
+/assets/*.css
+  Content-Type: text/css
+
+/*.css
+  Content-Type: text/css
