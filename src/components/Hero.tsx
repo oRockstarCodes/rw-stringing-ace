@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import heroImage from "@/assets/hero-badminton.jpg";
+import { Link } from "react-router-dom";
 
 const Hero = () => {
   return (
@@ -33,13 +34,14 @@ const Hero = () => {
             Expert stringing with precision and care. Get your racket restrung by professionals who understand the game.
           </p>
           <div className="flex flex-wrap gap-4">
-            <Button 
-              size="lg"
-              className="text-lg bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-black font-semibold shadow-lg shadow-yellow-400/30"
-              onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
-            >
-              Book Now <ArrowRight className="ml-2" />
-            </Button>
+            <Link to="/contact">
+              <Button 
+                size="lg"
+                className="text-lg bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-black font-semibold shadow-lg shadow-yellow-400/30"
+              >
+                Book Now <ArrowRight className="ml-2" />
+              </Button>
+            </Link>
             <Button 
               variant="outline" 
               size="lg"

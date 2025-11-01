@@ -1,6 +1,7 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Award, Users, Target, Sparkles } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const AboutUs = () => {
   return (
@@ -181,12 +182,12 @@ const AboutUs = () => {
             <p className="text-xl text-zinc-300 mb-8">
               Let us help you take your game to the next level with professional stringing service you can trust.
             </p>
-            <a 
-              href="/#contact"
+            <Link 
+              to="/contact"
               className="inline-flex items-center gap-2 px-8 py-4 text-lg font-semibold bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-black rounded-full shadow-lg shadow-yellow-400/30 transition-all duration-300 hover:scale-105"
             >
               Book Your Stringing Service
-            </a>
+            </Link>
           </div>
         </div>
       </section>
