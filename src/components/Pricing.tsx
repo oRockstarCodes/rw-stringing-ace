@@ -2,14 +2,18 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const stringPricing = [
   { brand: "Yonex", model: "BG 65", teamPrice: "CA$20.00", regularPrice: "CA$22.00", category: "yonex" },
-  { brand: "Yonex", model: "BG 65TI", teamPrice: "CA$22.00", regularPrice: "CA$24.00", category: "yonex" },
+  { brand: "Yonex", model: "BG 65 Titanium", teamPrice: "CA$22.00", regularPrice: "CA$24.00", category: "yonex" },
   { brand: "Yonex", model: "BG 66 Ultimax", teamPrice: "CA$23.00", regularPrice: "CA$25.00", category: "yonex" },
   { brand: "Yonex", model: "BG 80", teamPrice: "CA$24.00", regularPrice: "CA$25.00", category: "yonex" },
+  { brand: "Yonex", model: "BG 80 Power", teamPrice: "CA$25.00", regularPrice: "CA$26.00", category: "yonex"},
+  { brand: "Yonex", model: "Exbolt 63", teamPrice: "CA$26.00", regularPrice: "CA$28.00", category: "yonex" },
   { brand: "Yonex", model: "Exbolt 65", teamPrice: "CA$26.00", regularPrice: "CA$28.00", category: "yonex" },
-  { brand: "Yonex", model: "Aerobite", teamPrice: "CA$27.00", regularPrice: "CA$29.00", category: "yonex" },
-  { brand: "GXS", model: "S63", teamPrice: "CA$20.00", regularPrice: "CA$21.00", category: "gxs" },
-  { brand: "GXS", model: "K66", teamPrice: "CA$19.00", regularPrice: "CA$20.00", category: "gxs" },
-  { brand: "GXS", model: "Z68", teamPrice: "CA$17.00", regularPrice: "CA$18.00", category: "gxs" },
+  { brand: "Yonex", model: "Exbolt 68", teamPrice: "CA$26.00", regularPrice: "CA$28.00", category: "yonex" },
+  { brand: "Yonex", model: "Aerobite", teamPrice: "CA$26.00", regularPrice: "CA$28.00", category: "yonex" },
+  { brand: "Yonex", model: "Aerobite Boost", teamPrice: "CA$27.00", regularPrice: "CA$29.00", category: "yonex" },
+  { brand: "GXS", model: "S63", teamPrice: "CA$22.00", regularPrice: "CA$24.00", category: "gxs" },
+  { brand: "GXS", model: "K66", teamPrice: "CA$20.00", regularPrice: "CA$22.00", category: "gxs" },
+  { brand: "GXS", model: "Z68", teamPrice: "CA$18.00", regularPrice: "CA$20.00", category: "gxs" },
   { brand: "Own", model: "String", teamPrice: "CA$14.00", regularPrice: "CA$16.00", category: "own" },
 ];
 
