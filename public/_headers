@@ -1,14 +1,8 @@
-/*
-  X-Content-Type-Options: nosniff
-
-/assets/*.js
-  Content-Type: application/javascript
-
 /*.js
-  Content-Type: application/javascript
-
-/assets/*.mjs
-  Content-Type: application/javascript
+  Content-Type: text/javascript
 
 /*.mjs
-  Content-Type: application/javascript
+  Content-Type: text/javascript
+
+/*.css
+  Content-Type: text/css
