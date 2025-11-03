@@ -1,12 +1,13 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Star } from "lucide-react";
 
 const stringPricing = [
-  { brand: "Yonex", model: "BG 65", teamPrice: "CA$20.00", regularPrice: "CA$22.00", category: "yonex" },
+  { brand: "Yonex", model: "BG 65", teamPrice: "CA$20.00", regularPrice: "CA$22.00", category: "yonex", popular: true },
   { brand: "Yonex", model: "BG 65 Titanium", teamPrice: "CA$22.00", regularPrice: "CA$24.00", category: "yonex" },
-  { brand: "Yonex", model: "BG 66 Ultimax", teamPrice: "CA$23.00", regularPrice: "CA$25.00", category: "yonex" },
-  { brand: "Yonex", model: "BG 80", teamPrice: "CA$24.00", regularPrice: "CA$25.00", category: "yonex" },
+  { brand: "Yonex", model: "BG 66 Ultimax", teamPrice: "CA$23.00", regularPrice: "CA$25.00", category: "yonex", popular: true },
+  { brand: "Yonex", model: "BG 80", teamPrice: "CA$24.00", regularPrice: "CA$25.00", category: "yonex", popular: true },
   { brand: "Yonex", model: "BG 80 Power", teamPrice: "CA$25.00", regularPrice: "CA$26.00", category: "yonex"},
   { brand: "Yonex", model: "Exbolt 63", teamPrice: "CA$26.00", regularPrice: "CA$28.00", category: "yonex" },
   { brand: "Yonex", model: "Exbolt 65", teamPrice: "CA$26.00", regularPrice: "CA$28.00", category: "yonex" },
@@ -110,9 +111,17 @@ const PricingPage = () => {
                             {string.category === "own" ? (
                               <span className="text-yellow-400">Own String</span>
                             ) : (
-                              <>
-                                <span className="text-yellow-400/80 font-normal">{string.brand}</span> {string.model}
-                              </>
+                              <div className="flex items-center gap-2">
+                                <span>
+                                  <span className="text-yellow-400/80 font-normal">{string.brand}</span> {string.model}
+                                </span>
+                                {string.popular && (
+                                  <div className="flex items-center gap-1 bg-gradient-to-r from-yellow-400 to-yellow-500 text-black px-2 py-0.5 rounded-full">
+                                    <Star className="w-3 h-3 fill-current" />
+                                    <span className="text-xs font-bold">Popular</span>
+                                  </div>
+                                )}
+                              </div>
                             )}
                           </td>
                           <td className="py-4 px-6 text-right text-red-500 font-bold text-lg">

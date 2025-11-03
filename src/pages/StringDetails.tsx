@@ -1,10 +1,8 @@
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
 import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Target, Zap, Shield, Activity } from "lucide-react";
+import { Target, Zap, Shield, Activity, Star } from "lucide-react";
 
 const stringDatabase = [
   {
@@ -15,6 +13,7 @@ const stringDatabase = [
     regularPrice: "CA$22.00",
     gauge: "0.70mm",
     type: "Multifilament",
+    popular: true,
     description: "The most popular badminton string in the world. Offers excellent durability and repulsion power with consistent performance.",
     characteristics: {
       durability: 85,
@@ -51,6 +50,7 @@ const stringDatabase = [
     regularPrice: "CA$25.00",
     gauge: "0.65mm",
     type: "High Polymer Nylon Multifilament",
+    popular: true,
     description: "Thinner gauge string offering exceptional repulsion and quick shuttle release. Popular among advanced players for its explosive power and sharp feel.",
     characteristics: {
       durability: 70,
@@ -69,6 +69,7 @@ const stringDatabase = [
     regularPrice: "CA$25.00",
     gauge: "0.68mm",
     type: "High Polymer Nylon Multifilament",
+    popular: true,
     description: "Premium string combining thin gauge with excellent durability. Offers superior repulsion and sharp hitting sound preferred by professionals.",
     characteristics: {
       durability: 82,
@@ -282,7 +283,15 @@ const CharacteristicBar = ({ label, value, icon: Icon, color }) => (
 );
 
 const StringCard = ({ string }) => (
-  <Card className="bg-gradient-to-br from-black to-zinc-700 border-2 border-zinc-700 hover:border-yellow-400/60 transition-all duration-300 hover:shadow-2xl hover:shadow-yellow-400/15">
+  <Card className="bg-gradient-to-br from-black to-zinc-700 border-2 border-zinc-700 hover:border-yellow-400/60 transition-all duration-300 hover:shadow-2xl hover:shadow-yellow-400/15 relative">
+    {string.popular && (
+      <div className="absolute -top-3 -right-3 z-10">
+        <div className="bg-gradient-to-r from-yellow-400 to-yellow-500 text-black px-3 py-1 rounded-full flex items-center gap-1 shadow-lg shadow-yellow-400/50">
+          <Star className="w-4 h-4 fill-current" />
+          <span className="text-xs font-bold">Popular</span>
+        </div>
+      </div>
+    )}
     <CardHeader>
       <div className="flex items-start justify-between mb-2">
         <div>
@@ -380,7 +389,7 @@ export default function StringDetails() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-zinc-900 via-zinc-850 to-zinc-800">
-      <Header />
+      {/* Header */}
       <section className="relative pt-32 pb-12 overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(234,179,8,0.08),transparent_70%)]"></div>
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-yellow-400/10 rounded-full blur-3xl"></div>
@@ -445,7 +454,6 @@ export default function StringDetails() {
           </Tabs>
         </div>
       </section>
-      <Footer />
     </div>
   );
 }

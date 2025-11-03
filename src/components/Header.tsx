@@ -56,6 +56,12 @@ const Header = () => {
               Pricing
             </Link>
             <Link
+              to="/strings"
+              className="text-zinc-100 hover:text-yellow-400 transition-colors font-medium relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-yellow-400 after:transition-all after:duration-300 hover:after:w-full"
+            >
+              String Guide
+            </Link>
+            <Link
               to="/about"
               className="text-zinc-100 hover:text-yellow-400 transition-colors font-medium relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-yellow-400 after:transition-all after:duration-300 hover:after:w-full"
             >
@@ -114,6 +120,13 @@ const Header = () => {
                 onClick={() => setIsMenuOpen(false)}
               >
                 Pricing
+              </Link>
+              <Link
+                to="/strings"
+                className="text-zinc-100 hover:text-yellow-400 transition-colors font-medium text-left py-2 px-2 hover:bg-yellow-400/10 rounded-md"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                String Guide
               </Link>
               <Link
                 to="/about"
