@@ -28,30 +28,6 @@ const AboutUs = () => {
           </div>
         </div>
       </section>
-
-      {/* Our Story Section */}
-      <section className="py-20 bg-zinc-800 relative overflow-hidden">
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-yellow-400/10 rounded-full blur-3xl"></div>
-        
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-4xl md:text-5xl font-bold mb-8 bg-gradient-to-r from-yellow-300 via-yellow-400 to-yellow-300 bg-clip-text text-transparent text-center">
-              Our Story
-            </h2>
-            <div className="bg-gradient-to-br from-black to-zinc-700 border-2 border-zinc-700 rounded-2xl p-8 md:p-12">
-              <p className="text-zinc-300 text-lg leading-relaxed mb-6">
-                At RW Stringing Service, we're passionate about badminton and understand the critical role that proper stringing plays in your performance. What started as a personal quest for the perfect string tension has evolved into a professional service dedicated to helping players of all levels achieve their best on court.
-              </p>
-              <p className="text-zinc-300 text-lg leading-relaxed mb-6">
-                With years of experience and hundreds of rackets strung, we've developed a deep understanding of string behavior, tension dynamics, and how different setups affect play style. Our commitment to quality and precision has made us a trusted choice for badminton enthusiasts throughout the community.
-              </p>
-              <p className="text-zinc-300 text-lg leading-relaxed">
-                We believe that every player deserves professional-grade stringing service, whether you're a competitive athlete or a recreational player. That's why we offer the same level of care and attention to detail for every racket that comes through our door.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
       
       {/* Our Team Section */}
       <section className="py-20 bg-zinc-900 relative overflow-hidden">
