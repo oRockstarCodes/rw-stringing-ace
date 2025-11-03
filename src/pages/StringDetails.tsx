@@ -1,4 +1,6 @@
 import { useState } from "react";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -389,6 +391,8 @@ export default function StringDetails() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-zinc-900 via-zinc-850 to-zinc-800">
+      <Header />
+      
       {/* Header */}
       <section className="relative pt-32 pb-12 overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(234,179,8,0.08),transparent_70%)]"></div>
@@ -454,6 +458,8 @@ export default function StringDetails() {
           </Tabs>
         </div>
       </section>
+
+      <Footer />
     </div>
   );
 }
