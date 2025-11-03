@@ -80,8 +80,8 @@ const AboutUs = () => {
 
               {/* Info */}
               <div className="flex-1">
-                <h3 className="text-3xl md:text-4xl font-bold text-zinc-50 mb-2">Ryan Wong</h3>
-                <p className="text-yellow-400 font-semibold text-xl mb-6">Founder & Master Stringer</p>
+                <h3 className="text-3xl md:text-4xl font-bold text-zinc-50 mb-2">Rocky Wang</h3>
+                <p className="text-yellow-400 font-semibold text-xl mb-6">Head Stringer</p>
                 
                 <p className="text-zinc-300 text-lg leading-relaxed mb-6">
                   With over 10 years of experience, Ryan has strung thousands of rackets and specializes in precision tension control and hybrid string setups.
