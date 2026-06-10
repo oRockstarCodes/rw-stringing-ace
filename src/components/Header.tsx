@@ -1,154 +1,120 @@
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { navLinks, siteConfig } from "@/data/site";
+import { cn } from "@/lib/utils";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
-  const isHomePage = location.pathname === '/';
 
-  const scrollToServices = () => {
-    if (!isHomePage) {
-      window.location.href = '/#services';
-      return;
-    }
-    const element = document.getElementById('services');
-    element?.scrollIntoView({ behavior: 'smooth' });
+  useEffect(() => {
+    const onScroll = () => setIsScrolled(window.scrollY > 20);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
     setIsMenuOpen(false);
+  }, [location.pathname]);
+
+  const isActive = (href: string) => {
+    if (href.startsWith("/#")) return false;
+    return location.pathname === href;
   };
 
-  return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-zinc-900/95 backdrop-blur-md border-b border-yellow-400/20 shadow-lg shadow-yellow-400/5">
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-20">
-          {/* Logo */}
-          <div className="flex items-center">
-            <button
-              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-              className="text-2xl font-bold bg-gradient-to-r from-yellow-300 via-yellow-400 to-yellow-300 bg-clip-text text-transparent hover:from-yellow-400 hover:via-yellow-500 hover:to-yellow-400 transition-all duration-300"
-            >
-              RW Stringing Service
-            </button>
-          </div>
+  const handleNavClick = (href: string, isHash?: boolean) => {
+    setIsMenuOpen(false);
+    if (isHash && location.pathname === "/") {
+      const id = href.split("#")[1];
+      document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    }
+  };
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-8">
-            {isHomePage ? (
-              <button
-                onClick={scrollToServices}
-                className="text-zinc-100 hover:text-yellow-400 transition-colors font-medium relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-yellow-400 after:transition-all after:duration-300 hover:after:w-full"
-              >
-                Services
-              </button>
-            ) : (
-              <Link
-                to="/#services"
-                className="text-zinc-100 hover:text-yellow-400 transition-colors font-medium relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-yellow-400 after:transition-all after:duration-300 hover:after:w-full"
-              >
-                Services
-              </Link>
+  const navItemClass = (active: boolean) =>
+    cn(
+      "text-sm font-medium transition-colors relative py-1",
+      active ? "text-accent" : "text-foreground/80 hover:text-accent",
+    );
+
+  return (
+    <header
+      className={cn(
+        "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
+        isScrolled
+          ? "bg-background/90 backdrop-blur-lg border-b border-border shadow-lg shadow-black/20"
+          : "bg-transparent",
+      )}
+    >
+      <div className="container">
+        <div className="flex items-center justify-between h-16 md:h-20">
+          <Link
+            to="/"
+            className="font-display text-xl md:text-2xl font-bold text-gradient-gold hover:opacity-90 transition-opacity"
+          >
+            {siteConfig.name}
+          </Link>
+
+          <nav className="hidden lg:flex items-center gap-8" aria-label="Main navigation">
+            {navLinks.map((link) =>
+              link.isHash ? (
+                <Link
+                  key={link.href}
+                  to={link.href}
+                  onClick={() => handleNavClick(link.href, true)}
+                  className={navItemClass(false)}
+                >
+                  {link.label}
+                </Link>
+              ) : (
+                <Link
+                  key={link.href}
+                  to={link.href}
+                  className={cn(navItemClass(isActive(link.href)), "after:absolute after:bottom-0 after:left-0 after:h-0.5 after:bg-accent after:transition-all", isActive(link.href) ? "after:w-full" : "after:w-0 hover:after:w-full")}
+                >
+                  {link.label}
+                </Link>
+              ),
             )}
-            <Link
-              to="/pricing"
-              className="text-zinc-100 hover:text-yellow-400 transition-colors font-medium relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-yellow-400 after:transition-all after:duration-300 hover:after:w-full"
-            >
-              Pricing
-            </Link>
-            <Link
-              to="/strings"
-              className="text-zinc-100 hover:text-yellow-400 transition-colors font-medium relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-yellow-400 after:transition-all after:duration-300 hover:after:w-full"
-            >
-              String Guide
-            </Link>
-            <Link
-              to="/about"
-              className="text-zinc-100 hover:text-yellow-400 transition-colors font-medium relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-yellow-400 after:transition-all after:duration-300 hover:after:w-full"
-            >
-              About
-            </Link>
-            <Link
-              to="/contact"
-              className="text-zinc-100 hover:text-yellow-400 transition-colors font-medium relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-yellow-400 after:transition-all after:duration-300 hover:after:w-full"
-            >
-              Contact
-            </Link>
             <Link to="/contact">
-              <Button
-                variant="hero"
-                size="default"
-                className="rounded-full px-6 bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-black font-semibold shadow-lg shadow-yellow-400/30"
-              >
-                Book Now
-              </Button>
+              <Button className="btn-gold rounded-full px-6 h-10 text-sm">Book Now</Button>
             </Link>
           </nav>
 
-          {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="md:hidden p-2 text-zinc-100 hover:text-yellow-400 transition-colors"
-            aria-label="Toggle menu"
+            className="lg:hidden p-2 text-foreground hover:text-accent transition-colors"
+            aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={isMenuOpen}
           >
             {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
 
-        {/* Mobile Navigation */}
         {isMenuOpen && (
-          <nav className="md:hidden py-4 border-t border-yellow-400/20 bg-zinc-900/50 backdrop-blur-sm rounded-b-lg">
-            <div className="flex flex-col gap-4">
-              {isHomePage ? (
-                <button
-                  onClick={scrollToServices}
-                  className="text-zinc-100 hover:text-yellow-400 transition-colors font-medium text-left py-2 px-2 hover:bg-yellow-400/10 rounded-md"
-                >
-                  Services
-                </button>
-              ) : (
+          <nav
+            className="lg:hidden py-4 border-t border-border animate-fade-up"
+            aria-label="Mobile navigation"
+          >
+            <div className="flex flex-col gap-1">
+              {navLinks.map((link) => (
                 <Link
-                  to="/#services"
-                  className="text-zinc-100 hover:text-yellow-400 transition-colors font-medium text-left py-2 px-2 hover:bg-yellow-400/10 rounded-md"
-                  onClick={() => setIsMenuOpen(false)}
+                  key={link.href}
+                  to={link.href}
+                  onClick={() => handleNavClick(link.href, link.isHash)}
+                  className={cn(
+                    "py-3 px-3 rounded-lg transition-colors",
+                    isActive(link.href) ? "text-accent bg-accent/10" : "text-foreground/80 hover:text-accent hover:bg-accent/5",
+                  )}
                 >
-                  Services
+                  {link.label}
                 </Link>
-              )}
-              <Link
-                to="/pricing"
-                className="text-zinc-100 hover:text-yellow-400 transition-colors font-medium text-left py-2 px-2 hover:bg-yellow-400/10 rounded-md"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Pricing
-              </Link>
-              <Link
-                to="/strings"
-                className="text-zinc-100 hover:text-yellow-400 transition-colors font-medium text-left py-2 px-2 hover:bg-yellow-400/10 rounded-md"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                String Guide
-              </Link>
-              <Link
-                to="/about"
-                className="text-zinc-100 hover:text-yellow-400 transition-colors font-medium text-left py-2 px-2 hover:bg-yellow-400/10 rounded-md"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                About
-              </Link>
-              <Link
-                to="/contact"
-                className="text-zinc-100 hover:text-yellow-400 transition-colors font-medium text-left py-2 px-2 hover:bg-yellow-400/10 rounded-md"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Contact
-              </Link>
-              <Link to="/contact" className="w-full" onClick={() => setIsMenuOpen(false)}>
-                <Button
-                  variant="hero"
-                  className="w-full rounded-full bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-black font-semibold shadow-lg shadow-yellow-400/30"
-                >
-                  Book Now
-                </Button>
+              ))}
+              <Link to="/contact" className="mt-2">
+                <Button className="btn-gold w-full rounded-full">Book Now</Button>
               </Link>
             </div>
           </nav>

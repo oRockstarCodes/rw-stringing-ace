@@ -1,108 +1,58 @@
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
+import Layout from "@/components/Layout";
+import SectionHeading from "@/components/SectionHeading";
+import ServiceIcon from "@/components/ServiceIcon";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowRight, Zap, Award, Wrench, Grip, Palette, Settings, Sparkles, Stamp } from "lucide-react";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import { faqs, processSteps, services, siteConfig, testimonials } from "@/data/site";
+import { ArrowRight, CheckCircle2, Quote, Star } from "lucide-react";
+import { Link } from "react-router-dom";
 import heroImage from "@/assets/hero-badminton.jpg";
-
-const services = [
-  {
-    icon: Zap,
-    title: "Expert Stringing",
-    description: "Precision stringing with calibrated tension and a post-string inspection for consistent feel and playability.",
-    comingSoon: false,
-  },
-  {
-    icon: Award,
-    title: "Quality Strings",
-    description: "Curated selection of premium strings — choose by playstyle, gauge and durability from trusted brands.",
-    comingSoon: false,
-  },
-  {
-    icon: Wrench,
-    title: "Grommet Replacement",
-    description: "Replace worn or damaged grommets with OEM-grade parts and professional installation to protect your frame.",
-    comingSoon: false,
-  },
-  {
-    icon: Sparkles,
-    title: "Custom Hybrid Stringing",
-    description: "Hybrid setups combining complementary mains and crosses to optimize power, spin and longevity for your game.",
-    comingSoon: false,
-  },
-  {
-    icon: Grip,
-    title: "Custom Grip Setup",
-    description: "Grip fitting, replacement and layering for improved comfort, tack and ergonomic control.",
-    comingSoon: false,
-  },
-  {
-    icon: Palette,
-    title: "Decals & Paint Retouch",
-    description: "Cosmetic restoration: decal application and paint touch-ups to refresh scuffs and preserve appearance.",
-    comingSoon: true,
-  },
-  {
-    icon: Stamp,
-    title: "Custom Stencils",
-    description: "Personalized stencils and string art — add logos, initials or designs for a unique look without harming performance.",
-    comingSoon: true,
-  },
-  {
-    icon: Settings,
-    title: "Frame Repair",
-    description: "Structural repairs, crack reinforcement and alignment to restore playability and extend racket life where possible.",
-    comingSoon: true,
-  },
-];
 
 const Index = () => {
   return (
-    <div className="min-h-screen">
-      <Header />
-      
-      {/* Hero Section */}
-      <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
-        {/* Background Image with Overlay */}
-        <div 
-          className="absolute inset-0 z-0"
-          style={{
-            backgroundImage: `url(${heroImage})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-          }}
-        >
-          <div className="absolute inset-0 bg-gradient-to-r from-zinc-900/95 via-zinc-800/90 to-zinc-900/85" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(234,179,8,0.1),transparent_70%)]"></div>
+    <Layout>
+      {/* Hero */}
+      <section className="relative min-h-[92vh] flex items-center overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <img
+            src={heroImage}
+            alt="Badminton player on court"
+            className="w-full h-full object-cover"
+            fetchPriority="high"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-background via-background/85 to-background/60" />
+          <div className="absolute inset-0 bg-mesh-gold opacity-40" />
+          <div className="absolute inset-0 court-pattern opacity-20" />
         </div>
 
-        {/* Content */}
-        <div className="container mx-auto px-4 z-10 relative">
-          <div className="max-w-3xl">
-            <div className="inline-block mb-6">
-              <span className="text-yellow-400 text-sm font-semibold tracking-wider uppercase border border-yellow-400/40 px-4 py-2 rounded-full bg-yellow-400/10">
-                Professional Service
-              </span>
-            </div>
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 bg-gradient-to-r from-yellow-300 via-yellow-400 to-yellow-300 bg-clip-text text-transparent">
-              Professional Badminton Stringing Service
+        <div className="container relative z-10 pt-24 pb-16">
+          <div className="max-w-2xl">
+            <span className="inline-block mb-5 animate-fade-up text-accent text-xs font-semibold tracking-[0.2em] uppercase border border-accent/30 px-4 py-1.5 rounded-full bg-accent/10">
+              {siteConfig.tagline}
+            </span>
+            <h1 className="animate-fade-up-delay-1 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 text-gradient-gold leading-[1.1]">
+              String Your Racket Like a Pro
             </h1>
-            <p className="text-xl md:text-2xl mb-8 text-zinc-300">
-              Expert stringing with precision and care. Get your racket restrung by professionals who understand the game.
+            <p className="animate-fade-up-delay-2 text-lg md:text-xl mb-8 text-muted-foreground leading-relaxed">
+              Calibrated tension, premium strings, and expert advice — so every shot feels exactly how you want it.
             </p>
-            <div className="flex flex-wrap gap-4">
-              <Button 
+            <div className="animate-fade-up-delay-3 flex flex-wrap gap-4">
+              <Link to="/contact">
+                <Button size="lg" className="btn-gold text-base px-8 h-12">
+                  Book Now <ArrowRight className="ml-1" />
+                </Button>
+              </Link>
+              <Button
+                variant="outline"
                 size="lg"
-                className="text-lg bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-black font-semibold shadow-lg shadow-yellow-400/30"
-                onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
-              >
-                Book Now <ArrowRight className="ml-2" />
-              </Button>
-              <Button 
-                variant="outline" 
-                size="lg"
-                className="text-lg bg-zinc-800/50 border-zinc-700 text-zinc-100 hover:bg-zinc-700 hover:border-yellow-400/50"
-                onClick={() => document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' })}
+                className="text-base h-12 border-border bg-background/50 hover:bg-secondary hover:border-accent/40"
+                onClick={() => document.getElementById("services")?.scrollIntoView({ behavior: "smooth" })}
               >
                 Our Services
               </Button>
@@ -111,101 +61,199 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Services Section */}
-      <section id="services" className="py-20 bg-gradient-to-b from-zinc-900 via-zinc-850 to-zinc-800 relative overflow-hidden">
-        {/* Animated background */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(234,179,8,0.08),transparent_70%)]"></div>
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-yellow-400/10 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-yellow-400/10 rounded-full blur-3xl"></div>
-        
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="text-center mb-16">
-            <div className="inline-block mb-4">
-              <span className="text-yellow-400 text-sm font-semibold tracking-wider uppercase border border-yellow-400/40 px-4 py-2 rounded-full bg-yellow-400/10">
-                Our Services
-              </span>
-            </div>
-            <h2 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-yellow-300 via-yellow-400 to-yellow-300 bg-clip-text text-transparent">
-              What We Offer
-            </h2>
-            <p className="text-lg text-zinc-300 max-w-2xl mx-auto">
-              Professional stringing services tailored to enhance your game and extend your equipment's life
-            </p>
+      {/* Stats */}
+      <section className="border-y border-border bg-card/30">
+        <div className="container py-10">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+            {siteConfig.stats.map((stat) => (
+              <div key={stat.label} className="text-center">
+                <div className="stat-value">{stat.value}</div>
+                <p className="mt-1 text-sm text-muted-foreground">{stat.label}</p>
+              </div>
+            ))}
           </div>
+        </div>
+      </section>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-7xl mx-auto">
-            {services.map((service, index) => (
-              <Card 
-                key={index} 
-                className={`relative overflow-hidden transition-all duration-500 ${
-                  service.comingSoon 
-                    ? 'bg-zinc-800/70 border-2 border-dashed border-zinc-700 opacity-85 hover:opacity-100 hover:border-yellow-400/40' 
-                    : 'bg-gradient-to-br from-black to-zinc-700 border-2 border-zinc-700 hover:border-yellow-400/60 hover:shadow-2xl hover:shadow-yellow-400/15 hover:scale-105'
+      {/* Services */}
+      <section id="services" className="py-20 md:py-28 relative overflow-hidden">
+        <div className="absolute inset-0 bg-mesh-gold opacity-30" aria-hidden />
+        <div className="container relative z-10">
+          <SectionHeading
+            badge="Our Services"
+            title="Everything Your Racket Needs"
+            description="From precision stringing to frame care — professional service tailored to your game."
+          />
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 max-w-7xl mx-auto">
+            {services.map((service) => (
+              <Card
+                key={service.title}
+                className={`card-premium group h-full ${
+                  service.comingSoon ? "opacity-80 border-dashed" : ""
                 }`}
               >
-                {/* Gradient overlay on hover */}
-                <div className="absolute inset-0 bg-gradient-to-br from-yellow-400/0 via-yellow-400/0 to-yellow-400/10 opacity-0 hover:opacity-100 transition-opacity duration-500"></div>
-                
-                <CardHeader className="relative z-10">
-                  <div className={`mb-4 inline-flex p-4 rounded-xl transition-all duration-300 ${
-                    service.comingSoon 
-                      ? 'bg-zinc-750/50 group-hover:bg-zinc-700' 
-                      : 'bg-gradient-to-br from-yellow-400/15 to-yellow-500/10 border border-yellow-400/30 shadow-lg shadow-yellow-400/10'
-                  }`}>
-                    <service.icon className={`w-8 h-8 transition-all duration-300 ${
-                      service.comingSoon 
-                        ? 'text-zinc-500' 
-                        : 'text-yellow-400'
-                    }`} />
+                <CardHeader className="pb-2">
+                  <div
+                    className={`mb-3 inline-flex p-3 rounded-xl ${
+                      service.comingSoon
+                        ? "bg-muted"
+                        : "bg-accent/10 border border-accent/20"
+                    }`}
+                  >
+                    <ServiceIcon
+                      name={service.icon}
+                      className={`w-7 h-7 ${service.comingSoon ? "text-muted-foreground" : "text-accent"}`}
+                    />
                   </div>
-                  <CardTitle className="text-xl flex items-center gap-2 mb-2">
-                    <span className={service.comingSoon ? 'text-zinc-300' : 'text-zinc-50'}>
-                      {service.title}
-                    </span>
+                  <CardTitle className="text-lg flex items-center gap-2 flex-wrap">
+                    {service.title}
                     {service.comingSoon && (
-                      <span className="text-xs font-normal text-yellow-400 bg-yellow-400/15 px-3 py-1 rounded-full border border-yellow-400/40">
-                        Coming Soon
+                      <span className="text-[10px] font-semibold uppercase tracking-wider text-accent bg-accent/10 px-2 py-0.5 rounded-full border border-accent/30">
+                        Soon
                       </span>
                     )}
                   </CardTitle>
                 </CardHeader>
-                <CardContent className="relative z-10">
-                  <CardDescription className={`text-sm leading-relaxed ${
-                    service.comingSoon ? 'text-zinc-400' : 'text-zinc-300'
-                  }`}>
+                <CardContent>
+                  <CardDescription className="text-sm leading-relaxed">
                     {service.description}
                   </CardDescription>
                 </CardContent>
-
-                {/* Bottom accent line */}
-                {!service.comingSoon && (
-                  <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-yellow-400 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-500"></div>
-                )}
               </Card>
             ))}
           </div>
 
-          {/* Additional info section */}
-          <div className="mt-16 text-center max-w-3xl mx-auto">
-            <div className="bg-gradient-to-r from-zinc-800 via-zinc-750 to-zinc-800 border-2 border-zinc-700 rounded-2xl p-8">
-              <div className="flex items-center justify-center gap-3 mb-4">
-                <div className="w-12 h-1 bg-gradient-to-r from-transparent to-yellow-400"></div>
-                <Sparkles className="w-6 h-6 text-yellow-400" />
-                <div className="w-12 h-1 bg-gradient-to-l from-transparent to-yellow-400"></div>
-              </div>
-              <p className="text-zinc-200 text-lg">
-                All services performed by certified technicians using professional equipment
-              </p>
-              <p className="text-zinc-400 text-sm mt-2">
-                Services marked as <span className="text-yellow-400 font-semibold">"Coming Soon"</span> will be available in the near future
-              </p>
-            </div>
+          <div className="mt-12 text-center">
+            <Link to="/pricing" className="text-accent hover:text-yellow-300 font-medium inline-flex items-center gap-1 transition-colors">
+              View full pricing <ArrowRight className="w-4 h-4" />
+            </Link>
           </div>
         </div>
       </section>
 
-      <Footer />
-    </div>
+      {/* Process */}
+      <section className="py-20 md:py-28 bg-surface-elevated border-y border-border">
+        <div className="container">
+          <SectionHeading
+            badge="How It Works"
+            title="Simple, Professional, Reliable"
+            description="Four easy steps from drop-off to court-ready."
+          />
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+            {processSteps.map((step, index) => (
+              <div key={step.step} className="relative">
+                {index < processSteps.length - 1 && (
+                  <div className="hidden lg:block absolute top-8 left-[calc(50%+2rem)] w-[calc(100%-4rem)] h-px bg-border" aria-hidden />
+                )}
+                <div className="card-premium p-6 h-full">
+                  <span className="text-4xl font-display font-bold text-accent/30">{step.step}</span>
+                  <h3 className="text-lg font-semibold mt-2 mb-2">{step.title}</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">{step.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials */}
+      <section className="py-20 md:py-28">
+        <div className="container">
+          <SectionHeading
+            badge="Testimonials"
+            title="Trusted by Local Players"
+            description="See why players keep coming back for consistent, quality stringing."
+          />
+
+          <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+            {testimonials.map((t) => (
+              <Card key={t.author} className="card-premium p-6">
+                <Quote className="w-8 h-8 text-accent/40 mb-4" />
+                <div className="flex gap-0.5 mb-4">
+                  {Array.from({ length: t.rating }).map((_, i) => (
+                    <Star key={i} className="w-4 h-4 fill-accent text-accent" />
+                  ))}
+                </div>
+                <p className="text-foreground/90 leading-relaxed mb-6">&ldquo;{t.quote}&rdquo;</p>
+                <div>
+                  <p className="font-semibold">{t.author}</p>
+                  <p className="text-sm text-muted-foreground">{t.role}</p>
+                </div>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section className="py-20 md:py-28 bg-surface-elevated border-y border-border">
+        <div className="container max-w-3xl">
+          <SectionHeading
+            badge="FAQ"
+            title="Common Questions"
+            description="Everything you need to know before your next restring."
+          />
+
+          <Accordion type="single" collapsible className="space-y-3">
+            {faqs.map((faq, index) => (
+              <AccordionItem
+                key={faq.question}
+                value={`faq-${index}`}
+                className="card-premium px-5 border-none"
+              >
+                <AccordionTrigger className="text-left font-medium hover:no-underline hover:text-accent py-4">
+                  {faq.question}
+                </AccordionTrigger>
+                <AccordionContent className="text-muted-foreground pb-4 leading-relaxed">
+                  {faq.answer}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="py-20 md:py-28 relative overflow-hidden">
+        <div className="absolute inset-0 bg-mesh-gold" aria-hidden />
+        <div className="container relative z-10">
+          <div className="max-w-3xl mx-auto text-center card-premium p-10 md:p-14 border-accent/20">
+            <h2 className="text-3xl md:text-4xl font-bold text-gradient-gold mb-4">
+              Ready to Restring?
+            </h2>
+            <p className="text-muted-foreground text-lg mb-8">
+              Drop off your racket or send us a message — we&apos;ll have you court-ready in no time.
+            </p>
+            <div className="flex flex-wrap justify-center gap-4">
+              <Link to="/contact">
+                <Button size="lg" className="btn-gold px-8 h-12">
+                  Get in Touch <ArrowRight className="ml-1" />
+                </Button>
+              </Link>
+              <Link to="/strings">
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="h-12 border-border hover:border-accent/40"
+                >
+                  Browse String Guide
+                </Button>
+              </Link>
+            </div>
+            <ul className="mt-8 flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-muted-foreground">
+              {["Free tension consultation", "Phoenix team discounts", "24hr turnaround"].map((item) => (
+                <li key={item} className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-accent" />
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
+    </Layout>
   );
 };
 
