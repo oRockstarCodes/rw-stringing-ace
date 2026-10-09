@@ -1,3 +1,41 @@
+# rwangqz.ca
+
+Personal site for Rocky Wang, with three branches:
+
+| Path | What | Source |
+| --- | --- | --- |
+| `/`, `/about`, `/projects` | Personal site | `src/pages/`, content in `src/data/personal.ts` |
+| `/stringing/*` | RW Stringing Service | `src/pages/stringing/`, content in `src/data/site.ts` |
+| `/wiki/*` | Course wiki (Quartz) | Obsidian vault in `wiki/content/` |
+
+## Writing the wiki
+
+Open `wiki/content/` as a vault in Obsidian. Settings (wikilinks, attachments folder, templates folder) are preconfigured.
+
+- `courses/`: one hub page per course (use the **course** template)
+- `concepts/`: one page per concept, linked from every course it appears in (use the **concept** template)
+- `reference/`: cheat sheets, tool setup
+- `attachments/`: images and diagrams
+- `templates/`: not published
+- `private/`: not published **and not committed** (this repo is public)
+- Add `draft: true` to a note's properties to keep it off the site.
+
+Commit and push (e.g. with the Obsidian Git plugin) and Cloudflare Pages rebuilds the site.
+
+## Commands
+
+```sh
+npm run dev         # React site at localhost:8080
+npm run dev:wiki    # wiki preview at localhost:8080 (Quartz)
+npm run build       # full build -> dist/ (React app + dist/wiki)
+```
+
+The wiki is built by `scripts/build-wiki.sh`, which clones Quartz (pinned version) into `.quartz/` and applies `wiki/quartz.config.ts`, `wiki/quartz.layout.ts`, and `wiki/custom.scss`.
+
+Cloudflare Pages settings: build command `npm run build`, output directory `dist`. Node version comes from `.node-version`.
+
+---
+
 # Welcome to your Lovable project
 
 ## Project info

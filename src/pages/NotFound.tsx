@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import Layout from "@/components/Layout";
+import PersonalLayout from "@/components/personal/PersonalLayout";
 import { Button } from "@/components/ui/button";
 import { Home, ArrowLeft } from "lucide-react";
 
@@ -12,7 +12,7 @@ const NotFound = () => {
   }, [location.pathname]);
 
   return (
-    <Layout>
+    <PersonalLayout title="Not found">
       <section className="flex items-center justify-center min-h-[70vh] py-20">
         <div className="container max-w-lg text-center">
           <p className="text-8xl font-display font-bold text-accent/20 mb-4">404</p>
@@ -32,7 +32,7 @@ const NotFound = () => {
           </div>
         </div>
       </section>
-    </Layout>
+    </PersonalLayout>
   );
 };
 

@@ -22,13 +22,13 @@ const Header = () => {
   }, [location.pathname]);
 
   const isActive = (href: string) => {
-    if (href.startsWith("/#")) return false;
+    if (href.includes("#")) return false;
     return location.pathname === href;
   };
 
   const handleNavClick = (href: string, isHash?: boolean) => {
     setIsMenuOpen(false);
-    if (isHash && location.pathname === "/") {
+    if (isHash && location.pathname === "/stringing") {
       const id = href.split("#")[1];
       document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
     }
@@ -52,7 +52,7 @@ const Header = () => {
       <div className="container">
         <div className="flex items-center justify-between h-16 md:h-20">
           <Link
-            to="/"
+            to="/stringing"
             className="font-display text-xl md:text-2xl font-bold text-gradient-gold hover:opacity-90 transition-opacity"
           >
             {siteConfig.name}
@@ -79,7 +79,7 @@ const Header = () => {
                 </Link>
               ),
             )}
-            <Link to="/contact">
+            <Link to="/stringing/contact">
               <Button className="btn-gold rounded-full px-6 h-10 text-sm">Book Now</Button>
             </Link>
           </nav>
@@ -113,7 +113,7 @@ const Header = () => {
                   {link.label}
                 </Link>
               ))}
-              <Link to="/contact" className="mt-2">
+              <Link to="/stringing/contact" className="mt-2">
                 <Button className="btn-gold w-full rounded-full">Book Now</Button>
               </Link>
             </div>

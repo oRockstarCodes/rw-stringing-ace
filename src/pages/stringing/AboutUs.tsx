@@ -111,7 +111,7 @@ const AboutUs = () => {
           <p className="text-muted-foreground text-lg mb-8">
             Let us help you take your game to the next level with professional stringing you can trust.
           </p>
-          <Link to="/contact">
+          <Link to="/stringing/contact">
             <Button size="lg" className="btn-gold px-8 h-12">
               Book Your Stringing Service <ArrowRight className="ml-1" />
             </Button>

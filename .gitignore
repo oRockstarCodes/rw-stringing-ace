@@ -22,3 +22,15 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Quartz engine (cloned at build time by scripts/build-wiki.sh)
+.quartz
+
+# Obsidian per-device state
+wiki/content/.obsidian/workspace*.json
+wiki/content/.obsidian/cache
+wiki/content/.trash
+
+# Private notes: never published AND never committed (this repo is public)
+wiki/content/private/*
+!wiki/content/private/README.md

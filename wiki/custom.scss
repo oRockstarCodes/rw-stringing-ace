@@ -1,0 +1,27 @@
+@use "./base.scss";
+
+// Copied to quartz/styles/custom.scss at build time by scripts/build-wiki.sh.
+// Small touches to match rwangqz.ca.
+
+h1,
+h2,
+h3,
+.page-title {
+  letter-spacing: -0.02em;
+}
+
+.page-title a {
+  font-weight: 700;
+}
+
+a.internal {
+  background-color: transparent;
+  border-bottom: 1px solid color-mix(in srgb, var(--secondary) 40%, transparent);
+  border-radius: 0;
+  padding: 0;
+  transition: border-color 0.15s ease;
+
+  &:hover {
+    border-bottom-color: var(--secondary);
+  }
+}

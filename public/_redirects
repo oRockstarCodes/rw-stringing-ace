@@ -1,1 +1,4 @@
-/*    /index.html    200
+# Old stringing URLs -> new location
+/pricing    /stringing/pricing    301
+/strings    /stringing/strings    301
+/contact    /stringing/contact    301
