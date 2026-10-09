@@ -76,7 +76,12 @@ const config: QuartzConfig = {
       Plugin.AliasRedirects(),
       Plugin.ComponentResources(),
       Plugin.ContentPage(),
-      Plugin.FolderPage(),
+      // Folder pages (e.g. a course) list their notes in file-name order,
+      // so chapters named ch01-..., ch02-... appear in sequence.
+      Plugin.FolderPage({
+        sort: (a, b) =>
+          (a.slug ?? "").localeCompare(b.slug ?? "", undefined, { numeric: true, sensitivity: "base" }),
+      }),
       Plugin.TagPage(),
       Plugin.ContentIndex({
         enableSiteMap: true,

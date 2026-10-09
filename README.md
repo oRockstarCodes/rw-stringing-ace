@@ -12,8 +12,10 @@ Personal site for Rocky Wang, with three branches:
 
 Open `wiki/content/` as a vault in Obsidian. Settings (wikilinks, attachments folder, templates folder) are preconfigured.
 
-- `courses/`: one hub page per course (use the **course** template)
-- `concepts/`: one page per concept, linked from every course it appears in (use the **concept** template)
+- `courses/<code>/`: one folder per course
+  - `index.md`: the course hub (use the **course** template). The site lists the chapters under it automatically.
+  - `ch01-name.md`, `ch02-name.md`, ...: one note per chapter (use the **chapter** template). The file name sets the order.
+- `concepts/`: optional pages for ideas shared across courses (use the **concept** template)
 - `reference/`: cheat sheets, tool setup
 - `attachments/`: images and diagrams
 - `templates/`: not published
