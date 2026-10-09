@@ -5,7 +5,7 @@ aliases:
   - Norton equivalent
 tags:
   - concept
-  - sample
+  - smp101
 ---
 
 > [!note] Sample page
@@ -47,9 +47,9 @@ $$
 
 ## Related
 
-- Superposition
+- Superposition: see [[ch03-network-theorems|SMP 101 · Ch 3]]
 - Laplace transform (Thévenin works in the s-domain with impedances)
 
 ## Seen in
 
-- *(link the course hub here, e.g. `[[ele-302]]`)*
+- [[ch03-network-theorems|SMP 101 · Ch 3: Network Theorems]]

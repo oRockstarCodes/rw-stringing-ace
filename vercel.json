@@ -5,11 +5,36 @@
   "installCommand": "npm install",
   "framework": "vite",
   "redirects": [
-    { "source": "/pricing", "destination": "/stringing/pricing", "permanent": true },
-    { "source": "/strings", "destination": "/stringing/strings", "permanent": true },
-    { "source": "/contact", "destination": "/stringing/contact", "permanent": true }
+    {
+      "source": "/pricing",
+      "destination": "/stringing/pricing",
+      "permanent": true
+    },
+    {
+      "source": "/strings",
+      "destination": "/stringing/strings",
+      "permanent": true
+    },
+    {
+      "source": "/contact",
+      "destination": "/stringing/contact",
+      "permanent": true
+    },
+    {
+      "source": "/wiki",
+      "destination": "/melon-files/",
+      "permanent": true
+    },
+    {
+      "source": "/wiki/:path*",
+      "destination": "/melon-files/:path*",
+      "permanent": true
+    }
   ],
   "rewrites": [
-    { "source": "/((?!wiki/).*)", "destination": "/index.html" }
+    {
+      "source": "/((?!melon-files/).*)",
+      "destination": "/index.html"
+    }
   ]
 }

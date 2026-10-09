@@ -19,7 +19,7 @@ const About = () => (
         </p>
         <p>
           I keep my course notes public in{" "}
-          <a href="/wiki/" className="text-accent hover:underline">Melon Files</a>, my course wiki. Writing things up is how I make sure I
+          <a href="/melon-files/" className="text-accent hover:underline">Melon Files</a>, my course wiki. Writing things up is how I make sure I
           actually understand them.
         </p>
       </div>

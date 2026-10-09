@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Builds the Obsidian vault in wiki/content into dist/wiki with Quartz.
+# Builds the Obsidian vault in wiki/content into dist/melon-files with Quartz.
 # The Quartz engine is cloned into .quartz (gitignored) at a pinned version;
 # only our config, layout, and styles live in this repo.
 set -euo pipefail
@@ -19,4 +19,4 @@ cp "$ROOT/wiki/quartz.config.ts" "$ROOT/wiki/quartz.layout.ts" "$ENGINE/"
 cp "$ROOT/wiki/custom.scss" "$ENGINE/quartz/styles/custom.scss"
 
 cd "$ENGINE"
-npx quartz build -d "$ROOT/wiki/content" -o "$ROOT/dist/wiki"
+npx quartz build -d "$ROOT/wiki/content" -o "$ROOT/dist/melon-files"

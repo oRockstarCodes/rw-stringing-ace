@@ -11,7 +11,7 @@
     "preview": "vite preview",
     "build:site": "vite build",
     "build:wiki": "bash scripts/build-wiki.sh",
-    "dev:wiki": "bash scripts/build-wiki.sh && cd .quartz && npx quartz build -d ../wiki/content -o ../dist/wiki --serve"
+    "dev:wiki": "bash scripts/build-wiki.sh && cd .quartz && npx quartz build -d ../wiki/content -o ../dist/melon-files --serve"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",

@@ -53,7 +53,7 @@ const App = () => (
             <Route path="/stringing/contact" element={<ContactPage />} />
             <Route path="/stringing/strings" element={<StringDetails />} />
 
-            {/* /wiki/* is a separate static build (Quartz) served directly by Cloudflare Pages */}
+            {/* /melon-files/* (Melon Files wiki) is a separate static build (Quartz) served directly by Cloudflare Pages */}
 
             {/* RW Stringing staff CRM */}
             <Route path="/crm/login" element={<CrmLoginPage />} />

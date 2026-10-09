@@ -14,10 +14,6 @@ tags:
 
 One or two lines: what this course is about.
 
-## Topics
-
-1. [[concept-name|Concept]]
-
 ## Key takeaways
 
 *Fill in at the end of the term.*
@@ -25,3 +21,6 @@ One or two lines: what this course is about.
 ## Resources
 
 - 
+
+<!-- Save this as courses/<course-code>/index.md (e.g. courses/coe-318/index.md).
+     The chapter list is added automatically below this page on the site. -->
