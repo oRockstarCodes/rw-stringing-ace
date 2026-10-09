@@ -11,7 +11,7 @@ const config: QuartzConfig = {
     enablePopovers: true,
     analytics: null,
     locale: "en-US",
-    baseUrl: "rwangqz.ca/wiki",
+    baseUrl: "rwangqz.ca/melon-files",
     ignorePatterns: ["private", "templates", ".obsidian", ".trash"],
     defaultDateType: "modified",
     theme: {

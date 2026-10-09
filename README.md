@@ -6,7 +6,7 @@ Personal site for Rocky Wang, with three branches:
 | --- | --- | --- |
 | `/`, `/about`, `/projects` | Personal site | `src/pages/`, content in `src/data/personal.ts` |
 | `/stringing/*` | RW Stringing Service | `src/pages/stringing/`, content in `src/data/site.ts` |
-| `/wiki/*` | Melon Files, the course wiki (Quartz) | Obsidian vault in `wiki/content/` |
+| `/melon-files/*` | Melon Files, the course wiki (Quartz) | Obsidian vault in `wiki/content/` |
 
 ## Writing Melon Files (the wiki)
 
@@ -27,7 +27,7 @@ Commit and push (e.g. with the Obsidian Git plugin) and Cloudflare Pages rebuild
 ```sh
 npm run dev         # React site at localhost:8080
 npm run dev:wiki    # wiki preview at localhost:8080 (Quartz)
-npm run build       # full build -> dist/ (React app + dist/wiki)
+npm run build       # full build -> dist/ (React app + dist/melon-files)
 ```
 
 The wiki is built by `scripts/build-wiki.sh`, which clones Quartz (pinned version) into `.quartz/` and applies `wiki/quartz.config.ts`, `wiki/quartz.layout.ts`, and `wiki/custom.scss`.
@@ -112,4 +112,4 @@ Phone and social links are hidden when left empty in `siteConfig`.
 
 ### Deploy
 
-Build with `npm run build` (output: `dist`, including `dist/wiki`). Hosted on Cloudflare Pages, which falls back to `index.html` for app routes automatically; `public/_redirects` holds the old-URL redirects. `vercel.json` does the same for Vercel. Set the same `VITE_SUPABASE_*` env vars in your host.
+Build with `npm run build` (output: `dist`, including `dist/melon-files`). Hosted on Cloudflare Pages, which falls back to `index.html` for app routes automatically; `public/_redirects` holds the old-URL redirects. `vercel.json` does the same for Vercel. Set the same `VITE_SUPABASE_*` env vars in your host.
