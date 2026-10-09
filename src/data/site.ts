@@ -27,11 +27,11 @@ export const siteConfig = {
 };
 
 export const navLinks = [
-  { label: "Services", href: "/#services", isHash: true },
-  { label: "Pricing", href: "/pricing" },
-  { label: "String Guide", href: "/strings" },
-  { label: "About", href: "/about" },
-  { label: "Contact", href: "/contact" },
+  { label: "Services", href: "/stringing#services", isHash: true },
+  { label: "Pricing", href: "/stringing/pricing" },
+  { label: "String Guide", href: "/stringing/strings" },
+  { label: "About", href: "/stringing/about" },
+  { label: "Contact", href: "/stringing/contact" },
 ];
 
 export const services = [

@@ -3,12 +3,15 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Index from "./pages/Index";
-import AboutUs from "./pages/AboutUs";
-import PricingPage from "./pages/PricingPage";
-import ContactPage from "./pages/ContactPage";
+import Home from "./pages/Home";
+import About from "./pages/About";
+import Projects from "./pages/Projects";
 import NotFound from "./pages/NotFound";
-import StringDetails from "./pages/StringDetails";
+import StringingIndex from "./pages/stringing/Index";
+import AboutUs from "./pages/stringing/AboutUs";
+import PricingPage from "./pages/stringing/PricingPage";
+import ContactPage from "./pages/stringing/ContactPage";
+import StringDetails from "./pages/stringing/StringDetails";
 import { AuthProvider } from "@/crm/AuthProvider";
 import { RequireAuth } from "@/crm/RequireAuth";
 import CrmLayout from "@/crm/CrmLayout";
@@ -38,12 +41,21 @@ const App = () => (
       <BrowserRouter>
         <AuthProvider>
           <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/about" element={<AboutUs />} />
-            <Route path="/pricing" element={<PricingPage />} />
-            <Route path="/contact" element={<ContactPage />} />
-            <Route path="/strings" element={<StringDetails />} />
+            {/* Personal site */}
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/projects" element={<Projects />} />
 
+            {/* RW Stringing */}
+            <Route path="/stringing" element={<StringingIndex />} />
+            <Route path="/stringing/about" element={<AboutUs />} />
+            <Route path="/stringing/pricing" element={<PricingPage />} />
+            <Route path="/stringing/contact" element={<ContactPage />} />
+            <Route path="/stringing/strings" element={<StringDetails />} />
+
+            {/* /wiki/* is a separate static build (Quartz) served directly by Cloudflare Pages */}
+
+            {/* RW Stringing staff CRM */}
             <Route path="/crm/login" element={<CrmLoginPage />} />
             <Route path="/crm" element={<RequireAuth />}>
               <Route element={<CrmLayout />}>

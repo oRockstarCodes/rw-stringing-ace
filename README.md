@@ -1,14 +1,50 @@
-# RW Stringing Ace
+# rwangqz.ca
+
+Personal site for Rocky Wang, with three branches:
+
+| Path | What | Source |
+| --- | --- | --- |
+| `/`, `/about`, `/projects` | Personal site | `src/pages/`, content in `src/data/personal.ts` |
+| `/stringing/*` | RW Stringing Service | `src/pages/stringing/`, content in `src/data/site.ts` |
+| `/wiki/*` | Melon Files, the course wiki (Quartz) | Obsidian vault in `wiki/content/` |
+
+## Writing Melon Files (the wiki)
+
+Open `wiki/content/` as a vault in Obsidian. Settings (wikilinks, attachments folder, templates folder) are preconfigured.
+
+- `courses/`: one hub page per course (use the **course** template)
+- `concepts/`: one page per concept, linked from every course it appears in (use the **concept** template)
+- `reference/`: cheat sheets, tool setup
+- `attachments/`: images and diagrams
+- `templates/`: not published
+- `private/`: not published **and not committed** (this repo is public)
+- Add `draft: true` to a note's properties to keep it off the site.
+
+Commit and push (e.g. with the Obsidian Git plugin) and Cloudflare Pages rebuilds the site.
+
+## Commands
+
+```sh
+npm run dev         # React site at localhost:8080
+npm run dev:wiki    # wiki preview at localhost:8080 (Quartz)
+npm run build       # full build -> dist/ (React app + dist/wiki)
+```
+
+The wiki is built by `scripts/build-wiki.sh`, which clones Quartz (pinned version) into `.quartz/` and applies `wiki/quartz.config.ts`, `wiki/quartz.layout.ts`, and `wiki/custom.scss`.
+
+Cloudflare Pages settings: build command `npm run build`, output directory `dist`. Node version comes from `.node-version`.
+
+## RW Stringing + staff CRM
 
 Marketing site and staff CRM for **RW Stringing Service** — professional badminton racket stringing at Phoenix Badminton Academy (Greater Toronto Area).
 
-## Stack
+### Stack
 
 - Vite + React 18 + TypeScript
 - Tailwind CSS + shadcn/ui
 - Supabase (Auth, Postgres, RLS) for the CRM
 
-## Local development
+### Local development
 
 ```sh
 npm i
@@ -19,7 +55,7 @@ npm run dev
 
 App runs on [http://localhost:8080](http://localhost:8080).
 
-## Supabase CRM setup
+### Supabase CRM setup
 
 1. Create a project at [supabase.com](https://supabase.com).
 2. In **SQL Editor**, run the full migration: [`supabase/migrations/001_crm_schema.sql`](supabase/migrations/001_crm_schema.sql).
@@ -51,7 +87,7 @@ where id = '<auth-user-uuid>';
 5. Copy Project URL and anon key into `.env` as `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY`.
 6. Open `/crm/login` and sign in.
 
-### Roles
+#### Roles
 
 | Role | Access |
 |------|--------|
@@ -61,11 +97,11 @@ where id = '<auth-user-uuid>';
 
 Additional staff: create users in Supabase Auth, then set roles under **CRM → Staff**.
 
-### Public contact form
+#### Public contact form
 
-Submissions on `/contact` insert into `inquiries` (anon insert allowed by RLS). Staff review them under **CRM → Inquiries** and can convert to customers.
+Submissions on `/stringing/contact` insert into `inquiries` (anon insert allowed by RLS). Staff review them under **CRM → Inquiries** and can convert to customers.
 
-## Site content
+### Site content
 
 Edit business copy and pricing catalog in:
 
@@ -74,6 +110,6 @@ Edit business copy and pricing catalog in:
 
 Phone and social links are hidden when left empty in `siteConfig`.
 
-## Deploy
+### Deploy
 
-Build with `npm run build` (output: `dist`). Deploy to Vercel or Lovable; SPA rewrites are in `vercel.json` and `public/_redirects`. Set the same `VITE_SUPABASE_*` env vars in your host.
+Build with `npm run build` (output: `dist`, including `dist/wiki`). Hosted on Cloudflare Pages, which falls back to `index.html` for app routes automatically; `public/_redirects` holds the old-URL redirects. `vercel.json` does the same for Vercel. Set the same `VITE_SUPABASE_*` env vars in your host.

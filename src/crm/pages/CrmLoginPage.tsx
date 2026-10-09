@@ -79,7 +79,7 @@ export default function CrmLoginPage() {
             </Button>
           </form>
           <p className="mt-6 text-center text-sm text-muted-foreground">
-            <Link to="/" className="hover:text-accent">
+            <Link to="/stringing" className="hover:text-accent">
               ← Back to website
             </Link>
           </p>

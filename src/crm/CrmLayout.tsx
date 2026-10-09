@@ -81,7 +81,7 @@ export default function CrmLayout() {
           <Button variant="outline" size="sm" className="w-full justify-start gap-2" onClick={handleSignOut}>
             <LogOut className="h-4 w-4" /> Sign out
           </Button>
-          <Link to="/" className="block text-xs text-muted-foreground hover:text-accent">
+          <Link to="/stringing" className="block text-xs text-muted-foreground hover:text-accent">
             ← Back to website
           </Link>
         </div>

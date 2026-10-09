@@ -18,7 +18,7 @@ const Footer = () => {
       <div className="container py-12 md:py-16">
         <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
           <div className="lg:col-span-1">
-            <Link to="/" className="font-display text-xl font-bold text-gradient-gold">
+            <Link to="/stringing" className="font-display text-xl font-bold text-gradient-gold">
               {siteConfig.name}
             </Link>
             <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
@@ -96,7 +96,7 @@ const Footer = () => {
               <p>{siteConfig.hours}</p>
             </div>
             <Link
-              to="/contact"
+              to="/stringing/contact"
               className="inline-flex mt-6 text-sm font-semibold text-accent hover:text-yellow-300 transition-colors"
             >
               Book a stringing appointment →
@@ -107,7 +107,12 @@ const Footer = () => {
         <div className="mt-12 pt-8 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
           <p>© {currentYear} {siteConfig.name}. All rights reserved.</p>
           <div className="flex items-center gap-4">
-            <p className="hidden sm:block">Precision stringing for players who care about every detail.</p>
+            <p>
+              Part of{" "}
+              <Link to="/" className="text-foreground/80 hover:text-accent transition-colors">
+                rwangqz.ca
+              </Link>
+            </p>
             <Link
               to="/crm/login"
               className="text-xs text-muted-foreground/60 hover:text-muted-foreground transition-colors"

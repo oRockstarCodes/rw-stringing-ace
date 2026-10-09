@@ -27,7 +27,7 @@ const PricingPage = () => {
                   Prices shown are per racket, string included.{" "}
                   <span className="text-red-400 font-medium">Red prices</span> are exclusive to members.
                   Not sure which string? Check our{" "}
-                  <Link to="/strings" className="text-accent hover:underline">String Guide</Link>.
+                  <Link to="/stringing/strings" className="text-accent hover:underline">String Guide</Link>.
                 </p>
               </div>
             </div>
@@ -116,7 +116,7 @@ const PricingPage = () => {
             <p className="text-muted-foreground mb-6">
               Need help choosing? We&apos;ll recommend the perfect string for your play style.
             </p>
-            <Link to="/contact">
+            <Link to="/stringing/contact">
               <Button size="lg" className="btn-gold px-8 h-12">
                 Book a Stringing <ArrowRight className="ml-1" />
               </Button>

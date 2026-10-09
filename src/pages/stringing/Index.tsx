@@ -43,7 +43,7 @@ const Index = () => {
               Calibrated tension, premium strings, and expert advice — so every shot feels exactly how you want it.
             </p>
             <div className="animate-fade-up-delay-3 flex flex-wrap gap-4">
-              <Link to="/contact">
+              <Link to="/stringing/contact">
                 <Button size="lg" className="btn-gold text-base px-8 h-12">
                   Book Now <ArrowRight className="ml-1" />
                 </Button>
@@ -125,7 +125,7 @@ const Index = () => {
           </div>
 
           <div className="mt-12 text-center">
-            <Link to="/pricing" className="text-accent hover:text-yellow-300 font-medium inline-flex items-center gap-1 transition-colors">
+            <Link to="/stringing/pricing" className="text-accent hover:text-yellow-300 font-medium inline-flex items-center gap-1 transition-colors">
               View full pricing <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
@@ -227,12 +227,12 @@ const Index = () => {
               Drop off your racket or send us a message — we&apos;ll have you court-ready in no time.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
-              <Link to="/contact">
+              <Link to="/stringing/contact">
                 <Button size="lg" className="btn-gold px-8 h-12">
                   Get in Touch <ArrowRight className="ml-1" />
                 </Button>
               </Link>
-              <Link to="/strings">
+              <Link to="/stringing/strings">
                 <Button
                   variant="outline"
                   size="lg"
