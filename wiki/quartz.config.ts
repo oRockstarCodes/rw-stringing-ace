@@ -5,7 +5,7 @@ import * as Plugin from "./quartz/plugins"
 // Docs: https://quartz.jzhao.xyz/configuration
 const config: QuartzConfig = {
   configuration: {
-    pageTitle: "Course Wiki",
+    pageTitle: "Melon Files",
     pageTitleSuffix: " · Rocky Wang",
     enableSPA: true,
     enablePopovers: true,

@@ -6,9 +6,9 @@ Personal site for Rocky Wang, with three branches:
 | --- | --- | --- |
 | `/`, `/about`, `/projects` | Personal site | `src/pages/`, content in `src/data/personal.ts` |
 | `/stringing/*` | RW Stringing Service | `src/pages/stringing/`, content in `src/data/site.ts` |
-| `/wiki/*` | Course wiki (Quartz) | Obsidian vault in `wiki/content/` |
+| `/wiki/*` | Melon Files, the course wiki (Quartz) | Obsidian vault in `wiki/content/` |
 
-## Writing the wiki
+## Writing Melon Files (the wiki)
 
 Open `wiki/content/` as a vault in Obsidian. Settings (wikilinks, attachments folder, templates folder) are preconfigured.
 

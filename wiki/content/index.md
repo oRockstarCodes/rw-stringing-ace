@@ -1,3 +1,3 @@
 ---
-title: Course Wiki
+title: Melon Files
 ---

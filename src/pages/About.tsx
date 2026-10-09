@@ -18,8 +18,8 @@ const About = () => (
           and Alpha Prep Tutoring, and I'm VP Finance for Engineers for a Sustainable World at TMU.
         </p>
         <p>
-          I keep my course notes public in the{" "}
-          <a href="/wiki/" className="text-accent hover:underline">wiki</a>. Writing things up is how I make sure I
+          I keep my course notes public in{" "}
+          <a href="/wiki/" className="text-accent hover:underline">Melon Files</a>, my course wiki. Writing things up is how I make sure I
           actually understand them.
         </p>
       </div>

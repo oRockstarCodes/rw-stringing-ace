@@ -16,7 +16,7 @@ export type NavItem = { label: string; href: string; external?: boolean };
 
 // `external: true` = plain <a> link, needed for /wiki since it's a separate (Quartz) build.
 export const personalNav: NavItem[] = [
-  { label: "Wiki", href: "/wiki/", external: true },
+  { label: "Melon Files", href: "/wiki/", external: true },
   { label: "Projects", href: "/projects" },
   { label: "Stringing", href: "/stringing" },
   { label: "About", href: "/about" },
@@ -24,11 +24,11 @@ export const personalNav: NavItem[] = [
 
 export const branches = [
   {
-    title: "Course Wiki",
+    title: "Melon Files",
     href: "/wiki/",
     external: true,
     icon: "BookOpen",
-    description: "Linked notes from every course I take: concepts, formulas, worked examples.",
+    description: "My course wiki: linked notes from every course I take, with concepts, formulas, and worked examples.",
   },
   {
     title: "Projects",
