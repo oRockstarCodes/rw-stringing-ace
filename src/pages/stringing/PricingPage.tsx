@@ -13,7 +13,7 @@ const PricingPage = () => {
       <PageHero
         badge="Pricing"
         title="Transparent Pricing"
-        description="Professional stringing with competitive rates. Phoenix Badminton Academy team members receive exclusive discounts."
+        description="Professional stringing with competitive rates. Members receive exclusive discounts."
       />
 
       <section className="py-16 md:py-24">
@@ -25,7 +25,7 @@ const PricingPage = () => {
                 <p className="text-foreground font-medium mb-1">All prices include professional stringing labor</p>
                 <p>
                   Prices shown are per racket, string included.{" "}
-                  <span className="text-red-400 font-medium">Red prices</span> are exclusive to Phoenix Team members.
+                  <span className="text-red-400 font-medium">Red prices</span> are exclusive to members.
                   Not sure which string? Check our{" "}
                   <Link to="/stringing/strings" className="text-accent hover:underline">String Guide</Link>.
                 </p>
@@ -41,7 +41,7 @@ const PricingPage = () => {
           <div className="flex flex-wrap justify-center gap-4 mb-10 text-sm">
             <div className="flex items-center gap-2 px-4 py-2 rounded-full border border-border bg-card">
               <div className="w-2.5 h-2.5 rounded-full bg-red-500" />
-              <span className="text-red-400 font-medium">Phoenix Team</span>
+              <span className="text-red-400 font-medium">Member</span>
             </div>
             <div className="flex items-center gap-2 px-4 py-2 rounded-full border border-border bg-card">
               <div className="w-2.5 h-2.5 rounded-full border-2 border-foreground/60" />
@@ -66,7 +66,7 @@ const PricingPage = () => {
                           String
                         </th>
                         <th className="text-right py-3.5 px-5 text-xs font-semibold uppercase tracking-wider text-red-400">
-                          Phoenix
+                          Member
                         </th>
                         <th className="text-right py-3.5 px-5 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                           Regular

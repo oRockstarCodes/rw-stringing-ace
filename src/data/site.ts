@@ -3,17 +3,20 @@ export const siteConfig = {
   tagline: "Professional Badminton Stringing",
   description:
     "Expert badminton racket stringing with calibrated tension, premium strings, and personalized recommendations for players of every level.",
-  email: "contact@rwstringing.com",
-  phone: "(555) 123-4567",
+  url: "https://rwangqz.ca",
+  email: "contact@rwangqz.ca",
+  /** Set a real number when ready; leave empty to hide phone CTAs and prefer email. */
+  phone: "",
   location: {
     line1: "Phoenix Badminton Academy",
-    line2: "Greater Vancouver Area",
-    line3: "British Columbia, Canada",
+    line2: "Greater Toronto Area",
+    line3: "Ontario, Canada",
   },
   hours: "Mon–Sat: 10am – 8pm · Sun: By appointment",
   social: {
-    instagram: "https://instagram.com",
-    facebook: "https://facebook.com",
+    /** Leave empty until real profiles are ready — footer only shows set links. */
+    instagram: "",
+    facebook: "",
   },
   stats: [
     { value: "5,000+", label: "Rackets Strung" },
@@ -130,7 +133,7 @@ export const testimonials = [
   },
   {
     quote:
-      "Fast turnaround and fair pricing. Phoenix team discount is a nice bonus. I won't go anywhere else.",
+      "Fast turnaround and fair pricing. Member discount is a nice bonus. I won't go anywhere else.",
     author: "David K.",
     role: "Recreational Player",
     rating: 5,
@@ -154,9 +157,9 @@ export const faqs = [
       "Yes. We offer a labor-only rate for customer-provided string. See our pricing page for details.",
   },
   {
-    question: "What is Phoenix Team pricing?",
+    question: "What is Member pricing?",
     answer:
-      "Phoenix Badminton Academy team members receive discounted rates on all strings. Show your team ID when dropping off your racket.",
+      "Members receive discounted rates on all strings. Ask us about membership when dropping off your racket.",
   },
   {
     question: "How often should I restring?",

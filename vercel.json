@@ -1,0 +1,15 @@
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "devCommand": "npm run dev",
+  "installCommand": "npm install",
+  "framework": "vite",
+  "redirects": [
+    { "source": "/pricing", "destination": "/stringing/pricing", "permanent": true },
+    { "source": "/strings", "destination": "/stringing/strings", "permanent": true },
+    { "source": "/contact", "destination": "/stringing/contact", "permanent": true }
+  ],
+  "rewrites": [
+    { "source": "/((?!wiki/).*)", "destination": "/index.html" }
+  ]
+}

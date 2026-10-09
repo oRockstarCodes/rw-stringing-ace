@@ -34,78 +34,82 @@ The wiki is built by `scripts/build-wiki.sh`, which clones Quartz (pinned versio
 
 Cloudflare Pages settings: build command `npm run build`, output directory `dist`. Node version comes from `.node-version`.
 
----
+## RW Stringing + staff CRM
 
-# Welcome to your Lovable project
+Marketing site and staff CRM for **RW Stringing Service** — professional badminton racket stringing at Phoenix Badminton Academy (Greater Toronto Area).
 
-## Project info
+### Stack
 
-**URL**: https://lovable.dev/projects/92b79da3-583f-46eb-aafd-7828e824839e
+- Vite + React 18 + TypeScript
+- Tailwind CSS + shadcn/ui
+- Supabase (Auth, Postgres, RLS) for the CRM
 
-## How can I edit this code?
-
-There are several ways of editing your application.
-
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/92b79da3-583f-46eb-aafd-7828e824839e) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
+### Local development
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
 npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+cp .env.example .env
+# Fill in VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+App runs on [http://localhost:8080](http://localhost:8080).
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+### Supabase CRM setup
 
-**Use GitHub Codespaces**
+1. Create a project at [supabase.com](https://supabase.com).
+2. In **SQL Editor**, run the full migration: [`supabase/migrations/001_crm_schema.sql`](supabase/migrations/001_crm_schema.sql).
+3. In **Authentication → Users**, create your first staff user (email/password).
+4. In **SQL Editor**, run [`supabase/migrations/002_fix_bootstrap_admin.sql`](supabase/migrations/002_fix_bootstrap_admin.sql) (or the function update below), then promote that user to admin:
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+```sql
+create or replace function public.protect_profile_role()
+returns trigger
+language plpgsql
+security definer
+set search_path = public
+as $$
+begin
+  if new.role is distinct from old.role
+     and auth.uid() is not null
+     and not public.is_admin() then
+    raise exception 'Only admins can change roles';
+  end if;
+  return new;
+end;
+$$;
 
-## What technologies are used for this project?
+update public.profiles
+set role = 'admin', full_name = 'Rocky Wang'
+where id = '<auth-user-uuid>';
+```
 
-This project is built with:
+5. Copy Project URL and anon key into `.env` as `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY`.
+6. Open `/crm/login` and sign in.
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+#### Roles
 
-## How can I deploy this project?
+| Role | Access |
+|------|--------|
+| `admin` | Full CRM + staff role management |
+| `stringer` | Customers, orders, inventory writes |
+| `viewer` | Read-only |
 
-Simply open [Lovable](https://lovable.dev/projects/92b79da3-583f-46eb-aafd-7828e824839e) and click on Share -> Publish.
+Additional staff: create users in Supabase Auth, then set roles under **CRM → Staff**.
 
-## Can I connect a custom domain to my Lovable project?
+#### Public contact form
 
-Yes, you can!
+Submissions on `/stringing/contact` insert into `inquiries` (anon insert allowed by RLS). Staff review them under **CRM → Inquiries** and can convert to customers.
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+### Site content
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+Edit business copy and pricing catalog in:
+
+- [`src/data/site.ts`](src/data/site.ts) — name, email, phone, social, services, FAQs
+- [`src/data/strings.ts`](src/data/strings.ts) — public string guide
+
+Phone and social links are hidden when left empty in `siteConfig`.
+
+### Deploy
+
+Build with `npm run build` (output: `dist`, including `dist/wiki`). Hosted on Cloudflare Pages, which falls back to `index.html` for app routes automatically; `public/_redirects` holds the old-URL redirects. `vercel.json` does the same for Vercel. Set the same `VITE_SUPABASE_*` env vars in your host.
