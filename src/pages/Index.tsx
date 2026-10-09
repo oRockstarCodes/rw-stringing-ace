@@ -243,7 +243,7 @@ const Index = () => {
               </Link>
             </div>
             <ul className="mt-8 flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-muted-foreground">
-              {["Free tension consultation", "Phoenix team discounts", "24hr turnaround"].map((item) => (
+              {["Free tension consultation", "Member discounts", "24hr turnaround"].map((item) => (
                 <li key={item} className="flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-accent" />
                   {item}

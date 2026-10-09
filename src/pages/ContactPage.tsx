@@ -1,4 +1,5 @@
-import { useState, FormEvent } from "react";
+import { useState, FormEvent, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import Layout from "@/components/Layout";
 import PageHero from "@/components/PageHero";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -9,27 +10,76 @@ import { Label } from "@/components/ui/label";
 import { siteConfig } from "@/data/site";
 import { Mail, Phone, MapPin, Clock, Send } from "lucide-react";
 import { toast } from "sonner";
+import { isSupabaseConfigured, supabase } from "@/lib/supabase";
 
 const ContactPage = () => {
+  const [searchParams] = useSearchParams();
+  const [stringInterest, setStringInterest] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
+    racketCount: "1",
     message: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    const stringParam = searchParams.get("string");
+    if (stringParam) {
+      setStringInterest(decodeURIComponent(stringParam));
+    }
+  }, [searchParams]);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    await new Promise((resolve) => setTimeout(resolve, 600));
+    try {
+      if (!isSupabaseConfigured) {
+        throw new Error(
+          "Booking is temporarily unavailable. Please email us directly at " + siteConfig.email,
+        );
+      }
 
-    toast.success("Message received!", {
-      description: "We'll get back to you within 24 hours.",
-    });
-    setFormData({ name: "", email: "", phone: "", message: "" });
-    setIsSubmitting(false);
+      const racketCount = Number(formData.racketCount);
+      if (!Number.isInteger(racketCount) || racketCount < 1) {
+        throw new Error("Enter a valid number of rackets (1 or more).");
+      }
+
+      const phone = formData.phone.trim();
+      if (!phone) {
+        throw new Error("Phone number is required.");
+      }
+
+      let message = formData.message.trim();
+      if (stringInterest) {
+        message = message
+          ? `${message}\n\nString interest: ${stringInterest}`
+          : `String interest: ${stringInterest}`;
+      }
+
+      const { error } = await supabase.from("inquiries").insert({
+        name: formData.name.trim(),
+        email: formData.email.trim() || null,
+        phone,
+        racket_count: racketCount,
+        message: message || "(No message)",
+      });
+
+      if (error) throw error;
+
+      toast.success("Message received!", {
+        description: "We'll get back to you within 24 hours.",
+      });
+      setFormData({ name: "", email: "", phone: "", racketCount: "1", message: "" });
+    } catch (err) {
+      toast.error("Could not send message", {
+        description: err instanceof Error ? err.message : "Please try again or email us.",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const contactItems = [
@@ -39,12 +89,16 @@ const ContactPage = () => {
       content: siteConfig.email,
       href: `mailto:${siteConfig.email}`,
     },
-    {
-      icon: Phone,
-      title: "Phone",
-      content: siteConfig.phone,
-      href: `tel:${siteConfig.phone.replace(/\D/g, "")}`,
-    },
+    ...(siteConfig.phone
+      ? [
+          {
+            icon: Phone,
+            title: "Phone",
+            content: siteConfig.phone,
+            href: `tel:${siteConfig.phone.replace(/\D/g, "")}`,
+          },
+        ]
+      : []),
     {
       icon: MapPin,
       title: "Location",
@@ -80,7 +134,7 @@ const ContactPage = () => {
               <CardHeader>
                 <CardTitle className="text-xl">Send a Message</CardTitle>
                 <CardDescription>
-                  Tell us about your racket, preferred string, and tension — we&apos;ll take it from there.
+                  Share your details and we&apos;ll follow up shortly.
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -94,43 +148,53 @@ const ContactPage = () => {
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                         required
                         className="mt-1.5 bg-background border-border focus-visible:ring-accent"
-                        placeholder="Your name"
                       />
                     </div>
                     <div>
-                      <Label htmlFor="email">Email</Label>
+                      <Label htmlFor="phone">Phone</Label>
+                      <Input
+                        id="phone"
+                        type="tel"
+                        value={formData.phone}
+                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                        required
+                        className="mt-1.5 bg-background border-border focus-visible:ring-accent"
+                      />
+                    </div>
+                  </div>
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    <div>
+                      <Label htmlFor="email">Email (optional)</Label>
                       <Input
                         id="email"
                         type="email"
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                        className="mt-1.5 bg-background border-border focus-visible:ring-accent"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="racketCount">Number of rackets</Label>
+                      <Input
+                        id="racketCount"
+                        type="number"
+                        min={1}
+                        step={1}
+                        value={formData.racketCount}
+                        onChange={(e) => setFormData({ ...formData, racketCount: e.target.value })}
                         required
                         className="mt-1.5 bg-background border-border focus-visible:ring-accent"
-                        placeholder="you@example.com"
                       />
                     </div>
                   </div>
                   <div>
-                    <Label htmlFor="phone">Phone (optional)</Label>
-                    <Input
-                      id="phone"
-                      type="tel"
-                      value={formData.phone}
-                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                      className="mt-1.5 bg-background border-border focus-visible:ring-accent"
-                      placeholder="(555) 123-4567"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="message">Message</Label>
+                    <Label htmlFor="message">Message (optional)</Label>
                     <Textarea
                       id="message"
                       value={formData.message}
                       onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                      required
                       rows={5}
                       className="mt-1.5 bg-background border-border focus-visible:ring-accent resize-none"
-                      placeholder="Racket model, string preference, tension, timeline..."
                     />
                   </div>
                   <Button
