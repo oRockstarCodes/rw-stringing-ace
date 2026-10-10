@@ -1,3 +1,9 @@
+/** Feature switches. Flip to true to turn a feature back on. */
+export const features = {
+  /** Staff CRM at /crm (needs VITE_SUPABASE_* env vars set on the host). */
+  crm: false,
+};
+
 export const siteConfig = {
   name: "RW Stringing Service",
   tagline: "Professional Badminton Stringing",

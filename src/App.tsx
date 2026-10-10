@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -23,6 +24,7 @@ import CrmOrdersPage from "@/crm/pages/CrmOrdersPage";
 import CrmInventoryPage from "@/crm/pages/CrmInventoryPage";
 import CrmInquiriesPage from "@/crm/pages/CrmInquiriesPage";
 import CrmStaffPage from "@/crm/pages/CrmStaffPage";
+import { features } from "@/data/site";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -33,13 +35,17 @@ const queryClient = new QueryClient({
   },
 });
 
+// Only load the CRM's Supabase auth when the CRM is on.
+const MaybeAuth = ({ children }: { children: ReactNode }) =>
+  features.crm ? <AuthProvider>{children}</AuthProvider> : <>{children}</>;
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <AuthProvider>
+        <MaybeAuth>
           <Routes>
             {/* Personal site */}
             <Route path="/" element={<Home />} />
@@ -55,23 +61,27 @@ const App = () => (
 
             {/* /melon-files/* (Melon Files wiki) is a separate static build (Quartz) served directly by Cloudflare Pages */}
 
-            {/* RW Stringing staff CRM */}
-            <Route path="/crm/login" element={<CrmLoginPage />} />
-            <Route path="/crm" element={<RequireAuth />}>
-              <Route element={<CrmLayout />}>
-                <Route index element={<CrmDashboardPage />} />
-                <Route path="customers" element={<CrmCustomersPage />} />
-                <Route path="customers/:id" element={<CrmCustomerDetailPage />} />
-                <Route path="orders" element={<CrmOrdersPage />} />
-                <Route path="inventory" element={<CrmInventoryPage />} />
-                <Route path="inquiries" element={<CrmInquiriesPage />} />
-                <Route path="staff" element={<CrmStaffPage />} />
-              </Route>
-            </Route>
+            {/* RW Stringing staff CRM (off unless features.crm is true) */}
+            {features.crm && (
+              <>
+                <Route path="/crm/login" element={<CrmLoginPage />} />
+                <Route path="/crm" element={<RequireAuth />}>
+                  <Route element={<CrmLayout />}>
+                    <Route index element={<CrmDashboardPage />} />
+                    <Route path="customers" element={<CrmCustomersPage />} />
+                    <Route path="customers/:id" element={<CrmCustomerDetailPage />} />
+                    <Route path="orders" element={<CrmOrdersPage />} />
+                    <Route path="inventory" element={<CrmInventoryPage />} />
+                    <Route path="inquiries" element={<CrmInquiriesPage />} />
+                    <Route path="staff" element={<CrmStaffPage />} />
+                  </Route>
+                </Route>
+              </>
+            )}
 
             <Route path="*" element={<NotFound />} />
           </Routes>
-        </AuthProvider>
+        </MaybeAuth>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

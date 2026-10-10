@@ -19,7 +19,7 @@ Open `wiki/content/` as a vault in Obsidian. Settings (wikilinks, attachments fo
 - `reference/`: cheat sheets, tool setup
 - `attachments/`: images and diagrams
 - `templates/`: not published
-- `private/`: not published **and not committed** (this repo is public)
+- `private/`: not published **and not committed** (this repo is public). Only its `README.md` is tracked.
 - Add `draft: true` to a note's properties to keep it off the site.
 
 Commit and push (e.g. with the Obsidian Git plugin) and Cloudflare Pages rebuilds the site.
@@ -87,7 +87,8 @@ where id = '<auth-user-uuid>';
 ```
 
 5. Copy Project URL and anon key into `.env` as `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY`.
-6. Open `/crm/login` and sign in.
+6. Set `features.crm` to `true` in [`src/data/site.ts`](src/data/site.ts). The CRM is off by default: its routes, the footer "Staff" link, and Supabase auth only load when it's on.
+7. Open `/crm/login` and sign in.
 
 #### Roles
 
@@ -114,4 +115,4 @@ Phone and social links are hidden when left empty in `siteConfig`.
 
 ### Deploy
 
-Build with `npm run build` (output: `dist`, including `dist/melon-files`). Hosted on Cloudflare Pages, which falls back to `index.html` for app routes automatically; `public/_redirects` holds the old-URL redirects. `vercel.json` does the same for Vercel. Set the same `VITE_SUPABASE_*` env vars in your host.
+Build with `npm run build` (output: `dist`, including `dist/melon-files`). Hosted on Cloudflare Pages, which falls back to `index.html` for app routes automatically; `public/_redirects` holds the old-URL redirects. Set the `VITE_SUPABASE_*` env vars in the Cloudflare Pages project (the contact form uses them even when the CRM is off).

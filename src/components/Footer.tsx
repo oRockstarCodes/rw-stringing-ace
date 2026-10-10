@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Mail, MapPin, Phone, Clock, Instagram, Facebook } from "lucide-react";
-import { navLinks, siteConfig } from "@/data/site";
+import { features, navLinks, siteConfig } from "@/data/site";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -113,12 +113,14 @@ const Footer = () => {
                 rwangqz.ca
               </Link>
             </p>
-            <Link
-              to="/crm/login"
-              className="text-xs text-muted-foreground/60 hover:text-muted-foreground transition-colors"
-            >
-              Staff
-            </Link>
+            {features.crm && (
+              <Link
+                to="/crm/login"
+                className="text-xs text-muted-foreground/60 hover:text-muted-foreground transition-colors"
+              >
+                Staff
+              </Link>
+            )}
           </div>
         </div>
       </div>
