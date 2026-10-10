@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "content/courses/smp-101/ch02-series-and-parallel.md",
+                "file": "content/courses/ele-302/ch05-operational-amplifiers.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "ch02-series-and-parallel"
+              "title": "ch05-operational-amplifiers"
             }
           }
         ]
@@ -99,7 +99,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "content/courses/smp-101/ch02-series-and-parallel.md",
+                "file": "content/courses/ele-302/ch05-operational-amplifiers.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -118,7 +118,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "content/courses/smp-101/ch02-series-and-parallel.md",
+                "file": "content/courses/ele-302/ch05-operational-amplifiers.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
@@ -161,7 +161,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "content/courses/smp-101/ch02-series-and-parallel.md",
+                "file": "content/courses/ele-302/ch05-operational-amplifiers.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
@@ -190,6 +190,10 @@
   },
   "active": "d612869e9f2aee88",
   "lastOpenFiles": [
+    "content/attachments/smp-101-voltage-divider.svg",
+    "content/courses/coe-328/ch06-combinational-building-blocks.md",
+    "content/courses/coe-318/ch01-software-development-and-oop.md",
+    "content/courses/smp-101/ch02-series-and-parallel.md",
     "content/courses/smp-101/ch03-network-theorems.md",
     "content/courses/coe-318/ch05-writing-classes.md",
     "Untitled.canvas",
@@ -214,16 +218,11 @@
     "content/courses/ele-302/ch13-magnetically-coupled-circuits.md",
     "content/courses/ele-302/ch12-three-phase-circuits.md",
     "content/courses/ele-302/ch08-second-order-circuits.md",
-    "content/courses/ele-302/ch05-operational-amplifiers.md",
-    "content/courses/coe-328/index.md",
-    "content/courses/coe-328/ch09-asynchronous-sequential-circuits.md",
-    "content/courses/coe-328/ch08-synchronous-sequential-circuits.md",
     "content/courses/coe-318",
     "content/courses/coe-328",
     "content/courses/pcs-213",
     "content/courses/ele-302",
     "content/courses/smp-101",
-    "content/attachments/smp-101-voltage-divider.svg",
     "quartz.layout.ts",
     "quartz.config.ts",
     "custom.scss"
