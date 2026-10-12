@@ -13,9 +13,15 @@ Personal site for Rocky Wang, with three branches:
 Open `wiki/content/` as a vault in Obsidian. Settings (wikilinks, attachments folder, templates folder) are preconfigured.
 
 - `courses/<code>/`: one folder per course
-  - `index.md`: the course hub (use the **course** template). The site lists the chapters under it automatically.
-  - `ch01-name.md`, `ch02-name.md`, ...: one note per chapter (use the **chapter** template). The file name sets the order.
-- `concepts/`: optional pages for ideas shared across courses (use the **concept** template)
+  - `index.md`: the course hub (use the **course** template). Its `code`, `term`, and `status` properties fill the course header and home-page card. Its text is not shown: the course page shows the chapters as cards.
+  - `ch01-name.md`, `ch02-name.md`, ...: one note per chapter (use the **chapter** template). The file name sets the order and the number on the card.
+  - `labs/`: optional. Each file or folder directly inside is one lab. The course page links to a Labs page (`courses/<code>/labs/`, made automatically, no note needed) that lists them:
+    - a PDF (e.g. `labs/lab-1-op-amps.pdf`) opens in an embedded viewer
+    - a project folder (e.g. a NetBeans or Quartus project, `labs/Lab1/`) shows its source files (`.java`, `.vhd`, `.v`, ...) with syntax highlighting, plus any PDFs in it. `.zip`, `.qar`, and `.bdf` files get download buttons.
+    - Build output and IDE folders (`db/`, `incremental_db/`, `output_files/`, `build/`, `dist/`, `*.class`, ...) are skipped by the site and by git. `nbproject/` is kept in git but not published.
+    - Keep each file under 25 MB (Cloudflare Pages' limit). Everything here is public.
+  - `concepts/`: optional notes for ideas within the course (use the **concept** template). They're listed on the course page. Short concepts can just go inside their chapter.
+- `concepts/` (top level): old location, hidden from the sidebar. Move notes into a course.
 - `reference/`: cheat sheets, tool setup
 - `attachments/`: images and diagrams
 - `templates/`: not published
@@ -32,7 +38,7 @@ npm run dev:wiki    # wiki preview at localhost:8080 (Quartz)
 npm run build       # full build -> dist/ (React app + dist/melon-files)
 ```
 
-The wiki is built by `scripts/build-wiki.sh`, which clones Quartz (pinned version) into `.quartz/` and applies `wiki/quartz.config.ts`, `wiki/quartz.layout.ts`, and `wiki/custom.scss`.
+The wiki is built by `scripts/build-wiki.sh`, which clones Quartz (pinned version) into `.quartz/` and applies `wiki/quartz.config.ts`, `wiki/quartz.layout.ts`, `wiki/custom.scss` (theme and animations), and the custom components in `wiki/components/` (home page, course pages, labs) and `wiki/plugins/` (reads each course's `labs/` folder and makes its Labs page).
 
 Cloudflare Pages settings: build command `npm run build`, output directory `dist`. Node version comes from `.node-version`.
 

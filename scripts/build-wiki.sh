@@ -17,6 +17,10 @@ fi
 
 cp "$ROOT/wiki/quartz.config.ts" "$ROOT/wiki/quartz.layout.ts" "$ENGINE/"
 cp "$ROOT/wiki/custom.scss" "$ENGINE/quartz/styles/custom.scss"
+mkdir -p "$ENGINE/quartz/components/custom"
+cp "$ROOT"/wiki/components/*.tsx "$ENGINE/quartz/components/custom/"
+mkdir -p "$ENGINE/quartz/plugins/custom"
+cp "$ROOT"/wiki/plugins/*.ts "$ENGINE/quartz/plugins/custom/"
 
 cd "$ENGINE"
 npx quartz build -d "$ROOT/wiki/content" -o "$ROOT/dist/melon-files"

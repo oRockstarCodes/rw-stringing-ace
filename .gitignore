@@ -37,3 +37,17 @@ wiki/content/.trash
 # Private notes: never published AND never committed (this repo is public)
 wiki/content/private/*
 !wiki/content/private/README.md
+
+# Lab projects (wiki/content/courses/<code>/labs/): keep sources, skip build output
+# and editor folders (also left off the site by LAB_JUNK_DIRS in wiki/plugins/MelonLabsData.ts).
+wiki/content/courses/*/labs/**/db/
+wiki/content/courses/*/labs/**/incremental_db/
+wiki/content/courses/*/labs/**/output_files/
+wiki/content/courses/*/labs/**/simulation/
+wiki/content/courses/*/labs/**/greybox_tmp/
+wiki/content/courses/*/labs/**/build/
+wiki/content/courses/*/labs/**/dist/
+wiki/content/courses/*/labs/**/target/
+wiki/content/courses/*/labs/**/.idea/
+wiki/content/courses/*/labs/**/.vscode/
+wiki/content/courses/*/labs/**/*.class
