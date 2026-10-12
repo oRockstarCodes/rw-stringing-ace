@@ -2,7 +2,7 @@ import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } fro
 import FolderContent from "../pages/FolderContent"
 import { QuartzPluginData } from "../../plugins/vfile"
 import { FullSlug, resolveRelative } from "../../util/path"
-import { isLabsPage, labsSummary } from "./MelonLabs"
+import { isLabsPage, isReport, labsSummary } from "./MelonLabs"
 
 // Copied into quartz/components/custom/ at build time by scripts/build-wiki.sh.
 // Body of folder pages. A course folder (courses/<code>/) shows a course header,
@@ -111,9 +111,9 @@ export default ((opts?: Options) => {
                 >
                   <span class="melon-card-code">LABS</span>
                   <span class="melon-card-name">
-                    {labs.every((l) => l.code.length === 0)
+                    {labs.every(isReport)
                       ? "Lab reports"
-                      : labs.every((l) => l.code.length > 0)
+                      : !labs.some(isReport)
                         ? "Lab projects"
                         : "Lab reports & projects"}
                   </span>

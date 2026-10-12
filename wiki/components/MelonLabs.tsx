@@ -17,10 +17,14 @@ import type { Lab } from "../../plugins/custom/MelonLabsData"
 
 export const isLabsPage = (slug?: string) => /^courses\/[^/]+\/labs\/index$/.test(slug ?? "")
 
+// A report is a lab with only PDFs; anything with code or project files is a project
+export const isReport = (lab: Lab) => lab.code.length === 0 && lab.pdfs.length > 0
+const schematicCount = (lab: Lab) => lab.downloads.filter((d) => /.bdf$/i.test(d.path)).length
+
 // "2 reports", "3 projects", "2 reports · 1 project"
 export const labsSummary = (labs: Lab[]) => {
-  const projects = labs.filter((l) => l.code.length > 0).length
-  const reports = labs.length - projects
+  const reports = labs.filter(isReport).length
+  const projects = labs.length - reports
   return [
     reports > 0 && `${reports} ${reports === 1 ? "report" : "reports"}`,
     projects > 0 && `${projects} ${projects === 1 ? "project" : "projects"}`,
@@ -42,13 +46,16 @@ const LANG_LABELS: Record<string, string> = {
   tcl: "TCL",
 }
 
-// Label on the card's icon: the language of its code, else PDF, else ZIP
+// Label on the card's icon: the language of its code, else PDF, else BDF (Quartus
+// schematics), else ZIP
 const kindOf = (lab: Lab) =>
   lab.code.length > 0
     ? (LANG_LABELS[lab.code[0].lang] ?? lab.code[0].lang.toUpperCase())
     : lab.pdfs.length > 0
       ? "PDF"
-      : "ZIP"
+      : schematicCount(lab) > 0
+        ? "BDF"
+        : "ZIP"
 
 export const MelonLabs = ({ labs, here }: { labs: Lab[]; here: FullSlug }) => {
   const urlOf = (p: string) => joinSegments(pathToRoot(here), slugifyFilePath(p as FilePath))
@@ -79,7 +86,9 @@ export const MelonLabs = ({ labs, here }: { labs: Lab[]; here: FullSlug }) => {
                       ? `${lab.code.length} source ${lab.code.length === 1 ? "file" : "files"}`
                       : lab.pdfs.length > 0
                         ? "Report"
-                        : "Download"}
+                        : schematicCount(lab) > 0
+                          ? `${schematicCount(lab)} ${schematicCount(lab) === 1 ? "schematic" : "schematics"}`
+                          : "Download"}
                     {lab.code.length > 0 && lab.pdfs.length > 0 && " + report"}
                   </span>
                 </span>
@@ -99,9 +108,11 @@ export const MelonLabs = ({ labs, here }: { labs: Lab[]; here: FullSlug }) => {
                   {d.name}
                 </a>
               ))}
-              <a class="melon-viewer-open" href="#" target="_blank" rel="noopener" data-router-ignore>
-                Open ↗
-              </a>
+              {lab.pdfs.length + lab.code.length > 0 && (
+                <a class="melon-viewer-open" href="#" target="_blank" rel="noopener" data-router-ignore>
+                  Open ↗
+                </a>
+              )}
               <button class="melon-viewer-close" type="button" aria-label="Close lab">
                 ✕
               </button>
@@ -150,7 +161,11 @@ export const MelonLabs = ({ labs, here }: { labs: Lab[]; here: FullSlug }) => {
             </div>
           ))}
           {lab.pdfs.length + lab.code.length === 0 && (
-            <p class="melon-empty">Nothing to preview. Use the download button above.</p>
+            <p class="melon-empty">
+              {schematicCount(lab) > 0
+                ? "Block diagram schematics (.bdf) only open in Quartus. Download them or the whole project above."
+                : "Nothing to preview. Use the download buttons above."}
+            </p>
           )}
         </div>
       ))}

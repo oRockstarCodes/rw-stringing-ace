@@ -708,6 +708,11 @@ a.melon-lab {
   }
 }
 
+.melon-lab-panel .melon-empty {
+  margin: 0;
+  padding: 1.25rem 1.1rem;
+}
+
 .melon-lab-file[hidden] {
   display: none;
 }
