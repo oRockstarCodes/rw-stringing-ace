@@ -13,13 +13,26 @@ const MelonMotion: QuartzComponent = ({ allFiles }: QuartzComponentProps) => {
   const coursesWithLabs = allFiles
     .filter((f) => f.melonLabs?.length && /^courses\/[^/]+\/index$/.test(f.slug ?? ""))
     .map((f) => f.slug!.split("/")[1])
+  // Sidebar links to chapters that are still empty are faded, unclickable, and tagged
+  // "soon". The sidebar is built in the browser, so they're targeted by slug here.
+  const emptySelectors = allFiles
+    .filter((f) => f.melonEmpty)
+    .map((f) => `.explorer a[data-for="${f.slug}"]`)
+  const soonCss =
+    `${emptySelectors.join(",")}{opacity:.45;pointer-events:none}` +
+    `${emptySelectors.map((s) => `${s}::after`).join(",")}` +
+    `{content:"soon";margin-left:.4rem;padding:0 .4rem;border-radius:999px;font-size:.7rem;` +
+    `font-weight:600;background:var(--highlight);color:var(--secondary)}`
   return (
-    <div
-      class="melon-progress"
-      id="melon-data"
-      data-labs={coursesWithLabs.join(",")}
-      aria-hidden="true"
-    ></div>
+    <>
+      <div
+        class="melon-progress"
+        id="melon-data"
+        data-labs={coursesWithLabs.join(",")}
+        aria-hidden="true"
+      ></div>
+      {emptySelectors.length > 0 && <style dangerouslySetInnerHTML={{ __html: soonCss }} />}
+    </>
   )
 }
 

@@ -2,6 +2,7 @@ import { PageLayout, SharedLayout } from "./quartz/cfg"
 import * as Component from "./quartz/components"
 import MelonHome from "./quartz/components/custom/MelonHome"
 import MelonMotion from "./quartz/components/custom/MelonMotion"
+import MelonSoon from "./quartz/components/custom/MelonSoon"
 import { hasOwnHeader } from "./quartz/components/custom/MelonFolder"
 
 // Copied into the Quartz engine at build time by scripts/build-wiki.sh.
@@ -39,6 +40,8 @@ export const defaultContentPageLayout: PageLayout = {
       condition: (page) => !isHome(page),
     }),
     Component.TagList(),
+    // "Coming soon" on chapters that are still an empty template
+    MelonSoon(),
   ],
   left: [
     Component.PageTitle(),

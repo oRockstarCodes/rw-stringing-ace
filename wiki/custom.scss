@@ -522,6 +522,60 @@ body[data-slug^="courses/"][data-slug$="/index"] .center > hr {
   }
 }
 
+// Chapters that are still an empty template (plugins/MelonChapterStatus.ts)
+.melon-card-soon {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  height: 100%;
+  min-height: 7.5rem;
+  box-sizing: border-box;
+  padding: 1.15rem 1.2rem 1.1rem;
+  border: 1px dashed var(--lightgray);
+  border-radius: var(--melon-radius);
+  color: var(--gray);
+  cursor: default;
+
+  .melon-chapter-num {
+    opacity: 0.45;
+  }
+
+  .melon-soon-tag {
+    margin-top: auto;
+  }
+}
+
+.melon-soon-tag {
+  width: fit-content;
+  padding: 0.1rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--secondary);
+  background: var(--highlight);
+}
+
+// "Coming soon" note on an empty chapter's page; the empty template below it is hidden
+.melon-soon {
+  margin: 1.5rem 0 0.5rem;
+  padding: 1.1rem 1.2rem;
+  border: 1px dashed var(--lightgray);
+  border-radius: var(--melon-radius);
+
+  p {
+    margin: 0.6rem 0 0;
+    color: var(--darkgray);
+  }
+}
+
+.center:has(.melon-soon) > article,
+.center:has(.melon-soon) > hr,
+.page:has(.melon-soon) .toc {
+  display: none;
+}
+
 .melon-chapter-num {
   font-family: var(--headerFont);
   font-size: 1.9rem;

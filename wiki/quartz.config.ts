@@ -4,6 +4,7 @@ import { QuartzPluginData } from "./quartz/plugins/vfile"
 import MelonFolder from "./quartz/components/custom/MelonFolder"
 import { LAB_JUNK_DIRS, MelonLabsData } from "./quartz/plugins/custom/MelonLabsData"
 import { MelonLabsPage } from "./quartz/plugins/custom/MelonLabsPage"
+import { MelonChapterStatus } from "./quartz/plugins/custom/MelonChapterStatus"
 
 // Copied into the Quartz engine at build time by scripts/build-wiki.sh.
 // Docs: https://quartz.jzhao.xyz/configuration
@@ -87,6 +88,8 @@ const config: QuartzConfig = {
       Plugin.Latex({ renderEngine: "katex" }),
       // Each course's labs/ folder, shown on the course page
       MelonLabsData(),
+      // Marks chapters that are still an empty template ("Coming soon")
+      MelonChapterStatus(),
     ],
     // Notes with `draft: true` in their properties are not published
     filters: [Plugin.RemoveDrafts()],
