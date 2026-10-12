@@ -1,11 +1,27 @@
-import { QuartzComponent, QuartzComponentConstructor } from "../types"
+import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "../types"
 
 // Copied into quartz/components/custom/ at build time by scripts/build-wiki.sh.
 // Page-to-page motion: replays the entrance animation on every (SPA) navigation
 // and draws a reading-progress bar along the top of the window.
 // The animations themselves live in wiki/custom.scss.
+//
+// It also carries the list of courses that have labs (data-labs="pcs-224,ele-302"),
+// which the sidebar reads to add a "Lab reports" item under those courses
+// (see the Explorer mapFn in quartz.layout.ts).
 
-const MelonMotion: QuartzComponent = () => <div class="melon-progress" aria-hidden="true"></div>
+const MelonMotion: QuartzComponent = ({ allFiles }: QuartzComponentProps) => {
+  const coursesWithLabs = allFiles
+    .filter((f) => f.melonLabs?.length && /^courses\/[^/]+\/index$/.test(f.slug ?? ""))
+    .map((f) => f.slug!.split("/")[1])
+  return (
+    <div
+      class="melon-progress"
+      id="melon-data"
+      data-labs={coursesWithLabs.join(",")}
+      aria-hidden="true"
+    ></div>
+  )
+}
 
 MelonMotion.afterDOMLoaded = `
 let firstNav = true

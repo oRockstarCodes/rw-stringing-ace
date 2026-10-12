@@ -54,6 +54,20 @@ export const defaultContentPageLayout: PageLayout = {
       // Courses only: concepts go in a chapter or a course's own concepts/ folder,
       // so the old top-level concepts/ folder is hidden
       filterFn: (node) => node.slugSegment !== "tags" && node.slug !== "concepts/index",
+      // Runs in the browser (Quartz serializes it), so it must be self-contained.
+      // "courses" -> "Courses", and a "Lab reports" item after the chapters of each
+      // course with labs (the list comes from #melon-data, see components/MelonMotion.tsx)
+      mapFn: (node) => {
+        if (node.slug === "courses/index") node.displayName = "Courses"
+        const course = node.isFolder && node.slug.match(/^courses\/([^/]+)\/index$/)
+        if (!course) return
+        const withLabs = (document.getElementById("melon-data")?.dataset.labs ?? "").split(",")
+        if (!withLabs.includes(course[1]) || node.children.some((c) => c.slug.endsWith("/labs/index")))
+          return
+        const slug = `courses/${course[1]}/labs/index`
+        const Node = node.constructor as new (segments: string[], data: object) => typeof node
+        node.children.push(new Node(slug.split("/"), { slug, title: "Lab reports", filePath: slug }))
+      },
       // Sort by file name (not title) so ch01, ch02, ... stay in order, with a
       // course's subfolders (e.g. concepts/) after its chapters
       sortFn: (a, b) => {
@@ -98,6 +112,20 @@ export const defaultListPageLayout: PageLayout = {
       // Courses only: concepts go in a chapter or a course's own concepts/ folder,
       // so the old top-level concepts/ folder is hidden
       filterFn: (node) => node.slugSegment !== "tags" && node.slug !== "concepts/index",
+      // Runs in the browser (Quartz serializes it), so it must be self-contained.
+      // "courses" -> "Courses", and a "Lab reports" item after the chapters of each
+      // course with labs (the list comes from #melon-data, see components/MelonMotion.tsx)
+      mapFn: (node) => {
+        if (node.slug === "courses/index") node.displayName = "Courses"
+        const course = node.isFolder && node.slug.match(/^courses\/([^/]+)\/index$/)
+        if (!course) return
+        const withLabs = (document.getElementById("melon-data")?.dataset.labs ?? "").split(",")
+        if (!withLabs.includes(course[1]) || node.children.some((c) => c.slug.endsWith("/labs/index")))
+          return
+        const slug = `courses/${course[1]}/labs/index`
+        const Node = node.constructor as new (segments: string[], data: object) => typeof node
+        node.children.push(new Node(slug.split("/"), { slug, title: "Lab reports", filePath: slug }))
+      },
       // Sort by file name (not title) so ch01, ch02, ... stay in order, with a
       // course's subfolders (e.g. concepts/) after its chapters
       sortFn: (a, b) => {
