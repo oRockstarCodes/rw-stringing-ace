@@ -1,8 +1,8 @@
 @use "./base.scss";
 
 // Copied to quartz/styles/custom.scss at build time by scripts/build-wiki.sh.
-// Watermelon theme for Melon Files: --secondary is the flesh (pink),
-// --tertiary is the rind (green). Colors themselves live in quartz.config.ts.
+// Melon Files theme, taken from the site icon (a two-tone print: pink paper, black ink):
+// --secondary is the pink accent, --tertiary a dusty plum. Colors live in quartz.config.ts.
 //
 // Quartz appends component CSS after this file, so selectors that override a
 // component's own styles are prefixed with `body` to win on specificity.
@@ -10,7 +10,7 @@
 :root {
   --melon-ease: cubic-bezier(0.22, 1, 0.36, 1);
   --melon-radius: 14px;
-  --melon-gradient: linear-gradient(100deg, var(--secondary), #ff9a6b 45%, var(--tertiary));
+  --melon-gradient: linear-gradient(100deg, var(--secondary), var(--tertiary));
   --melon-soft: color-mix(in srgb, var(--secondary) 14%, transparent);
 }
 
@@ -47,7 +47,7 @@ article > h2 {
   background: var(--melon-gradient) 0 100% / 2.25rem 3px no-repeat;
 }
 
-// ---------- Site title (a little watermelon slice) ----------
+// ---------- Site title (with the site icon, wiki/static/icon.png) ----------
 
 body .page-title {
   font-size: 1.9rem;
@@ -62,16 +62,32 @@ body .page-title {
 
   a::before {
     content: "";
-    width: 0.8em;
-    height: 0.8em;
+    width: 1.15em;
+    height: 1.15em;
     flex-shrink: 0;
     border-radius: 50%;
-    background:
-      radial-gradient(circle at 50% 50%, var(--secondary) 0 52%, #fff6 53% 60%, var(--tertiary) 61%);
+    background: url("./static/icon.png") center / cover no-repeat;
     box-shadow: 0 0 0 0 color-mix(in srgb, var(--secondary) 40%, transparent);
     transition:
       transform 0.5s var(--melon-ease),
       box-shadow 0.5s var(--melon-ease);
+  }
+
+  // The whole site is the ECE Edition for now
+  a {
+    flex-wrap: wrap;
+    row-gap: 0.1rem;
+  }
+
+  a::after {
+    content: "ECE EDITION";
+    flex-basis: 100%;
+    padding-left: calc(1.15em + 0.55rem);
+    font-family: var(--codeFont);
+    font-size: 0.66rem;
+    font-weight: 700;
+    letter-spacing: 0.32em;
+    color: var(--secondary);
   }
 
   a:hover::before {
@@ -189,6 +205,22 @@ body .toc-content a.in-view {
   opacity: 1;
 }
 
+// ---------- No dates ----------
+// Dates aren't shown anywhere: not under page titles, not in folder listings
+// (e.g. the Courses page). Reading time under a title stays.
+
+.content-meta time {
+  display: none;
+}
+
+body .section-li > .section {
+  grid-template-columns: 1fr auto !important;
+
+  & > .meta {
+    display: none;
+  }
+}
+
 // ---------- Content blocks ----------
 
 body .callout {
@@ -244,11 +276,16 @@ body[data-slug="index"] .center > hr {
 }
 
 .melon-hero {
+  // The stamp sits in the hero's top-right corner when there's room (see .melon-stamp)
+  position: relative;
+  container-type: inline-size;
   padding: 1.5rem 0 1rem;
 }
 
 .melon-eyebrow {
-  display: inline-flex;
+  // Its own line (the home title next to it is inline-block), but only as wide as its text
+  display: flex;
+  width: fit-content;
   align-items: center;
   gap: 0.5rem;
   margin: 0 0 1rem;
@@ -275,7 +312,7 @@ body[data-slug="index"] .center > hr {
   letter-spacing: -0.045em;
   margin: 0;
 
-  span {
+  > span:not(.melon-stamp) {
     background: var(--melon-gradient);
     background-size: 200% 100%;
     -webkit-background-clip: text;
@@ -464,6 +501,54 @@ body[data-slug^="courses/"][data-slug$="/index"] .center > hr {
   }
 }
 
+// "ECE Edition" rubber stamp next to the home page title (MelonHome.tsx).
+// The whole site is the ECE Edition for now.
+.melon-stamp {
+  position: absolute;
+  right: 0.5rem;
+  top: 1.25rem;
+  width: 7.5rem;
+  aspect-ratio: 1;
+  color: var(--secondary);
+  transform: rotate(-12deg);
+  transition: transform 0.5s var(--melon-ease);
+
+  svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  text {
+    font-family: var(--headerFont);
+    font-size: 11.5px;
+    font-weight: 800;
+    letter-spacing: 0;
+  }
+
+  .melon-stamp-ring {
+    transform-box: view-box;
+    transform-origin: 50% 50%;
+  }
+
+  &:hover {
+    transform: rotate(-4deg) scale(1.06);
+  }
+}
+
+// Not enough room beside the tagline (34rem) for the stamp: it drops below the title
+@container (max-width: 44rem) {
+  .melon-stamp {
+    position: relative;
+    right: auto;
+    top: auto;
+    display: block;
+    width: 5.5rem;
+    margin: 0.75rem 0 -0.5rem;
+  }
+}
+
 .melon-course-title {
   font-size: clamp(2.2rem, 5vw, 3.2rem);
   font-weight: 800;
@@ -631,7 +716,7 @@ a.melon-lab {
 
     .melon-lab-icon {
       background: var(--melon-gradient);
-      color: #fff;
+      color: var(--light);
     }
   }
 }
@@ -899,6 +984,27 @@ a.melon-lab {
   }
 }
 
+@keyframes melon-stamp-in {
+  0% {
+    opacity: 0;
+    transform: rotate(-40deg) scale(1.9);
+  }
+  60% {
+    opacity: 1;
+    transform: rotate(-9deg) scale(0.92);
+  }
+  100% {
+    opacity: 1;
+    transform: rotate(-12deg) scale(1);
+  }
+}
+
+@keyframes melon-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 @keyframes melon-pulse {
   0% {
     box-shadow: 0 0 0 0 color-mix(in srgb, var(--tertiary) 55%, transparent);
@@ -941,8 +1047,16 @@ a.melon-lab {
     animation-delay: calc(0.2s + var(--i, 0) * 0.07s);
   }
 
-  .melon-title span {
+  .melon-title > span:not(.melon-stamp) {
     animation: melon-shimmer 6s ease-in-out infinite alternate;
+  }
+
+  .melon-stamp {
+    animation: melon-stamp-in 0.75s 0.35s cubic-bezier(0.3, 1.4, 0.5, 1) both;
+  }
+
+  .melon-stamp-ring {
+    animation: melon-spin 28s linear infinite;
   }
 
   .melon-dot {

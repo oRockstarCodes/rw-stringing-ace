@@ -17,6 +17,8 @@ fi
 
 cp "$ROOT/wiki/quartz.config.ts" "$ROOT/wiki/quartz.layout.ts" "$ENGINE/"
 cp "$ROOT/wiki/custom.scss" "$ENGINE/quartz/styles/custom.scss"
+# Site icon (favicon and the circle next to the title)
+cp "$ROOT/wiki/static/icon.png" "$ENGINE/quartz/static/icon.png"
 mkdir -p "$ENGINE/quartz/components/custom"
 cp "$ROOT"/wiki/components/*.tsx "$ENGINE/quartz/components/custom/"
 mkdir -p "$ENGINE/quartz/plugins/custom"
@@ -25,10 +27,10 @@ cp "$ROOT"/wiki/plugins/*.ts "$ENGINE/quartz/plugins/custom/"
 cd "$ENGINE"
 npx quartz build -d "$ROOT/wiki/content" -o "$ROOT/dist/melon-files"
 
-# Quartz always names its stylesheet and scripts index.css / prescript.js / postscript.js,
+# Quartz always names its stylesheet, scripts, and icon index.css / prescript.js / postscript.js / icon.png,
 # and Cloudflare tells browsers to cache them for hours, so a new design wouldn't show
 # until that cache expired. Tag the links with this build's version so each deploy is fetched fresh.
 VERSION="${CF_PAGES_COMMIT_SHA:-$(git -C "$ROOT" rev-parse --short HEAD 2>/dev/null || date +%s)}"
 VERSION="${VERSION:0:12}"
 find "$ROOT/dist/melon-files" -name "*.html" -exec \
-  sed -i -E "s#(index\.css|prescript\.js|postscript\.js)\"#\1?v=$VERSION\"#g" {} +
+  sed -i -E "s#(index\.css|prescript\.js|postscript\.js|icon\.png)\"#\1?v=$VERSION\"#g" {} +

@@ -3,12 +3,27 @@ import * as Component from "./quartz/components"
 import MelonHome from "./quartz/components/custom/MelonHome"
 import MelonMotion from "./quartz/components/custom/MelonMotion"
 import MelonSoon from "./quartz/components/custom/MelonSoon"
-import { hasOwnHeader } from "./quartz/components/custom/MelonFolder"
+import { hasOwnHeader, isCoursePage } from "./quartz/components/custom/MelonFolder"
+import { QuartzComponentProps } from "./quartz/components/types"
+import { simplifySlug } from "./quartz/util/path"
 
 // Copied into the Quartz engine at build time by scripts/build-wiki.sh.
 // Docs: https://quartz.jzhao.xyz/layout
 
 const isHome = (page: { fileData: { slug?: string } }) => page.fileData.slug === "index"
+
+// True when the page links to another note, or another note links to it. Links from
+// course index notes don't count: their outline isn't shown on the site, and they link
+// every chapter. Tags don't count either.
+const hasNoteLinks = (page: QuartzComponentProps) => {
+  const slug = page.fileData.slug!
+  const outgoing = (page.fileData.links ?? []).filter((l) => !l.startsWith("tags/"))
+  if (outgoing.length > 0) return true
+  const self = simplifySlug(slug)
+  return page.allFiles.some(
+    (f) => f.slug !== slug && !isCoursePage(f.slug) && (f.links ?? []).includes(self),
+  )
+}
 
 export const sharedPageComponents: SharedLayout = {
   head: Component.Head(),
@@ -83,7 +98,8 @@ export const defaultContentPageLayout: PageLayout = {
     }),
   ],
   right: [
-    Component.Graph(),
+    // Only when the page is linked to other notes (otherwise the graph is empty)
+    Component.ConditionalRender({ component: Component.Graph(), condition: hasNoteLinks }),
     Component.DesktopOnly(Component.TableOfContents()),
     Component.Backlinks(),
   ],
