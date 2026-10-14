@@ -83,29 +83,13 @@ export default ((opts?: Options) => {
           <ol class="melon-chapters">
             {chapters.map((f, i) => {
               const n = chapterNumber(f.slug!, i + 1)
-              const num = <span class="melon-chapter-num">{String(n).padStart(2, "0")}</span>
-              const name = (
-                <span class="melon-card-name">
-                  {chapterName(String(f.frontmatter?.title ?? f.slug))}
-                </span>
-              )
-              // Chapters that are still an empty template aren't linked yet
-              if (f.melonEmpty) {
-                return (
-                  <li style={`--i: ${i}`}>
-                    <div class="melon-card melon-card-soon" aria-disabled="true">
-                      {num}
-                      {name}
-                      <span class="melon-soon-tag">Coming soon</span>
-                    </div>
-                  </li>
-                )
-              }
               return (
                 <li style={`--i: ${i}`}>
                   <a href={resolveRelative(here, f.slug! as FullSlug)} class="internal melon-card">
-                    {num}
-                    {name}
+                    <span class="melon-chapter-num">{String(n).padStart(2, "0")}</span>
+                    <span class="melon-card-name">
+                      {chapterName(String(f.frontmatter?.title ?? f.slug))}
+                    </span>
                     <span class="melon-card-arrow" aria-hidden="true">
                       →
                     </span>
