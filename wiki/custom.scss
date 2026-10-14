@@ -1019,3 +1019,256 @@ a.melon-lab {
     transition: transform 0.12s linear;
   }
 }
+
+// Figure captions: an italic line written directly under an embedded diagram
+// (Quartz's base styles already place it as a caption below the image)
+article p > img + em {
+  color: var(--darkgray);
+  font-size: 0.9rem;
+}
+
+// ---------- Interactive op amp diagrams (components/MelonOpAmp.tsx) ----------
+
+.melon-opamp {
+  margin: 1.5rem 0;
+  padding: 1rem 1.1rem 1.1rem;
+  border: 1px solid var(--lightgray);
+  border-radius: var(--melon-radius);
+  background: color-mix(in srgb, var(--light) 70%, transparent);
+  // Fallback text, shown until the script fills it in
+  color: var(--gray);
+  font-size: 0.9rem;
+
+  .oa-svg {
+    display: block;
+    width: 100%;
+    max-width: 560px;
+    height: auto;
+    margin: 0 auto;
+    font-family: var(--bodyFont);
+    overflow: visible;
+  }
+
+  .oa-line {
+    fill: none;
+    stroke: var(--gray);
+    stroke-width: 2;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+    transition: stroke 0.2s, stroke-width 0.2s, opacity 0.3s;
+  }
+
+  .oa-term {
+    fill: var(--light);
+    stroke: var(--gray);
+    stroke-width: 2;
+    transition: stroke 0.2s, fill 0.2s;
+  }
+
+  // Invisible, wider shapes that make thin wires easy to hover and tap
+  .oa-hit {
+    stroke: transparent;
+    stroke-width: 20;
+  }
+  .oa-hit-area {
+    fill: transparent;
+  }
+
+  text {
+    fill: var(--darkgray);
+    font-size: 14px;
+    transition: fill 0.2s;
+  }
+  .oa-label {
+    font-weight: 600;
+  }
+  .oa-sub {
+    font-size: 10px;
+  }
+  .oa-sign {
+    font-size: 16px;
+    font-weight: 600;
+  }
+  .oa-small {
+    font-size: 12px;
+  }
+  .oa-big {
+    font-family: var(--headerFont);
+    font-size: 26px;
+    font-weight: 800;
+    fill: var(--gray);
+  }
+  .oa-val {
+    fill: var(--tertiary);
+    font-family: var(--codeFont);
+    font-size: 11px;
+  }
+  .oa-caption {
+    fill: var(--gray);
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .oa-box {
+    fill: color-mix(in srgb, var(--secondary) 4%, transparent);
+    stroke: var(--lightgray);
+    stroke-width: 1.5;
+    stroke-dasharray: 6 5;
+  }
+
+  .oa-part {
+    cursor: pointer;
+  }
+
+  // The output is stuck at a rail: that rail and the output glow
+  .oa-part.is-rail .oa-line,
+  .oa-part.is-rail .oa-term {
+    stroke: var(--tertiary);
+  }
+  .oa-part.is-rail .oa-val {
+    font-weight: 700;
+  }
+
+  .oa-part.is-active {
+    .oa-line,
+    .oa-term {
+      stroke: var(--secondary);
+      stroke-width: 3;
+    }
+    .oa-term {
+      fill: var(--melon-soft);
+    }
+    text {
+      fill: var(--secondary);
+    }
+    .oa-hit-area {
+      fill: var(--melon-soft);
+    }
+  }
+
+  // Real vs ideal model: the zigzags give way to an open gap (R_i) and a wire (R_o)
+  .oa-ideal-only {
+    opacity: 0;
+  }
+  &.is-ideal {
+    .oa-real {
+      opacity: 0;
+    }
+    .oa-ideal-only {
+      opacity: 1;
+    }
+  }
+
+  .oa-toolbar {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 0.25rem;
+  }
+
+  .oa-chips {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.4rem;
+    margin: 0.75rem 0;
+  }
+
+  .oa-chip,
+  .oa-toggle {
+    font: inherit;
+    font-size: 0.85rem;
+    color: var(--darkgray);
+    background: var(--light);
+    border: 1px solid var(--lightgray);
+    border-radius: 999px;
+    padding: 0.2rem 0.75rem;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s, color 0.2s;
+
+    &:hover,
+    &.is-active {
+      border-color: var(--secondary);
+      color: var(--secondary);
+    }
+    &.is-pinned,
+    &[aria-pressed="true"] {
+      background: var(--melon-soft);
+      border-color: var(--secondary);
+      color: var(--secondary);
+    }
+    &:focus-visible {
+      outline: 2px solid var(--secondary);
+      outline-offset: 2px;
+    }
+  }
+
+  .oa-info {
+    min-height: 4.2rem;
+    padding: 0.6rem 0.85rem;
+    border-left: 3px solid var(--secondary);
+    border-radius: 0 8px 8px 0;
+    background: var(--highlight);
+    color: var(--darkgray);
+    font-size: 0.92rem;
+  }
+  .oa-info-title {
+    font-family: var(--headerFont);
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 0.15rem;
+  }
+
+  .oa-controls {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.5rem 1.25rem;
+    margin-top: 1rem;
+
+    label {
+      display: grid;
+      grid-template-columns: 3.6rem 1fr 6.5rem;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--darkgray);
+    }
+    input[type="range"] {
+      width: 100%;
+      accent-color: var(--secondary);
+    }
+    output {
+      font-family: var(--codeFont);
+      font-size: 0.8rem;
+      text-align: right;
+      color: var(--tertiary);
+    }
+  }
+
+  .oa-readout {
+    margin: 0.75rem 0 0;
+    color: var(--darkgray);
+    font-family: var(--codeFont);
+    font-size: 0.82rem;
+    line-height: 1.6;
+  }
+  .oa-flag {
+    display: inline-block;
+    margin-left: 0.35rem;
+    padding: 0 0.5rem;
+    border-radius: 999px;
+    background: var(--melon-soft);
+    color: var(--secondary);
+    font-family: var(--bodyFont);
+    font-weight: 600;
+  }
+  .oa-note {
+    color: var(--gray);
+  }
+
+  @media (max-width: 640px) {
+    padding: 0.85rem 0.75rem;
+
+    .oa-controls {
+      grid-template-columns: 1fr;
+    }
+  }
+}

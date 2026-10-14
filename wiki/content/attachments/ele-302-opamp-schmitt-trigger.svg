@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 630 270" width="630" height="270" font-family="DM Sans, system-ui, sans-serif" font-size="13">
+  <!-- left: inverting Schmitt trigger -->
+  <g fill="none" stroke="#8a8a93" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+    <polygon points="110,50 110,150 200,100"/>
+    <!-- input to v- -->
+    <line x1="40" y1="75" x2="110" y2="75"/>
+    <!-- v+ wire and R1 to ground -->
+    <line x1="110" y1="125" x2="65" y2="125"/>
+    <line x1="65" y1="125" x2="65" y2="140"/>
+    <polyline points="65,140 73,145 57,155 73,165 57,175 73,185 57,195 65,200"/>
+    <line x1="65" y1="200" x2="65" y2="210"/>
+    <line x1="53" y1="210" x2="77" y2="210"/>
+    <line x1="58" y1="216" x2="72" y2="216"/>
+    <line x1="63" y1="222" x2="67" y2="222"/>
+    <!-- output -->
+    <line x1="200" y1="100" x2="270" y2="100"/>
+  </g>
+  <!-- feedback path through R2 to v+ -->
+  <g fill="none" stroke="#c99a12" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round">
+    <polyline points="240,100 240,235 200,235"/>
+    <polyline points="200,235 195,227 185,243 175,227 165,243 155,227 145,243 140,235"/>
+    <polyline points="140,235 95,235 95,125"/>
+  </g>
+  <polygon points="89,165 95,153 101,165" fill="#c99a12"/>
+  <g fill="#8a8a93">
+    <text x="116" y="80" font-size="16">−</text>
+    <text x="116" y="130" font-size="16">+</text>
+    <circle cx="95" cy="125" r="4"/>
+    <circle cx="240" cy="100" r="4"/>
+    <circle cx="40" cy="75" r="4"/>
+    <circle cx="270" cy="100" r="4"/>
+  </g>
+  <g fill="#c99a12" font-weight="600">
+    <text x="30" y="80" text-anchor="end">vᵢ</text>
+    <text x="49" y="175" text-anchor="end">R₁</text>
+    <text x="170" y="260" text-anchor="middle">R₂</text>
+    <text x="280" y="105">vₒ</text>
+  </g>
+
+  <!-- right: hysteresis loop -->
+  <g fill="none" stroke="#8a8a93" stroke-width="1.5" stroke-linecap="round">
+    <line x1="330" y1="135" x2="605" y2="135"/>
+    <line x1="470" y1="32" x2="470" y2="240"/>
+  </g>
+  <g fill="none" stroke="#c99a12" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round">
+    <polyline points="340,55 510,55 510,215 600,215"/>
+    <polyline points="600,215 430,215 430,55"/>
+  </g>
+  <g fill="#c99a12">
+    <polygon points="484,49 496,55 484,61"/>
+    <polygon points="504,165 510,177 516,165"/>
+    <polygon points="456,209 444,215 456,221"/>
+    <polygon points="424,105 430,93 436,105"/>
+  </g>
+  <g fill="#8a8a93" font-size="12">
+    <text x="345" y="46">+12 V</text>
+    <text x="600" y="234" text-anchor="end">−12 V</text>
+    <text x="516" y="152">+2.4 V</text>
+    <text x="424" y="128" text-anchor="end">−2.4 V</text>
+  </g>
+  <g fill="#c99a12" font-weight="600">
+    <text x="610" y="139">vᵢ</text>
+    <text x="476" y="26">vₒ</text>
+  </g>
+</svg>

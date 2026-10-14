@@ -2,6 +2,7 @@ import { PageLayout, SharedLayout } from "./quartz/cfg"
 import * as Component from "./quartz/components"
 import MelonHome from "./quartz/components/custom/MelonHome"
 import MelonMotion from "./quartz/components/custom/MelonMotion"
+import MelonOpAmp from "./quartz/components/custom/MelonOpAmp"
 import { hasOwnHeader, isCoursePage } from "./quartz/components/custom/MelonFolder"
 import { QuartzComponentProps } from "./quartz/components/types"
 import { simplifySlug } from "./quartz/util/path"
@@ -27,7 +28,8 @@ const hasNoteLinks = (page: QuartzComponentProps) => {
 export const sharedPageComponents: SharedLayout = {
   head: Component.Head(),
   header: [],
-  afterBody: [MelonMotion()],
+  // MelonOpAmp fills in the <div class="melon-opamp"> diagrams written in notes
+  afterBody: [MelonMotion(), MelonOpAmp()],
   footer: Component.Footer({
     links: {
       "← rwangqz.ca": "https://rwangqz.ca",
