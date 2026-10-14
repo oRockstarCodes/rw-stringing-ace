@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 470 240" width="470" height="240" font-family="DM Sans, system-ui, sans-serif" font-size="13">
+  <g fill="none" stroke="#8a8a93" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+    <!-- input through R1 -->
+    <line x1="40" y1="100" x2="70" y2="100"/>
+    <polyline points="70,100 75,92 85,108 95,92 105,108 115,92 125,108 130,100"/>
+    <line x1="130" y1="100" x2="230" y2="100"/>
+    <!-- Rf from v- to output -->
+    <polyline points="230,100 235,92 245,108 255,92 265,108 275,92 285,108 290,100"/>
+    <line x1="290" y1="100" x2="420" y2="100"/>
+    <!-- dependent source (op amp output) to ground -->
+    <line x1="350" y1="100" x2="350" y2="136"/>
+    <polygon points="350,136 374,160 350,184 326,160"/>
+    <line x1="350" y1="184" x2="350" y2="205"/>
+    <line x1="338" y1="205" x2="362" y2="205"/>
+    <line x1="343" y1="211" x2="357" y2="211"/>
+    <line x1="348" y1="217" x2="352" y2="217"/>
+  </g>
+  <g fill="#8a8a93">
+    <text x="345" y="155" font-size="14">+</text>
+    <text x="345" y="178" font-size="14">−</text>
+    <circle cx="180" cy="100" r="4"/>
+    <circle cx="350" cy="100" r="4"/>
+    <circle cx="40" cy="100" r="4"/>
+    <circle cx="420" cy="100" r="4"/>
+    <text x="384" y="184" font-size="12">A = 10⁴</text>
+  </g>
+  <g fill="#c99a12" font-weight="600">
+    <text x="10" y="85">vᵢ = 1 V</text>
+    <text x="100" y="128" text-anchor="middle">R₁ = 10 kΩ</text>
+    <text x="180" y="86" text-anchor="middle">v₋</text>
+    <text x="260" y="128" text-anchor="middle">R<tspan font-size="10" dy="4">f</tspan><tspan dy="-4"> = 100 kΩ</tspan></text>
+    <text x="384" y="165">−A v₋</text>
+    <text x="430" y="105">vₒ</text>
+  </g>
+</svg>

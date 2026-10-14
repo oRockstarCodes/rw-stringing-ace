@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -25 460 255" width="460" height="255" font-family="DM Sans, system-ui, sans-serif" font-size="12">
+  <g fill="none" stroke="#8a8a93" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+    <!-- op amp -->
+    <polygon points="240,100 240,200 330,150"/>
+    <!-- three inputs -->
+    <line x1="80" y1="55" x2="110" y2="55"/>
+    <polyline points="110,55 115,47 125,63 135,47 145,63 155,47 165,63 170,55"/>
+    <line x1="170" y1="55" x2="200" y2="55"/>
+    <line x1="80" y1="90" x2="110" y2="90"/>
+    <polyline points="110,90 115,82 125,98 135,82 145,98 155,82 165,98 170,90"/>
+    <line x1="170" y1="90" x2="200" y2="90"/>
+    <line x1="80" y1="125" x2="110" y2="125"/>
+    <polyline points="110,125 115,117 125,133 135,117 145,133 155,117 165,133 170,125"/>
+    <line x1="170" y1="125" x2="240" y2="125"/>
+    <!-- bus -->
+    <line x1="200" y1="55" x2="200" y2="125"/>
+    <!-- feedback through Rf -->
+    <line x1="220" y1="125" x2="220" y2="20"/>
+    <line x1="220" y1="20" x2="255" y2="20"/>
+    <polyline points="255,20 260,12 270,28 280,12 290,28 300,12 310,28 315,20"/>
+    <line x1="315" y1="20" x2="370" y2="20"/>
+    <line x1="370" y1="20" x2="370" y2="150"/>
+    <!-- output -->
+    <line x1="330" y1="150" x2="420" y2="150"/>
+    <!-- v+ to ground -->
+    <line x1="240" y1="175" x2="225" y2="175"/>
+    <line x1="225" y1="175" x2="225" y2="195"/>
+    <line x1="213" y1="195" x2="237" y2="195"/>
+    <line x1="218" y1="201" x2="232" y2="201"/>
+    <line x1="223" y1="207" x2="227" y2="207"/>
+  </g>
+  <g fill="#8a8a93">
+    <text x="246" y="130" font-size="16">−</text>
+    <text x="246" y="180" font-size="16">+</text>
+    <circle cx="200" cy="90" r="4"/>
+    <circle cx="200" cy="125" r="4"/>
+    <circle cx="220" cy="125" r="4"/>
+    <circle cx="370" cy="150" r="4"/>
+    <circle cx="80" cy="55" r="4"/>
+    <circle cx="80" cy="90" r="4"/>
+    <circle cx="80" cy="125" r="4"/>
+    <circle cx="420" cy="150" r="4"/>
+  </g>
+  <g fill="#c99a12" font-weight="600">
+    <text x="72" y="59" text-anchor="end" font-size="13">v₁ = 1 V</text>
+    <text x="72" y="94" text-anchor="end" font-size="13">v₂ = −2 V</text>
+    <text x="72" y="129" text-anchor="end" font-size="13">v₃ = 0.5 V</text>
+    <text x="140" y="40" text-anchor="middle">R₁ = 20 kΩ</text>
+    <text x="140" y="76" text-anchor="middle">R₂ = 30 kΩ</text>
+    <text x="140" y="151" text-anchor="middle">R₃ = 10 kΩ</text>
+    <text x="285" y="0" text-anchor="middle" font-size="13">R<tspan font-size="10" dy="4">f</tspan><tspan dy="-4"> = 60 kΩ</tspan></text>
+    <text x="430" y="155" font-size="13">vₒ</text>
+  </g>
+</svg>
