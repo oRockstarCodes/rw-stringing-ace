@@ -3,12 +3,13 @@ import FolderContent from "../pages/FolderContent"
 import { QuartzPluginData } from "../../plugins/vfile"
 import { FullSlug, resolveRelative } from "../../util/path"
 import { isLabsPage, isReport, labsSummary } from "./MelonLabs"
+import { CoursePlate, plural } from "./MelonPlate"
 
 // Copied into quartz/components/custom/ at build time by scripts/build-wiki.sh.
-// Body of folder pages. A course folder (courses/<code>/) shows a course header,
-// its chapters as cards, a card linking to its Labs page (when it has labs; see
-// MelonLabs.tsx), and any notes in courses/<code>/concepts/ as a list. The text of its
-// index.md (the outline) is not shown.
+// Body of folder pages. A course folder (courses/<code>/) shows the course plate
+// (MelonPlate.tsx), its chapters as a numbered list, and beside them a link to its Labs
+// page (when it has labs; see MelonLabs.tsx) and any notes in courses/<code>/concepts/.
+// The text of its index.md (the outline) is not shown.
 // Every other folder falls back to Quartz's normal listing.
 
 export const isCoursePage = (slug?: string) => /^courses\/[^/]+\/index$/.test(slug ?? "")
@@ -57,92 +58,75 @@ export default ((opts?: Options) => {
       .sort((a, b) => String(a.frontmatter?.title).localeCompare(String(b.frontmatter?.title)))
     const labs = fileData.melonLabs ?? []
 
+    const term = [fm.term, fm.status].filter(Boolean).map(String).join(", ")
+    const hasAside = labs.length > 0 || concepts.length > 0
+
     return (
       <div class="popover-hint melon-course">
-        <p class="melon-eyebrow">
-          <span class="melon-dot" aria-hidden="true"></span>
-          {code}
-        </p>
-        <h1 class="melon-course-title">{name}</h1>
-        <p class="melon-course-meta">
-          {fm.term && <span>{String(fm.term)}</span>}
-          {fm.status && <span class="melon-card-status">{String(fm.status)}</span>}
+        <CoursePlate code={code} title={name}>
+          {term && <span>{term}</span>}
           <span>
-            {chapters.length} {chapters.length === 1 ? "chapter" : "chapters"}
+            {plural(chapters.length, "chapter")}
+            {labs.length > 0 && `, ${plural(labs.length, "lab")}`}
           </span>
-          {labs.length > 0 && (
-            <span>
-              {labs.length} {labs.length === 1 ? "lab" : "labs"}
-            </span>
-          )}
-        </p>
+        </CoursePlate>
 
-        {chapters.length === 0 ? (
-          <p class="melon-empty">No chapters yet.</p>
-        ) : (
-          <ol class="melon-chapters">
-            {chapters.map((f, i) => {
-              const n = chapterNumber(f.slug!, i + 1)
-              return (
-                <li style={`--i: ${i}`}>
-                  <a href={resolveRelative(here, f.slug! as FullSlug)} class="internal melon-card">
-                    <span class="melon-chapter-num">{String(n).padStart(2, "0")}</span>
-                    <span class="melon-card-name">
-                      {chapterName(String(f.frontmatter?.title ?? f.slug))}
-                    </span>
-                    <span class="melon-card-arrow" aria-hidden="true">
-                      →
-                    </span>
-                  </a>
-                </li>
-              )
-            })}
-          </ol>
-        )}
+        <div class={hasAside ? "melon-course-body has-aside" : "melon-course-body"}>
+          <section>
+            <h2 class="melon-section-title">Chapters</h2>
+            {chapters.length === 0 ? (
+              <p class="melon-empty">No chapters written yet.</p>
+            ) : (
+              <ol class="melon-toc">
+                {chapters.map((f, i) => (
+                  <li>
+                    <a href={resolveRelative(here, f.slug! as FullSlug)} class="internal melon-toc-row">
+                      <span class="melon-toc-num">{chapterNumber(f.slug!, i + 1)}</span>
+                      <span class="melon-toc-name">
+                        {chapterName(String(f.frontmatter?.title ?? f.slug))}
+                      </span>
+                    </a>
+                  </li>
+                ))}
+              </ol>
+            )}
+          </section>
 
-        {labs.length > 0 && (
-          <>
-            <h2 class="melon-section-title">Labs</h2>
-            <ul class="melon-courses">
-              <li style={`--i: ${chapters.length}`}>
-                <a
-                  href={resolveRelative(here, (folder + "labs/index") as FullSlug)}
-                  class="internal melon-card"
-                >
-                  <span class="melon-card-code">LABS</span>
-                  <span class="melon-card-name">
+          {hasAside && (
+            <aside class="melon-course-aside">
+              {labs.length > 0 && (
+                <>
+                  <h2 class="melon-section-title">Labs</h2>
+                  <a
+                    href={resolveRelative(here, (folder + "labs/index") as FullSlug)}
+                    class="internal melon-labs-link"
+                  >
                     {labs.every(isReport)
                       ? "Lab reports"
                       : !labs.some(isReport)
                         ? "Lab projects"
-                        : "Lab reports & projects"}
-                  </span>
-                  <span class="melon-card-meta">
-                    <span>{labsSummary(labs)}</span>
-                  </span>
-                  <span class="melon-card-arrow" aria-hidden="true">
-                    →
-                  </span>
-                </a>
-              </li>
-            </ul>
-          </>
-        )}
-
-        {concepts.length > 0 && (
-          <>
-            <h2 class="melon-section-title">Concepts</h2>
-            <ul class="melon-concepts">
-              {concepts.map((f) => (
-                <li>
-                  <a href={resolveRelative(here, f.slug! as FullSlug)} class="internal tag-link">
-                    {String(f.frontmatter?.title ?? f.slug)}
+                        : "Lab reports and projects"}
                   </a>
-                </li>
-              ))}
-            </ul>
-          </>
-        )}
+                  <p class="melon-aside-note">{labsSummary(labs)}</p>
+                </>
+              )}
+              {concepts.length > 0 && (
+                <>
+                  <h2 class="melon-section-title">Concepts</h2>
+                  <ul class="melon-concepts">
+                    {concepts.map((f) => (
+                      <li>
+                        <a href={resolveRelative(here, f.slug! as FullSlug)} class="internal">
+                          {String(f.frontmatter?.title ?? f.slug)}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              )}
+            </aside>
+          )}
+        </div>
       </div>
     )
   }

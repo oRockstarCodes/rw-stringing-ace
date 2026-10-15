@@ -1,30 +1,38 @@
 @use "./base.scss";
 
 // Copied to quartz/styles/custom.scss at build time by scripts/build-wiki.sh.
-// Melon Files theme, taken from the site icon (a two-tone print: pink paper, black ink):
-// --secondary is the pink accent, --tertiary a dusty plum. Colors live in quartz.config.ts.
+// Melon Files theme: a relief print, like the site icon. Black ink carved on pink paper.
+// Colors live in quartz.config.ts (--light is the reading sheet, --dark the ink,
+// --secondary press pink, --tertiary plum). The paper pink of the course plates is
+// --melon-paper below.
+//
+// One loud thing per page: the carved course code (or the home masthead). Everything
+// else stays quiet.
 //
 // Quartz appends component CSS after this file, so selectors that override a
 // component's own styles are prefixed with `body` to win on specificity.
 
 :root {
   --melon-ease: cubic-bezier(0.22, 1, 0.36, 1);
-  --melon-radius: 14px;
-  --melon-gradient: linear-gradient(100deg, var(--secondary), var(--tertiary));
+  --melon-radius: 8px;
+  --melon-paper: #f4d9e4;
   --melon-soft: color-mix(in srgb, var(--secondary) 14%, transparent);
+  --melon-measure: 40em;
+}
+
+:root[saved-theme="dark"] {
+  // The plate in dark mode: a plum block with paper-pink type
+  --melon-paper: #3b2631;
 }
 
 // ---------- Page ----------
 
 body {
-  background-image:
-    radial-gradient(1100px 520px at 88% -8%, color-mix(in srgb, var(--secondary) 10%, transparent), transparent 62%),
-    radial-gradient(900px 480px at -12% 108%, color-mix(in srgb, var(--tertiary) 9%, transparent), transparent 60%);
-  background-attachment: fixed;
+  background: var(--light);
 }
 
 ::selection {
-  background: color-mix(in srgb, var(--secondary) 32%, transparent);
+  background: color-mix(in srgb, var(--secondary) 28%, transparent);
 }
 
 h1,
@@ -32,93 +40,110 @@ h2,
 h3,
 h4,
 .page-title {
-  letter-spacing: -0.025em;
+  letter-spacing: -0.015em;
+}
+
+article {
+  font-size: 1.0625rem;
+  line-height: 1.7;
+}
+
+// Phones: back to 1rem, which also keeps long inline math (sized from the text) inside
+// the column
+@media (max-width: 800px) {
+  article {
+    font-size: 1rem;
+  }
+}
+
+// A comfortable line length for prose. Tables, code, figures and diagrams keep the full width.
+article > p,
+article > ul,
+article > ol,
+article > blockquote {
+  max-width: var(--melon-measure);
+}
+
+article h2 {
+  font-size: 1.55rem;
+  font-weight: 800;
+  margin-top: 2.6rem;
+}
+
+article h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-top: 1.9rem;
 }
 
 h1.article-title {
-  font-size: 2.4rem;
-  font-weight: 800;
-  line-height: 1.1;
+  font-size: clamp(2.2rem, 4.5vw, 3rem);
+  font-weight: 900;
+  font-stretch: 80%;
+  line-height: 1.02;
+  letter-spacing: -0.02em;
   margin-top: 0.75rem;
-}
-
-article > h2 {
-  padding-bottom: 0.35rem;
-  background: var(--melon-gradient) 0 100% / 2.25rem 3px no-repeat;
 }
 
 // ---------- Site title (with the site icon, wiki/static/icon.png) ----------
 
 body .page-title {
-  font-size: 1.9rem;
+  font-size: 1.75rem;
 
   a {
     display: inline-flex;
     align-items: center;
     gap: 0.55rem;
-    font-weight: 800;
+    font-weight: 900;
+    font-stretch: 85%;
     color: var(--dark);
   }
 
   a::before {
     content: "";
-    width: 1.15em;
-    height: 1.15em;
+    width: 1.2em;
+    height: 1.2em;
     flex-shrink: 0;
     border-radius: 50%;
     background: url("./static/icon.png") center / cover no-repeat;
-    box-shadow: 0 0 0 0 color-mix(in srgb, var(--secondary) 40%, transparent);
-    transition:
-      transform 0.5s var(--melon-ease),
-      box-shadow 0.5s var(--melon-ease);
-  }
-
-  // The whole site is the ECE Edition for now
-  a {
-    flex-wrap: wrap;
-    row-gap: 0.1rem;
-  }
-
-  a::after {
-    content: "ECE EDITION";
-    flex-basis: 100%;
-    padding-left: calc(1.15em + 0.55rem);
-    font-family: var(--codeFont);
-    font-size: 0.66rem;
-    font-weight: 700;
-    letter-spacing: 0.32em;
-    color: var(--secondary);
+    transition: transform 0.5s var(--melon-ease);
   }
 
   a:hover::before {
-    transform: rotate(-25deg) scale(1.12);
-    box-shadow: 0 0 0 6px color-mix(in srgb, var(--secondary) 12%, transparent);
+    transform: rotate(-20deg);
+  }
+}
+
+// Phones: the title shares the top bar with the menu, search and buttons
+@media (max-width: 800px) {
+  body .page-title {
+    font-size: 1.4rem;
   }
 }
 
 // ---------- Links ----------
 
-a.internal:not(.tag-link):not(.melon-card),
+a.internal:not(.tag-link):not(.melon-row):not(.melon-toc-row),
 article a.external {
-  background-color: transparent;
-  background-image: linear-gradient(var(--melon-soft), var(--melon-soft));
-  background-size: 100% 2px;
-  background-position: 0 100%;
-  background-repeat: no-repeat;
-  border-radius: 3px;
-  padding: 0 0.1rem;
+  background: none;
+  padding: 0;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--secondary) 40%, transparent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
   transition:
-    background-size 0.3s var(--melon-ease),
-    color 0.2s ease;
+    text-decoration-color 0.2s ease,
+    text-decoration-thickness 0.2s ease;
 
   &:hover {
-    background-size: 100% 100%;
+    text-decoration-color: var(--secondary);
+    text-decoration-thickness: 2px;
   }
 }
 
 body .breadcrumb-container a {
   color: var(--gray);
-  transition: color 0.2s ease;
+  text-decoration: none;
 
   &:hover {
     color: var(--secondary);
@@ -128,51 +153,32 @@ body .breadcrumb-container a {
 // ---------- Tags ----------
 
 body a.tag-link {
-  border: 1px solid color-mix(in srgb, var(--tertiary) 35%, transparent);
-  background-color: color-mix(in srgb, var(--tertiary) 10%, transparent);
+  border: 0;
+  background: none;
+  padding: 0;
   color: var(--tertiary);
-  border-radius: 999px;
-  padding: 0.15rem 0.7rem;
-  font-weight: 600;
-  transition:
-    transform 0.25s var(--melon-ease),
-    background-color 0.2s ease;
+  font-family: var(--codeFont);
+  font-size: 0.85rem;
 
   &:hover {
-    transform: translateY(-2px);
-    background-color: color-mix(in srgb, var(--tertiary) 18%, transparent);
+    color: var(--secondary);
   }
 }
 
 // ---------- Sidebar ----------
 
 body .search > .search-button {
-  border-radius: 999px;
+  border-radius: 6px;
   padding-left: 0.25rem;
-  transition:
-    border-color 0.2s ease,
-    box-shadow 0.25s var(--melon-ease);
 
   &:hover {
-    border-color: color-mix(in srgb, var(--secondary) 60%, transparent);
-    box-shadow: 0 0 0 4px var(--melon-soft);
+    border-color: var(--gray);
   }
-}
-
-body .explorer-content ul li > a,
-body .folder-container div > a,
-body .folder-container div > button span {
-  display: inline-block;
-  transition:
-    transform 0.25s var(--melon-ease),
-    color 0.2s ease,
-    opacity 0.2s ease;
 }
 
 body .explorer-content ul li > a:hover,
 body .folder-container div > a:hover,
 body .folder-container div > button:hover span {
-  transform: translateX(3px);
   color: var(--secondary);
   opacity: 1;
 }
@@ -182,6 +188,22 @@ body .explorer-content ul li > a.active {
   font-weight: 600;
 }
 
+// "Chapters" and "Concepts" headings inside a course in the sidebar (added by the
+// Explorer mapFn in quartz.layout.ts). They're the only notes there whose link ends in
+// /index, apart from "Lab reports".
+body .explorer-content ul li > a[data-for$="/index"]:not([data-for$="/labs/index"]) {
+  margin-top: 0.55rem;
+  font-family: var(--headerFont);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--gray);
+  opacity: 1;
+}
+
+body .explorer-content ul li:first-child > a[data-for$="/index"]:not([data-for$="/labs/index"]) {
+  margin-top: 0.15rem;
+}
+
 body .folder-container div > a,
 body .folder-container div > button span {
   color: var(--dark);
@@ -189,14 +211,10 @@ body .folder-container div > button span {
 
 body .graph > .graph-outer {
   border-radius: var(--melon-radius);
-  background: color-mix(in srgb, var(--lightgray) 22%, transparent);
-  transition:
-    border-color 0.3s ease,
-    box-shadow 0.4s var(--melon-ease);
+  transition: border-color 0.2s ease;
 
   &:hover {
-    border-color: color-mix(in srgb, var(--secondary) 45%, transparent);
-    box-shadow: 0 10px 30px -18px var(--secondary);
+    border-color: var(--gray);
   }
 }
 
@@ -245,273 +263,117 @@ pre {
     background: color-mix(in srgb, var(--lightgray) 35%, transparent);
   }
 
-  tr {
-    transition: background-color 0.2s ease;
-  }
-
   tbody tr:hover {
     background-color: var(--highlight);
   }
 }
 
-// Folder pages (e.g. a course's chapter list)
+// Folder pages other than courses (e.g. the Courses page)
 body .section-ul .section-li {
-  border-radius: 10px;
+  border-radius: 6px;
   padding: 0.15rem 0.6rem;
   margin-inline: -0.6rem;
-  transition:
-    background-color 0.2s ease,
-    transform 0.3s var(--melon-ease);
 
   &:hover {
     background-color: var(--highlight);
-    transform: translateX(4px);
   }
 }
 
-// ---------- Home page ----------
+// Figure captions: an italic line written directly under an embedded diagram
+// (Quartz's base styles already place it as a caption below the image)
+article p > img + em {
+  color: var(--darkgray);
+  font-size: 0.9rem;
+}
+
+// The carve filter's <svg> (components/MelonMotion.tsx) takes no space
+.melon-defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.melon-section-title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  margin: 2.5rem 0 0.75rem;
+}
+
+.melon-empty,
+.melon-aside-note {
+  color: var(--gray);
+}
+
+// A link to a chapter that is still an empty template, shown as plain text
+// (plugins/MelonChapterStatus.ts)
+.melon-unwritten {
+  color: var(--gray);
+}
+
+// ---------- Home page (components/MelonHome.tsx) ----------
 
 body[data-slug="index"] .center > hr {
   display: none;
 }
 
-.melon-hero {
-  // The stamp sits in the hero's top-right corner when there's room (see .melon-stamp)
-  position: relative;
+// The masthead switches to one column by the width of the page column (container query)
+.melon-home {
   container-type: inline-size;
-  padding: 1.5rem 0 1rem;
 }
 
-.melon-eyebrow {
-  // Its own line (the home title next to it is inline-block), but only as wide as its text
-  display: flex;
-  width: fit-content;
+.melon-masthead {
+  --melon-print: clamp(6.5rem, 18vw, 10rem);
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr;
   align-items: center;
-  gap: 0.5rem;
-  margin: 0 0 1rem;
-  padding: 0.3rem 0.85rem;
-  border: 1px solid var(--lightgray);
-  border-radius: 999px;
-  font-size: 0.85rem;
-  color: var(--darkgray);
-  background: color-mix(in srgb, var(--light) 70%, transparent);
+  gap: 1.75rem;
+  margin-top: 1.25rem;
+  padding: 2rem 2rem 1.75rem;
+  border-radius: var(--melon-radius);
+  background: var(--melon-paper);
+  color: var(--dark);
 }
 
-.melon-dot {
-  width: 0.5rem;
-  height: 0.5rem;
+.melon-print {
+  display: block;
+  width: var(--melon-print);
+  height: auto;
   border-radius: 50%;
-  background: var(--tertiary);
-  box-shadow: 0 0 0 0 color-mix(in srgb, var(--tertiary) 60%, transparent);
+  margin: 0;
 }
 
 .melon-title {
-  font-size: clamp(2.8rem, 7vw, 4.6rem);
-  font-weight: 800;
-  line-height: 1;
-  letter-spacing: -0.045em;
   margin: 0;
-
-  > span:not(.melon-stamp) {
-    background: var(--melon-gradient);
-    background-size: 200% 100%;
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-  }
+  font-size: clamp(3.2rem, 9vw, 5.75rem);
+  font-weight: 900;
+  font-stretch: 62%;
+  line-height: 0.88;
+  letter-spacing: -0.01em;
+  color: var(--dark);
+  filter: url(#melon-carve);
 }
 
 .melon-tagline {
-  max-width: 34rem;
-  font-size: 1.15rem;
-  color: var(--darkgray);
-  margin: 1.1rem 0 1.6rem;
-}
-
-.melon-stats {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-  margin: 0;
-
-  div {
-    min-width: 6.5rem;
-    padding: 0.7rem 1rem;
-    border: 1px solid var(--lightgray);
-    border-radius: var(--melon-radius);
-    background: color-mix(in srgb, var(--light) 60%, transparent);
-  }
-
-  dt {
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--gray);
-  }
-
-  dd {
-    margin: 0.1rem 0 0;
-    font-family: var(--headerFont);
-    font-size: 1.7rem;
-    font-weight: 800;
-    color: var(--dark);
-  }
-}
-
-.melon-section-title {
-  margin-top: 2.5rem;
-}
-
-.melon-courses {
-  list-style: none;
-  padding: 0;
-  margin: 1rem 0 0;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-  gap: 1rem;
-
-  li {
-    margin: 0;
-  }
-}
-
-a.melon-card {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 0.3rem;
-  height: 100%;
-  box-sizing: border-box;
-  padding: 1.15rem 1.2rem 1.1rem;
-  border: 1px solid var(--lightgray);
-  border-radius: var(--melon-radius);
-  background: color-mix(in srgb, var(--light) 75%, transparent);
-  color: var(--dark);
-  font-weight: 400;
-  overflow: hidden;
-  isolation: isolate;
-  transition:
-    transform 0.4s var(--melon-ease),
-    border-color 0.3s ease,
-    box-shadow 0.4s var(--melon-ease);
-
-  // Gradient wash that slides in on hover
-  &::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    background: linear-gradient(
-      135deg,
-      color-mix(in srgb, var(--secondary) 14%, transparent),
-      color-mix(in srgb, var(--tertiary) 10%, transparent)
-    );
-    opacity: 0;
-    transition: opacity 0.35s ease;
-  }
-
-  // Rind stripe along the top
-  &::after {
-    content: "";
-    position: absolute;
-    inset: 0 0 auto;
-    height: 3px;
-    background: var(--melon-gradient);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.5s var(--melon-ease);
-  }
-
-  &:hover {
-    transform: translateY(-5px);
-    border-color: color-mix(in srgb, var(--secondary) 45%, transparent);
-    box-shadow: 0 18px 40px -22px color-mix(in srgb, var(--secondary) 80%, transparent);
-
-    &::before {
-      opacity: 1;
-    }
-
-    &::after {
-      transform: scaleX(1);
-    }
-
-    .melon-card-arrow {
-      transform: translateX(4px);
-      opacity: 1;
-      color: var(--secondary);
-    }
-  }
-}
-
-.melon-card-code {
-  font-family: var(--codeFont);
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--secondary);
-}
-
-.melon-card-name {
-  font-family: var(--headerFont);
-  font-size: 1.2rem;
-  font-weight: 700;
-  line-height: 1.2;
-  padding-right: 1.5rem;
-}
-
-.melon-card-meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.35rem 0.8rem;
-  margin-top: auto;
-  padding-top: 0.6rem;
-  font-size: 0.82rem;
-  color: var(--gray);
-}
-
-.melon-card-status {
-  color: var(--tertiary);
-  font-weight: 600;
-}
-
-.melon-card-arrow {
-  position: absolute;
-  top: 1.05rem;
-  right: 1.1rem;
+  max-width: 30rem;
+  margin: 0.9rem 0 0;
   font-size: 1.1rem;
-  opacity: 0.4;
-  transition:
-    transform 0.35s var(--melon-ease),
-    opacity 0.2s ease,
-    color 0.2s ease;
+  line-height: 1.5;
+  color: var(--darkgray);
 }
 
-// ---------- Course pages (components/MelonFolder.tsx) ----------
-
-body[data-slug^="courses/"][data-slug$="/index"] .center > hr {
-  display: none;
-}
-
-.melon-course {
-  padding-top: 0.75rem;
-
-  .melon-eyebrow {
-    font-family: var(--codeFont);
-    font-weight: 600;
-    color: var(--secondary);
-  }
-}
-
-// "ECE Edition" rubber stamp next to the home page title (MelonHome.tsx).
+// "ECE Edition" rubber stamp, pressed over the lower edge of the print.
 // The whole site is the ECE Edition for now.
 .melon-stamp {
   position: absolute;
-  right: 0.5rem;
-  top: 1.25rem;
-  width: 7.5rem;
+  left: calc(var(--melon-print) * 0.55);
+  bottom: -1.75rem;
+  width: 6rem;
   aspect-ratio: 1;
   color: var(--secondary);
   transform: rotate(-12deg);
-  transition: transform 0.5s var(--melon-ease);
+  mix-blend-mode: multiply;
 
   svg {
     display: block;
@@ -526,107 +388,256 @@ body[data-slug^="courses/"][data-slug$="/index"] .center > hr {
     font-weight: 800;
     letter-spacing: 0;
   }
+}
 
-  .melon-stamp-ring {
-    transform-box: view-box;
-    transform-origin: 50% 50%;
+:root[saved-theme="dark"] .melon-stamp {
+  mix-blend-mode: normal;
+}
+
+@container (max-width: 34rem) {
+  .melon-masthead {
+    grid-template-columns: 1fr;
+    gap: 1rem;
   }
 
-  &:hover {
-    transform: rotate(-4deg) scale(1.06);
+  .melon-masthead {
+    --melon-print: 5.5rem;
+  }
+
+  // Beside the print, which now sits above the title
+  .melon-stamp {
+    width: 4.75rem;
+    top: 1.25rem;
+    bottom: auto;
+    left: calc(var(--melon-print) + 2.5rem);
   }
 }
 
-// Not enough room beside the tagline (34rem) for the stamp: it drops below the title
-@container (max-width: 44rem) {
-  .melon-stamp {
-    position: relative;
-    right: auto;
-    top: auto;
-    display: block;
-    width: 5.5rem;
-    margin: 0.75rem 0 -0.5rem;
+@media (max-width: 600px) {
+  .melon-masthead {
+    padding: 1.5rem 1.25rem 1.25rem;
   }
+}
+
+// Courses: a table of contents, one row per course
+.melon-contents {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border-top: 2px solid var(--dark);
+
+  li {
+    margin: 0;
+    border-bottom: 1px solid var(--lightgray);
+  }
+}
+
+a.melon-row {
+  display: grid;
+  grid-template-columns: 7.5rem 1fr auto;
+  align-items: baseline;
+  gap: 0.25rem 1.25rem;
+  padding: 0.95rem 0.25rem;
+  color: var(--dark);
+  font-weight: 400;
+  background: none;
+
+  &:hover {
+    background: var(--highlight);
+
+    .melon-row-name {
+      color: var(--secondary);
+    }
+  }
+}
+
+.melon-row-code {
+  font-family: var(--headerFont);
+  font-size: 1.5rem;
+  font-weight: 900;
+  font-stretch: 62%;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.melon-row-name {
+  font-family: var(--headerFont);
+  font-size: 1.2rem;
+  font-weight: 700;
+  line-height: 1.2;
+  transition: color 0.2s ease;
+}
+
+.melon-row-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  font-size: 0.88rem;
+  line-height: 1.4;
+  color: var(--gray);
+  text-align: right;
+}
+
+@media (max-width: 600px) {
+  a.melon-row {
+    grid-template-columns: 1fr;
+  }
+
+  .melon-row-meta {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0 0.75rem;
+    align-items: baseline;
+    text-align: left;
+  }
+}
+
+// ---------- Course pages (components/MelonFolder.tsx, MelonPlate.tsx) ----------
+
+body[data-slug^="courses/"][data-slug$="/index"] .center > hr {
+  display: none;
+}
+
+.melon-course {
+  padding-top: 0.75rem;
+}
+
+.melon-plate {
+  margin-top: 0.5rem;
+  padding: 1.25rem 1.75rem 1.4rem;
+  border-radius: var(--melon-radius);
+  background: var(--melon-paper);
+  color: var(--dark);
+  overflow: hidden;
+}
+
+// The course code: the one loud thing on the page
+.melon-plate-code {
+  margin: 0;
+  font-family: var(--headerFont);
+  font-size: clamp(4.5rem, 15vw, 8.5rem);
+  font-weight: 900;
+  font-stretch: 55%;
+  line-height: 0.85;
+  letter-spacing: -0.005em;
+  white-space: nowrap;
+  color: var(--dark);
+  filter: url(#melon-carve);
 }
 
 .melon-course-title {
-  font-size: clamp(2.2rem, 5vw, 3.2rem);
+  margin: 0.6rem 0 0;
+  font-size: clamp(1.6rem, 3.5vw, 2.1rem);
   font-weight: 800;
-  line-height: 1.05;
-  letter-spacing: -0.04em;
-  margin: 0;
+  line-height: 1.1;
+  color: var(--dark);
 }
 
 .melon-course-meta {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.4rem 1.1rem;
-  margin: 0.9rem 0 2rem;
-  color: var(--gray);
+  gap: 0.2rem 1.25rem;
+  margin: 0.5rem 0 0;
+  color: var(--darkgray);
+}
 
-  span + span::before,
-  a + span::before {
-    content: "·";
-    margin-right: 1.1rem;
-    color: var(--lightgray);
+.melon-course-body {
+  &.has-aside {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 13rem;
+    gap: 0 2.5rem;
   }
 }
 
-.melon-empty {
-  color: var(--gray);
+@media (max-width: 900px) {
+  .melon-course-body.has-aside {
+    grid-template-columns: 1fr;
+  }
 }
 
-.melon-chapters {
+// Chapters, in order
+.melon-toc {
   list-style: none;
   padding: 0;
   margin: 0;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
-  gap: 0.9rem;
+  border-top: 2px solid var(--dark);
 
   li {
     margin: 0;
+    border-bottom: 1px solid var(--lightgray);
   }
+}
 
-  a.melon-card {
-    min-height: 7.5rem;
-    gap: 0.5rem;
+a.melon-toc-row {
+  display: grid;
+  grid-template-columns: 2.75rem 1fr;
+  align-items: baseline;
+  padding: 0.7rem 0.25rem;
+  color: var(--dark);
+  font-weight: 400;
+  background: none;
+
+  &:hover {
+    background: var(--highlight);
+
+    .melon-toc-name {
+      color: var(--secondary);
+    }
   }
+}
+
+.melon-toc-num {
+  font-family: var(--headerFont);
+  font-size: 1.6rem;
+  font-weight: 900;
+  font-stretch: 62%;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  color: var(--secondary);
+}
+
+.melon-toc-name {
+  font-family: var(--headerFont);
+  font-size: 1.1rem;
+  font-weight: 700;
+  line-height: 1.25;
+  transition: color 0.2s ease;
+}
+
+.melon-course-aside {
+  .melon-section-title {
+    padding-bottom: 0.6rem;
+    margin-bottom: 0.6rem;
+    border-bottom: 2px solid var(--dark);
+  }
+}
+
+a.melon-labs-link {
+  font-family: var(--headerFont);
+  font-weight: 700;
+}
+
+.melon-aside-note {
+  margin: 0.2rem 0 0;
+  font-size: 0.9rem;
 }
 
 .melon-concepts {
   list-style: none;
   padding: 0;
-  margin: 1rem 0 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
+  margin: 0;
 
   li {
-    margin: 0;
+    margin: 0 0 0.45rem;
+    line-height: 1.35;
   }
 }
 
-// A link to a chapter that is still an empty template, shown as plain text
-// (plugins/MelonChapterStatus.ts)
-.melon-unwritten {
-  color: var(--gray);
-}
+// ---------- Labs pages (components/MelonLabs.tsx) ----------
 
-.melon-chapter-num {
-  font-family: var(--headerFont);
-  font-size: 1.9rem;
-  font-weight: 800;
-  line-height: 1;
-  letter-spacing: -0.03em;
-  background: var(--melon-gradient);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  width: fit-content;
+.melon-labs {
+  margin-top: 2rem;
 }
-
-// ---------- Labs on course pages (components/MelonLabs.tsx) ----------
 
 .melon-lab-list {
   list-style: none;
@@ -649,25 +660,23 @@ a.melon-lab {
   box-sizing: border-box;
   padding: 0.65rem 0.8rem;
   border: 1px solid var(--lightgray);
-  border-radius: 12px;
+  border-radius: var(--melon-radius);
   color: var(--dark);
-  background: color-mix(in srgb, var(--light) 75%, transparent);
+  background: none;
   transition:
-    transform 0.3s var(--melon-ease),
     border-color 0.2s ease,
     background-color 0.2s ease;
 
   &:hover {
-    transform: translateY(-3px);
-    border-color: color-mix(in srgb, var(--secondary) 45%, transparent);
+    border-color: var(--dark);
   }
 
   &.active {
-    border-color: var(--secondary);
-    background-color: var(--highlight);
+    border-color: var(--dark);
+    background-color: var(--melon-paper);
 
     .melon-lab-icon {
-      background: var(--melon-gradient);
+      background: var(--dark);
       color: var(--light);
     }
   }
@@ -679,13 +688,15 @@ a.melon-lab {
   place-items: center;
   width: 2.6rem;
   height: 2.6rem;
-  border-radius: 9px;
+  border-radius: 6px;
   font-family: var(--codeFont);
   font-size: 0.62rem;
   font-weight: 700;
-  color: var(--secondary);
-  background: var(--highlight);
-  transition: background 0.3s ease;
+  color: var(--dark);
+  background: var(--melon-paper);
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
 }
 
 .melon-lab-text {
@@ -695,12 +706,13 @@ a.melon-lab {
 }
 
 .melon-lab-name {
-  font-weight: 600;
+  font-family: var(--headerFont);
+  font-weight: 700;
   line-height: 1.25;
 }
 
 .melon-lab-meta {
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   color: var(--gray);
 }
 
@@ -709,8 +721,6 @@ a.melon-lab {
   border: 1px solid var(--lightgray);
   border-radius: var(--melon-radius);
   overflow: hidden;
-  background: color-mix(in srgb, var(--lightgray) 20%, transparent);
-  box-shadow: 0 24px 50px -36px color-mix(in srgb, var(--secondary) 70%, transparent);
   scroll-margin-top: 1rem;
 
   &[hidden] {
@@ -745,23 +755,22 @@ a.melon-lab {
   a,
   button {
     padding: 0.3rem 0.8rem;
-    border-radius: 999px;
+    border-radius: 6px;
     border: 1px solid var(--lightgray);
     background: transparent;
     color: var(--dark);
     font: inherit;
     font-size: 0.85rem;
     font-weight: 600;
+    text-decoration: none;
     cursor: pointer;
     transition:
       border-color 0.2s ease,
-      background-color 0.2s ease,
       color 0.2s ease;
 
     &:hover {
       border-color: var(--secondary);
       color: var(--secondary);
-      background-color: var(--highlight);
     }
   }
 }
@@ -885,20 +894,23 @@ a.melon-lab {
 .melon-progress {
   position: fixed;
   inset: 0 0 auto;
-  height: 3px;
+  height: 2px;
   z-index: 999;
   pointer-events: none;
-  background: var(--melon-gradient);
+  background: var(--secondary);
   transform: scaleX(0);
   transform-origin: left;
 }
 
 // ---------- Motion ----------
+// One moment per page: the course code (or the home stamp) is pressed onto the paper.
+// Everything else appears at once. Replayed on SPA navigation by MelonMotion.tsx, which
+// toggles .melon-enter on .center to swap in an identical copy of the keyframes.
 
-@keyframes melon-rise {
+@keyframes melon-press {
   from {
     opacity: 0;
-    transform: translateY(14px);
+    transform: scale(1.06);
   }
   to {
     opacity: 1;
@@ -906,11 +918,10 @@ a.melon-lab {
   }
 }
 
-// Identical copy so the entrance can be replayed by swapping animation names
-@keyframes melon-rise-again {
+@keyframes melon-press-again {
   from {
     opacity: 0;
-    transform: translateY(14px);
+    transform: scale(1.06);
   }
   to {
     opacity: 1;
@@ -918,32 +929,14 @@ a.melon-lab {
   }
 }
 
-@keyframes melon-fade {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes melon-shimmer {
-  from {
-    background-position: 0% 50%;
-  }
-  to {
-    background-position: 100% 50%;
-  }
-}
-
-@keyframes melon-stamp-in {
+@keyframes melon-stamp {
   0% {
     opacity: 0;
-    transform: rotate(-40deg) scale(1.9);
+    transform: rotate(-24deg) scale(1.6);
   }
-  60% {
+  70% {
     opacity: 1;
-    transform: rotate(-9deg) scale(0.92);
+    transform: rotate(-11deg) scale(0.96);
   }
   100% {
     opacity: 1;
@@ -951,80 +944,58 @@ a.melon-lab {
   }
 }
 
-@keyframes melon-spin {
-  to {
-    transform: rotate(360deg);
+@keyframes melon-stamp-again {
+  0% {
+    opacity: 0;
+    transform: rotate(-24deg) scale(1.6);
+  }
+  70% {
+    opacity: 1;
+    transform: rotate(-11deg) scale(0.96);
+  }
+  100% {
+    opacity: 1;
+    transform: rotate(-12deg) scale(1);
   }
 }
 
-@keyframes melon-pulse {
-  0% {
-    box-shadow: 0 0 0 0 color-mix(in srgb, var(--tertiary) 55%, transparent);
+@keyframes melon-rise-again {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
   }
-  70%,
-  100% {
-    box-shadow: 0 0 0 8px transparent;
+  to {
+    opacity: 1;
+    transform: none;
   }
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .center > :not(.page-footer) {
-    animation: melon-rise 0.6s var(--melon-ease) both;
+  .melon-plate-code {
+    transform-origin: 0 100%;
+    animation: melon-press 0.55s var(--melon-ease) both;
   }
 
-  .center > :nth-child(2) {
-    animation-delay: 0.07s;
-  }
-
-  .center.melon-enter > :not(.page-footer) {
-    animation-name: melon-rise-again;
-  }
-
-  .sidebar {
-    animation: melon-fade 0.7s ease both;
-  }
-
-  .sidebar.right {
-    animation-delay: 0.15s;
-  }
-
-  .melon-lab-panel.melon-swap {
-    animation: melon-rise-again 0.45s var(--melon-ease) both;
-  }
-
-  .melon-courses li,
-  .melon-chapters li,
-  .melon-lab-list li {
-    animation: melon-rise 0.6s var(--melon-ease) both;
-    animation-delay: calc(0.2s + var(--i, 0) * 0.07s);
-  }
-
-  .melon-title > span:not(.melon-stamp) {
-    animation: melon-shimmer 6s ease-in-out infinite alternate;
+  .center.melon-enter .melon-plate-code {
+    animation-name: melon-press-again;
   }
 
   .melon-stamp {
-    animation: melon-stamp-in 0.75s 0.35s cubic-bezier(0.3, 1.4, 0.5, 1) both;
+    animation: melon-stamp 0.6s 0.25s cubic-bezier(0.3, 1.3, 0.5, 1) both;
   }
 
-  .melon-stamp-ring {
-    animation: melon-spin 28s linear infinite;
+  .center.melon-enter .melon-stamp {
+    animation-name: melon-stamp-again;
   }
 
-  .melon-dot {
-    animation: melon-pulse 2.2s ease-out infinite;
+  // Opening a lab (a response to a click, not an entrance)
+  .melon-lab-panel.melon-swap {
+    animation: melon-rise-again 0.35s var(--melon-ease) both;
   }
 
   .melon-progress {
     transition: transform 0.12s linear;
   }
-}
-
-// Figure captions: an italic line written directly under an embedded diagram
-// (Quartz's base styles already place it as a caption below the image)
-article p > img + em {
-  color: var(--darkgray);
-  font-size: 0.9rem;
 }
 
 // ---------- Interactive op amp diagrams (components/MelonOpAmp.tsx) ----------
@@ -1162,7 +1133,70 @@ article p > img + em {
   .oa-toolbar {
     display: flex;
     justify-content: flex-end;
+    align-items: center;
+    gap: 0.6rem;
     margin-bottom: 0.25rem;
+  }
+
+  // Real | Ideal switch for the equivalent model: a pill with both options showing,
+  // and a thumb that slides under whichever one is active
+  .oa-switch-label {
+    font-size: 0.8rem;
+    color: var(--gray);
+  }
+  .oa-switch {
+    position: relative;
+    display: inline-grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 3px;
+    border: 1px solid var(--lightgray);
+    border-radius: 999px;
+    background: var(--light);
+  }
+  .oa-switch-thumb {
+    position: absolute;
+    top: 3px;
+    bottom: 3px;
+    left: 3px;
+    width: calc(50% - 3px);
+    border: 1px solid var(--secondary);
+    border-radius: 999px;
+    background: var(--melon-soft);
+    transition: transform 0.25s var(--melon-ease);
+  }
+  &.is-ideal .oa-switch-thumb {
+    transform: translateX(100%);
+  }
+  .oa-switch-opt {
+    position: relative;
+    z-index: 1;
+    min-width: 4.5rem;
+    padding: 0.2rem 0.9rem;
+    border: 0;
+    border-radius: 999px;
+    background: none;
+    font: inherit;
+    font-size: 0.85rem;
+    color: var(--gray);
+    cursor: pointer;
+    transition: color 0.2s;
+
+    &:hover {
+      color: var(--darkgray);
+    }
+    &[aria-checked="true"] {
+      color: var(--secondary);
+      font-weight: 600;
+    }
+    &:focus-visible {
+      outline: 2px solid var(--secondary);
+      outline-offset: 2px;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .oa-switch-thumb {
+      transition: none;
+    }
   }
 
   .oa-chips {
@@ -1173,8 +1207,7 @@ article p > img + em {
     margin: 0.75rem 0;
   }
 
-  .oa-chip,
-  .oa-toggle {
+  .oa-chip {
     font: inherit;
     font-size: 0.85rem;
     color: var(--darkgray);
@@ -1271,4 +1304,916 @@ article p > img + em {
       grid-template-columns: 1fr;
     }
   }
+}
+
+// ---------- Interactive digital logic diagrams (components/MelonLogic.tsx) ----------
+
+.melon-logic {
+  margin: 1.5rem 0;
+  padding: 1rem 1.1rem 1.1rem;
+  border: 1px solid var(--lightgray);
+  border-radius: var(--melon-radius);
+  background: color-mix(in srgb, var(--light) 70%, transparent);
+  // Fallback text, shown until the script fills it in
+  color: var(--gray);
+  font-size: 0.9rem;
+
+  // Overbar for complemented variables in HTML text
+  .lg-bar {
+    text-decoration: overline;
+    text-decoration-thickness: 1px;
+  }
+
+  .lg-svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin: 0 auto;
+    font-family: var(--bodyFont);
+    overflow: visible;
+    user-select: none;
+  }
+  .lg-gate {
+    max-width: 380px;
+  }
+  .lg-timing {
+    max-width: 640px;
+  }
+  .lg-kmap {
+    max-width: 330px;
+  }
+  .lg-scope {
+    max-width: 440px;
+  }
+  .lg-cmos {
+    max-width: 360px;
+  }
+  .lg-adder {
+    max-width: 600px;
+  }
+  .lg-mux {
+    max-width: 380px;
+  }
+  .lg-seg {
+    max-width: 130px;
+  }
+
+  // ----- SVG basics -----
+
+  text {
+    fill: var(--darkgray);
+    font-size: 14px;
+  }
+  .lg-sub {
+    font-size: 10px;
+  }
+  .lg-label {
+    font-weight: 600;
+  }
+  .lg-small-label {
+    font-size: 13px;
+  }
+  .lg-val {
+    fill: var(--tertiary);
+    font-family: var(--codeFont);
+    font-size: 12px;
+  }
+  .lg-strong {
+    font-size: 15px;
+    font-weight: 700;
+    fill: var(--secondary);
+  }
+
+  .lg-wire,
+  .lg-body,
+  .lg-chan,
+  .lg-rail {
+    fill: none;
+    stroke: var(--gray);
+    stroke-width: 2;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+    transition: stroke 0.2s, stroke-width 0.2s, opacity 0.2s;
+  }
+  .lg-body {
+    fill: var(--light);
+  }
+  .lg-body.lg-open {
+    fill: none;
+  }
+  .lg-rail {
+    stroke-width: 3;
+  }
+  .lg-wire.is-hi {
+    stroke: var(--secondary);
+    stroke-width: 3;
+  }
+  .lg-wire.is-sel {
+    stroke-width: 3;
+  }
+  .lg-wire.is-sel:not(.is-hi) {
+    stroke: var(--tertiary);
+  }
+  .lg-term,
+  .lg-bubble {
+    fill: var(--light);
+    stroke: var(--gray);
+    stroke-width: 2;
+  }
+  .lg-node {
+    fill: var(--gray);
+  }
+  .lg-term.is-hi {
+    fill: var(--secondary);
+    stroke: var(--secondary);
+  }
+  .lg-hit {
+    stroke: transparent;
+    stroke-width: 22;
+  }
+  .lg-in {
+    cursor: pointer;
+
+    &:hover .lg-term,
+    &:focus-visible .lg-term {
+      stroke: var(--secondary);
+      stroke-width: 3;
+    }
+    &:focus {
+      outline: none;
+    }
+  }
+  .lg-grid {
+    stroke: var(--lightgray);
+    stroke-width: 1;
+  }
+  .lg-axis {
+    fill: var(--gray);
+    font-family: var(--codeFont);
+    font-size: 12px;
+  }
+  .lg-block {
+    fill: color-mix(in srgb, var(--secondary) 6%, var(--light));
+    stroke: var(--gray);
+    stroke-width: 2;
+  }
+  .lg-block-label {
+    fill: var(--gray);
+    font-family: var(--headerFont);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+  }
+  .lg-arrowhead {
+    fill: var(--gray);
+  }
+  .lg-pin {
+    fill: var(--gray);
+    font-size: 10px;
+    font-family: var(--codeFont);
+  }
+
+  // ----- Pill buttons, switches, and other controls -----
+
+  .lg-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0 1.25rem;
+  }
+  .lg-chips {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.4rem;
+    margin: 0 0 0.75rem;
+  }
+  .lg-chip,
+  .lg-btn,
+  .lg-toggle {
+    font: inherit;
+    font-size: 0.85rem;
+    color: var(--darkgray);
+    background: var(--light);
+    border: 1px solid var(--lightgray);
+    border-radius: 999px;
+    padding: 0.2rem 0.75rem;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s, color 0.2s;
+
+    &:hover {
+      border-color: var(--secondary);
+      color: var(--secondary);
+    }
+    &[aria-pressed="true"] {
+      background: var(--melon-soft);
+      border-color: var(--secondary);
+      color: var(--secondary);
+    }
+    &:focus-visible {
+      outline: 2px solid var(--secondary);
+      outline-offset: 2px;
+    }
+  }
+  .lg-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.2rem 0.35rem 0.2rem 0.75rem;
+
+    b {
+      display: inline-grid;
+      place-items: center;
+      min-width: 1.4rem;
+      height: 1.4rem;
+      border-radius: 999px;
+      background: var(--lightgray);
+      color: var(--darkgray);
+      font-family: var(--codeFont);
+      font-size: 0.8rem;
+    }
+    &[aria-pressed="true"] b {
+      background: var(--secondary);
+      color: var(--light);
+    }
+  }
+  .lg-toggles {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 0.4rem;
+    margin: 0.75rem 0;
+  }
+  .lg-sep {
+    width: 0.75rem;
+  }
+  .lg-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 0.6rem;
+  }
+  .lg-actions-left {
+    justify-content: center;
+  }
+  .lg-hint {
+    margin-right: auto;
+    color: var(--gray);
+    font-size: 0.8rem;
+  }
+
+  .lg-info {
+    min-height: 4rem;
+    padding: 0.6rem 0.85rem;
+    border-left: 3px solid var(--secondary);
+    border-radius: 0 8px 8px 0;
+    background: var(--highlight);
+    color: var(--darkgray);
+    font-size: 0.92rem;
+  }
+  .lg-info-title {
+    font-family: var(--headerFont);
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 0.15rem;
+  }
+  .lg-expr {
+    font-family: var(--codeFont);
+    font-size: 0.88rem;
+    color: var(--dark);
+  }
+
+  .lg-readout {
+    margin: 0.75rem 0 0;
+    color: var(--darkgray);
+    font-family: var(--codeFont);
+    font-size: 0.82rem;
+    line-height: 1.7;
+  }
+  .lg-prose {
+    font-family: var(--bodyFont);
+    font-size: 0.9rem;
+    line-height: 1.55;
+  }
+  .lg-note {
+    color: var(--gray);
+  }
+  .lg-warn {
+    color: var(--secondary);
+    font-weight: 600;
+  }
+  .lg-flag {
+    display: inline-block;
+    padding: 0 0.5rem;
+    border-radius: 999px;
+    background: var(--melon-soft);
+    color: var(--secondary);
+    font-family: var(--bodyFont);
+    font-weight: 600;
+  }
+
+  // Diagram beside a truth table, stacking on narrow screens
+  .lg-split {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem 1.5rem;
+
+    > .lg-svg {
+      flex: 1 1 260px;
+      margin: 0;
+    }
+  }
+  .lg-tt {
+    flex: 0 0 auto;
+    margin: 0;
+    border-collapse: collapse;
+    font-family: var(--codeFont);
+    font-size: 0.85rem;
+
+    th,
+    td {
+      padding: 0.2rem 0.7rem;
+      text-align: center;
+      border-bottom: 1px solid var(--lightgray);
+    }
+    th {
+      color: var(--gray);
+      font-weight: 600;
+    }
+    tbody tr {
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    tbody tr:hover {
+      background: var(--highlight);
+    }
+    tr.is-cur {
+      background: var(--melon-soft);
+      color: var(--secondary);
+    }
+  }
+
+  // ----- Timing diagrams -----
+
+  .lg-wave {
+    fill: none;
+    stroke: var(--gray);
+    stroke-width: 2;
+    stroke-linejoin: round;
+  }
+  .lg-wave.is-out {
+    stroke: var(--secondary);
+    stroke-width: 2.5;
+  }
+  .lg-wave.is-clock {
+    stroke: var(--tertiary);
+  }
+  .lg-out-label {
+    fill: var(--secondary);
+  }
+  .lg-shade {
+    fill: color-mix(in srgb, var(--secondary) 9%, transparent);
+  }
+  .lg-edge {
+    stroke: var(--tertiary);
+    stroke-width: 1;
+    stroke-dasharray: 4 4;
+    opacity: 0.7;
+  }
+  .lg-slot {
+    fill: transparent;
+    cursor: pointer;
+
+    &:hover,
+    &:focus-visible {
+      fill: var(--melon-soft);
+      outline: none;
+    }
+  }
+  .lg-invalid {
+    fill: color-mix(in srgb, #dc2626 18%, transparent);
+  }
+  .lg-hatch-line {
+    stroke: var(--secondary);
+    stroke-width: 1.5;
+    opacity: 0.6;
+  }
+
+  // ----- Karnaugh map -----
+
+  .lg-cell {
+    cursor: pointer;
+
+    rect {
+      fill: var(--light);
+      stroke: var(--lightgray);
+      stroke-width: 1;
+      transition: fill 0.15s;
+    }
+    &:hover rect,
+    &:focus-visible rect {
+      fill: var(--highlight);
+    }
+    &:focus {
+      outline: none;
+    }
+  }
+  .lg-cell-m {
+    fill: var(--gray);
+    font-family: var(--codeFont);
+    font-size: 9px;
+    opacity: 0.8;
+  }
+  .lg-cell-v {
+    fill: var(--gray);
+    font-family: var(--codeFont);
+    font-size: 20px;
+    opacity: 0.45;
+  }
+  .lg-cell.is-one .lg-cell-v {
+    fill: var(--dark);
+    font-weight: 700;
+    opacity: 1;
+  }
+  .lg-cell.is-dc .lg-cell-v {
+    fill: var(--tertiary);
+    font-weight: 700;
+    opacity: 1;
+  }
+  .lg-kmap-frame {
+    fill: none;
+    stroke: var(--gray);
+    stroke-width: 1.5;
+  }
+  .lg-group {
+    fill: var(--g);
+    fill-opacity: 0.1;
+    stroke: var(--g);
+    stroke-width: 2.5;
+    pointer-events: none;
+    transition: fill-opacity 0.15s, stroke-width 0.15s;
+  }
+  .lg-group.is-hot {
+    fill-opacity: 0.25;
+    stroke-width: 4;
+  }
+  .lg-result {
+    margin-top: 0.75rem;
+    text-align: center;
+    font-size: 1rem;
+  }
+  .lg-result-label {
+    color: var(--gray);
+    font-size: 0.85rem;
+  }
+  .lg-term {
+    display: inline-block;
+    padding: 0 0.3rem;
+    border-bottom: 3px solid var(--g);
+    border-radius: 4px;
+    cursor: default;
+    transition: background 0.15s;
+  }
+  .lg-term.is-hot {
+    background: color-mix(in srgb, var(--g) 18%, transparent);
+  }
+
+  // ----- Number representations -----
+
+  .lg-bits {
+    display: flex;
+    justify-content: center;
+    gap: 0.3rem;
+  }
+  .lg-bitbtn {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 2.6rem;
+    padding: 0.25rem 0.2rem;
+    font: inherit;
+    color: var(--darkgray);
+    background: var(--light);
+    border: 1px solid var(--lightgray);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+
+    b {
+      font-family: var(--codeFont);
+      font-size: 1.25rem;
+      line-height: 1.3;
+    }
+    &[aria-pressed="true"] {
+      background: var(--melon-soft);
+      border-color: var(--secondary);
+
+      b {
+        color: var(--secondary);
+      }
+    }
+    &:hover {
+      border-color: var(--secondary);
+    }
+    &:focus-visible {
+      outline: 2px solid var(--secondary);
+      outline-offset: 2px;
+    }
+  }
+  // Gap between the two nibbles of the 8-bit number
+  .lg-bits .lg-bitbtn:nth-child(4) {
+    margin-right: 0.6rem;
+  }
+  .lg-w,
+  .lg-pos {
+    color: var(--gray);
+    font-family: var(--codeFont);
+    font-size: 0.68rem;
+  }
+  .lg-nibbles {
+    display: flex;
+    justify-content: center;
+    gap: 0.6rem;
+    margin-top: 0.3rem;
+
+    span {
+      width: calc(4 * 2.6rem + 3 * 0.3rem);
+      max-width: 45%;
+      padding-top: 0.15rem;
+      border-top: 2px solid var(--lightgray);
+      color: var(--tertiary);
+      font-family: var(--codeFont);
+      font-weight: 700;
+      text-align: center;
+    }
+  }
+  .lg-dec {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-right: 0.4rem;
+    color: var(--darkgray);
+
+    input {
+      width: 5.5rem;
+    }
+  }
+  input[type="number"],
+  select {
+    font: inherit;
+    font-size: 0.85rem;
+    color: var(--darkgray);
+    background: var(--light);
+    border: 1px solid var(--lightgray);
+    border-radius: 8px;
+    padding: 0.15rem 0.4rem;
+
+    &:focus-visible {
+      outline: 2px solid var(--secondary);
+      outline-offset: 1px;
+    }
+  }
+  .lg-readtable {
+    width: 100%;
+    margin: 0.75rem 0 0;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+
+    th,
+    td {
+      padding: 0.3rem 0.5rem;
+      border-bottom: 1px solid var(--lightgray);
+      text-align: left;
+    }
+    th {
+      width: 40%;
+      color: var(--gray);
+      font-weight: 600;
+    }
+    td {
+      font-family: var(--codeFont);
+      color: var(--dark);
+    }
+  }
+
+  // ----- Oscilloscope -----
+
+  .lg-screen {
+    fill: color-mix(in srgb, var(--dark) 4%, var(--light));
+    stroke: var(--gray);
+    stroke-width: 1.5;
+  }
+  .lg-axis-line {
+    stroke: var(--gray);
+    opacity: 0.45;
+  }
+  .lg-scope-zero {
+    fill: var(--gray);
+    font-family: var(--codeFont);
+    font-size: 10px;
+  }
+  .lg-trace {
+    fill: none;
+    stroke: var(--secondary);
+    stroke-width: 2.5;
+    stroke-linejoin: round;
+  }
+  .lg-blur {
+    fill: var(--secondary);
+    opacity: 0.3;
+  }
+  .lg-controls {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.5rem 1.25rem;
+    margin-top: 1rem;
+
+    label {
+      display: grid;
+      grid-template-columns: 8.5rem 1fr;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--darkgray);
+    }
+    input[type="range"] {
+      width: 100%;
+      accent-color: var(--secondary);
+    }
+    output,
+    .lg-unit {
+      font-family: var(--codeFont);
+      font-size: 0.8rem;
+      color: var(--tertiary);
+    }
+  }
+  .lg-pair {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+
+    input[type="number"] {
+      width: 100%;
+      min-width: 0;
+    }
+  }
+
+  // ----- CMOS -----
+
+  .lg-mos .lg-chan {
+    stroke-width: 3;
+  }
+  .lg-mos.is-off .lg-chan {
+    stroke-dasharray: 3 5;
+    opacity: 0.45;
+  }
+  .lg-mos.is-on .lg-chan {
+    stroke: var(--secondary);
+  }
+  .lg-state {
+    fill: var(--gray);
+    font-family: var(--codeFont);
+    font-size: 10px;
+  }
+  .lg-mos.is-on .lg-state {
+    fill: var(--secondary);
+    font-weight: 700;
+  }
+  .lg-pun.is-live,
+  .lg-pdn.is-live {
+    stroke: var(--secondary);
+    stroke-width: 3;
+  }
+  .lg-net {
+    fill: var(--gray);
+    font-size: 11px;
+    letter-spacing: 0.04em;
+  }
+  .lg-tt-wide th,
+  .lg-tt-wide td {
+    padding: 0.2rem 0.5rem;
+  }
+
+  // ----- Adder -----
+
+  .lg-bitrows {
+    display: grid;
+    gap: 0.4rem;
+    justify-content: center;
+    margin-bottom: 0.5rem;
+  }
+  .lg-bitrow {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
+  .lg-bitrow-name {
+    width: 1.4rem;
+    font-weight: 700;
+    color: var(--dark);
+  }
+  .lg-bitrow-val {
+    margin-left: 0.5rem;
+    color: var(--gray);
+    font-family: var(--codeFont);
+    font-size: 0.8rem;
+  }
+  .lg-bitbtn.lg-small {
+    min-width: 2.3rem;
+
+    b {
+      font-size: 1.05rem;
+    }
+  }
+
+  // ----- Multiplexer -----
+
+  .lg-termsel {
+    padding: 0 0.15rem;
+    border-radius: 4px;
+    opacity: 0.55;
+  }
+  .lg-termsel.is-sel {
+    background: var(--melon-soft);
+    color: var(--secondary);
+    opacity: 1;
+  }
+
+  // ----- 7-segment display -----
+
+  .lg-segment {
+    polygon {
+      fill: var(--lightgray);
+      opacity: 0.5;
+      transition: fill 0.2s, opacity 0.2s;
+    }
+    text {
+      fill: var(--gray);
+      font-size: 9px;
+      opacity: 0;
+    }
+    &.is-lit polygon {
+      fill: var(--secondary);
+      opacity: 1;
+    }
+    &.is-hot polygon {
+      stroke: var(--tertiary);
+      stroke-width: 2;
+    }
+    &.is-hot text {
+      opacity: 1;
+    }
+  }
+  .lg-seglist {
+    flex: 1 1 240px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-family: var(--codeFont);
+    font-size: 0.85rem;
+
+    li {
+      margin: 0;
+      padding: 0.15rem 0.5rem;
+      border-radius: 6px;
+      color: var(--gray);
+    }
+    li.is-lit {
+      color: var(--dark);
+
+      b {
+        color: var(--secondary);
+      }
+    }
+    li.is-hot {
+      background: var(--highlight);
+    }
+  }
+
+  @media (max-width: 640px) {
+    padding: 0.85rem 0.6rem;
+
+    .lg-controls {
+      grid-template-columns: 1fr;
+    }
+    .lg-bitbtn {
+      min-width: 2.1rem;
+    }
+    .lg-nibbles span {
+      width: calc(4 * 2.1rem + 3 * 0.3rem);
+    }
+  }
+}
+
+// ---------- Figure panel on concept pages (components/MelonFigures.tsx) ----------
+
+.melon-figures {
+  padding: 0.75rem 0.85rem 0.85rem;
+  border: 1px solid var(--lightgray);
+  border-radius: var(--melon-radius);
+  background: color-mix(in srgb, var(--lightgray) 22%, transparent);
+
+  &[hidden] {
+    display: none;
+  }
+
+  .melon-figures-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+
+    h3 {
+      margin: 0;
+      font-size: 1rem;
+    }
+  }
+
+  .melon-figures-nav {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.8rem;
+    color: var(--gray);
+
+    button {
+      width: 1.6rem;
+      height: 1.6rem;
+      padding: 0;
+      border: 1px solid var(--lightgray);
+      border-radius: 999px;
+      background: var(--light);
+      color: var(--darkgray);
+      font: inherit;
+      font-size: 1rem;
+      line-height: 1;
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
+
+      &:hover {
+        border-color: var(--secondary);
+        color: var(--secondary);
+      }
+    }
+  }
+
+  .melon-figures-count {
+    min-width: 2.6rem;
+    text-align: center;
+    font-family: var(--codeFont);
+  }
+
+  .melon-figures-view {
+    display: block;
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    background: var(--light);
+    cursor: zoom-in;
+    transition: border-color 0.2s;
+
+    &:hover {
+      border-color: color-mix(in srgb, var(--secondary) 45%, transparent);
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      height: auto;
+      max-height: 45vh;
+      object-fit: contain;
+      margin: 0;
+    }
+  }
+
+  .melon-figures-caption {
+    margin: 0.5rem 0 0;
+    font-size: 0.8rem;
+    line-height: 1.45;
+    color: var(--darkgray);
+  }
+
+  &.is-swapping .melon-figures-view,
+  &.is-swapping .melon-figures-caption {
+    animation: melon-figure-in 0.35s var(--melon-ease);
+  }
+}
+
+@keyframes melon-figure-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+}
+
+// The figure in the text, briefly, after clicking it in the panel
+article p.melon-figure-flash {
+  border-radius: 10px;
+  box-shadow: 0 0 0 6px var(--melon-soft);
+  transition: box-shadow 0.4s ease;
 }

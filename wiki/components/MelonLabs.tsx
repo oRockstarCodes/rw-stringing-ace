@@ -8,6 +8,7 @@ import {
   slugifyFilePath,
 } from "../../util/path"
 import type { Lab } from "../../plugins/custom/MelonLabsData"
+import { CoursePlate } from "./MelonPlate"
 
 // Copied into quartz/components/custom/ at build time by scripts/build-wiki.sh.
 // A course's Labs page (courses/<code>/labs/, emitted by plugins/MelonLabsPage.ts).
@@ -233,19 +234,14 @@ export default (() => {
     const course = fileData.melonCourse
     return (
       <div class="popover-hint melon-course">
-        <p class="melon-eyebrow">
-          <span class="melon-dot" aria-hidden="true"></span>
-          {course?.code}
-        </p>
-        <h1 class="melon-course-title">Labs</h1>
-        <p class="melon-course-meta">
+        <CoursePlate code={course?.code ?? ""} title="Labs">
           {course && (
             <a href={resolveRelative(here, course.slug as FullSlug)} class="internal">
-              ← {course.name}
+              Back to {course.name}
             </a>
           )}
           <span>{labsSummary(labs)}</span>
-        </p>
+        </CoursePlate>
         <MelonLabs labs={labs} here={here} />
       </div>
     )

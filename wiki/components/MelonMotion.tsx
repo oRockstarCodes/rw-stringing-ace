@@ -1,8 +1,8 @@
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "../types"
 
 // Copied into quartz/components/custom/ at build time by scripts/build-wiki.sh.
-// Page-to-page motion: replays the entrance animation on every (SPA) navigation
-// and draws a reading-progress bar along the top of the window.
+// Page-to-page motion: replays the press-in of the course code (or the home stamp) on
+// every (SPA) navigation and draws a reading-progress bar along the top of the window.
 // The animations themselves live in wiki/custom.scss.
 //
 // It also carries the list of courses that have labs (data-labs="pcs-224,ele-302"),
@@ -14,12 +14,28 @@ const MelonMotion: QuartzComponent = ({ allFiles }: QuartzComponentProps) => {
     .filter((f) => f.melonLabs?.length && /^courses\/[^/]+\/index$/.test(f.slug ?? ""))
     .map((f) => f.slug!.split("/")[1])
   return (
-    <div
-      class="melon-progress"
-      id="melon-data"
-      data-labs={coursesWithLabs.join(",")}
-      aria-hidden="true"
-    ></div>
+    <>
+      <div
+        class="melon-progress"
+        id="melon-data"
+        data-labs={coursesWithLabs.join(",")}
+        aria-hidden="true"
+      ></div>
+      {/* The narrow widths of Anybody, for the carved course codes. Quartz's own font
+          link (in <head>) only loads its normal width. */}
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Anybody:wdth,wght@50..150,500..900&display=swap"
+      />
+      {/* Roughens the edges of large type so it looks carved and printed, like the site
+          icon. Used by the home title and the course codes (filter: url(#melon-carve)). */}
+      <svg class="melon-defs" aria-hidden="true" focusable="false">
+        <filter id="melon-carve" x="-2%" y="-5%" width="104%" height="110%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="2" seed="7" />
+          <feDisplacementMap in="SourceGraphic" scale="3.2" />
+        </filter>
+      </svg>
+    </>
   )
 }
 
