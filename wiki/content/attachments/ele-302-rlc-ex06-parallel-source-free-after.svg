@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 450 210" width="450" height="210" font-family="DM Sans, system-ui, sans-serif" font-size="13">
+  <g fill="none" stroke="#8a8a93" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+    <circle cx="50" cy="120" r="16"/>
+    <polyline points="50,104 50,50 80,50"/>
+    <polyline points="80,50 85,42 95,58 105,42 115,58 125,42 135,58 140,50"/>
+    <polyline points="140,50 150,50"/>
+    <polyline points="190,50 390,50"/>
+    <polyline points="50,136 50,190 390,190"/>
+    <polyline points="240,50 240,90"/>
+    <polyline points="240,150 240,190"/>
+    <polyline points="315,50 315,90"/>
+    <polyline points="315,150 315,190"/>
+    <polyline points="390,50 390,90"/>
+    <polyline points="390,150 390,190"/>
+    <polyline points="240,90 248,95 232,105 248,115 232,125 248,135 232,145 240,150"/>
+    <path d="M315 90 v10 a5 5 0 0 1 0 10 a5 5 0 0 1 0 10 a5 5 0 0 1 0 10 a5 5 0 0 1 0 10 v10"/>
+    <polyline points="390,90 390,115"/>
+    <polyline points="378,115 402,115"/>
+    <polyline points="378,125 402,125"/>
+    <polyline points="390,125 390,150"/>
+  </g>
+  <g fill="#8a8a93">
+    <text x="50" y="117" font-size="12" text-anchor="middle">+</text>
+    <text x="50" y="132" font-size="12" text-anchor="middle">−</text>
+    <circle cx="150" cy="50" r="3"/>
+    <circle cx="190" cy="50" r="3"/>
+    <circle cx="240" cy="50" r="4"/>
+    <circle cx="315" cy="50" r="4"/>
+    <circle cx="240" cy="190" r="4"/>
+    <circle cx="315" cy="190" r="4"/>
+    <text x="170" y="35" font-size="12" text-anchor="middle">open</text>
+    <text x="416" y="104" font-size="12" text-anchor="middle">+</text>
+    <text x="416" y="144" font-size="12" text-anchor="middle">−</text>
+  </g>
+  <g fill="#c99a12" font-weight="600">
+    <text x="26" y="125" text-anchor="end">20 V</text>
+    <text x="110" y="35" text-anchor="middle">4 Ω</text>
+    <text x="226" y="125" text-anchor="end">1 Ω</text>
+    <polygon points="309,70 315,82 321,70"/>
+    <text x="327" y="80">5 A</text>
+    <text x="301" y="125" text-anchor="end">0.32 H</text>
+    <text x="376" y="125" text-anchor="end">⅛ F</text>
+    <text x="416" y="125" text-anchor="middle">0 V</text>
+  </g>
+</svg>

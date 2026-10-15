@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 350 180" width="350" height="180" font-family="DM Sans, system-ui, sans-serif" font-size="13">
+  <g fill="none" stroke="#8a8a93" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+    <circle cx="40" cy="100" r="16"/>
+    <line x1="40" y1="109" x2="40" y2="96"/>
+    <polyline points="40,84 40,40 300,40"/>
+    <polyline points="40,116 40,160 300,160"/>
+    <polyline points="100,40 100,70"/>
+    <polyline points="100,130 100,160"/>
+    <polyline points="180,40 180,70"/>
+    <polyline points="180,130 180,160"/>
+    <polyline points="260,40 260,70"/>
+    <polyline points="260,130 260,160"/>
+    <polyline points="100,70 108,75 92,85 108,95 92,105 108,115 92,125 100,130"/>
+    <path d="M180 70 v10 a5 5 0 0 1 0 10 a5 5 0 0 1 0 10 a5 5 0 0 1 0 10 a5 5 0 0 1 0 10 v10"/>
+    <polyline points="260,70 260,95"/>
+    <polyline points="248,95 272,95"/>
+    <polyline points="248,105 272,105"/>
+    <polyline points="260,105 260,130"/>
+  </g>
+  <g fill="#8a8a93">
+    <polygon points="35,97 40,89 45,97"/>
+    <circle cx="100" cy="40" r="4"/>
+    <circle cx="100" cy="160" r="4"/>
+    <circle cx="180" cy="40" r="4"/>
+    <circle cx="180" cy="160" r="4"/>
+    <circle cx="260" cy="40" r="4"/>
+    <circle cx="260" cy="160" r="4"/>
+    <text x="320" y="84" font-size="12" text-anchor="middle">+</text>
+    <text x="320" y="124" font-size="12" text-anchor="middle">−</text>
+  </g>
+  <g fill="#c99a12" font-weight="600">
+    <text x="60" y="105">I<tspan font-size="10" dy="4">s</tspan><tspan dy="-4"></tspan></text>
+    <text x="320" y="105" text-anchor="middle">v</text>
+    <text x="116" y="105">R</text>
+    <text x="196" y="105">L</text>
+    <text x="276" y="105">C</text>
+  </g>
+</svg>

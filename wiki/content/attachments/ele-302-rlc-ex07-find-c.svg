@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 430 180" width="430" height="180" font-family="DM Sans, system-ui, sans-serif" font-size="13">
+  <g fill="none" stroke="#8a8a93" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+    <polyline points="60,40 360,40"/>
+    <polyline points="60,160 360,160"/>
+    <polyline points="60,40 60,70"/>
+    <polyline points="60,130 60,160"/>
+    <polyline points="160,40 160,70"/>
+    <polyline points="160,130 160,160"/>
+    <polyline points="260,40 260,70"/>
+    <polyline points="260,130 260,160"/>
+    <polyline points="360,40 360,70"/>
+    <polyline points="360,130 360,160"/>
+    <polyline points="60,70 68,75 52,85 68,95 52,105 68,115 52,125 60,130"/>
+    <path d="M160 70 v10 a5 5 0 0 1 0 10 a5 5 0 0 1 0 10 a5 5 0 0 1 0 10 a5 5 0 0 1 0 10 v10"/>
+    <polyline points="260,70 260,95"/>
+    <polyline points="248,95 272,95"/>
+    <polyline points="248,105 272,105"/>
+    <polyline points="260,105 260,130"/>
+    <polyline points="360,70 360,95"/>
+    <polyline points="348,95 372,95"/>
+    <polyline points="348,105 372,105"/>
+    <polyline points="360,105 360,130"/>
+  </g>
+  <g fill="#8a8a93">
+    <circle cx="160" cy="40" r="4"/>
+    <circle cx="160" cy="160" r="4"/>
+    <circle cx="260" cy="40" r="4"/>
+    <circle cx="260" cy="160" r="4"/>
+  </g>
+  <g fill="#c99a12" font-weight="600">
+    <text x="76" y="105">5 Ω</text>
+    <text x="176" y="105">0.1 H</text>
+    <text x="276" y="105">C</text>
+    <text x="376" y="105">20 mF</text>
+  </g>
+</svg>
