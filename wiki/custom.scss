@@ -966,17 +966,13 @@ a.melon-method {
   white-space: nowrap;
 }
 
-// ----- schematic (ELE 302): chapters are components on a ladder -----
+// ----- schematic (ELE 302): chapters are parts between two rails -----
+// The parts are 3rem wide and each side has a 1.25rem wire, so the right rail is 5.5rem
+// from the left rail. The ground sits under the right rail.
 
 .melon-ladder {
-  list-style: none;
-  margin: 0 0 0 6px;
-  padding: 0.25rem 0 0;
-  border-left: 2px solid var(--darkgray);
-
-  li {
-    margin: 0;
-  }
+  --melon-rail-x: 5.5rem;
+  margin-left: 6px;
 
   svg {
     fill: none;
@@ -987,21 +983,36 @@ a.melon-method {
   }
 }
 
+.melon-rungs {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-left: 2px solid var(--darkgray);
+
+  li {
+    margin: 0;
+  }
+}
+
 a.melon-rung {
   position: relative;
   display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  padding: 0.45rem 0;
+  align-items: stretch;
   color: var(--dark);
   transition: color 0.2s ease;
 
   &:hover {
     color: var(--secondary);
   }
+
+  // The wires and the part sit on the middle of the rung
+  .melon-wire,
+  .melon-part {
+    align-self: center;
+  }
 }
 
-// The dot where the rung meets the bus
+// The dot where the rung meets the left rail
 .melon-node {
   position: absolute;
   left: -7px;
@@ -1032,6 +1043,16 @@ a.melon-rung {
   }
 }
 
+// The label sits to the right of the right rail, and its left border is the rail
+.melon-rung-label {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-width: 0;
+  padding: 0.5rem 0 0.5rem 0.75rem;
+  border-left: 2px solid var(--darkgray);
+}
+
 .melon-ref {
   flex: none;
   min-width: 2.2rem;
@@ -1048,9 +1069,9 @@ a.melon-rung {
 }
 
 .melon-ground {
-  margin: 0 0 0 -13px;
-  padding-top: 0.25rem;
+  margin-left: calc(var(--melon-rail-x) - 9px);
   color: var(--darkgray);
+  line-height: 0;
 
   svg {
     display: block;

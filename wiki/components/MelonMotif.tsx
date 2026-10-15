@@ -188,38 +188,45 @@ const PARTS: { letter: string; symbol: JSX.Element }[] = [
   },
 ]
 
+// Parts sit in parallel between two rails: a left rail with a node at each rung, and a
+// right rail that ends in ground. Every wire touches the part and the rails it joins.
 const Schematic = (p: Props) => (
   <div class="melon-motif melon-ladder-wrap melon-ui">
     {p.chapters.length === 0 ? (
       <Empty />
     ) : (
-      <ol class="melon-ladder">
-        {p.chapters.map((c, i) => {
-          const part = PARTS[i % PARTS.length]
-          return (
-            <li>
-              <a href={c.href} class="internal melon-rung">
-                <span class="melon-node" aria-hidden="true"></span>
-                <span class="melon-wire" aria-hidden="true"></span>
-                <span class="melon-part">{part.symbol}</span>
-                <span class="melon-ref">
-                  {part.letter}
-                  {c.n}
-                </span>
-                <span class="melon-rung-name">{c.name}</span>
-              </a>
-            </li>
-          )
-        })}
-        <li class="melon-ground" aria-hidden="true">
+      <div class="melon-ladder">
+        <ol class="melon-rungs">
+          {p.chapters.map((c, i) => {
+            const part = PARTS[i % PARTS.length]
+            return (
+              <li>
+                <a href={c.href} class="internal melon-rung">
+                  <span class="melon-node" aria-hidden="true"></span>
+                  <span class="melon-wire" aria-hidden="true"></span>
+                  <span class="melon-part">{part.symbol}</span>
+                  <span class="melon-wire" aria-hidden="true"></span>
+                  <span class="melon-rung-label">
+                    <span class="melon-ref">
+                      {part.letter}
+                      {c.n}
+                    </span>
+                    <span class="melon-rung-name">{c.name}</span>
+                  </span>
+                </a>
+              </li>
+            )
+          })}
+        </ol>
+        <div class="melon-ground" aria-hidden="true">
           <svg viewBox="0 0 24 16">
             <line x1="12" y1="0" x2="12" y2="6" />
             <line x1="3" y1="6" x2="21" y2="6" />
             <line x1="7" y1="10" x2="17" y2="10" />
             <line x1="10" y1="14" x2="14" y2="14" />
           </svg>
-        </li>
-      </ol>
+        </div>
+      </div>
     )}
   </div>
 )
