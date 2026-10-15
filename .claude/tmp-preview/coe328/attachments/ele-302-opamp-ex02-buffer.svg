@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 350 215" width="350" height="215" font-family="DM Sans, system-ui, sans-serif" font-size="13">
+  <g fill="none" stroke="#8a8a93" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+    <polygon points="150,60 150,160 240,110"/>
+    <circle cx="70" cy="160" r="16"/>
+    <polyline points="70,144 70,135 150,135"/>
+    <polyline points="70,176 70,190"/>
+    <line x1="58" y1="190" x2="82" y2="190"/>
+    <line x1="63" y1="196" x2="77" y2="196"/>
+    <line x1="68" y1="202" x2="72" y2="202"/>
+    <polyline points="240,110 310,110"/>
+    <polyline points="270,110 270,40 120,40 120,85 150,85"/>
+  </g>
+  <g fill="#8a8a93">
+    <text x="156" y="90" font-size="16">−</text>
+    <text x="156" y="140" font-size="16">+</text>
+    <text x="70" y="157" font-size="12" text-anchor="middle">+</text>
+    <text x="70" y="172" font-size="12" text-anchor="middle">−</text>
+    <circle cx="270" cy="110" r="4"/>
+    <circle cx="310" cy="110" r="4"/>
+  </g>
+  <g fill="#c99a12" font-weight="600">
+    <text x="46" y="165" text-anchor="end">vᵢ</text>
+    <text x="320" y="115">vₒ</text>
+  </g>
+</svg>

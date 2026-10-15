@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 175" width="420" height="175" font-family="DM Sans, system-ui, sans-serif" font-size="13">
+  <g fill="none" stroke="#8a8a93" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+    <!-- G4: NAND with tied inputs (inverter) -->
+    <path d="M70,45 h18 a18,18 0 0 1 0,36 h-18 z"/>
+    <circle cx="111" cy="63" r="5"/>
+    <polyline points="30,63 50,63"/>
+    <polyline points="50,54 50,72"/>
+    <line x1="50" y1="54" x2="70" y2="54"/>
+    <line x1="50" y1="72" x2="70" y2="72"/>
+    <polyline points="116,63 132,63 132,48 150,48"/>
+    <!-- G2: NAND -->
+    <path d="M150,10 h25 a25,25 0 0 1 0,50 h-25 z"/>
+    <circle cx="205" cy="35" r="5"/>
+    <line x1="30" y1="22" x2="150" y2="22"/>
+    <polyline points="210,35 245,35 245,72 274,72"/>
+    <!-- G3: NAND -->
+    <path d="M150,110 h25 a25,25 0 0 1 0,50 h-25 z"/>
+    <circle cx="205" cy="135" r="5"/>
+    <line x1="30" y1="122" x2="150" y2="122"/>
+    <line x1="30" y1="148" x2="150" y2="148"/>
+    <polyline points="210,135 245,135 245,98 274,98"/>
+    <!-- G1: NAND drawn as negative-OR -->
+    <path d="M285,60 q35,0 55,25 q-20,25 -55,25 q12,-25 0,-50 z"/>
+    <circle cx="284" cy="72" r="5"/>
+    <circle cx="284" cy="98" r="5"/>
+    <line x1="340" y1="85" x2="380" y2="85"/>
+  </g>
+  <circle cx="50" cy="63" r="3" fill="#8a8a93"/>
+  <g fill="#8a8a93" font-size="11" text-anchor="middle">
+    <text x="86" y="67">G4</text>
+    <text x="172" y="39">G2</text>
+    <text x="172" y="139">G3</text>
+    <text x="310" y="89">G1</text>
+  </g>
+  <g fill="#8a8a93" font-size="12">
+    <text x="118" y="44" text-decoration="overline">B</text>
+  </g>
+  <g fill="#c99a12" font-weight="600">
+    <text x="22" y="26" text-anchor="end">A</text>
+    <text x="22" y="67" text-anchor="end">B</text>
+    <text x="22" y="126" text-anchor="end">C</text>
+    <text x="22" y="152" text-anchor="end">D</text>
+    <text x="386" y="89">X</text>
+  </g>
+</svg>

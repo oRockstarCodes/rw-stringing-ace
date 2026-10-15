@@ -43,6 +43,14 @@
     <circle cx="445" cy="150" r="4"/>
     <circle cx="490" cy="150" r="4"/>
   </g>
+  <g fill="#2a9d8f" font-weight="600">
+    <circle cx="165" cy="125" r="7" fill="none" stroke="#2a9d8f" stroke-width="2"/>
+    <circle cx="165" cy="125" r="4"/>
+    <text x="172" y="117" text-anchor="start">v₊</text>
+    <circle cx="400" cy="150" r="7" fill="none" stroke="#2a9d8f" stroke-width="2"/>
+    <circle cx="400" cy="150" r="4"/>
+    <text x="408" y="140" text-anchor="start">KCL node</text>
+  </g>
   <g fill="#c99a12" font-weight="600">
     <polygon points="369,144 381,150 369,156"/>
     <text x="31" y="170" text-anchor="end">2 V</text>

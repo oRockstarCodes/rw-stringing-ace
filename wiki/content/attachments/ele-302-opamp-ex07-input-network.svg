@@ -42,6 +42,14 @@
     <circle cx="450" cy="120" r="4"/>
     <circle cx="490" cy="120" r="4"/>
   </g>
+  <g fill="#2a9d8f" font-weight="600">
+    <circle cx="180" cy="95" r="7" fill="none" stroke="#2a9d8f" stroke-width="2"/>
+    <circle cx="180" cy="95" r="4"/>
+    <text x="180" y="76" text-anchor="middle">v₁</text>
+    <circle cx="295" cy="95" r="7" fill="none" stroke="#2a9d8f" stroke-width="2"/>
+    <circle cx="295" cy="95" r="4"/>
+    <text x="302" y="84" text-anchor="start">v₋ = 0</text>
+  </g>
   <g fill="#c99a12" font-weight="600">
     <polygon points="484,133 490,145 496,133"/>
     <text x="46" y="155" text-anchor="end">1.5 V</text>

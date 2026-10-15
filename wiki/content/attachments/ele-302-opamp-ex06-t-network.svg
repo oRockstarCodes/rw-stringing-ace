@@ -34,6 +34,14 @@
     <circle cx="390" cy="170" r="4"/>
     <circle cx="430" cy="170" r="4"/>
   </g>
+  <g fill="#2a9d8f" font-weight="600">
+    <circle cx="150" cy="145" r="7" fill="none" stroke="#2a9d8f" stroke-width="2"/>
+    <circle cx="150" cy="145" r="4"/>
+    <text x="158" y="137" text-anchor="start">v₋ = 0 (KCL 1)</text>
+    <circle cx="270" cy="30" r="7" fill="none" stroke="#2a9d8f" stroke-width="2"/>
+    <circle cx="270" cy="30" r="4"/>
+    <text x="262" y="55" text-anchor="end">vₘ (KCL 2)</text>
+  </g>
   <g fill="#c99a12" font-weight="600">
     <text x="56" y="195" text-anchor="end">iₛ</text>
     <text x="200" y="17" text-anchor="middle">R₁ = 10 kΩ</text>

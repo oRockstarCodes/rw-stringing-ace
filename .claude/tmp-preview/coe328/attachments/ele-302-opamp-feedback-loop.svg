@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 180" width="400" height="180" font-family="DM Sans, system-ui, sans-serif" font-size="13">
+  <g fill="none" stroke="#8a8a93" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+    <!-- op amp -->
+    <polygon points="160,60 160,160 250,110"/>
+    <!-- input to v+ -->
+    <line x1="60" y1="135" x2="160" y2="135"/>
+    <!-- output -->
+    <line x1="250" y1="110" x2="350" y2="110"/>
+  </g>
+  <!-- feedback path -->
+  <polyline points="300,110 300,30 130,30 130,85 160,85" fill="none" stroke="#c99a12" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <polygon points="221,24 209,30 221,36" fill="#c99a12"/>
+  <g fill="#8a8a93">
+    <text x="166" y="90" font-size="16">−</text>
+    <text x="166" y="140" font-size="16">+</text>
+    <circle cx="300" cy="110" r="4"/>
+    <circle cx="60" cy="135" r="4"/>
+    <circle cx="350" cy="110" r="4"/>
+  </g>
+  <g fill="#c99a12" font-weight="600">
+    <text x="215" y="18" text-anchor="middle">feedback path</text>
+    <text x="122" y="70" text-anchor="end">v₋ = vₒ</text>
+    <text x="50" y="140" text-anchor="end">vᵢ</text>
+    <text x="360" y="115">vₒ</text>
+  </g>
+</svg>

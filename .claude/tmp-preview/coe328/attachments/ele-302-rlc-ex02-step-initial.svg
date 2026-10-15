@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-30 0 490 210" width="490" height="210" font-family="DM Sans, system-ui, sans-serif" font-size="13">
+  <g fill="none" stroke="#8a8a93" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+    <circle cx="50" cy="120" r="16"/>
+    <line x1="50" y1="129" x2="50" y2="116"/>
+    <polyline points="50,104 50,50 300,50"/>
+    <polyline points="50,136 50,190 380,190"/>
+    <polyline points="130,50 130,90"/>
+    <polyline points="130,150 130,190"/>
+    <polyline points="210,50 210,90"/>
+    <polyline points="210,150 210,190"/>
+    <polyline points="130,90 138,95 122,105 138,115 122,125 138,135 122,145 130,150"/>
+    <polyline points="210,90 210,115"/>
+    <polyline points="198,115 222,115"/>
+    <polyline points="198,125 222,125"/>
+    <polyline points="210,125 210,150"/>
+    <polyline points="260,50 265,42 275,58 285,42 295,58 305,42 315,58 320,50"/>
+    <polyline points="320,50 380,50 380,90"/>
+    <path d="M380 90 v10 a5 5 0 0 1 0 10 a5 5 0 0 1 0 10 a5 5 0 0 1 0 10 a5 5 0 0 1 0 10 v10"/>
+    <polyline points="380,150 380,190"/>
+  </g>
+  <g fill="#8a8a93">
+    <polygon points="45,117 50,109 55,117"/>
+    <circle cx="130" cy="50" r="4"/>
+    <circle cx="130" cy="190" r="4"/>
+    <circle cx="210" cy="50" r="4"/>
+    <circle cx="210" cy="190" r="4"/>
+    <text x="154" y="104" font-size="12" text-anchor="middle">+</text>
+    <text x="154" y="144" font-size="12" text-anchor="middle">−</text>
+    <text x="234" y="104" font-size="12" text-anchor="middle">+</text>
+    <text x="234" y="144" font-size="12" text-anchor="middle">−</text>
+  </g>
+  <g fill="#c99a12" font-weight="600">
+    <polygon points="374,68 380,80 386,68"/>
+    <text x="116" y="125" text-anchor="end">4 Ω</text>
+    <text x="290" y="35" text-anchor="middle">2 Ω</text>
+    <text x="154" y="125" text-anchor="middle">v<tspan font-size="10" dy="4">R</tspan><tspan dy="-4"></tspan></text>
+    <text x="26" y="125" text-anchor="end">2u(t) A</text>
+    <text x="234" y="125" text-anchor="middle">v<tspan font-size="10" dy="4">C</tspan><tspan dy="-4"></tspan></text>
+    <text x="188" y="125" text-anchor="end">¼ F</text>
+    <text x="394" y="78">i<tspan font-size="10" dy="4">L</tspan><tspan dy="-4"></tspan></text>
+    <text x="394" y="125">½ H</text>
+  </g>
+</svg>

@@ -31,6 +31,11 @@
     <circle cx="370" cy="150" r="4"/>
     <circle cx="420" cy="150" r="4"/>
   </g>
+  <g fill="#2a9d8f" font-weight="600">
+    <circle cx="220" cy="125" r="7" fill="none" stroke="#2a9d8f" stroke-width="2"/>
+    <circle cx="220" cy="125" r="4"/>
+    <text x="226" y="90" text-anchor="start">v₋ = 0 (KCL node)</text>
+  </g>
   <g fill="#c99a12" font-weight="600">
     <text x="72" y="59" text-anchor="end">2 V</text>
     <text x="72" y="94" text-anchor="end">v₂</text>

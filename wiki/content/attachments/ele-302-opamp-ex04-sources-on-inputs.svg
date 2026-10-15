@@ -29,6 +29,12 @@
     <text x="165" y="162" font-size="12" text-anchor="middle">+</text>
     <text x="165" y="177" font-size="12" text-anchor="middle">−</text>
   </g>
+  <g fill="#2a9d8f" font-weight="600">
+    <circle cx="150" cy="85" r="7" fill="none" stroke="#2a9d8f" stroke-width="2"/>
+    <circle cx="150" cy="85" r="4"/>
+    <text x="142" y="72" text-anchor="end">v₋ (KCL node)</text>
+    <text x="172" y="127">v₊</text>
+  </g>
   <g fill="#c99a12" font-weight="600">
     <text x="66" y="155" text-anchor="end">2 mA</text>
     <text x="189" y="170">3 V</text>

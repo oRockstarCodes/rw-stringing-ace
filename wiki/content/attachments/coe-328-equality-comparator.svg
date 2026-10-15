@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 160" width="340" height="160" font-family="DM Sans, system-ui, sans-serif" font-size="13">
+  <g fill="none" stroke="#8a8a93" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+    <!-- XNOR for bit 0 -->
+    <path d="M80,20 q35,0 55,25 q-20,25 -55,25 q12,-25 0,-50 z"/>
+    <path d="M70,20 q12,25 0,50"/>
+    <circle cx="140" cy="45" r="5"/>
+    <line x1="30" y1="32" x2="84" y2="32"/>
+    <line x1="30" y1="58" x2="84" y2="58"/>
+    <polyline points="145,45 175,45 175,72 200,72"/>
+    <!-- XNOR for bit 1 -->
+    <path d="M80,100 q35,0 55,25 q-20,25 -55,25 q12,-25 0,-50 z"/>
+    <path d="M70,100 q12,25 0,50"/>
+    <circle cx="140" cy="125" r="5"/>
+    <line x1="30" y1="112" x2="84" y2="112"/>
+    <line x1="30" y1="138" x2="84" y2="138"/>
+    <polyline points="145,125 175,125 175,98 200,98"/>
+    <!-- AND -->
+    <path d="M200,60 h25 a25,25 0 0 1 0,50 h-25 z"/>
+    <line x1="250" y1="85" x2="285" y2="85"/>
+  </g>
+  <g fill="#c99a12" font-weight="600">
+    <text x="24" y="36" text-anchor="end">A<tspan font-size="10" dy="3">0</tspan></text>
+    <text x="24" y="62" text-anchor="end">B<tspan font-size="10" dy="3">0</tspan></text>
+    <text x="24" y="116" text-anchor="end">A<tspan font-size="10" dy="3">1</tspan></text>
+    <text x="24" y="142" text-anchor="end">B<tspan font-size="10" dy="3">1</tspan></text>
+    <text x="291" y="89">A = B</text>
+  </g>
+</svg>

@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 410 220" width="410" height="220" font-family="DM Sans, system-ui, sans-serif" font-size="13">
+  <g fill="none" stroke="#8a8a93" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+    <polygon points="200,60 200,160 290,110"/>
+    <circle cx="90" cy="150" r="16"/>
+    <line x1="90" y1="159" x2="90" y2="146"/>
+    <polyline points="90,134 90,85 200,85"/>
+    <polyline points="90,166 90,190"/>
+    <line x1="78" y1="190" x2="102" y2="190"/>
+    <line x1="83" y1="196" x2="97" y2="196"/>
+    <line x1="88" y1="202" x2="92" y2="202"/>
+    <polyline points="150,85 150,35 190,35"/>
+    <polyline points="190,35 195,27 205,43 215,27 225,43 235,27 245,43 250,35"/>
+    <polyline points="250,35 330,35 330,110"/>
+    <polyline points="290,110 370,110"/>
+    <polyline points="200,135 165,135 165,149"/>
+    <circle cx="165" cy="165" r="16"/>
+    <polyline points="165,181 165,195"/>
+    <line x1="153" y1="195" x2="177" y2="195"/>
+    <line x1="158" y1="201" x2="172" y2="201"/>
+    <line x1="163" y1="207" x2="167" y2="207"/>
+  </g>
+  <g fill="#8a8a93">
+    <text x="206" y="90" font-size="16">−</text>
+    <text x="206" y="140" font-size="16">+</text>
+    <polygon points="85,147 90,139 95,147"/>
+    <circle cx="150" cy="85" r="4"/>
+    <circle cx="330" cy="110" r="4"/>
+    <circle cx="370" cy="110" r="4"/>
+    <text x="165" y="162" font-size="12" text-anchor="middle">+</text>
+    <text x="165" y="177" font-size="12" text-anchor="middle">−</text>
+  </g>
+  <g fill="#c99a12" font-weight="600">
+    <text x="66" y="155" text-anchor="end">2 mA</text>
+    <text x="189" y="170">3 V</text>
+    <text x="220" y="22" text-anchor="middle">5 kΩ</text>
+    <text x="380" y="115">vₒ</text>
+  </g>
+</svg>

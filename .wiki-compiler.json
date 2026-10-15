@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "name": "Melon Files Courses",
+  "sources": [
+    { "path": "wiki/content/courses/", "exclude": ["compiled-wiki/"] }
+  ],
+  "output": "compiled-wiki/",
+  "mode": "knowledge",
+  "wiki_mode": "staging",
+  "auto_update": "prompt",
+  "article_sections": [
+    { "name": "Summary", "description": "Standalone briefing: what the topic is, which courses and chapters cover it, and how far the notes currently go", "required": true },
+    { "name": "Key Ideas", "description": "Core definitions, models, and intuitions, synthesized across every chapter and course that touches the topic" },
+    { "name": "Formulas & Rules", "description": "Key equations, laws, identities, and design rules, with variable meanings" },
+    { "name": "Problem-Solving Patterns", "description": "Recurring procedures and worked-example approaches drawn from the Examples sections" },
+    { "name": "Common Mistakes", "description": "Pitfalls and misconceptions collected from the Common mistakes sections" },
+    { "name": "Cross-Course Connections", "description": "How this topic shows up in other courses (e.g. MOSFET physics in PCS 224 vs CMOS gates in COE 328)" },
+    { "name": "Gaps", "description": "Chapters that are still stubs or sections not yet written, so the reader knows where coverage is thin" },
+    { "name": "Sources", "description": "Backlinks to all contributing source files", "required": true }
+  ],
+  "topic_hints": [],
+  "link_style": "obsidian"
+}

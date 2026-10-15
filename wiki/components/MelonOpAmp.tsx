@@ -209,7 +209,13 @@ MelonOpAmp.afterDOMLoaded = `
 
   function buildModel(root) {
     root.innerHTML =
-      '<div class="oa-toolbar"><button type="button" class="oa-toggle" aria-pressed="false">Show the ideal op amp</button></div>' +
+      '<div class="oa-toolbar">' +
+      '<span class="oa-switch-label" aria-hidden="true">Op amp model</span>' +
+      '<div class="oa-switch" role="radiogroup" aria-label="Op amp model">' +
+      '<span class="oa-switch-thumb" aria-hidden="true"></span>' +
+      '<button type="button" role="radio" class="oa-switch-opt" data-mode="real" aria-checked="true">Real</button>' +
+      '<button type="button" role="radio" class="oa-switch-opt" data-mode="ideal" aria-checked="false">Ideal</button>' +
+      "</div></div>" +
       '<svg class="oa-svg" viewBox="0 0 520 250" role="img" aria-label="Op amp equivalent model: input resistance, dependent source, output resistance">' +
       '<rect class="oa-box" x="90" y="28" width="330" height="208" rx="12"/>' +
       '<text class="oa-caption" x="102" y="46">inside the op amp</text>' +
@@ -294,19 +300,33 @@ MelonOpAmp.afterDOMLoaded = `
     })
     const refresh = selectable(root, info, ["Pick a part", "Hover or tap a part of the model (or a button above) to see what it does."])
 
-    const toggle = root.querySelector(".oa-toggle")
+    // Real | Ideal switch: both options always visible, the thumb slides to the active one
+    const opts = Array.from(root.querySelectorAll(".oa-switch-opt"))
     const apply = () => {
       root.classList.toggle("is-ideal", ideal)
-      toggle.setAttribute("aria-pressed", String(ideal))
-      toggle.textContent = ideal ? "Show the real op amp" : "Show the ideal op amp"
+      opts.forEach((o) => {
+        const on = (o.dataset.mode === "ideal") === ideal
+        o.setAttribute("aria-checked", String(on))
+        o.tabIndex = on ? 0 : -1
+      })
       root.querySelector('[data-val="ri"]').textContent = ideal ? "\\u221e (open)" : "10\\u2076\\u201310\\u00b9\\u00b3 \\u03a9"
       root.querySelector('[data-val="ro"]').textContent = ideal ? "0 (wire)" : "10\\u2013100 \\u03a9"
       root.querySelector('[data-val="src"]').innerHTML = (ideal ? "A \\u2192 \\u221e" : "A\\u00b7") + (ideal ? "" : sub("v", "d"))
       refresh()
     }
-    toggle.addEventListener("click", () => {
-      ideal = !ideal
+    opts.forEach((o) =>
+      o.addEventListener("click", () => {
+        ideal = o.dataset.mode === "ideal"
+        apply()
+      }),
+    )
+    // Arrow keys move between the two options, like any radio group
+    root.querySelector(".oa-switch").addEventListener("keydown", (e) => {
+      if (!["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(e.key)) return
+      e.preventDefault()
+      ideal = e.key === "ArrowRight" || e.key === "ArrowDown"
       apply()
+      opts[ideal ? 1 : 0].focus()
     })
     apply()
   }

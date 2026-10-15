@@ -28,6 +28,14 @@
     <circle cx="70" cy="175" r="4"/>
     <circle cx="420" cy="150" r="4"/>
   </g>
+  <g fill="#2a9d8f" font-weight="600">
+    <circle cx="200" cy="125" r="7" fill="none" stroke="#2a9d8f" stroke-width="2"/>
+    <circle cx="200" cy="125" r="4"/>
+    <text x="208" y="117" text-anchor="start">v₋</text>
+    <circle cx="200" cy="175" r="7" fill="none" stroke="#2a9d8f" stroke-width="2"/>
+    <circle cx="200" cy="175" r="4"/>
+    <text x="208" y="167" text-anchor="start">v₊</text>
+  </g>
   <g fill="#c99a12" font-weight="600">
     <text x="62" y="130" text-anchor="end">v₂</text>
     <text x="62" y="180" text-anchor="end">v₁</text>

@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-36 0 596 230" width="596" height="230" font-family="DM Sans, system-ui, sans-serif" font-size="13">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,1 L9,5 L0,9 Z" fill="#8a8a93"/>
+    </marker>
+  </defs>
+  <!-- Axis levels -->
+  <g stroke="#8a8a93" stroke-width="1" stroke-dasharray="4 4" opacity="0.6">
+    <line x1="40" y1="60" x2="540" y2="60"/>
+    <line x1="40" y1="150" x2="540" y2="150"/>
+  </g>
+  <!-- Waveform: HIGH 80->200, LOW 200->320, HIGH 320->440, LOW 440->540 -->
+  <polyline points="40,150 80,150 80,60 200,60 200,150 320,150 320,60 440,60 440,150 540,150" fill="none" stroke="#e0457b" stroke-width="3" stroke-linejoin="round"/>
+  <g fill="#8a8a93">
+    <text x="34" y="64" text-anchor="end">HIGH (1)</text>
+    <text x="34" y="154" text-anchor="end">LOW (0)</text>
+  </g>
+  <!-- Edge labels -->
+  <g fill="#c99a12" font-weight="600" font-size="12">
+    <text x="86" y="108">rising edge</text>
+    <text x="206" y="108">falling edge</text>
+  </g>
+  <!-- Amplitude -->
+  <g stroke="#8a8a93" stroke-width="1.5" fill="none">
+    <line x1="500" y1="64" x2="500" y2="146" marker-start="url(#a)" marker-end="url(#a)"/>
+  </g>
+  <text x="508" y="110" fill="#8a8a93">A</text>
+  <!-- Pulse width and period -->
+  <g stroke="#8a8a93" stroke-width="1.5" fill="none">
+    <line x1="84" y1="40" x2="196" y2="40" marker-start="url(#a)" marker-end="url(#a)"/>
+    <line x1="84" y1="185" x2="316" y2="185" marker-start="url(#a)" marker-end="url(#a)"/>
+    <line x1="80" y1="160" x2="80" y2="195" stroke-dasharray="3 3"/>
+    <line x1="320" y1="160" x2="320" y2="195" stroke-dasharray="3 3"/>
+  </g>
+  <g fill="#8a8a93" text-anchor="middle">
+    <text x="140" y="32">pulse width, t<tspan font-size="10" dy="3">W</tspan></text>
+    <text x="200" y="210">one cycle = period, T</text>
+  </g>
+</svg>

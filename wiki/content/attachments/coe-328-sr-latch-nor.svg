@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 200" width="300" height="200" font-family="DM Sans, system-ui, sans-serif" font-size="13">
+  <g fill="none" stroke="#8a8a93" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+    <!-- Top NOR (output Q) -->
+    <path d="M120,30 q35,0 55,25 q-20,25 -55,25 q12,-25 0,-50 z"/>
+    <circle cx="180" cy="55" r="5"/>
+    <line x1="30" y1="42" x2="124" y2="42"/>
+    <line x1="185" y1="55" x2="260" y2="55"/>
+    <!-- Bottom NOR (output Q-bar) -->
+    <path d="M120,130 q35,0 55,25 q-20,25 -55,25 q12,-25 0,-50 z"/>
+    <circle cx="180" cy="155" r="5"/>
+    <line x1="30" y1="168" x2="124" y2="168"/>
+    <line x1="185" y1="155" x2="260" y2="155"/>
+    <!-- Cross-coupled feedback -->
+    <polyline points="215,55 215,82 106,112 106,142 124,142"/>
+    <polyline points="215,155 215,128 92,98 92,68 124,68"/>
+  </g>
+  <g fill="#8a8a93">
+    <circle cx="215" cy="55" r="3"/>
+    <circle cx="215" cy="155" r="3"/>
+  </g>
+  <g fill="#c99a12" font-weight="600">
+    <text x="22" y="46" text-anchor="end">R</text>
+    <text x="22" y="172" text-anchor="end">S</text>
+    <text x="266" y="59">Q</text>
+    <text x="266" y="159" text-decoration="overline">Q</text>
+  </g>
+</svg>

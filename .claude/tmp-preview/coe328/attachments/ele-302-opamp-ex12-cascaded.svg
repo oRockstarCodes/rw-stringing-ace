@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 630 320" width="630" height="320" font-family="DM Sans, system-ui, sans-serif" font-size="13">
+  <g fill="none" stroke="#8a8a93" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+    <polygon points="120,90 120,190 210,140"/>
+    <circle cx="50" cy="140" r="16"/>
+    <polyline points="50,124 50,115 120,115"/>
+    <polyline points="50,156 50,190"/>
+    <line x1="38" y1="190" x2="62" y2="190"/>
+    <line x1="43" y1="196" x2="57" y2="196"/>
+    <line x1="48" y1="202" x2="52" y2="202"/>
+    <polyline points="120,165 85,165 85,180"/>
+    <polyline points="85,180 93,185 77,195 93,205 77,215 93,225 77,235 85,240"/>
+    <polyline points="85,240 85,250"/>
+    <line x1="73" y1="250" x2="97" y2="250"/>
+    <line x1="78" y1="256" x2="92" y2="256"/>
+    <line x1="83" y1="262" x2="87" y2="262"/>
+    <polyline points="105,165 105,285 140,285"/>
+    <polyline points="140,285 145,277 155,293 165,277 175,293 185,277 195,293 200,285"/>
+    <polyline points="200,285 240,285 240,140"/>
+    <polyline points="210,140 300,140"/>
+    <polyline points="300,140 305,132 315,148 325,132 335,148 345,132 355,148 360,140"/>
+    <polyline points="360,140 420,140"/>
+    <polygon points="420,115 420,215 510,165"/>
+    <polyline points="385,140 385,80 425,80"/>
+    <polyline points="425,80 430,72 440,88 450,72 460,88 470,72 480,88 485,80"/>
+    <polyline points="485,80 540,80 540,165"/>
+    <polyline points="510,165 590,165"/>
+    <polyline points="420,190 400,190 400,210"/>
+    <line x1="388" y1="210" x2="412" y2="210"/>
+    <line x1="393" y1="216" x2="407" y2="216"/>
+    <line x1="398" y1="222" x2="402" y2="222"/>
+  </g>
+  <g fill="#8a8a93">
+    <text x="126" y="120" font-size="16">+</text>
+    <text x="126" y="170" font-size="16">−</text>
+    <text x="50" y="137" font-size="12" text-anchor="middle">+</text>
+    <text x="50" y="152" font-size="12" text-anchor="middle">−</text>
+    <circle cx="105" cy="165" r="4"/>
+    <circle cx="240" cy="140" r="4"/>
+    <text x="426" y="145" font-size="16">−</text>
+    <text x="426" y="195" font-size="16">+</text>
+    <circle cx="385" cy="140" r="4"/>
+    <circle cx="540" cy="165" r="4"/>
+    <circle cx="590" cy="165" r="4"/>
+  </g>
+  <g fill="#c99a12" font-weight="600">
+    <text x="26" y="145" text-anchor="end">vₛ</text>
+    <text x="71" y="215" text-anchor="end">R</text>
+    <text x="170" y="310" text-anchor="middle">3R</text>
+    <text x="262" y="128">v₁</text>
+    <text x="330" y="127" text-anchor="middle">R</text>
+    <text x="455" y="67" text-anchor="middle">2R</text>
+    <text x="600" y="170">vₒ</text>
+  </g>
+</svg>

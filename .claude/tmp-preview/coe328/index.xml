@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+    <channel>
+      <title>Melon Files</title>
+      <link>https://rwangqz.ca/melon-files</link>
+      <description>Last 10 notes on Melon Files</description>
+      <generator>Quartz -- quartz.jzhao.xyz</generator>
+      <item>
+    <title>Ch 1: Number Systems and Digital Waveforms</title>
+    <link>https://rwangqz.ca/melon-files/courses/coe-328/ch01-number-systems-and-digital-waveforms</link>
+    <guid>https://rwangqz.ca/melon-files/courses/coe-328/ch01-number-systems-and-digital-waveforms</guid>
+    <description><![CDATA[ Overview Readings Lectures: Introduction to Digital Waveform and Lecture 1: Binary Numbering System · weeks 1–2 · Floyd, Digital Fundamentals ch. ]]></description>
+    <pubDate>Wed, 14 Oct 2026 18:25:03 GMT</pubDate>
+  </item><item>
+    <title>Second-Order Differential Equations</title>
+    <link>https://rwangqz.ca/melon-files/courses/ele-302/concepts/second-order-differential-equations</link>
+    <guid>https://rwangqz.ca/melon-files/courses/ele-302/concepts/second-order-differential-equations</guid>
+    <description><![CDATA[ A second-order circuit obeys \frac{d^2x}{dt^2} + 2\alpha\frac{dx}{dt} + \omega_0^2 x = f. ]]></description>
+    <pubDate>Wed, 14 Oct 2026 18:13:19 GMT</pubDate>
+  </item><item>
+    <title>Source Transformation</title>
+    <link>https://rwangqz.ca/melon-files/courses/ele-302/concepts/source-transformation</link>
+    <guid>https://rwangqz.ca/melon-files/courses/ele-302/concepts/source-transformation</guid>
+    <description><![CDATA[ A voltage source V_s in series with a resistor R behaves exactly the same, from the outside, as a current source I_s = \frac{V_s}{R} in parallel with the same R. ]]></description>
+    <pubDate>Wed, 14 Oct 2026 18:13:12 GMT</pubDate>
+  </item><item>
+    <title>Damping in Series and Parallel RLC</title>
+    <link>https://rwangqz.ca/melon-files/courses/ele-302/concepts/damping-series-vs-parallel</link>
+    <guid>https://rwangqz.ca/melon-files/courses/ele-302/concepts/damping-series-vs-parallel</guid>
+    <description><![CDATA[ Damping is how quickly a resistor drains away the energy swinging between L and C. ]]></description>
+    <pubDate>Wed, 14 Oct 2026 18:13:12 GMT</pubDate>
+  </item><item>
+    <title>LC Oscillation</title>
+    <link>https://rwangqz.ca/melon-files/courses/ele-302/concepts/lc-oscillation</link>
+    <guid>https://rwangqz.ca/melon-files/courses/ele-302/concepts/lc-oscillation</guid>
+    <description><![CDATA[ When an inductor and a capacitor are connected together, energy passes back and forth between them, so the voltage and current oscillate as sine waves at \omega_0 = \frac{1}{\sqrt{LC}}. ]]></description>
+    <pubDate>Wed, 14 Oct 2026 18:13:12 GMT</pubDate>
+  </item><item>
+    <title>Capacitors and Inductors</title>
+    <link>https://rwangqz.ca/melon-files/courses/ele-302/concepts/capacitors-and-inductors</link>
+    <guid>https://rwangqz.ca/melon-files/courses/ele-302/concepts/capacitors-and-inductors</guid>
+    <description><![CDATA[ Capacitors and inductors are the two energy-storage elements: a capacitor stores energy in an electric field set up by its voltage, and an inductor stores energy in a magnetic field set up by its current. ]]></description>
+    <pubDate>Wed, 14 Oct 2026 18:07:39 GMT</pubDate>
+  </item><item>
+    <title>Ch 5: Operational Amplifiers</title>
+    <link>https://rwangqz.ca/melon-files/courses/ele-302/ch05-operational-amplifiers</link>
+    <guid>https://rwangqz.ca/melon-files/courses/ele-302/ch05-operational-amplifiers</guid>
+    <description><![CDATA[ Overview Readings Alexander &amp; Sadiku, Ch 5 An operational amplifier (op amp) takes the voltage difference between its two inputs, multiplies it by a very large gain, and outputs the result. ]]></description>
+    <pubDate>Wed, 14 Oct 2026 17:48:12 GMT</pubDate>
+  </item><item>
+    <title>1. Software Development Cycle &amp; OOP</title>
+    <link>https://rwangqz.ca/melon-files/courses/coe-318/ch01-software-development-and-oop</link>
+    <guid>https://rwangqz.ca/melon-files/courses/coe-318/ch01-software-development-and-oop</guid>
+    <description><![CDATA[ Overview Readings Lecture 1 · week 2 · no textbook chapter (Head First Java ch. ]]></description>
+    <pubDate>Fri, 09 Oct 2026 23:15:28 GMT</pubDate>
+  </item><item>
+    <title>2. Classes and Objects</title>
+    <link>https://rwangqz.ca/melon-files/courses/coe-318/ch02-classes-and-objects</link>
+    <guid>https://rwangqz.ca/melon-files/courses/coe-318/ch02-classes-and-objects</guid>
+    <description><![CDATA[ Overview Readings Lecture 2 · week 2 · Reference ch. ]]></description>
+    <pubDate>Fri, 09 Oct 2026 23:15:28 GMT</pubDate>
+  </item><item>
+    <title>3. Variables</title>
+    <link>https://rwangqz.ca/melon-files/courses/coe-318/ch03-variables</link>
+    <guid>https://rwangqz.ca/melon-files/courses/coe-318/ch03-variables</guid>
+    <description><![CDATA[ Overview Readings Lecture 3 · weeks 2–4 · Reference ch. ]]></description>
+    <pubDate>Fri, 09 Oct 2026 23:15:28 GMT</pubDate>
+  </item>
+    </channel>
+  </rss>

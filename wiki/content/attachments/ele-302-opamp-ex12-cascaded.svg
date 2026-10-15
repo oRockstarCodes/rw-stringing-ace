@@ -42,6 +42,14 @@
     <circle cx="540" cy="165" r="4"/>
     <circle cx="590" cy="165" r="4"/>
   </g>
+  <g fill="#2a9d8f" font-weight="600">
+    <circle cx="105" cy="165" r="7" fill="none" stroke="#2a9d8f" stroke-width="2"/>
+    <circle cx="105" cy="165" r="4"/>
+    <text x="100" y="158" text-anchor="end">v₋</text>
+    <circle cx="385" cy="140" r="7" fill="none" stroke="#2a9d8f" stroke-width="2"/>
+    <circle cx="385" cy="140" r="4"/>
+    <text x="378" y="160" text-anchor="end">v₋ (KCL)</text>
+  </g>
   <g fill="#c99a12" font-weight="600">
     <text x="26" y="145" text-anchor="end">vₛ</text>
     <text x="71" y="215" text-anchor="end">R</text>

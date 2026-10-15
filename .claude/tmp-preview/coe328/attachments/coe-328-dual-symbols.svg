@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 230" width="500" height="230" font-family="DM Sans, system-ui, sans-serif" font-size="13">
+  <g fill="none" stroke="#8a8a93" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+    <!-- NAND -->
+    <path d="M60,30 h25 a25,25 0 0 1 0,50 h-25 z"/>
+    <circle cx="115" cy="55" r="5"/>
+    <line x1="30" y1="42" x2="60" y2="42"/>
+    <line x1="30" y1="68" x2="60" y2="68"/>
+    <line x1="120" y1="55" x2="150" y2="55"/>
+    <!-- Negative-OR -->
+    <path d="M300,30 q35,0 55,25 q-20,25 -55,25 q12,-25 0,-50 z"/>
+    <circle cx="299" cy="42" r="5"/>
+    <circle cx="299" cy="68" r="5"/>
+    <line x1="264" y1="42" x2="294" y2="42"/>
+    <line x1="264" y1="68" x2="294" y2="68"/>
+    <line x1="355" y1="55" x2="385" y2="55"/>
+    <!-- NOR -->
+    <path d="M60,140 q35,0 55,25 q-20,25 -55,25 q12,-25 0,-50 z"/>
+    <circle cx="120" cy="165" r="5"/>
+    <line x1="30" y1="152" x2="64" y2="152"/>
+    <line x1="30" y1="178" x2="64" y2="178"/>
+    <line x1="125" y1="165" x2="150" y2="165"/>
+    <!-- Negative-AND -->
+    <path d="M300,140 h25 a25,25 0 0 1 0,50 h-25 z"/>
+    <circle cx="295" cy="152" r="5"/>
+    <circle cx="295" cy="178" r="5"/>
+    <line x1="264" y1="152" x2="290" y2="152"/>
+    <line x1="264" y1="178" x2="290" y2="178"/>
+    <line x1="350" y1="165" x2="385" y2="165"/>
+  </g>
+  <g fill="#8a8a93" font-size="20" text-anchor="middle">
+    <text x="215" y="62">≡</text>
+    <text x="215" y="172">≡</text>
+  </g>
+  <g fill="#8a8a93" font-size="12" text-anchor="middle">
+    <text x="85" y="100">NAND</text>
+    <text x="325" y="100">Negative-OR</text>
+    <text x="85" y="210">NOR</text>
+    <text x="325" y="210">Negative-AND</text>
+  </g>
+  <g fill="#c99a12" font-weight="600">
+    <text x="22" y="46" text-anchor="end">A</text>
+    <text x="22" y="72" text-anchor="end">B</text>
+    <text x="256" y="46" text-anchor="end">A</text>
+    <text x="256" y="72" text-anchor="end">B</text>
+    <text x="22" y="156" text-anchor="end">A</text>
+    <text x="22" y="182" text-anchor="end">B</text>
+    <text x="256" y="156" text-anchor="end">A</text>
+    <text x="256" y="182" text-anchor="end">B</text>
+    <text x="156" y="60" text-decoration="overline">AB</text>
+    <text x="391" y="60"><tspan text-decoration="overline">A</tspan> + <tspan text-decoration="overline">B</tspan></text>
+    <text x="156" y="170" text-decoration="overline">A + B</text>
+    <text x="391" y="170"><tspan text-decoration="overline">A</tspan><tspan dx="2" text-decoration="overline">B</tspan></text>
+  </g>
+</svg>

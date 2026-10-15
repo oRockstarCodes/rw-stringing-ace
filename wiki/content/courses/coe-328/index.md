@@ -23,7 +23,7 @@ Digital logic from the ground up: Boolean algebra, implementation technology (tr
 
 | Week | Topic | Sections |
 | --- | --- | --- |
-| 1 | Introduction to COE 328 | — |
+| 1–2 | [[ch01-number-systems-and-digital-waveforms\|Ch 1]] · Number Systems and Digital Waveforms | Lectures (Floyd ch. 1–2) |
 | 2 | [[ch02-intro-to-logic-circuits\|Ch 2]] · Introduction to Logic Circuits | §2.1–2.10 |
 | 3 | [[ch03-implementation-technology\|Ch 3]] · Implementation Technology | §3.1–3.10 |
 | 4 | [[ch04-optimization-of-combinational-logic\|Ch 4]] · Optimization of Combinational Logic | §4.2–4.12 |

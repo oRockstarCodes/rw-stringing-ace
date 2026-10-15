@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 630 215" width="630" height="215" font-family="DM Sans, system-ui, sans-serif" font-size="13">
+  <!-- Negative feedback: output back to v- -->
+  <g fill="none" stroke="#8a8a93" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+    <polygon points="50,50 50,130 125,90"/>
+    <line x1="15" y1="70" x2="50" y2="70"/>
+    <line x1="15" y1="110" x2="50" y2="110"/>
+    <line x1="125" y1="90" x2="180" y2="90"/>
+  </g>
+  <polyline points="150,90 150,25 35,25 35,70" fill="none" stroke="#c99a12" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <polygon points="98,19 86,25 98,31" fill="#c99a12"/>
+
+  <!-- Positive feedback: output back to v+ -->
+  <g fill="none" stroke="#8a8a93" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+    <polygon points="260,50 260,130 335,90"/>
+    <line x1="225" y1="70" x2="260" y2="70"/>
+    <line x1="225" y1="110" x2="260" y2="110"/>
+    <line x1="335" y1="90" x2="390" y2="90"/>
+  </g>
+  <polyline points="360,90 360,155 245,155 245,110" fill="none" stroke="#c99a12" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <polygon points="308,149 296,155 308,161" fill="#c99a12"/>
+
+  <!-- Open loop: nothing fed back -->
+  <g fill="none" stroke="#8a8a93" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+    <polygon points="470,50 470,130 545,90"/>
+    <line x1="435" y1="70" x2="470" y2="70"/>
+    <line x1="435" y1="110" x2="470" y2="110"/>
+    <line x1="545" y1="90" x2="600" y2="90"/>
+  </g>
+
+  <g fill="#8a8a93">
+    <text x="55" y="75" font-size="14">−</text>
+    <text x="55" y="115" font-size="14">+</text>
+    <text x="265" y="75" font-size="14">−</text>
+    <text x="265" y="115" font-size="14">+</text>
+    <text x="475" y="75" font-size="14">−</text>
+    <text x="475" y="115" font-size="14">+</text>
+    <circle cx="35" cy="70" r="4"/>
+    <circle cx="150" cy="90" r="4"/>
+    <circle cx="245" cy="110" r="4"/>
+    <circle cx="360" cy="90" r="4"/>
+    <text x="97" y="203" text-anchor="middle">stable, v₊ = v₋</text>
+    <text x="307" y="203" text-anchor="middle">runs to a rail</text>
+    <text x="517" y="203" text-anchor="middle">saturates</text>
+  </g>
+  <g fill="#c99a12" font-weight="600">
+    <text x="97" y="185" text-anchor="middle">Negative</text>
+    <text x="307" y="185" text-anchor="middle">Positive</text>
+    <text x="517" y="185" text-anchor="middle">Open loop</text>
+  </g>
+</svg>

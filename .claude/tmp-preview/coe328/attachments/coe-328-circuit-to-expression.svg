@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 380 160" width="380" height="160" font-family="DM Sans, system-ui, sans-serif" font-size="13">
+  <g fill="none" stroke="#8a8a93" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+    <!-- G1: OR -->
+    <path d="M110,30 q35,0 55,25 q-20,25 -55,25 q12,-25 0,-50 z"/>
+    <line x1="40" y1="42" x2="114" y2="42"/>
+    <line x1="40" y1="68" x2="114" y2="68"/>
+    <polyline points="165,55 205,55 205,72 240,72"/>
+    <!-- G2: NOT -->
+    <path d="M120,105 L120,135 L150,120 Z"/>
+    <circle cx="155" cy="120" r="5"/>
+    <line x1="40" y1="120" x2="120" y2="120"/>
+    <polyline points="160,120 205,120 205,98 240,98"/>
+    <!-- G3: AND -->
+    <path d="M240,60 h25 a25,25 0 0 1 0,50 h-25 z"/>
+    <line x1="290" y1="85" x2="335" y2="85"/>
+  </g>
+  <g fill="#8a8a93" font-size="11" text-anchor="middle">
+    <text x="133" y="59">G1</text>
+    <text x="132" y="124">G2</text>
+    <text x="260" y="89">G3</text>
+  </g>
+  <g fill="#8a8a93" font-size="12">
+    <text x="170" y="48">A + B</text>
+    <text x="172" y="138" text-decoration="overline">C</text>
+  </g>
+  <g fill="#c99a12" font-weight="600">
+    <text x="32" y="46" text-anchor="end">A</text>
+    <text x="32" y="72" text-anchor="end">B</text>
+    <text x="32" y="124" text-anchor="end">C</text>
+    <text x="342" y="89">X</text>
+  </g>
+</svg>

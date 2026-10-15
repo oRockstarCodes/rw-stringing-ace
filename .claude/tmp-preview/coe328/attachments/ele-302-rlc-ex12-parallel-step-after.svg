@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -20 420 245" width="420" height="245" font-family="DM Sans, system-ui, sans-serif" font-size="13">
+  <g fill="none" stroke="#8a8a93" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+    <circle cx="50" cy="130" r="16"/>
+    <line x1="50" y1="139" x2="50" y2="126"/>
+    <polyline points="50,114 50,70 150,70"/>
+    <polyline points="50,146 50,210 360,210"/>
+    <polyline points="110,70 110,100"/>
+    <polyline points="110,100 118,105 102,115 118,125 102,135 118,145 102,155 110,160"/>
+    <polyline points="110,160 110,210"/>
+    <polyline points="150,70 155,62 165,78 175,62 185,78 195,62 205,78 210,70"/>
+    <polyline points="140,70 140,30 160,30"/>
+    <polyline points="200,30 220,30 220,70"/>
+    <polyline points="210,70 360,70"/>
+    <polyline points="280,70 280,110"/>
+    <path d="M280 110 v10 a5 5 0 0 1 0 10 a5 5 0 0 1 0 10 a5 5 0 0 1 0 10 a5 5 0 0 1 0 10 v10"/>
+    <polyline points="280,170 280,210"/>
+    <polyline points="360,70 360,110"/>
+    <polyline points="360,110 360,135"/>
+    <polyline points="348,135 372,135"/>
+    <polyline points="348,145 372,145"/>
+    <polyline points="360,145 360,170"/>
+    <polyline points="360,170 360,210"/>
+  </g>
+  <g fill="#8a8a93">
+    <polygon points="45,127 50,119 55,127"/>
+    <circle cx="110" cy="70" r="4"/>
+    <circle cx="110" cy="210" r="4"/>
+    <circle cx="140" cy="70" r="4"/>
+    <circle cx="220" cy="70" r="4"/>
+    <circle cx="160" cy="30" r="3"/>
+    <circle cx="200" cy="30" r="3"/>
+    <circle cx="280" cy="70" r="4"/>
+    <circle cx="280" cy="210" r="4"/>
+    <text x="180" y="14" font-size="12" text-anchor="middle">open</text>
+    <text x="388" y="124" font-size="12" text-anchor="middle">+</text>
+    <text x="388" y="164" font-size="12" text-anchor="middle">−</text>
+  </g>
+  <g fill="#c99a12" font-weight="600">
+    <text x="26" y="135" text-anchor="end">6 A</text>
+    <text x="96" y="135" text-anchor="end">1 Ω</text>
+    <text x="180" y="95" text-anchor="middle">1 Ω</text>
+    <polygon points="274,89 280,101 286,89"/>
+    <text x="292" y="99">6 A</text>
+    <text x="266" y="145" text-anchor="end">1.25 H</text>
+    <text x="346" y="145" text-anchor="end">50 mF</text>
+    <text x="388" y="145" text-anchor="middle">0 V</text>
+  </g>
+</svg>

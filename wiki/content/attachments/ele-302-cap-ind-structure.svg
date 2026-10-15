@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 205" width="520" height="205" font-family="DM Sans, system-ui, sans-serif" font-size="13">
+  <defs>
+    <marker id="ci-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#c99a12"/>
+    </marker>
+  </defs>
+
+  <!-- Capacitor: two plates with charge on their inner faces and a field across the gap -->
+  <rect x="100" y="50" width="60" height="100" fill="#c99a12" fill-opacity="0.08"/>
+  <g fill="none" stroke="#8a8a93" stroke-width="2" stroke-linecap="round">
+    <line x1="30" y1="100" x2="100" y2="100"/>
+    <line x1="160" y1="100" x2="230" y2="100"/>
+  </g>
+  <g stroke="#8a8a93" stroke-width="5" stroke-linecap="round">
+    <line x1="100" y1="50" x2="100" y2="150"/>
+    <line x1="160" y1="50" x2="160" y2="150"/>
+  </g>
+  <g fill="none" stroke="#c99a12" stroke-width="1.6" marker-end="url(#ci-arrow)">
+    <line x1="116" y1="72" x2="146" y2="72"/>
+    <line x1="116" y1="100" x2="146" y2="100"/>
+    <line x1="116" y1="128" x2="146" y2="128"/>
+  </g>
+  <g fill="none" stroke="#8a8a93" stroke-width="1.2">
+    <line x1="100" y1="166" x2="160" y2="166"/>
+    <line x1="100" y1="161" x2="100" y2="171"/>
+    <line x1="160" y1="161" x2="160" y2="171"/>
+  </g>
+  <g fill="#8a8a93">
+    <circle cx="30" cy="100" r="4"/>
+    <circle cx="230" cy="100" r="4"/>
+    <text x="130" y="22" text-anchor="middle" font-weight="600" fill="#8a8a93">Capacitor</text>
+    <text x="108" y="62" font-size="12" text-anchor="middle">+</text>
+    <text x="108" y="90" font-size="12" text-anchor="middle">+</text>
+    <text x="108" y="118" font-size="12" text-anchor="middle">+</text>
+    <text x="108" y="146" font-size="12" text-anchor="middle">+</text>
+    <text x="152" y="62" font-size="12" text-anchor="middle">−</text>
+    <text x="152" y="90" font-size="12" text-anchor="middle">−</text>
+    <text x="152" y="118" font-size="12" text-anchor="middle">−</text>
+    <text x="152" y="146" font-size="12" text-anchor="middle">−</text>
+    <text x="130" y="184" font-size="12" text-anchor="middle">d</text>
+    <text x="62" y="90" font-size="12" text-anchor="middle">i →</text>
+  </g>
+  <g fill="#c99a12" font-weight="600">
+    <text x="88" y="44" text-anchor="middle">+q</text>
+    <text x="174" y="44" text-anchor="middle">−q</text>
+    <text x="130" y="44" text-anchor="middle">E</text>
+    <text x="130" y="200" text-anchor="middle" font-weight="400" font-size="12">C = εA / d</text>
+  </g>
+
+  <!-- Inductor: a coil, with the magnetic field through its middle -->
+  <g fill="none" stroke="#c99a12" stroke-width="1.4" stroke-dasharray="5 4">
+    <path d="M462 100 C 500 30, 290 30, 318 96" marker-end="url(#ci-arrow)"/>
+    <path d="M462 100 C 500 170, 290 170, 318 104" marker-end="url(#ci-arrow)"/>
+  </g>
+  <line x1="314" y1="100" x2="466" y2="100" stroke="#c99a12" stroke-width="1.8" marker-end="url(#ci-arrow)"/>
+  <g fill="none" stroke="#8a8a93" stroke-width="2" stroke-linecap="round">
+    <ellipse cx="330" cy="100" rx="8" ry="28"/>
+    <ellipse cx="350" cy="100" rx="8" ry="28"/>
+    <ellipse cx="370" cy="100" rx="8" ry="28"/>
+    <ellipse cx="390" cy="100" rx="8" ry="28"/>
+    <ellipse cx="410" cy="100" rx="8" ry="28"/>
+    <ellipse cx="430" cy="100" rx="8" ry="28"/>
+    <ellipse cx="450" cy="100" rx="8" ry="28"/>
+    <line x1="280" y1="128" x2="330" y2="128"/>
+    <line x1="450" y1="128" x2="500" y2="128"/>
+  </g>
+  <g fill="#8a8a93">
+    <circle cx="280" cy="128" r="4"/>
+    <circle cx="500" cy="128" r="4"/>
+    <text x="390" y="22" text-anchor="middle" font-weight="600">Inductor</text>
+    <text x="300" y="146" font-size="12" text-anchor="middle">i →</text>
+    <text x="390" y="184" font-size="12" text-anchor="middle">N turns, length ℓ</text>
+  </g>
+  <g fill="#c99a12" font-weight="600">
+    <text x="474" y="96">B</text>
+    <text x="390" y="200" text-anchor="middle" font-weight="400" font-size="12">L = N²μA / ℓ</text>
+  </g>
+</svg>

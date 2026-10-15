@@ -27,6 +27,14 @@
     <circle cx="330" cy="110" r="4"/>
     <circle cx="370" cy="110" r="4"/>
   </g>
+  <g fill="#2a9d8f" font-weight="600">
+    <circle cx="165" cy="85" r="7" fill="none" stroke="#2a9d8f" stroke-width="2"/>
+    <circle cx="165" cy="85" r="4"/>
+    <text x="172" y="108" text-anchor="end">v₁ (KCL 1)</text>
+    <circle cx="330" cy="110" r="7" fill="none" stroke="#2a9d8f" stroke-width="2"/>
+    <circle cx="330" cy="110" r="4"/>
+    <text x="338" y="100" text-anchor="start">vₒ (KCL 2)</text>
+  </g>
   <g fill="#c99a12" font-weight="600">
     <text x="36" y="155" text-anchor="end">2 mV</text>
     <text x="110" y="72" text-anchor="middle">20 kΩ</text>

@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 10 520 280" width="520" height="280" font-family="DM Sans, system-ui, sans-serif" font-size="13">
+  <!-- Axes: t from 0 to 5 s at 80 px/s, starting at x = 60 -->
+  <g fill="none" stroke="#8a8a93" stroke-width="1.5" stroke-linecap="round">
+    <line x1="60" y1="80" x2="480" y2="80"/>
+    <line x1="60" y1="25" x2="60" y2="115"/>
+    <line x1="60" y1="250" x2="480" y2="250"/>
+    <line x1="60" y1="160" x2="60" y2="255"/>
+  </g>
+  <!-- Guides at t = 2 s and t = 4 s -->
+  <g fill="none" stroke="#8a8a93" stroke-width="1" stroke-dasharray="3 4" opacity="0.7">
+    <line x1="220" y1="30" x2="220" y2="250"/>
+    <line x1="380" y1="30" x2="380" y2="250"/>
+    <line x1="60" y1="178" x2="220" y2="178"/>
+    <line x1="60" y1="202" x2="380" y2="202"/>
+  </g>
+  <!-- i(t): 1 A, then -0.5 A, then 0 -->
+  <polyline points="60,80 60,40 220,40 220,100 380,100 380,80 470,80" fill="none" stroke="#c99a12" stroke-width="2.5" stroke-linejoin="round"/>
+  <!-- v(t) = 2 + 2t, then 6 - (t - 2), then constant -->
+  <polyline points="60,226 220,178 380,202 470,202" fill="none" stroke="#c99a12" stroke-width="2.5" stroke-linejoin="round"/>
+  <g fill="#c99a12">
+    <circle cx="220" cy="178" r="3.5"/>
+    <circle cx="380" cy="202" r="3.5"/>
+  </g>
+  <g fill="#8a8a93" font-size="12">
+    <text x="52" y="44" text-anchor="end">1</text>
+    <text x="52" y="84" text-anchor="end">0</text>
+    <text x="52" y="104" text-anchor="end">−0.5</text>
+    <text x="52" y="182" text-anchor="end">6</text>
+    <text x="52" y="206" text-anchor="end">4</text>
+    <text x="52" y="230" text-anchor="end">2</text>
+    <text x="52" y="254" text-anchor="end">0</text>
+    <text x="220" y="268" text-anchor="middle">2</text>
+    <text x="380" y="268" text-anchor="middle">4</text>
+    <text x="490" y="84" font-size="13">t</text>
+    <text x="490" y="254" font-size="13">t (s)</text>
+    <text x="230" y="64">i jumps from 1 to −0.5 A</text>
+    <text x="228" y="172">v only bends (slope +2 → −1 V/s)</text>
+    <text x="388" y="222">v holds 4 V once i = 0</text>
+  </g>
+  <g fill="#c99a12" font-weight="600">
+    <text x="72" y="30">i (A)</text>
+    <text x="72" y="160">v (V)</text>
+  </g>
+</svg>
