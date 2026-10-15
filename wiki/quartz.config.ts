@@ -34,39 +34,40 @@ const config: QuartzConfig = {
     theme: {
       fontOrigin: "googleFonts",
       cdnCaching: true,
-      // Headings: Anybody, a grotesque with a width axis. Course codes use it extra-condensed
-      // (the narrow widths are loaded in components/MelonMotion.tsx). Body: a serif, so text matches
-      // the KaTeX math set in it.
+      // Headings and labels: Archivo, which has a width axis (the narrow widths are loaded
+      // in components/MelonMotion.tsx). Body: a serif, so text matches the KaTeX math set
+      // in it. Code and part numbers: JetBrains Mono.
       typography: {
-        header: { name: "Anybody", weights: [500, 700, 800, 900] },
+        header: { name: "Archivo", weights: [500, 700, 800] },
         body: { name: "Source Serif 4", weights: [400, 600], includeItalic: true },
         code: "JetBrains Mono",
       },
-      // From the site icon, a relief print: black ink carved on pink paper.
-      // light = the reading sheet, dark = ink, secondary = press pink (links, active page),
-      // tertiary = plum. The paper pink of the course plates is --melon-paper in custom.scss.
+      // From the site icon: black ink on a dusty, faded pink. Quartz follows the visitor's system
+      // setting (dark when it has no preference), and the toggle overrides it. light = the page, dark = text, secondary = dusty rose (links,
+      // the page you're on), tertiary = plum. The pink bands and the chip are
+      // --melon-paper and --melon-chip in custom.scss.
       colors: {
         lightMode: {
-          light: "#fff8fb",
-          lightgray: "#ebd3de",
-          gray: "#7a6670",
-          darkgray: "#3b3237",
+          light: "#fbf6f8",
+          lightgray: "#e6d3dc",
+          gray: "#7d6b74",
+          darkgray: "#43393e",
           dark: "#231f20",
-          secondary: "#b02f74",
-          tertiary: "#74506a",
-          highlight: "rgba(176, 47, 116, 0.07)",
-          textHighlight: "#f4d9e4",
+          secondary: "#8c4a67",
+          tertiary: "#6f5666",
+          highlight: "rgba(140, 74, 103, 0.08)",
+          textHighlight: "#ecd2de",
         },
         darkMode: {
-          light: "#231f20",
-          lightgray: "#40353a",
-          gray: "#a8959f",
-          darkgray: "#e8d5de",
-          dark: "#f4d9e4",
-          secondary: "#f3a9cf",
-          tertiary: "#d6b3c6",
-          highlight: "rgba(243, 169, 207, 0.10)",
-          textHighlight: "#f3a9cf44",
+          light: "#1c181a",
+          lightgray: "#3b2f35",
+          gray: "#9d8a94",
+          darkgray: "#d9c7d0",
+          dark: "#eadbe2",
+          secondary: "#d4a0b7",
+          tertiary: "#b494a5",
+          highlight: "rgba(212, 160, 183, 0.10)",
+          textHighlight: "rgba(212, 160, 183, 0.30)",
         },
       },
     },

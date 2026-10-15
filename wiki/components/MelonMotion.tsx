@@ -21,11 +21,11 @@ const MelonMotion: QuartzComponent = ({ allFiles }: QuartzComponentProps) => {
         data-labs={coursesWithLabs.join(",")}
         aria-hidden="true"
       ></div>
-      {/* The narrow widths of Anybody, for the carved course codes. Quartz's own font
+      {/* The narrow widths of Archivo, for course codes and headings. Quartz's own font
           link (in <head>) only loads its normal width. */}
       <link
         rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Anybody:wdth,wght@50..150,500..900&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&display=swap"
       />
       {/* Roughens the edges of large type so it looks carved and printed, like the site
           icon. Used by the home title and the course codes (filter: url(#melon-carve)). */}

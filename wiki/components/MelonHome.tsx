@@ -4,8 +4,8 @@ import { isChapterOf } from "./MelonFolder"
 import { plural } from "./MelonPlate"
 
 // Copied into quartz/components/custom/ at build time by scripts/build-wiki.sh.
-// Home page masthead (the site's print, the title, the "ECE Edition" stamp) and the list
-// of courses, built from the notes in courses/<code>/.
+// Home page: the band, the masthead (the site's print, the title, the "ECE Edition"
+// stamp) and the list of courses, built from the notes in courses/<code>/.
 // Nothing here needs editing when a course is added: each courses/<code>/index.md
 // becomes a row, using its `code`, `term`, and `status` properties.
 
@@ -34,6 +34,10 @@ const MelonHome: QuartzComponent = ({ fileData, allFiles }: QuartzComponentProps
 
   return (
     <section class="melon-home">
+      <div class="melon-band melon-ui">
+        <span>Course notes</span>
+        <span class="melon-band-meta">ECE edition</span>
+      </div>
       <div class="melon-masthead">
         <img
           class="melon-print"
@@ -83,7 +87,7 @@ const MelonHome: QuartzComponent = ({ fileData, allFiles }: QuartzComponentProps
       </div>
 
       <h2 class="melon-section-title">Courses</h2>
-      <ul class="melon-contents">
+      <ul class="melon-contents melon-ui">
         {courses.map((c) => (
           <li>
             <a href={resolveRelative(here, c.slug)} class="internal melon-row">
