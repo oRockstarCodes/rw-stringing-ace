@@ -53,6 +53,25 @@ document.addEventListener("nav", () => {
   }
   firstNav = false
 
+  // Quartz fills the sidebar tree asynchronously and never clears it first, so if its
+  // setup ever runs twice for one page (a double nav event, a cached script mixed with
+  // fresh HTML), the whole tree shows up several times. Keep only the first copy of each
+  // top-level entry, now and whenever the list changes.
+  for (const list of document.querySelectorAll(".explorer-ul")) {
+    const dedupe = () => {
+      const seen = new Set()
+      for (const li of list.querySelectorAll(":scope > li")) {
+        const key = li.querySelector("[data-folderpath]")?.dataset.folderpath ?? li.querySelector("a")?.dataset.for ?? li.textContent
+        if (seen.has(key)) li.remove()
+        else seen.add(key)
+      }
+    }
+    dedupe()
+    const observer = new MutationObserver(dedupe)
+    observer.observe(list, { childList: true })
+    window.addCleanup(() => observer.disconnect())
+  }
+
   const bar = document.querySelector(".melon-progress")
   if (!bar) return
   let queued = false

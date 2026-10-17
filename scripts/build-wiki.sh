@@ -19,6 +19,8 @@ cp "$ROOT/wiki/quartz.config.ts" "$ROOT/wiki/quartz.layout.ts" "$ENGINE/"
 cp "$ROOT/wiki/custom.scss" "$ENGINE/quartz/styles/custom.scss"
 # Site icon (favicon and the circle next to the title)
 cp "$ROOT/wiki/static/icon.png" "$ENGINE/quartz/static/icon.png"
+# Link-preview image (replaces Quartz's default og-image.png)
+cp "$ROOT/wiki/static/og-image.png" "$ENGINE/quartz/static/og-image.png"
 mkdir -p "$ENGINE/quartz/components/custom"
 cp "$ROOT"/wiki/components/*.tsx "$ENGINE/quartz/components/custom/"
 mkdir -p "$ENGINE/quartz/plugins/custom"
