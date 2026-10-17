@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 270" width="520" height="270" font-family="DM Sans, system-ui, sans-serif" font-size="13">
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#c99a12"/></marker>
+    <marker id="ahg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#8a8a93"/></marker>
+  </defs>
+  <text x="10" y="16" font-size="13" text-anchor="start" fill="#8a8a93" font-weight="600">After  alias = integerArray;  alias[3] = 10;</text>
+  <rect x="290" y="56" width="44" height="28" rx="0" fill="none" stroke="#8a8a93" stroke-width="2"/>
+  <text x="312" y="52" font-size="11" text-anchor="middle" fill="#8a8a93">0</text>
+  <text x="312" y="75" font-size="13" text-anchor="middle" fill="#8a8a93" font-weight="600">5</text>
+  <rect x="334" y="56" width="44" height="28" rx="0" fill="none" stroke="#8a8a93" stroke-width="2"/>
+  <text x="356" y="52" font-size="11" text-anchor="middle" fill="#8a8a93">1</text>
+  <text x="356" y="75" font-size="13" text-anchor="middle" fill="#8a8a93" font-weight="600">5</text>
+  <rect x="378" y="56" width="44" height="28" rx="0" fill="none" stroke="#8a8a93" stroke-width="2"/>
+  <text x="400" y="52" font-size="11" text-anchor="middle" fill="#8a8a93">2</text>
+  <text x="400" y="75" font-size="13" text-anchor="middle" fill="#8a8a93" font-weight="600">5</text>
+  <rect x="422" y="56" width="44" height="28" rx="0" fill="#c99a12" fill-opacity="0.18" stroke="#8a8a93" stroke-width="2"/>
+  <text x="444" y="52" font-size="11" text-anchor="middle" fill="#8a8a93">3</text>
+  <text x="444" y="75" font-size="13" text-anchor="middle" fill="#8a8a93" font-weight="600">10</text>
+  <rect x="466" y="56" width="44" height="28" rx="0" fill="none" stroke="#8a8a93" stroke-width="2"/>
+  <text x="488" y="52" font-size="11" text-anchor="middle" fill="#8a8a93">4</text>
+  <text x="488" y="75" font-size="13" text-anchor="middle" fill="#8a8a93" font-weight="600">5</text>
+  <rect x="110" y="36" width="56" height="26" rx="4" fill="none" stroke="#8a8a93" stroke-width="2"/>
+  <text x="102" y="54" font-size="13" text-anchor="end" fill="#8a8a93">integerArray</text>
+  <circle cx="138" cy="49" r="4.5" fill="#c99a12"/>
+  <rect x="110" y="76" width="56" height="26" rx="4" fill="none" stroke="#8a8a93" stroke-width="2"/>
+  <text x="102" y="94" font-size="13" text-anchor="end" fill="#8a8a93">alias</text>
+  <circle cx="138" cy="89" r="4.5" fill="#c99a12"/>
+  <path d="M138,49 L290,65" fill="none" stroke="#c99a12" stroke-width="1.8" marker-end="url(#ah)"/>
+  <path d="M138,89 L290,76" fill="none" stroke="#c99a12" stroke-width="1.8" marker-end="url(#ah)"/>
+  <line x1="10" y1="124" x2="510" y2="124" stroke="#8a8a93" stroke-width="1" stroke-dasharray="4 4"/>
+  <text x="10" y="144" font-size="13" text-anchor="start" fill="#8a8a93" font-weight="600">After  integerArray = new int[3];</text>
+  <rect x="290" y="176" width="44" height="28" rx="0" fill="none" stroke="#8a8a93" stroke-width="2"/>
+  <text x="312" y="172" font-size="11" text-anchor="middle" fill="#8a8a93">0</text>
+  <text x="312" y="195" font-size="13" text-anchor="middle" fill="#8a8a93" font-weight="600">0</text>
+  <rect x="334" y="176" width="44" height="28" rx="0" fill="none" stroke="#8a8a93" stroke-width="2"/>
+  <text x="356" y="172" font-size="11" text-anchor="middle" fill="#8a8a93">1</text>
+  <text x="356" y="195" font-size="13" text-anchor="middle" fill="#8a8a93" font-weight="600">0</text>
+  <rect x="378" y="176" width="44" height="28" rx="0" fill="none" stroke="#8a8a93" stroke-width="2"/>
+  <text x="400" y="172" font-size="11" text-anchor="middle" fill="#8a8a93">2</text>
+  <text x="400" y="195" font-size="13" text-anchor="middle" fill="#8a8a93" font-weight="600">0</text>
+  <rect x="290" y="226" width="44" height="28" rx="0" fill="none" stroke="#8a8a93" stroke-width="2"/>
+  <text x="312" y="222" font-size="11" text-anchor="middle" fill="#8a8a93">0</text>
+  <text x="312" y="245" font-size="13" text-anchor="middle" fill="#8a8a93" font-weight="600">5</text>
+  <rect x="334" y="226" width="44" height="28" rx="0" fill="none" stroke="#8a8a93" stroke-width="2"/>
+  <text x="356" y="222" font-size="11" text-anchor="middle" fill="#8a8a93">1</text>
+  <text x="356" y="245" font-size="13" text-anchor="middle" fill="#8a8a93" font-weight="600">5</text>
+  <rect x="378" y="226" width="44" height="28" rx="0" fill="none" stroke="#8a8a93" stroke-width="2"/>
+  <text x="400" y="222" font-size="11" text-anchor="middle" fill="#8a8a93">2</text>
+  <text x="400" y="245" font-size="13" text-anchor="middle" fill="#8a8a93" font-weight="600">5</text>
+  <rect x="422" y="226" width="44" height="28" rx="0" fill="#c99a12" fill-opacity="0.18" stroke="#8a8a93" stroke-width="2"/>
+  <text x="444" y="222" font-size="11" text-anchor="middle" fill="#8a8a93">3</text>
+  <text x="444" y="245" font-size="13" text-anchor="middle" fill="#8a8a93" font-weight="600">10</text>
+  <rect x="466" y="226" width="44" height="28" rx="0" fill="none" stroke="#8a8a93" stroke-width="2"/>
+  <text x="488" y="222" font-size="11" text-anchor="middle" fill="#8a8a93">4</text>
+  <text x="488" y="245" font-size="13" text-anchor="middle" fill="#8a8a93" font-weight="600">5</text>
+  <rect x="110" y="177" width="56" height="26" rx="4" fill="none" stroke="#8a8a93" stroke-width="2"/>
+  <text x="102" y="195" font-size="13" text-anchor="end" fill="#8a8a93">integerArray</text>
+  <circle cx="138" cy="190" r="4.5" fill="#c99a12"/>
+  <rect x="110" y="227" width="56" height="26" rx="4" fill="none" stroke="#8a8a93" stroke-width="2"/>
+  <text x="102" y="245" font-size="13" text-anchor="end" fill="#8a8a93">alias</text>
+  <circle cx="138" cy="240" r="4.5" fill="#c99a12"/>
+  <path d="M138,190 L290,190" fill="none" stroke="#c99a12" stroke-width="1.8" marker-end="url(#ah)"/>
+  <path d="M138,240 L290,240" fill="none" stroke="#c99a12" stroke-width="1.8" marker-end="url(#ah)"/>
+  <text x="432" y="194" font-size="11" text-anchor="start" fill="#8a8a93" font-style="italic">new array (3 ints)</text>
+</svg>

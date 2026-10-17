@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 215" width="520" height="215" font-family="DM Sans, system-ui, sans-serif" font-size="13">
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#c99a12"/></marker>
+    <marker id="ahg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#8a8a93"/></marker>
+  </defs>
+  <rect x="10" y="28" width="210" height="170" rx="8" fill="#8a8a93" fill-opacity="0.05" stroke="#8a8a93" stroke-width="1.2"/>
+  <text x="115" y="20" font-size="12" text-anchor="middle" fill="#8a8a93" font-weight="600">Stack</text>
+  <rect x="300" y="28" width="210" height="170" rx="8" fill="#8a8a93" fill-opacity="0.05" stroke="#8a8a93" stroke-width="1.2"/>
+  <text x="405" y="20" font-size="12" text-anchor="middle" fill="#8a8a93" font-weight="600">Heap</text>
+  <text x="26" y="52" font-size="11" text-anchor="start" fill="#8a8a93" font-weight="600">main()</text>
+  <rect x="100" y="62" width="56" height="26" rx="4" fill="none" stroke="#8a8a93" stroke-width="2"/>
+  <text x="92" y="80" font-size="13" text-anchor="end" fill="#8a8a93">n</text>
+  <text x="128" y="80" font-size="13" text-anchor="middle" fill="#8a8a93" font-weight="600">5</text>
+  <rect x="100" y="102" width="56" height="26" rx="4" fill="none" stroke="#8a8a93" stroke-width="2"/>
+  <text x="92" y="120" font-size="13" text-anchor="end" fill="#8a8a93">car1</text>
+  <circle cx="128" cy="115" r="4.5" fill="#c99a12"/>
+  <rect x="330" y="70" width="150" height="90" rx="4" fill="none" stroke="#8a8a93" stroke-width="2"/>
+  <rect x="330" y="70" width="150" height="24" rx="4" fill="#8a8a93" fill-opacity="0.16" stroke="#8a8a93" stroke-width="0"/>
+  <text x="405" y="86.5" font-size="13" text-anchor="middle" fill="#8a8a93" font-weight="600">Car</text>
+  <line x1="330" y1="94" x2="480" y2="94" stroke="#8a8a93" stroke-width="1.2"/>
+  <text x="340" y="109" font-size="13" text-anchor="start" fill="#8a8a93">licensePlate</text>
+  <text x="470" y="109" font-size="13" text-anchor="end" fill="#8a8a93" font-weight="600">"ABC"</text>
+  <text x="340" y="131" font-size="13" text-anchor="start" fill="#8a8a93">speed</text>
+  <text x="470" y="131" font-size="13" text-anchor="end" fill="#8a8a93" font-weight="600">20.0</text>
+  <text x="340" y="153" font-size="13" text-anchor="start" fill="#8a8a93">maxSpeed</text>
+  <text x="470" y="153" font-size="13" text-anchor="end" fill="#8a8a93" font-weight="600">100.0</text>
+  <path d="M128,115 L330,115" fill="none" stroke="#c99a12" stroke-width="1.8" marker-end="url(#ah)"/>
+  <text x="115" y="168" font-size="11" text-anchor="middle" fill="#8a8a93" font-style="italic">primitives hold a value,</text>
+  <text x="115" y="183" font-size="11" text-anchor="middle" fill="#8a8a93" font-style="italic">references hold an address</text>
+</svg>

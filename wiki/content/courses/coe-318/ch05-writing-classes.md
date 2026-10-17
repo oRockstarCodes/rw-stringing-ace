@@ -306,6 +306,9 @@ The links make a chain $c \to b \to a \to \texttt{null}$. `getT()` adds this obj
 2. `b.getT()` = $1 + 3 = 4$
 3. `c.getT()` = $2 + 4 = 6$
 
+![[coe-318-ex-object-chain.svg]]
+*Figure 5.1: The chain c, b, a, null. Each getT() adds its own v to the total of the objects after it.*
+
 Prints `3`, `4`, `6`.
 
 ### Example 4: Fill in the blanks for the chain
@@ -399,6 +402,9 @@ static void fiddle(int[] test, int element) {
     System.out.println(test[0] + "," + test[1]);                   // 20,21
 }
 ```
+
+![[coe-318-ex-fiddle.svg]]
+*Figure 5.2: Memory at the end of fiddle. Changes to the original array stay, but test = new int[2] only moved fiddle's own reference.*
 
 ### Example 7: Filling a 2D table
 

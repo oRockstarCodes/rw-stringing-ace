@@ -122,6 +122,9 @@ System.out.println(miniVan.speed);               // 30.0
 
 > [!warning] Reassigning the parameter itself (`c = new Car(...)`) inside the method **doesn't** affect the caller. It only points the local copy of the reference somewhere else. The caller only sees changes made *through* the reference (`c.speed = ...`).
 
+![[coe-318-parameter-passing.svg]]
+*Figure 4.1: A primitive argument is copied by value. A reference argument copies the address, so both variables reach the same object.*
+
 ### Linking objects
 
 A field can hold a reference to **another object**, and that **links** the two. Any reference can also be `null`, which means "linked to nothing".
@@ -148,6 +151,9 @@ else
 ```
 
 `emp.supervisor.name` follows two links, from `emp` to Stacey's object and then to her `name`.
+
+![[coe-318-linked-employees.svg]]
+*Figure 4.2: Two Employee objects linked through the supervisor field. Stacey's own supervisor is null.*
 
 ### Designing from a description
 
@@ -232,6 +238,9 @@ static void update(int n, Car c) {
 3. `c = new Car(...)` points the **local** `c` at a new object. The caller's `car` isn't touched.
 4. `c.speed = 10` changes the new object, which becomes garbage once the method returns.
 
+![[coe-318-ex-pass-by-reference.svg]]
+*Figure 4.3: Memory just before update returns. Only the first car was changed through the caller's reference, and the NEW car is lost afterwards.*
+
 Prints `5 80.0`.
 
 ### Example 3: Tracing an array of linked objects
@@ -277,6 +286,9 @@ System.out.println(alias[3].x + "," + alias[3].y);
    Slots 0/1, 2/3 and 4/5 now share objects, and the original (0,6), (2,4), (4,2) objects are garbage.
 3. `alias = original` → same array, two names
 4. `alias[3].y = alias[0].x` → the (3,3) object's `y` becomes `1`, so it's now (3,1). `original[2]` sees the change too.
+
+![[coe-318-ex-coord-array.svg]]
+*Figure 4.4: Final state. Slots 0/1, 2/3 and 4/5 share objects, the shared (3,3) object became (3,1), and the three original objects are unreachable garbage.*
 
 ```
 1,5

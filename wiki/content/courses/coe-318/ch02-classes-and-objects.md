@@ -158,6 +158,9 @@ class ClassName {
 
 An **object** is one **instance** of a class, made with `new`. Its variables are called **instance variables** because every instance gets its own copy.
 
+![[coe-318-class-vs-objects.svg]]
+*Figure 2.1: A class is the template. Each object made with new gets its own copy of the fields, and a reference variable holds the address of its object.*
+
 **Creating an object takes two steps** (usually written on one line):
 
 1. **Declare a reference variable:** `Car miniVan;` holds `null` for now (it doesn't refer to anything yet)
@@ -166,6 +169,9 @@ An **object** is one **instance** of a class, made with `new`. Its variables are
 ```java
 Car miniVan = new Car();   // both steps at once
 ```
+
+![[coe-318-declare-then-new.svg]]
+*Figure 2.2: Declaring a reference variable only makes the variable (null). new makes the object, and the assignment stores its address.*
 
 **Accessing an object** uses the dot operator:
 

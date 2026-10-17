@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 230" width="520" height="230" font-family="DM Sans, system-ui, sans-serif" font-size="13">
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#c99a12"/></marker>
+    <marker id="ahg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#8a8a93"/></marker>
+  </defs>
+  <rect x="190" y="28" width="150" height="68" rx="4" fill="none" stroke="#8a8a93" stroke-width="2"/>
+  <rect x="190" y="28" width="150" height="24" rx="4" fill="#8a8a93" fill-opacity="0.16" stroke="#8a8a93" stroke-width="0"/>
+  <text x="265" y="44.5" font-size="13" text-anchor="middle" fill="#8a8a93" font-weight="600">Employee</text>
+  <line x1="190" y1="52" x2="340" y2="52" stroke="#8a8a93" stroke-width="1.2"/>
+  <text x="200" y="67" font-size="13" text-anchor="start" fill="#8a8a93">name</text>
+  <text x="330" y="67" font-size="13" text-anchor="end" fill="#8a8a93" font-weight="600">"Gavin"</text>
+  <text x="200" y="89" font-size="13" text-anchor="start" fill="#8a8a93">supervisor</text>
+  <circle cx="324" cy="85" r="4.5" fill="#c99a12"/>
+  <rect x="370" y="118" width="150" height="68" rx="4" fill="none" stroke="#8a8a93" stroke-width="2"/>
+  <rect x="370" y="118" width="150" height="24" rx="4" fill="#8a8a93" fill-opacity="0.16" stroke="#8a8a93" stroke-width="0"/>
+  <text x="445" y="134.5" font-size="13" text-anchor="middle" fill="#8a8a93" font-weight="600">Employee</text>
+  <line x1="370" y1="142" x2="520" y2="142" stroke="#8a8a93" stroke-width="1.2"/>
+  <text x="380" y="157" font-size="13" text-anchor="start" fill="#8a8a93">name</text>
+  <text x="510" y="157" font-size="13" text-anchor="end" fill="#8a8a93" font-weight="600">"Stacey"</text>
+  <text x="380" y="179" font-size="13" text-anchor="start" fill="#8a8a93">supervisor</text>
+  <text x="510" y="179" font-size="13" text-anchor="end" fill="#8a8a93" font-style="italic">null</text>
+  <rect x="100" y="49" width="56" height="26" rx="4" fill="none" stroke="#8a8a93" stroke-width="2"/>
+  <text x="92" y="67" font-size="13" text-anchor="end" fill="#8a8a93">emp</text>
+  <circle cx="128" cy="62" r="4.5" fill="#c99a12"/>
+  <rect x="100" y="139" width="56" height="26" rx="4" fill="none" stroke="#8a8a93" stroke-width="2"/>
+  <text x="92" y="157" font-size="13" text-anchor="end" fill="#8a8a93">ceo</text>
+  <circle cx="128" cy="152" r="4.5" fill="#c99a12"/>
+  <path d="M128,62 L190,62" fill="none" stroke="#c99a12" stroke-width="1.8" marker-end="url(#ah)"/>
+  <path d="M128,152 L370,152" fill="none" stroke="#c99a12" stroke-width="1.8" marker-end="url(#ah)"/>
+  <path d="M324,85 C404,85 445,91 445,116" fill="none" stroke="#c99a12" stroke-width="1.8" marker-end="url(#ah)"/>
+  <text x="10" y="212" font-size="11" text-anchor="start" fill="#8a8a93" font-style="italic">emp.supervisor.name: follow emp, then supervisor, then read name</text>
+</svg>

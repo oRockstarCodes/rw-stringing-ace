@@ -166,6 +166,9 @@ For `Car car1 = new Car("ABC", 20, 100);` inside `main`:
 - `car1` is on the **stack**. It holds only an address (4–8 bytes).
 - The `Car` object with `"ABC"`, `20`, `100` is on the **heap**.
 
+![[coe-318-stack-and-heap.svg]]
+*Figure 3.1: The reference variable car1 lives on the stack, and the object it points to lives on the heap.*
+
 ### References and garbage collection
 
 Assigning one reference to another **copies the address, not the object**:
@@ -177,6 +180,9 @@ sedan = miniVan;     // sedan now points at the SAME object as miniVan
 ```
 
 After the last line, both variables refer to the `"ABC"` car. The no-argument `Car` that `sedan` used to point at has **no references left**, so it's **eligible for garbage collection**. Java keeps track of how many references point at each heap object, and once that hits zero the garbage collector can free the memory. You never do it yourself.
+
+![[coe-318-reference-assignment.svg]]
+*Figure 3.2: sedan = miniVan copies the address, not the object. The old default Car has no references left, so it is garbage.*
 
 ### Arrays
 
@@ -338,6 +344,9 @@ System.out.println(alias[3]);          // (c)
 3. **(b)** The new array only has indices 0–2, so this throws an **`ArrayIndexOutOfBoundsException`** and the program stops.
 4. **(c)** never runs. Without (b) it would print `10`, since the old array still exists as long as `alias` refers to it.
 
+![[coe-318-array-alias.svg]]
+*Figure 3.3: Two names for one array, then integerArray is reassigned to a new array while alias still points at the old one.*
+
 ### Example 5: Heap quiz
 
 > Lecture 3, "Find output"
@@ -363,6 +372,9 @@ for (int j = 0; j < 5; j++)
 2. `hq[3] = hq[1]` → `hq[3]` points at B
 3. `hq[4] = hq[1]` → `hq[4]` points at B
 4. `hq[3] = hq[2]` → `hq[3]` now points at C instead
+
+![[coe-318-heapquiz.svg]]
+*Figure 3.4: Final state of the heap quiz. Only three HeapQuiz objects exist, and the array slots just point at them.*
 
 |Index|0|1|2|3|4|
 |---|---|---|---|---|---|
