@@ -7,13 +7,13 @@ tags:
 
 > [!info] Readings Brown & Vranesic **§7.1–7.8** · Lecture 8 · weeks 7–8
 
-Everything so far has been **combinational**: the output depends only on the inputs right now. A **sequential** circuit also depends on what happened before, because it **stores** a bit. This chapter covers the two basic storage elements: **latches** (level-sensitive) and **flip-flops** (edge-triggered), in the S-R, D, and J-K varieties, plus the asynchronous preset and clear inputs.
+Everything up to now has been **combinational**, meaning the output only depends on the inputs right now. A **sequential** circuit also depends on what happened before, because it **stores** a bit. This chapter covers the two basic storage elements, **latches** (level-sensitive) and **flip-flops** (edge-triggered), in the S-R, D and J-K varieties, plus the asynchronous preset and clear inputs.
 
 ## Notes
 
 ### Latches vs flip-flops
 
-Both are **bistable**: they have two stable states (storing a 0 or a 1) and stay in one until told to change. Both get this from **feedback**: each gate's output is wired back to the input of the other gate.
+Both are **bistable**, meaning they have two stable states (storing a 0 or a 1) and stay in one until told to change. Both get this from **feedback**, where each gate's output is wired back into the input of the other gate.
 
 The difference is **when** they're allowed to change:
 
@@ -38,11 +38,11 @@ The outputs are always $Q$ and $\overline{Q}$, which are normally complements of
 |0|1|0|1|**Reset**|
 |1|1|0|0|**Invalid** ($Q = \overline{Q}$)|
 
-Why it holds: with $S = R = 0$, each NOR acts as an inverter of the other gate's output, so $Q$ keeps feeding back $\overline{Q}$ and vice versa. Whichever state it's in reinforces itself.
+Why it holds: with $S = R = 0$, each NOR acts as an inverter of the other gate's output, so $Q$ keeps feeding back $\overline{Q}$ and the other way around. Whichever state it's in reinforces itself.
 
-Why $S = R = 1$ is invalid: both NOR outputs are forced to 0, so $Q$ and $\overline{Q}$ are no longer complements. Worse, if both inputs then return to 0 at the same time, the latch ends up in an unpredictable state.
+Why $S = R = 1$ is invalid: both NOR outputs are forced to 0, so $Q$ and $\overline{Q}$ aren't complements anymore. Even worse, if both inputs then go back to 0 at the same time, the latch ends up in an unpredictable state.
 
-**Active-LOW $\overline{S}$-$\overline{R}$ latch: two cross-coupled NAND gates.** Same idea, but the inputs are active-LOW: a **0** sets or resets it, $\overline{S} = \overline{R} = 1$ holds, and $\overline{S} = \overline{R} = 0$ is invalid (both outputs go to 1).
+**Active-LOW $\overline{S}$-$\overline{R}$ latch: two cross-coupled NAND gates.** Same idea, but the inputs are active-LOW. A **0** sets or resets it, $\overline{S} = \overline{R} = 1$ holds, and $\overline{S} = \overline{R} = 0$ is invalid (both outputs go to 1).
 
 |$\overline{S}$|$\overline{R}$|$Q$|Mode|
 |---|---|---|---|
@@ -51,20 +51,20 @@ Why $S = R = 1$ is invalid: both NOR outputs are forced to 0, so $Q$ and $\overl
 |1|0|0|Reset|
 |0|0|1 (and $\overline{Q} = 1$)|Invalid|
 
-**Try it:** click time slots of $S$ and $R$ to change them. The latch starts RESET. Red marks the invalid state.
+**Try it:** click time slots of $S$ and $R$ to change them. The latch starts RESET, and red marks the invalid state.
 
 <div class="melon-logic" data-view="timing" data-device="srlatch">Interactive S-R latch (open this page on the site to use it).</div>
 
 ### Gated latches
 
-A **gated latch** adds an **enable** input ($EN$, sometimes $G$). The latch only responds to its other inputs while $EN$ is HIGH. It's **level-sensitive**: for the whole time $EN = 1$, the output follows the inputs.
+A **gated latch** adds an **enable** input ($EN$, sometimes $G$). The latch only responds to its other inputs while $EN$ is HIGH. It's **level-sensitive**, so for the whole time $EN = 1$ the output follows the inputs.
 
 **Gated S-R latch.** Two AND (or NAND) gates pass $S$ and $R$ through only when $EN = 1$:
 
 - $EN = 0$: no change, whatever $S$ and $R$ do.
 - $EN = 1$: behaves like a normal S-R latch ($S = R = 1$ is still invalid).
 
-**Gated D latch.** Removes the invalid state by having just **one** data input $D$, with $S = D$ and $R = \overline{D}$ inside:
+**Gated D latch.** This gets rid of the invalid state by having just **one** data input $D$, with $S = D$ and $R = \overline{D}$ inside:
 
 |$EN$|$D$|$Q$|Mode|
 |---|---|---|---|
@@ -74,23 +74,23 @@ A **gated latch** adds an **enable** input ($EN$, sometimes $G$). The latch only
 
 In short: **while $EN = 1$, $Q$ follows $D$. When $EN$ goes to 0, $Q$ holds the last value of $D$.**
 
-**Try it:** switch between the gated S-R and D latch, and edit the inputs. The shaded columns are where $EN$ is HIGH: those are the only places $Q$ can change.
+**Try it:** switch between the gated S-R and D latch, and edit the inputs. The shaded columns are where $EN$ is HIGH, and those are the only places $Q$ can change.
 
 <div class="melon-logic" data-view="timing" data-device="gsr,dlatch">Interactive gated latches (open this page on the site to use it).</div>
 
 ### Edge-triggered flip-flops
 
-A **flip-flop** changes state only at one instant: the **triggering edge** of the clock ($CLK$, or control input $C$). Everywhere else, its inputs are ignored.
+A **flip-flop** only changes state at one instant, the **triggering edge** of the clock ($CLK$, or control input $C$). Everywhere else, its inputs are ignored.
 
-- **Positive edge-triggered:** changes on the **rising** edge (0 → 1). Symbol: no bubble on $C$.
-- **Negative edge-triggered:** changes on the **falling** edge (1 → 0). Symbol: a bubble on $C$.
-- The small **triangle** at the $C$ input (the **dynamic input indicator**) is how to tell a flip-flop from a latch on a schematic.
+- **Positive edge-triggered:** changes on the **rising** edge (0 → 1). The symbol has no bubble on $C$.
+- **Negative edge-triggered:** changes on the **falling** edge (1 → 0). The symbol has a bubble on $C$.
+- The small **triangle** at the $C$ input (the **dynamic input indicator**) is how you tell a flip-flop from a latch on a schematic.
 
 The data inputs ($D$, or $J$ and $K$) are called **synchronous** inputs because their effect is synchronized with the clock.
 
 ### D flip-flop
 
-On the triggering edge, **$Q$ takes the value of $D$**. Between edges, $D$ can change freely without affecting $Q$, except for a very short window right around the edge (where it must be stable).
+On the triggering edge, **$Q$ takes the value of $D$**. Between edges, $D$ can change freely without affecting $Q$, except for a very short window right around the edge where it has to be stable.
 
 |$D$|$CLK$|$Q$|Mode|
 |---|---|---|---|
@@ -101,7 +101,7 @@ So **$Q$ follows $D$ at the clock edge**, and holds that value until the next ed
 
 ### J-K flip-flop
 
-Like an S-R flip-flop ($J$ = set, $K$ = reset), but $J = K = 1$ is useful instead of invalid: it **toggles** the output.
+It's like an S-R flip-flop ($J$ = set, $K$ = reset), except $J = K = 1$ is useful instead of invalid, because it **toggles** the output.
 
 |$J$|$K$|$CLK$|$Q$ after the edge|Mode|
 |---|---|---|---|---|
@@ -110,13 +110,13 @@ Like an S-R flip-flop ($J$ = set, $K$ = reset), but $J = K = 1$ is useful instea
 |1|0|↑|1|Set|
 |1|1|↑|$\overline{Q}$|**Toggle**|
 
-**Try it:** switch between the D and J-K flip-flops. The clock is fixed; the dashed lines mark its rising edges, the only instants $Q$ can change.
+**Try it:** switch between the D and J-K flip-flops. The clock is fixed, and the dashed lines mark its rising edges, which are the only instants $Q$ can change.
 
 <div class="melon-logic" data-view="timing" data-device="dff,jkff">Interactive flip-flops (open this page on the site to use it).</div>
 
 ### Asynchronous preset and clear
 
-Most flip-flop chips also have **asynchronous** inputs that act **immediately, regardless of the clock**:
+Most flip-flop chips also have **asynchronous** inputs that act **right away, no matter what the clock is doing**:
 
 - **Preset** ($PRE$, or direct set $S_D$): forces $Q = 1$.
 - **Clear** ($CLR$, or direct reset $R_D$): forces $Q = 0$.
@@ -130,9 +130,9 @@ They're usually **active-LOW** (bubbles on the symbol):
 |1|0|$Q = 0$ right away|
 |0|0|Not used (invalid)|
 
-For normal synchronous operation, keep both HIGH. They're typically used to put the flip-flop in a known state at power-up.
+For normal synchronous operation, keep both HIGH. They're mostly used to put the flip-flop in a known state at power-up.
 
-**Try it:** pull $\overline{PRE}$ or $\overline{CLR}$ LOW and watch $Q$ change immediately, not at the next edge.
+**Try it:** pull $\overline{PRE}$ or $\overline{CLR}$ LOW and watch $Q$ change right away instead of at the next edge.
 
 <div class="melon-logic" data-view="timing" data-device="dffpc">Interactive D flip-flop with preset and clear (open this page on the site to use it).</div>
 
@@ -172,7 +172,7 @@ Check: $J = K = 0$ gives $Q$ (hold), $J = K = 1$ gives $\overline{Q}$ (toggle).
 
 ## Examples
 
-These follow the Lecture 8 examples, with different input sequences written as tables (each column is one time interval).
+These are based on the Lecture 8 examples, with different input sequences written as tables (each column is one time interval).
 
 ### Example 1: S-R latch
 
@@ -231,7 +231,7 @@ A gated D latch starts RESET. Find $Q$.
 |$D$|1|0|1|0|1|1|0|1|
 |$Q$|**1**|**0**|**0**|**0**|**1**|**1**|**1**|**1**|
 
-While $EN = 1$, $Q$ copies $D$ (intervals 1–2 and 5–6). While $EN = 0$, $Q$ keeps whatever $D$ was when $EN$ fell, no matter what $D$ does.
+While $EN = 1$, $Q$ copies $D$ (intervals 1–2 and 5–6). While $EN = 0$, $Q$ keeps whatever $D$ was when $EN$ fell, no matter what $D$ does after that.
 
 ### Example 5: D flip-flop
 
@@ -244,7 +244,7 @@ A positive edge-triggered D flip-flop starts RESET. The value of $D$ at each of 
 |$D$ at the edge|1|1|0|1|0|
 |$Q$ after|**1**|**1**|**0**|**1**|**0**|
 
-$\overline{Q}$ is always the opposite: $0, 0, 1, 0, 1$. Any changes in $D$ **between** edges have no effect.
+$\overline{Q}$ is always the opposite: $0, 0, 1, 0, 1$. Changes in $D$ **between** edges have no effect.
 
 ### Example 6: J-K flip-flop
 
@@ -272,8 +272,8 @@ $D$ and a control signal are fed to both a gated D latch (control = $EN$) and a 
 |$Q$ (D latch)|0|**1**|**0**|**1**|1|
 |$Q$ (D flip-flop)|0|**1**|1|1|1|
 
-- The **latch** is transparent the whole time the control is HIGH, so it copies every change of $D$ in intervals 2–4, then holds the last value (1).
-- The **flip-flop** only looks at $D$ at the single rising edge (start of interval 2), where $D = 1$, and ignores the rest.
+- The **latch** is transparent the whole time the control is HIGH, so it copies every change of $D$ in intervals 2–4 and then holds the last value (1).
+- The **flip-flop** only looks at $D$ at the single rising edge (the start of interval 2), where $D = 1$, and ignores everything else.
 
 ### Example 8: Asynchronous preset and clear
 
@@ -289,15 +289,15 @@ A positive edge-triggered D flip-flop with active-LOW $\overline{PRE}$ and $\ove
 |$Q$|**0**|**0**|**0**|**1**|**1**|**0**|
 
 - Intervals 1–2: $\overline{CLR}$ is LOW, so $Q$ is held at 0 even though there's an edge with $D = 1$ in interval 2.
-- Interval 4: both inputs HIGH, so the edge clocks in $D = 1$.
+- Interval 4: both inputs are HIGH, so the edge clocks in $D = 1$.
 - Interval 5: $\overline{PRE}$ LOW forces $Q = 1$ (it already is).
-- Interval 6: $\overline{CLR}$ LOW forces $Q = 0$ immediately, overriding the clock edge.
+- Interval 6: $\overline{CLR}$ LOW forces $Q = 0$ right away, overriding the clock edge.
 
 ## Common mistakes
 
 - Treating a gated latch like a flip-flop. A latch follows its inputs for the **whole time** $EN$ is HIGH, not just at the edge.
-- Forgetting that the NAND latch is **active-LOW**: $\overline{S} = 0$ sets it, and $11$ is the hold state.
-- Using $S = R = 1$ on an S-R latch. It's invalid; the J-K flip-flop is the version where $1, 1$ is allowed (toggle).
+- Forgetting that the NAND latch is **active-LOW**. $\overline{S} = 0$ sets it, and $11$ is the hold state.
+- Using $S = R = 1$ on an S-R latch. It's invalid, and the J-K flip-flop is the version where $1, 1$ is allowed (toggle).
 - Letting $Q$ change between clock edges on a flip-flop. Only the edge (and the asynchronous inputs) can change it.
 - Reading $D$ **after** the edge instead of just before it.
-- Waiting for a clock edge to apply $\overline{PRE}$ or $\overline{CLR}$. They're **asynchronous**: they act immediately.
+- Waiting for a clock edge to apply $\overline{PRE}$ or $\overline{CLR}$. They're **asynchronous**, so they act right away.

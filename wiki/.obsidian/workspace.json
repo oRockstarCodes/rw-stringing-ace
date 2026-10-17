@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "content/courses/coe-328/ch05-number-representation-and-arithmetic.md",
+                "file": "content/courses/ele-302/ch05-operational-amplifiers.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "ch05-number-representation-and-arithmetic"
+              "title": "ch05-operational-amplifiers"
             }
           }
         ]
@@ -190,6 +190,14 @@
   },
   "active": "d612869e9f2aee88",
   "lastOpenFiles": [
+    "content/courses/ele-302/ch08-second-order-circuits.md.tmp.33036.93164d158880",
+    "content/courses/coe-328/ch02-intro-to-logic-circuits.md.tmp.33036.47e6685b972e",
+    "content/courses/coe-328/ch01-number-systems-and-digital-waveforms.md.tmp.33036.607465314cc7",
+    "content/courses/coe-318/ch05-writing-classes.md.tmp.33036.7f79a616fb3c",
+    "content/courses/coe-318/ch02-classes-and-objects.md.tmp.33036.8d4452c1840f",
+    "content/courses/coe-318/ch01-software-development-and-oop.md",
+    "content/courses/ele-302/ch05-operational-amplifiers.md.tmp.33036.e8dcfc22e7c1",
+    "content/courses/coe-328/ch05-number-representation-and-arithmetic.md",
     "content/attachments/coe-328-column-addition.svg",
     "content/courses/coe-328/ch03-implementation-technology.md",
     "content/courses/coe-328/concepts/lookup-table.md",
@@ -207,13 +215,8 @@
     "sedG0HVAy",
     "components/sedYQbQj9",
     "components/sedabbrMr",
-    "components/sedRb9mBS",
-    "components/MelonPlate.tsx",
-    "components/sed4sNViP",
     "content/courses/ele-302/ch05-operational-amplifiers.md",
     "content/courses/coe-328/ch01-number-systems-and-digital-waveforms.md",
-    "content/attachments/sedIdWEB5",
-    "content/attachments/sedw12FN4",
     "content/attachments/coe-328-sr-latch-nor.svg",
     "content/attachments/coe-328-equality-comparator.svg",
     "content/attachments/coe-328-full-adder.svg",
@@ -225,7 +228,6 @@
     "content/courses/ele-302/concepts/source-transformation.md",
     "content/courses/ele-302/concepts/second-order-differential-equations.md",
     "content/attachments/ele-302-concept-source-transformation.svg",
-    "content/attachments/ele-302-concept-root-locations.svg",
     "content/courses/smp-101/ch01-basic-laws.md",
     "content/lab-reports/index.md",
     "content/courses/smp-101/ch04-first-order-circuits.md",
@@ -234,8 +236,6 @@
     "content/templates/chapter.md",
     "content/templates/course.md",
     "content/templates/concept.md",
-    "content/courses/pcs-224/ch01-electrostatics-review.md",
-    "content/courses/coe-328/ch06-combinational-building-blocks.md",
     "Untitled.canvas"
   ]
 }

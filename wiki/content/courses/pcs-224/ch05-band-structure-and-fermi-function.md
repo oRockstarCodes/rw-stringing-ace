@@ -7,48 +7,48 @@ tags:
 
 > [!info] Readings Serway & Jewett **41.7, 42.4–42.6** · Neamen **3.1.1, 3.2.1, 3.2.5, 3.5** · week 5
 
-[[ch03-intro-to-semiconductors|Chapter 3]] described semiconductors with bonds and [[ch04-hall-effect-bohr-model-doping|Chapter 4]] showed that electrons in atoms have discrete energies. This chapter puts the two together. When atoms form a crystal, the discrete levels spread into **energy bands** separated by **gaps**, and whether a material is a metal, a semiconductor or an insulator depends on how those bands are filled.
+[[ch03-intro-to-semiconductors|Chapter 3]] described semiconductors with bonds, and [[ch04-hall-effect-bohr-model-doping|Chapter 4]] showed that electrons in atoms have discrete energies. This chapter puts the two together. When atoms form a crystal, the discrete levels spread into **energy bands** separated by **gaps**, and whether a material is a metal, a semiconductor or an insulator depends on how those bands are filled.
 
-Then we need a way to count *how many* electrons occupy a given energy at temperature $T$. That's the **Fermi function**, and the **Fermi level** $E_F$ is the single number that controls it.
+After that we need a way to count *how many* electrons occupy a given energy at temperature $T$. That's the **Fermi function**, and the **Fermi level** $E_F$ is the one number that controls it.
 
 The key ideas:
 
 1. Two electrons can't share a quantum state (**Pauli exclusion**), so electrons fill energy states from the bottom up.
-2. A **band** is a huge number of closely spaced allowed levels. A **gap** is a range with no allowed levels.
-3. Only a **partly filled** band can carry current, so a metal has one, while an insulator or semiconductor has a **full valence band** and an **empty conduction band** at 0 K.
-4. A semiconductor's small gap (~1 eV) lets thermal energy promote some electrons, creating **electrons and holes**.
-5. Occupation probability at energy $E$ is $f(E) = \dfrac{1}{1 + e^{(E-E_F)/k_BT}}$.
+2. A **band** is a huge number of closely spaced allowed levels, and a **gap** is a range with no allowed levels.
+3. Only a **partly filled** band can carry current. A metal has one, while an insulator or semiconductor has a **full valence band** and an **empty conduction band** at 0 K.
+4. A semiconductor's small gap (~1 eV) lets thermal energy promote some electrons, which creates **electrons and holes**.
+5. The probability that an energy $E$ is occupied is $f(E) = \dfrac{1}{1 + e^{(E-E_F)/k_BT}}$.
 
 ## Notes
 
 ### Quantum rules for many-electron systems
 
-Classical physics describes macroscopic objects. For electrons we need **quantum mechanics**, whose central feature is **wave–particle duality**.
+Classical physics describes everyday objects. For electrons we need **quantum mechanics**, whose central feature is **wave–particle duality**.
 
-- **Light** behaves like particles (photons) in absorption, emission and scattering: $E = hf$, momentum $p = h/\lambda$ (from the photoelectric effect, [[ch02-photoelectric-effect|Chapter 2]]).
-- **Particles** such as electrons have definite mass and charge, but they are not confined to a single point. A **wave function** describes the *probability* of finding the particle at a given place.
+- **Light** behaves like particles (photons) in absorption, emission and scattering, with $E = hf$ and momentum $p = h/\lambda$ (from the photoelectric effect, [[ch02-photoelectric-effect|Chapter 2]]).
+- **Particles** such as electrons have definite mass and charge, but they aren't confined to a single point. A **wave function** describes the *probability* of finding the particle at a given place.
 
 In an isolated atom, the state of an electron is labelled by a set of quantum numbers $(n, l, m)$ plus a spin value $(\pm\tfrac{1}{2})$. Two rules govern a system with many electrons:
 
 1. **Pauli exclusion principle.** No two electrons can occupy the same quantum state at the same time.
-2. **Lowest energy first.** At $T = 0$ K (the ground state) electrons occupy the lowest available states.
+2. **Lowest energy first.** At $T = 0$ K (the ground state) electrons fill the lowest available states.
 
-Together these mean electrons stack up from the bottom: each state holds at most one electron (per spin), and the next electron must go higher.
+Together these mean the electrons stack up from the bottom. Each state holds at most one electron (per spin), and the next electron has to go higher.
 
 ### From atomic levels to energy bands
 
-Bring two identical atoms together and each level splits into two slightly different levels, because the wave functions overlap and Pauli exclusion forbids both electrons from having the same energy. Bring $N$ atoms together and every level splits into $N$ closely spaced levels. In a real crystal $N \sim 10^{22}$ cm⁻³, so the levels are so close they form an essentially continuous **energy band**.
+Bring two identical atoms together and each level splits into two slightly different levels, because the wave functions overlap and Pauli exclusion doesn't let both electrons have the same energy. Bring $N$ atoms together and every level splits into $N$ closely spaced levels. In a real crystal $N \sim 10^{22}$ cm⁻³, so the levels are so close together that they form an essentially continuous **energy band**.
 
 - **Energy band:** a range of energies where electron states exist.
-- **Energy gap** (forbidden band): a range of energies with **no** allowed states, so electrons cannot be found there.
-- **Valence band:** the highest band that is completely filled with electrons at 0 K.
-- **Conduction band:** the next allowed band above it, empty or partly filled.
+- **Energy gap** (forbidden band): a range of energies with **no** allowed states, so electrons can't be found there.
+- **Valence band:** the highest band that's completely filled with electrons at 0 K.
+- **Conduction band:** the next allowed band above it, which is empty or partly filled.
 
-The notation used from here on: $E_v$ is the top of the valence band, $E_c$ the bottom of the conduction band, and the **band gap** is $E_g = E_c - E_v$.
+The notation from here on is that $E_v$ is the top of the valence band, $E_c$ is the bottom of the conduction band, and the **band gap** is $E_g = E_c - E_v$.
 
 ### Metals, insulators and semiconductors
 
-Why does filling matter? To carry a current, an electron in a field must **gain kinetic energy**, so it must have a nearby empty state to move into. A completely **filled** band has no empty states, so it carries no net current, even though it's full of electrons.
+Why does the filling matter? To carry a current, an electron in a field has to **gain kinetic energy**, so it needs a nearby empty state to move into. A completely **filled** band has no empty states, so it carries no net current even though it's full of electrons.
 
 ![[pcs-224-band-types.svg]]
 *Figure 5.1: Band filling at $T = 0$ K. The metal has a partly filled band, so electrons near $E_F$ can move. Semiconductors and insulators have a full valence band and an empty conduction band, differing only in the size of the gap.*
@@ -71,24 +71,24 @@ Typical band gaps:
 | Gallium arsenide | 1.43 |
 | Selenium | 1.8 |
 
-**Why temperature matters.** In a semiconductor, the gap (≈1 eV) is small enough that at room temperature a few electrons near the top of the valence band are thermally promoted across it. In an insulator (≈10 eV) essentially none are. That's why a semiconductor conducts **better as it gets hotter**, unlike a metal.
+**Why temperature matters.** In a semiconductor, the gap (≈1 eV) is small enough that at room temperature a few electrons near the top of the valence band get thermally promoted across it. In an insulator (≈10 eV) basically none do. That's why a semiconductor conducts **better as it gets hotter**, unlike a metal.
 
 ### Electrons and holes in the band picture
 
 When an electron is excited from the valence band into the conduction band, **two** carriers appear:
 
 - The electron in the conduction band is free to move through the crystal under a field (against $\vec{E}$). These are the **n-carriers**.
-- It leaves an empty state, a **hole**, in the valence band. Neighbouring valence electrons can move into it, which moves the hole in the opposite direction, i.e. **along** $\vec{E}$. These are the **p-carriers**. The Hall effect confirms holes behave as positive charge carriers ([[ch04-hall-effect-bohr-model-doping|Chapter 4]]).
+- It leaves an empty state, a **hole**, in the valence band. Neighbouring valence electrons can move into it, which moves the hole the opposite way, i.e. **along** $\vec{E}$. These are the **p-carriers**. The Hall effect confirms that holes behave as positive charge carriers ([[ch04-hall-effect-bohr-model-doping|Chapter 4]]).
 
 So thermal excitation creates electron–hole pairs, and in a pure semiconductor there are exactly as many holes in the valence band as electrons in the conduction band.
 
-**Doping** adds levels *inside* the gap, close to the band edges (donors near $E_c$, acceptors near $E_v$), as in Figure 4.3. At room temperature they ionize and supply carriers of one type.
+**Doping** adds levels *inside* the gap, close to the band edges (donors near $E_c$, acceptors near $E_v$), like in Figure 4.3. At room temperature they ionize and supply carriers of one type.
 
 ### The Fermi function
 
-At $T = 0$ the occupation is simple: all states below some energy are full and all states above are empty. That boundary is the **Fermi energy** $E_F$.
+At $T = 0$ the occupation is simple, since all states below some energy are full and all states above are empty. That boundary is the **Fermi energy** $E_F$.
 
-At $T > 0$ some electrons gain thermal energy and move up, so the sharp edge **smears out**. Tracking every electron is impossible, but with so many of them, statistics works. The result, the **Fermi–Dirac distribution**, gives the **probability that a state at energy $E$ is occupied**:
+At $T > 0$ some electrons gain thermal energy and move up, so the sharp edge **smears out**. Tracking every electron is impossible, but there are so many of them that statistics works. The result, the **Fermi–Dirac distribution**, gives the **probability that a state at energy $E$ is occupied**:
 
 $$
 f(E) = \frac{1}{1 + e^{(E - E_F)/k_BT}} \tag{5.1}
@@ -103,11 +103,11 @@ $$
 - $E = E_F$: $f = \dfrac{1}{2}$ at **every** temperature. This is the precise definition of the Fermi level.
 - $E - E_F \gg k_BT$: $f \approx e^{-(E-E_F)/k_BT}$, a small number (the "tail").
 - $E_F - E \gg k_BT$: $f \approx 1$.
-- Higher $T$ means more smearing: more probability above $E_F$ and less below it.
+- Higher $T$ means more smearing, with more probability above $E_F$ and less below it.
 
-**Two things set the number of electrons at an energy.** The probability $f(E)$ that a state is occupied, and the **number of states** available there. $E_F$ is about the first factor only: it's best thought of as the energy where the occupation probability is $\frac{1}{2}$ *if* there were states everywhere.
+**Two things set the number of electrons at an energy.** One is the probability $f(E)$ that a state is occupied, and the other is the **number of states** available there. $E_F$ only has to do with the first one. It's best thought of as the energy where the occupation probability is $\frac{1}{2}$ *if* there were states everywhere.
 
-> [!warning] **$E_F$ can lie in the gap.** In an intrinsic semiconductor there are **no** states at $E_F$, so there are no electrons *at* $E_F$ even though $f(E_F) = \frac{1}{2}$. In a metal, $E_F$ lies inside a band. In a semiconductor or insulator, it lies in the gap.
+> [!warning] **$E_F$ can lie in the gap.** In an intrinsic semiconductor there are **no** states at $E_F$, so there are no electrons *at* $E_F$ even though $f(E_F) = \frac{1}{2}$. In a metal, $E_F$ lies inside a band, and in a semiconductor or insulator it lies in the gap.
 
 **Where is $E_F$ for an intrinsic semiconductor?** Near the middle of the gap:
 
@@ -125,12 +125,12 @@ $$
 f_h(E) = 1 - f(E) = \frac{1}{1 + e^{(E_F - E)/k_BT}} \tag{5.3}
 $$
 
-This mirrors Eq. (5.1) with $E - E_F$ replaced by $E_F - E$: holes are likely **below** $E_F$ only by a tail, just as electrons are likely above $E_F$ only by a tail.
+This mirrors Eq. (5.1) with $E - E_F$ replaced by $E_F - E$. Holes are only likely **below** $E_F$ by a tail, just like electrons are only likely above $E_F$ by a tail.
 
 **The semiconductor at room temperature.**
 
 - **Conduction band** (above $E_F$): $f$ is tiny, but those few electrons are *free* and carry current.
-- **Valence band** (below $E_F$): $f$ is almost 1, so it's almost full. We don't follow the huge number of electrons, we follow the few **holes**. This is like following the motion of air bubbles in water instead of tracking how water fills in behind each bubble.
+- **Valence band** (below $E_F$): $f$ is almost 1, so it's almost full. We don't follow the huge number of electrons, we follow the few **holes**. It's like following the motion of air bubbles in water instead of tracking how the water fills in behind each bubble.
 
 ## Key formulas
 
@@ -195,7 +195,7 @@ $$
 n = g\,f = (1\times10^{19})(3.9\times10^{-10}) = 3.9\times10^{9}\ \text{cm}^{-3}
 $$
 
-> [!note] This is already close to the order of magnitude of silicon's intrinsic carrier density ($\sim10^{10}$ cm⁻³). The Fermi function really is what produces $n_i$ (see Chapter 6).
+> [!note] That's already close to the order of magnitude of silicon's intrinsic carrier density ($\sim10^{10}$ cm⁻³). The Fermi function really is what produces $n_i$ (see Chapter 6).
 
 ### Example 2: A wider gap
 
@@ -207,7 +207,7 @@ $$
 f(E_c) \approx e^{-3.0/0.02586} = e^{-116} = 4\times10^{-51}, \qquad n = (10^{19})(4\times10^{-51}) \approx 4\times10^{-32}\ \text{cm}^{-3}
 $$
 
-There's effectively **zero** electrons in the conduction band, so diamond is an excellent insulator at room temperature.
+There are effectively **zero** electrons in the conduction band, so diamond is an excellent insulator at room temperature.
 
 ### Example 3: Where is the hole probability 10%?
 
@@ -239,7 +239,7 @@ $$
 f(400\ \text{K}) \approx e^{-0.40/0.03447} = 9.1\times10^{-6}
 $$
 
-A $100$ K rise increases the probability by about $48\times$. The Fermi function depends **exponentially** on $T$, so occupancy at the band edge, and hence the carrier density, is very sensitive to temperature.
+A $100$ K rise increases the probability by about $48\times$. The Fermi function depends **exponentially** on $T$, so the occupancy at the band edge, and with it the carrier density, is very sensitive to temperature.
 
 ### Example 5: Light and the gap
 
@@ -255,14 +255,14 @@ A photon must have $E \ge E_g$, so $\lambda \le 1240/E_g$:
 | Si | 1.12 | 1107 | near-infrared |
 | GaAs | 1.43 | 867 | near-infrared |
 
-Photons with $\lambda$ longer than this pass through without exciting electrons. The same idea will reappear in the LED and photodiode in [[ch08-junction-capacitance-and-optoelectronics|Chapter 8]].
+Photons with a longer $\lambda$ than this pass through without exciting electrons. The same idea comes back with the LED and photodiode in [[ch08-junction-capacitance-and-optoelectronics|Chapter 8]].
 
 ## Common mistakes
 
 - Saying there's a 50% chance of an electron *at* $E_F$ and concluding there are electrons there. In the gap there are no states to occupy
-- Believing $E_F$ is the energy of the highest electron at **any** $T$. That's true only at $T = 0$. In general it's where $f = \frac{1}{2}$
+- Believing $E_F$ is the energy of the highest electron at **any** $T$. That's only true at $T = 0$. In general it's where $f = \frac{1}{2}$
 - Forgetting the $k_BT$ in the exponent, or using $T$ in °C
-- Taking the hole probability as $f(E)$. It's $1 - f(E)$, with the sign of the exponent flipped
-- Mixing up which band holds which carrier: electrons are counted in the **conduction** band, holes in the **valence** band
+- Taking the hole probability as $f(E)$ when it's $1 - f(E)$, with the sign of the exponent flipped
+- Mixing up which band holds which carrier. Electrons are counted in the **conduction** band and holes in the **valence** band
 - Using $1240/\lambda$ with $\lambda$ in metres. It needs **nm**
 - Forgetting that a full band carries no current, because there are no empty states to move into

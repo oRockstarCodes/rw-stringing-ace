@@ -7,17 +7,17 @@ tags:
 
 > [!info] Readings Lecture 1 · week 2 · no textbook chapter (Head First Java ch. 1–2 covers the same ground)
 
-Software is built in a repeating cycle of **requirements → design → implementation → testing → deployment → maintenance**. This course focuses on the implementation part using **object-oriented programming (OOP)** in Java: instead of writing one long top-to-bottom program, you define **objects** that each hold their own data and behaviour, then link them together.
+Software gets built in a cycle that goes **requirements → design → implementation → testing → deployment → maintenance**, then back around. This course is mostly about the implementation step, using **object-oriented programming (OOP)** in Java. Instead of one long program that runs top to bottom, you make **objects** that each keep their own data and know what they can do, and then connect them.
 
 ## Notes
 
 ### Programming languages and compiling
 
-A **programming language** is a high-level language (Java, C, C++, Python) whose instructions control what a computer does. The CPU can't run it directly, so it has to be **compiled** (translated) into low-level machine code first.
+Java, C, C++ and Python are **high-level languages**. The CPU can't run them as written, so the code has to be **compiled** (translated) into low-level machine code first.
 
 ### Software Development Lifecycle (SDLC)
 
-The SDLC is the series of activities used to build software:
+The SDLC is just the list of steps a team goes through to build software:
 
 |Phase|What happens|
 |---|---|
@@ -28,55 +28,55 @@ The SDLC is the series of activities used to build software:
 |Deployment|Release it to users|
 |Maintenance|Fix bugs and add features after release|
 
-Different **SDLC models** arrange these phases differently: **waterfall** (each phase once, in order), **iterative**, **agile**, **V model**, **RAD**, and **spiral**.
+There are a few **SDLC models** that arrange these phases differently: **waterfall** (each phase once, in order), **iterative**, **agile**, **V model**, **RAD**, and **spiral**.
 
-> [!warning] The cost of a design change grows roughly **exponentially** the later it happens in a project. A change that's a quick edit during design can mean rewriting and retesting everything after deployment. This is why the design phase matters.
+> [!warning] A design change costs way more the later it happens, roughly **exponentially**. Something that's a quick edit during design can turn into rewriting and retesting everything once the software is already deployed. That's why the design phase matters.
 
 ### Ethics and software failures
 
-Software increasingly runs things people's lives depend on and makes decisions about people, so bugs and biases have real consequences. The lecture's examples:
+More and more, software runs things people's lives depend on and makes decisions about people, so bugs and bias actually hurt someone. Examples from the lecture:
 
-- **Medical:** an infusion pump (2015) that could fail to delay an infusion or miss doses depending on input timing
-- **Aviation:** an F-35 sensor glitch (2016) misreading targets in formation; the Boeing 737 Max (2020) warning light turning on when it shouldn't
-- **Bias:** face recognition trained on non-diverse data mislabelling people (2021); a hiring tool that discriminated against women (2018)
+- **Medical:** a 2015 infusion pump that could skip doses or fail to delay an infusion depending on the timing of the input
+- **Aviation:** a 2016 F-35 sensor glitch that misread targets when planes flew in formation, and the 2020 Boeing 737 Max warning light coming on when it shouldn't
+- **Bias:** face recognition trained on non-diverse data that mislabelled people (2021), and a hiring tool that discriminated against women (2018)
 
-> [!note] Ethics isn't only a concern for big companies. It's built into the small decisions every developer makes (privacy, access, fairness), and "the technology did it" is not an excuse.
+> [!note] Ethics isn't only something big companies have to worry about. It shows up in the small choices every developer makes (privacy, access, fairness), and "the technology did it" doesn't work as an excuse.
 
 ### Language paradigms
 
 |Paradigm|Idea|Strength|Weakness|
 |---|---|---|---|
-|**Structured**|Steps run top to bottom: get input → process → output|Easy to follow for small programs|Hard to manage large projects with many developers|
-|**Object-oriented**|Define objects first (a window, a text box, a button, a text processor), then link them|Objects can be reused across larger projects|More up-front design|
+|**Structured**|Steps run top to bottom: get input → process → output|Easy to follow in a small program|Gets messy on big projects with lots of developers|
+|**Object-oriented**|Define the objects first (a window, a text box, a button, a text processor), then link them together|Objects can be reused in bigger projects|Takes more planning up front|
 
-Many modern languages (e.g. JavaScript) are **multi-paradigm** and support both.
+A lot of modern languages (JavaScript, for example) are **multi-paradigm**, so you can use either style.
 
 ### Objects and classes
 
 - An **object** is a "thing" with a **state** (its data) and **behaviours** (what it can do).
-- A **class** is the **template** that defines what kind of object it is: which variables it has and which methods it can run.
+- A **class** is the **template** for an object. It says which variables the object has and which methods it can run.
 
-One class, many objects: a single `Car` class can produce a `miniVan` and a `sedan`, each with its own speed and licence plate.
+One class can make many objects. A single `Car` class can give you a `miniVan` and a `sedan`, and each has its own speed and licence plate.
 
 ### Why Java
 
 - **Simple** and **object-oriented**
-- **Platform independent:** source code compiles to **bytecode** (`.class` files), which runs on the **Java Virtual Machine (JVM)** on any OS
-- **Safe:** no pointers, and programs live inside the JVM
+- **Platform independent:** the source compiles to **bytecode** (`.class` files), and the **Java Virtual Machine (JVM)** runs that on any OS
+- **Safe:** no pointers, and programs run inside the JVM
 - **Multi-threaded**
-- **Garbage collected:** you never free memory by hand
+- **Garbage collected:** you don't free memory yourself
 
 **How Java works:**
 
 1. Write source code in `HelloWorld.java`
 2. `javac` compiles it to bytecode, `HelloWorld.class`
-3. The JVM on the target machine runs the bytecode
+3. The JVM on whatever machine you're on runs the bytecode
 
-We use **NetBeans** as the IDE (free from netbeans.apache.org). Its autocomplete is worth leaning on while learning.
+The course uses **NetBeans** as the IDE (it's free from netbeans.apache.org). Use the autocomplete while you're learning, it helps a lot.
 
 ### Java code structure
 
-Code is nested in three levels:
+Java code nests in three levels:
 
 |Level|Contains|Example|
 |---|---|---|
@@ -84,7 +84,7 @@ Code is nested in three levels:
 |**Class**|Variables and methods, between `{` and `}`|`public class HelloWorld { ... }`|
 |**Method**|Statements, between `{` and `}`|`public static void main(String[] args) { ... }`|
 
-Execution always starts at `main`:
+The program always starts running at `main`:
 
 ```java
 public class HelloWorld {
@@ -96,7 +96,7 @@ public class HelloWorld {
 
 ### Variables: declaration and assignment
 
-A **variable** is a container for a value. **Declaring** it gives its type (what it can hold) and name; **assigning** puts a value in.
+A **variable** holds a value. **Declaring** it sets its type (what it can hold) and its name, and **assigning** puts a value in it.
 
 ```java
 int age;            // declaration: type then name
@@ -119,11 +119,11 @@ System.out.print("No newline after this");
 System.out.println("Newline after this");
 ```
 
-`print` leaves the cursor on the same line; `println` moves to the next line afterward.
+`print` keeps the cursor on the same line, while `println` moves to the next line after printing.
 
 ### Methods
 
-A **method** is a unit of work that always runs together. It has a **return type**, a **name**, and **parameters**:
+A **method** is a chunk of code that runs as one job. It has a **return type**, a **name**, and **parameters**:
 
 ```java
 float sum(float a, float b, float c) {   // return type, name, parameters
@@ -168,15 +168,15 @@ public class Car {
 }
 ```
 
-- `private` / `public` are **access modifiers** (covered in [[ch05-writing-classes|Ch 5]])
-- `new Car(...)` creates an object and runs the **constructor**
-- The `.` operator reaches into a specific object: `c.getSpeed()` and `d.getSpeed()` return different values because each object has its own `speed`
+- `private` and `public` are **access modifiers** (more on them in [[ch05-writing-classes|Ch 5]])
+- `new Car(...)` creates the object and runs the **constructor**
+- The `.` operator gets you into one specific object. `c.getSpeed()` and `d.getSpeed()` give different values because each object has its own `speed`
 
 ### Good practice and naming
 
-- Start from a working program, change it, break it, figure out what broke, then fix it
-- Indent everything between `{` and `}`; use blank lines for readability
-- Use meaningful names: `averageGrade`, not `dfiefjek`
+- Start with a program that works, change it, break it, work out what broke, then fix it
+- Indent everything between `{` and `}`, and use blank lines so it's easy to read
+- Give things meaningful names, like `averageGrade` instead of `dfiefjek`
 
 **CamelCase convention:**
 
@@ -232,7 +232,7 @@ System.out.println("Welcome to COE318!");
 System.out.println("Hope it will be fun!");
 ```
 
-`print` doesn't add a newline, so the first two run together on one line. The third `println` continues on that same line and then ends it:
+`print` doesn't add a newline, so the first two end up on one line. The first `println` carries on from there and then ends the line:
 
 ```
 Welcome to COE318!Hope it will be fun!Welcome to COE318!
@@ -252,10 +252,10 @@ weight = 10;
 System.out.println("My dog weighs " + weight + " pounds.");
 ```
 
-1. `+` with a String joins text, so `age` is converted to `"5"`. There's no space before `years` in the literal, so the output is `My dog is 5years old.`
-2. `weight` is a `float`, so `10` is stored as `10.0` and printed that way: `My dog weighs 10.0 pounds.`
+1. `+` next to a String joins text, so `age` gets turned into `"5"`. The literal has no space before `years`, so it prints `My dog is 5years old.`
+2. `weight` is a `float`, so `10` is stored as `10.0` and prints that way: `My dog weighs 10.0 pounds.`
 
-> [!tip] Spaces inside string literals are exactly what gets printed. Java never adds one for you.
+> [!tip] Whatever spaces are inside the string literals are exactly what get printed. Java won't add any for you.
 
 ### Example 3: Spot the bugs
 
@@ -269,13 +269,13 @@ float sum(float numberOne, float numberTwo, float numberThree) {
 float result = sum(23.0, 24.0, 25.0);
 ```
 
-1. **`NumberThree` ≠ `numberThree`.** Java is case-sensitive, so this is an undefined variable: compile error.
-2. **`23.0` is a `double` literal.** Passing a `double` where a `float` is expected is a narrowing conversion, so it won't compile. Use `23.0f` (or make the parameters `double`).
+1. **`NumberThree` ≠ `numberThree`.** Java is case-sensitive, so `NumberThree` is an undefined variable and you get a compile error.
+2. **`23.0` is a `double` literal.** Passing a `double` where a `float` is expected is a narrowing conversion, so it won't compile. Write `23.0f` instead, or change the parameters to `double`.
 
 ## Common mistakes
 
-- Forgetting Java is **case-sensitive**: `Main`, `Class`, `Public` are not keywords, and `numberThree` ≠ `NumberThree`
-- Naming the file something other than the **public class name** + `.java`
-- Missing a **semicolon** at the end of a statement
-- Unmatched **braces** `{ }` (indentation makes these easy to spot)
-- Expecting `print` to add a newline, or `+` to add spaces between joined strings
+- Forgetting that Java is **case-sensitive**. `Main`, `Class` and `Public` aren't keywords, and `numberThree` ≠ `NumberThree`
+- Naming the file anything other than the **public class name** + `.java`
+- Leaving off the **semicolon** at the end of a statement
+- Braces `{ }` that don't match up (indenting properly makes these easy to catch)
+- Expecting `print` to add a newline, or `+` to put spaces between joined strings

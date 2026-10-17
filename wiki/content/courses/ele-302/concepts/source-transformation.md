@@ -19,17 +19,17 @@ In [[ch08-second-order-circuits|Ch 8]] this is how a circuit with a current sour
 ![[ele-302-concept-source-transformation.svg]]
 *Figure 1: A voltage source with a series resistor (left) and a current source with a parallel resistor (right). If $V_s = I_s R$, nothing connected to terminals a and b can tell them apart.*
 
-"Equivalent" means: whatever you connect to terminals a and b, it sees the same voltage and current either way. Check by writing the relation between the terminal voltage $v$ and the current $i$ flowing out of terminal a:
+"Equivalent" means that whatever you connect to terminals a and b sees the same voltage and current either way. To check, write the relation between the terminal voltage $v$ and the current $i$ flowing out of terminal a:
 
 - **Left (voltage source):** the resistor drops $iR$, so $v = V_s - iR$.
 - **Right (current source):** of the source's $I_s$, the part $\frac{v}{R}$ goes through the resistor and the rest leaves through a, so $i = I_s - \frac{v}{R}$, or $v = I_s R - iR$.
 
 These are the same line if $V_s = I_s R$. Two quick checks:
 
-- **Open-circuit voltage** ($i = 0$): left gives $V_s$; right gives $I_s R$. Same.
-- **Short-circuit current** ($v = 0$): left gives $\frac{V_s}{R}$; right gives $I_s$. Same.
+- **Open-circuit voltage** ($i = 0$): left gives $V_s$ and right gives $I_s R$. Same.
+- **Short-circuit current** ($v = 0$): left gives $\frac{V_s}{R}$ and right gives $I_s$. Same.
 
-A source and resistor are completely described by these two numbers, so matching them makes the two versions interchangeable. (This is the same idea as Thévenin and Norton equivalents, applied to the smallest possible circuit.)
+A source and resistor are completely described by these two numbers, so matching them makes the two versions interchangeable. (It's the same idea as Thévenin and Norton equivalents, just applied to the smallest possible circuit.)
 
 ### Getting the direction right
 
@@ -37,20 +37,20 @@ The current source's arrow points toward the voltage source's **$+$ terminal**. 
 
 ### What stays the same and what doesn't
 
-The equivalence is only about what happens **outside** terminals a and b. Inside, things are different. For example, the power in the resistor usually isn't the same in the two versions (see Example 2 below). So:
+The equivalence is only about what happens **outside** terminals a and b. Inside, things are different. The power in the resistor, for example, usually isn't the same in the two versions (see Example 2 below). So:
 
 - Use a source transformation to find voltages and currents in the **rest** of the circuit.
 - If the question asks about the transformed resistor or source itself, go back to the original circuit for that part.
 
 ### When it can and can't be used
 
-- The resistor must be **directly** in series with the voltage source (nothing branching off between them), or **directly** in parallel with the current source.
-- An ideal voltage source with no series resistor, or an ideal current source with no parallel resistor, can't be transformed: $I_s = \frac{V_s}{0}$ is undefined.
+- The resistor has to be **directly** in series with the voltage source (nothing branching off between them), or **directly** in parallel with the current source.
+- An ideal voltage source with no series resistor, or an ideal current source with no parallel resistor, can't be transformed, since $I_s = \frac{V_s}{0}$ is undefined.
 - Time-varying sources work the same way. A $12u(t)$ A source with 2 Ω in parallel becomes a $24u(t)$ V source with 2 Ω in series, and it switches on at the same instant.
 
 ### Chaining transformations
 
-You can go back and forth to combine resistors. To combine a resistor that's in **series** with a current source's parallel resistor, first turn the current source into a voltage source (now the resistors are in series and simply add), then turn it back if you need a current source again. Example 1 does exactly this.
+You can go back and forth to combine resistors. To combine a resistor that's in **series** with a current source's parallel resistor, first turn the current source into a voltage source (now the resistors are in series and just add), then turn it back if you need a current source again. Example 1 does exactly this.
 
 ## Key formulas
 

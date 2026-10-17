@@ -7,13 +7,13 @@ tags:
 
 > [!info] Readings Lectures: *Introduction to Digital Waveform* and *Lecture 1: Binary Numbering System* · weeks 1–2 · Floyd, *Digital Fundamentals* ch. 1–2
 
-Digital circuits only know two voltage levels, HIGH and LOW, which stand for the bits 1 and 0. This chapter covers how those levels show up as **waveforms** (and how to read them off an oscilloscope), then how numbers are written with bits: **binary**, **hexadecimal**, **BCD**, and the **1's and 2's complements** used for negative numbers.
+Digital circuits only have two voltage levels, HIGH and LOW, which stand for the bits 1 and 0. This chapter starts with how those levels look as **waveforms** (and how to read them off an oscilloscope). Then it covers how numbers are written with bits: **binary**, **hexadecimal**, **BCD**, and the **1's and 2's complements** used for negative numbers.
 
 ## Notes
 
 ### Logic levels
 
-A digital signal is either **HIGH** or **LOW**. Each level is a *range* of voltages, not one exact value, with a gap in between that's invalid:
+A digital signal is either **HIGH** or **LOW**. Each level is a *range* of voltages instead of one exact value, and there's an invalid gap in between:
 
 |Range (5 V logic)|Meaning|
 |---|---|
@@ -21,17 +21,17 @@ A digital signal is either **HIGH** or **LOW**. Each level is a *range* of volta
 |$0.8\ \text{V}$ to $2\ \text{V}$|Invalid (only passed through during a transition)|
 |$0\ \text{V}$ to $0.8\ \text{V}$|LOW, binary **0**|
 
-A single binary digit is a **bit**. Using HIGH = 1 and LOW = 0 is called **positive logic**, and it's what this course uses.
+A single binary digit is a **bit**. Using HIGH = 1 and LOW = 0 is called **positive logic**, which is what this course uses.
 
 ### Digital waveforms
 
-A **digital waveform** switches back and forth between LOW and HIGH. One trip up and back down is a **pulse**:
+A **digital waveform** goes back and forth between LOW and HIGH. One trip up and back down is a **pulse**:
 
 - **Positive-going pulse:** normally LOW, goes HIGH, then back to LOW.
 - **Negative-going pulse:** normally HIGH, goes LOW, then back to HIGH.
-- The first edge of a pulse is the **leading edge**, the second is the **trailing edge**. On a positive-going pulse, the leading edge is the **rising** edge and the trailing edge is the **falling** edge.
+- The first edge of a pulse is the **leading edge** and the second is the **trailing edge**. On a positive-going pulse, the leading edge is the **rising** edge and the trailing edge is the **falling** edge.
 
-A waveform is **periodic** if its pulses repeat at a fixed interval, and **non-periodic** otherwise (like a data signal). A periodic waveform is described by:
+A waveform is **periodic** if its pulses repeat at a fixed interval, and **non-periodic** if they don't (a data signal, for example). A periodic waveform is described by:
 
 ![[coe-328-waveform-pulse.svg]]
 *Figure 1.1: The parts of a periodic pulse waveform.*
@@ -48,24 +48,24 @@ A **square wave** is the special case with a 50% duty cycle.
 
 ### Waveforms carry binary data
 
-When a waveform carries data, each bit gets an equal slice of time called the **bit time**. The waveform is HIGH during a bit time for a 1 and LOW for a 0. All the waveforms in a system are lined up with a periodic **clock** signal, whose period equals one bit time. To read the bits off a waveform, look at its level during each clock period.
+When a waveform carries data, every bit gets an equal slice of time called the **bit time**. The waveform is HIGH during a bit time for a 1 and LOW for a 0. All the waveforms in a system are synced to a periodic **clock** signal, whose period is one bit time. To read the bits off a waveform, check its level during each clock period.
 
 ### Reading an oscilloscope
 
-A scope screen is a grid of **divisions**. The two knobs tell you how much each division is worth:
+A scope screen is a grid of **divisions**. The two knobs tell you what each division is worth:
 
 - **Vertical (V/div):** voltage per division. Amplitude = (number of divisions tall) × V/div.
 - **Horizontal (time/div):** time per division. Period = (number of divisions per cycle) × time/div.
 
-Going the other way, to sketch a waveform you divide: divisions = value ÷ (value per division).
+To sketch a waveform you go the other way and divide: divisions = value ÷ (value per division).
 
-**Try it:** set a frequency, duty cycle, and amplitude, then change the scope settings and see how many divisions each part takes up.
+**Try it:** set a frequency, duty cycle and amplitude, then change the scope settings and see how many divisions each part takes up.
 
 <div class="melon-logic" data-view="waveform">Interactive oscilloscope (open this page on the site to use it).</div>
 
 ### Decimal and binary numbers
 
-Both decimal and binary are **positional** (weighted) number systems: each digit is multiplied by a weight that depends on its position, and the results are added.
+Decimal and binary are both **positional** (weighted) number systems. Each digit gets multiplied by a weight that depends on its position, and then you add everything up.
 
 - **Decimal** (base 10): weights are powers of 10. $568.23 = 5 \times 10^2 + 6 \times 10^1 + 8 \times 10^0 + 2 \times 10^{-1} + 3 \times 10^{-2}$
 - **Binary** (base 2): weights are powers of 2, so each bit is worth double the one to its right.
@@ -101,8 +101,8 @@ $$1101101_2 = 64 + 32 + 8 + 4 + 1 = 109_{10}$$
 
 **Decimal → binary**, two ways:
 
-1. **Sum of weights:** find binary weights that add up to the number, then put a 1 in those positions. $25 = 16 + 8 + 1 \Rightarrow 11001_2$
-2. **Repeated division by 2:** keep dividing by 2 until the quotient is 0. The remainders are the bits, **first remainder = LSB**, last remainder = MSB.
+1. **Sum of weights:** find the binary weights that add up to the number, then put a 1 in those positions. $25 = 16 + 8 + 1 \Rightarrow 11001_2$
+2. **Repeated division by 2:** keep dividing by 2 until the quotient is 0. The remainders are the bits, with the **first remainder = LSB** and the last remainder = MSB.
 
 |Division|Quotient|Remainder|
 |---|---|---|
@@ -127,13 +127,13 @@ Reading the remainders bottom to top: $156_{10} = 10011100_2$.
 |$1 + 1$|$10$ (sum 0, **carry 1**)|$10 - 1$|$1$ (0 − 1 with a **borrow**)|
 |$1 + 1 + 1$|$11$ (sum 1, carry 1)|||
 
-A borrow is only needed when subtracting a 1 from a 0. It takes 1 from the next column to the left, which is worth 2 in the current column.
+You only need a borrow when subtracting a 1 from a 0. It takes 1 from the next column to the left, which is worth 2 in the current column.
 
 ### 1's and 2's complement
 
-These are how computers represent **negative numbers** (more on this in [[ch05-number-representation-and-arithmetic|Ch 5]]).
+This is how computers store **negative numbers** (more in [[ch05-number-representation-and-arithmetic|Ch 5]]).
 
-- **1's complement:** flip every bit (0 → 1, 1 → 0). In hardware this is just an inverter on each bit.
+- **1's complement:** flip every bit (0 → 1, 1 → 0). In hardware that's just an inverter on each bit.
 - **2's complement:** the 1's complement plus 1.
 
 $$
@@ -148,11 +148,11 @@ $$
 
 $$10111\underline{000} \;\rightarrow\; \text{copy } \underline{1000}, \text{ flip } 1011 \;\rightarrow\; 01001000$$
 
-**Why it means negative:** in $n$ bits, the 2's complement of $x$ is $2^n - x$. In 4 bits, $3 = 0011$ and its 2's complement is $1101$, which is 13 as an unsigned number, but $13 = 16 - 3$, so it stands for $-3$.
+**Why it counts as negative:** in $n$ bits, the 2's complement of $x$ is $2^n - x$. In 4 bits, $3 = 0011$ and its 2's complement is $1101$. That's 13 as an unsigned number, but $13 = 16 - 3$, so it stands for $-3$.
 
 ### Hexadecimal
 
-Hex (base 16) is shorthand for binary: **each hex digit is exactly 4 bits**. Digits are 0–9, then A–F for 10–15.
+Hex (base 16) is a shorthand for binary where **each hex digit is exactly 4 bits**. The digits are 0–9, then A–F for 10–15.
 
 |Hex|Binary|Decimal|Hex|Binary|Decimal|
 |---|---|---|---|---|---|
@@ -167,14 +167,14 @@ Hex (base 16) is shorthand for binary: **each hex digit is exactly 4 bits**. Dig
 
 - **Binary → hex:** split into groups of 4 **starting from the right** (pad the leftmost group with 0s), then replace each group. $1001111011110011100 \rightarrow 0100\ 1111\ 0111\ 1001\ 1100 = 4F79C_{16}$
 - **Hex → binary:** replace each hex digit with its 4 bits. $6BD3_{16} = 0110\ 1011\ 1101\ 0011$
-- **Hex → decimal:** multiply each digit by its weight ($16^0, 16^1, 16^2, \ldots$) and add, or go through binary.
-- **Decimal → hex:** go through binary, or divide repeatedly by 16 (remainders are the hex digits, first = least significant).
+- **Hex → decimal:** multiply each digit by its weight ($16^0, 16^1, 16^2, \ldots$) and add them up, or go through binary.
+- **Decimal → hex:** go through binary, or divide by 16 over and over (the remainders are the hex digits, first one = least significant).
 
-Counting continues past F the same way as decimal: …, E, F, 10, 11, …, 1F, 20, … Two hex digits reach $FF_{16} = 255$, three reach $FFF_{16} = 4095$, four reach $FFFF_{16} = 65\,535$.
+Counting keeps going past F like it does in decimal: …, E, F, 10, 11, …, 1F, 20, … Two hex digits get you to $FF_{16} = 255$, three get you to $FFF_{16} = 4095$, and four get you to $FFFF_{16} = 65\,535$.
 
 ### Binary coded decimal (BCD)
 
-**BCD** (the **8421 code**) writes each *decimal digit* as its own 4-bit group, with weights 8, 4, 2, 1. It's used where people meet hardware: keypads and digital displays.
+**BCD** (the **8421 code**) writes each *decimal digit* as its own 4-bit group, with weights 8, 4, 2, 1. It shows up where people deal with hardware, like keypads and digital displays.
 
 - **Decimal → BCD:** replace each decimal digit with 4 bits. $2469 = 0010\ 0100\ 0110\ 1001$
 - **BCD → decimal:** split into 4-bit groups from the right and read each as a digit. $1000\ 0010\ 0010\ 0111\ 0110 = 82276$
@@ -182,7 +182,7 @@ Counting continues past F the same way as decimal: …, E, F, 10, 11, …, 1F, 2
 
 > [!warning] BCD is not the same as binary. $35_{10}$ in binary is $100011$, but in BCD it's $0011\ 0101$.
 
-**Try it:** click the bits to build a number and see it in every form from this chapter. (The signed rows come back in [[ch05-number-representation-and-arithmetic|Ch 5]].)
+**Try it:** click the bits to build a number and see it in every form from this chapter. (The signed rows make more sense after [[ch05-number-representation-and-arithmetic|Ch 5]].)
 
 <div class="melon-logic" data-view="number">Interactive number converter (open this page on the site to use it).</div>
 
@@ -236,7 +236,7 @@ $$
 
 ## Examples
 
-These follow the lecture examples, with different numbers.
+These are based on the lecture examples, with the numbers changed.
 
 ### Example 1: Reading a scope screen
 
@@ -250,7 +250,7 @@ A square wave on a scope is 4 divisions tall and one cycle spans 5 divisions, of
 3. **Pulse width and duty cycle:**
    $$t_W = 2 \times 20\ \mu\text{s} = 40\ \mu\text{s}, \qquad \text{Duty} = \frac{40}{100} \times 100\% = 40\%$$
 
-> [!note] With a 40% duty cycle this isn't a "square" wave, even though it looks like one. Square means 50%.
+> [!note] A 40% duty cycle means this isn't a "square" wave, even if it looks like one. Square means 50%.
 
 ### Example 2: Sketching a waveform on a scope
 
@@ -271,7 +271,7 @@ Check it with the oscilloscope above: set 25 MHz, 60%, 2 V, 500 mV/div, 10 ns/di
 What range of numbers can 7 bits count? How many bits are needed to count up to 300?
 
 1. **7 bits:** $2^7 - 1 = 127$, so 0 to 127 (128 different values).
-2. **Up to 300:** 8 bits only reach $2^8 - 1 = 255$, which is too small. 9 bits reach $2^9 - 1 = 511$, so **9 bits** are needed.
+2. **Up to 300:** 8 bits only get to $2^8 - 1 = 255$, which isn't enough. 9 bits get to $2^9 - 1 = 511$, so you need **9 bits**.
 
 ### Example 4: Binary to decimal
 
@@ -390,7 +390,7 @@ Convert $2C7_{16}$ to decimal and $500_{10}$ to hex.
 
 - Reading the remainders of repeated division **top to bottom**. The first remainder is the **LSB**.
 - Grouping binary into 4s for hex **from the left**. Always group from the right (the binary point) and pad on the left.
-- Mixing up **BCD and binary**: BCD encodes each decimal digit separately.
+- Mixing up **BCD and binary**. BCD encodes each decimal digit separately.
 - Forgetting the **+1** for the 2's complement, or doing the shortcut from the wrong end (it starts at the LSB).
 - Calling any 0/1 waveform a "square wave". It's only square at a **50%** duty cycle.
 - Using the total number of scope divisions instead of the number for **one cycle** when finding $T$.

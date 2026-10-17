@@ -7,13 +7,13 @@ tags:
 
 > [!info] Readings Lectures 4–5 · week 5 · Reference ch. 5
 
-Writing a good class is about **controlled interaction**. Packages organize where classes live, **encapsulation** (with `private` and getters/setters) controls who can touch an object's data, **scope** controls where a variable is visible, and `Scanner` lets the program take input from the user. This chapter also covers tracing chains of objects and passing arrays to methods.
+A good class is all about **controlling how other code interacts with it**. Packages organize where classes live, **encapsulation** (`private` plus getters and setters) controls who can touch an object's data, **scope** controls where a variable can be seen, and `Scanner` lets the program take input from the user. The chapter also covers tracing chains of objects and passing arrays to methods.
 
 ## Notes
 
 ### Packages
 
-A **package** groups related classes, like a folder. Packages organize code, make classes easy to find, and avoid name clashes (two classes can share a name if they're in different packages).
+A **package** groups related classes together, kind of like a folder. It keeps the code organized, makes classes easier to find, and avoids name clashes (two classes can have the same name if they're in different packages).
 
 |Kind|Examples|
 |---|---|
@@ -36,7 +36,7 @@ import coe318.*;           // every class in the package
 
 ### Encapsulation
 
-**Encapsulation** means hiding an object's variables inside the class and only letting other code reach them through **methods**. This stops `main` or another object from "reaching in" and setting nonsense values (a negative speed, a changed licence plate).
+**Encapsulation** means keeping an object's variables hidden inside the class, so other code can only get to them through **methods**. That way `main` or another object can't "reach in" and set nonsense values, like a negative speed or a changed licence plate.
 
 ### Visibility modifiers
 
@@ -64,7 +64,7 @@ mod.privData = 1;      // compile error
 mod.privMethod();      // compile error
 ```
 
-> [!note] If `main` is inside the **same class**, access modifiers don't restrict it at all. `private` only blocks *other* classes.
+> [!note] If `main` is inside the **same class**, the access modifiers don't restrict it at all. `private` only blocks *other* classes.
 
 ### Rule of thumb
 
@@ -76,12 +76,12 @@ mod.privMethod();      // compile error
 
 ### Getters and setters
 
-With private fields, the class provides:
+With private fields, the class gives you:
 
-- **Accessor (getter):** returns a field's value, e.g. `getSpeed()`
-- **Mutator (setter):** changes a field, e.g. `setSpeed(double)`
+- **Accessor (getter):** returns a field's value, like `getSpeed()`
+- **Mutator (setter):** changes a field, like `setSpeed(double)`
 
-Only write getters and setters for fields that should be exposed. Everything else gets set once through the **constructor**:
+Only write getters and setters for the fields that should be exposed. Everything else just gets set once through the **constructor**:
 
 ```java
 public class Car {
@@ -99,7 +99,7 @@ public class Car {
 }
 ```
 
-> [!tip] A setter is where you can **validate**: `if (speedVal >= 0 && speedVal <= maxSpeed) speed = speedVal;`. A public field can't protect itself like this.
+> [!tip] A setter lets you **validate** the value: `if (speedVal >= 0 && speedVal <= maxSpeed) speed = speedVal;`. A public field can't protect itself like that.
 
 ### Scope
 
@@ -108,7 +108,7 @@ public class Car {
 |Instance variable|**Class scope**|Anywhere in the class, from its `{` to its `}`. Effectively "global" within the class.|
 |Local variable / parameter|**Block scope**|Only inside the `{ }` block where it's declared|
 
-**Shadowing:** if a local variable or parameter has the **same name** as an instance variable, the local one **hides** the field inside that method. Use `this.name` to reach the field.
+**Shadowing:** if a local variable or parameter has the **same name** as an instance variable, the local one **hides** the field inside that method. Use `this.name` to get to the field.
 
 ```java
 public Point(double x, double y) {
@@ -139,7 +139,7 @@ A[0].length     // 4: columns in row 0
 A[1][2]         // 2: row 1, column 2
 ```
 
-Traverse with nested loops, rows outside, columns inside:
+Go through it with nested loops, rows on the outside and columns on the inside:
 
 ```java
 for (int row = 0; row < A.length; row++)
@@ -167,7 +167,7 @@ Scanner fileScan = new Scanner(new FileReader("myfile"));  // file
 
 The program **waits** at each `next...()` call until the user types something.
 
-> [!warning] `nextInt()` throws an exception (`InputMismatchException`) if the user types something that isn't an int. Check with `hasNextInt()` first.
+> [!warning] `nextInt()` throws an `InputMismatchException` if the user types something that isn't an int. Check with `hasNextInt()` first.
 
 ## Key syntax
 
@@ -229,7 +229,7 @@ miniVan.speed = 100;
 |`miniVan.licensePlate = "GHI";`|OK (same package)|**Error** (`private`)|
 |`miniVan.speed = 100;`|OK|OK (`public`)|
 
-> [!note] The slide writes `miniVan.speed = "100";` (a String into a `double`). That's a type error regardless of access.
+> [!note] The slide has `miniVan.speed = "100";` (a String into a `double`). That's a type error no matter what the access is.
 
 ### Example 2: Shadowing and `this`
 
@@ -262,13 +262,13 @@ Point p2 = new Point(2, 3);
 Point p3 = new Point(2, 3, false);
 ```
 
-1. **`p1`:** no parameters, so `x` and `y` mean the fields. Sets them to `1.0`. Prints nothing.
-2. **`p2`:** field `x` = 2, then `this.x++` makes the **field** 3. The parameter `x` is still 2.
+1. **`p1`:** there are no parameters, so `x` and `y` mean the fields. It sets them to `1.0` and prints nothing.
+2. **`p2`:** field `x` = 2, then `this.x++` makes the **field** 3, while the parameter `x` is still 2.
    ```
    this.x = 3.0
    x = 2.0
    ```
-3. **`p3`:** no `this.`, so `x++` increments the **parameter** to 3. The fields are never set and stay `0.0`.
+3. **`p3`:** there's no `this.`, so `x++` bumps the **parameter** to 3. The fields never get set and stay `0.0`.
    ```
    x = 3.0
    ```
@@ -300,7 +300,7 @@ System.out.println(b.getT());
 System.out.println(c.getT());
 ```
 
-The links form a chain $c \to b \to a \to \texttt{null}$. `getT()` adds this object's `v` to everything further down the chain:
+The links make a chain $c \to b \to a \to \texttt{null}$. `getT()` adds this object's `v` to everything further down the chain:
 
 1. `a.getT()` = 3 (no `next`)
 2. `b.getT()` = $1 + 3 = 4$
@@ -323,8 +323,8 @@ System.out.println(b.getT());   // 8
 System.out.println(c.getT());   // 6
 ```
 
-1. `a` is declared first, so it can't link to anything yet: `next = null`. For `a.getT() = 5`, `v = 5`.
-2. The second object has `v = 1`. It can link to `null` or `a`. Linking to `a` gives $1 + 5 = 6$, which matches `c`. So the second variable is **`c`**.
+1. `a` is declared first, so it can't link to anything yet and `next = null`. For `a.getT() = 5`, `v = 5`.
+2. The second object has `v = 1`. It can link to `null` or `a`, and linking to `a` gives $1 + 5 = 6$, which matches `c`. So the second variable is **`c`**.
 3. The third has `v = 2`. Linking to `c` gives $2 + 6 = 8$, which matches `b`.
 
 ```java
@@ -333,7 +333,7 @@ A c = new A(a, 1);
 A b = new A(c, 2);
 ```
 
-> [!tip] Variables don't have to be declared in alphabetical order. Work backwards from the totals.
+> [!tip] The variables don't have to be declared in alphabetical order. Work backwards from the totals.
 
 ### Example 5: Arrays and elements as arguments
 
@@ -352,8 +352,8 @@ void theProc(int[] mno) {          void theProc(int mno) {
 }                                  }
 ```
 
-1. **Left:** the whole array is passed, so `mno` refers to the same array. Prints `15`.
-2. **Right:** `xyz[3]` is an `int`, so only its value (0) is copied. Prints `0`.
+1. **Left:** the whole array gets passed, so `mno` refers to the same array. It prints `15`.
+2. **Right:** `xyz[3]` is an `int`, so only its value (0) is copied. It prints `0`.
 
 ### Example 6: Fill in `fiddle`
 
@@ -382,9 +382,9 @@ static void fiddle(int[] test, int element) {
 }
 ```
 
-1. **Line 1** `10,5` is printed by `main` before the call.
-2. **The last line is `main`'s second print,** so after `fiddle` the original array must hold `19, 15`. Those changes happen **before** `test = new int[2]`, while `test` still points at the original.
-3. **Line 2** ends with `element`, so `element = 12`, and the other two values are `15, 19`. That's `test[1]` then `test[0]`.
+1. **Line 1** (`10,5`) is printed by `main` before the call.
+2. **The last line is `main`'s second print,** so after `fiddle` the original array has to hold `19, 15`. Those changes happen **before** `test = new int[2]`, while `test` still points at the original.
+3. **Line 2** ends with `element`, so `element = 12`, and the other two values are `15, 19`. That's `test[1]` and then `test[0]`.
 4. **After `test = new int[2]`,** `test` refers to a new local array. Setting it to `20, 21` gives line 3 without touching `main`'s array.
 
 ```java
@@ -412,14 +412,14 @@ for (int row = 0; row < table.length; row++)
 ```
 
 1. `table.length` = 5 rows, `table[row].length` = 10 columns, so $5 \times 10 = 50$ elements
-2. Each element is `row * 10 + col`, so row 0 holds 0–9, row 1 holds 10–19, … row 4 holds 40–49
+2. Each element is `row * 10 + col`, so row 0 has 0–9, row 1 has 10–19, and so on up to row 4 with 40–49
 3. Printing with the same nested loops lists `0` through `49`, one per line
 
 ### Example 8: Scanner with validation
 
 > Lecture 5, Age program
 
-Read a first name and a birth year, and print the age. Don't crash if the year isn't a number.
+Read a first name and a birth year, then print the age. It shouldn't crash if the year isn't a number.
 
 ```java
 import java.util.Scanner;
@@ -440,9 +440,9 @@ class Age {
 }
 ```
 
-Input `Rocky 2006` prints `Hello Rocky, you are 20 years old!`. Input `Rocky abc` prints `Input error!` instead of throwing an exception.
+Input `Rocky 2006` prints `Hello Rocky, you are 20 years old!`, and input `Rocky abc` prints `Input error!` instead of throwing an exception.
 
-> [!note] `(2026 - yob)` needs its parentheses. Without them, `"... are " + 2026 - yob` tries to subtract from a String and won't compile.
+> [!note] `(2026 - yob)` needs the parentheses. Without them, `"... are " + 2026 - yob` tries to subtract from a String and won't compile.
 
 ### Example 9: `Triangle` with a tester class
 
@@ -492,16 +492,16 @@ class TriangleTest {
 
 Input `3 4 5` prints the sides and `Perimeter: 12.0`.
 
-> [!note] The slides name the getters `GetSide1()`. That works, but convention says methods start lowercase: `getSide1()`.
+> [!note] The slides call the getters `GetSide1()`. That works, but by convention methods start lowercase, so `getSide1()`.
 
 ## Common mistakes
 
-- Making instance variables `public` (breaks encapsulation)
+- Making instance variables `public` (that breaks encapsulation)
 - Forgetting `this.` when a parameter shadows a field, so the field never changes
 - Expecting a method that changes one array **element** passed by value to affect the caller
 - Expecting `test = new int[2]` inside a method to replace the caller's array
 - Mixing up `A.length` (rows) and `A[0].length` (columns)
 - Forgetting `import java.util.Scanner;`
-- Calling `nextInt()` without checking `hasNextInt()`, then crashing on bad input
-- `message.Equals("quit")`: Java is case-sensitive, it's `equals`
-- Naming a class `2DArray`: identifiers can't start with a digit
+- Calling `nextInt()` without checking `hasNextInt()` and crashing on bad input
+- Writing `message.Equals("quit")` when Java is case-sensitive and it's `equals`
+- Naming a class `2DArray`, since identifiers can't start with a digit

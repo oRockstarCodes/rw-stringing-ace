@@ -10,15 +10,15 @@ tags:
   - ele302
 ---
 
-**Capacitors and inductors are the two energy-storage elements: a capacitor stores energy in an electric field set up by its voltage, and an inductor stores energy in a magnetic field set up by its current.**
+**Capacitors and inductors are the two energy-storage elements. A capacitor stores energy in an electric field set up by its voltage, and an inductor stores energy in a magnetic field set up by its current.**
 
-Resistors only turn energy into heat. Capacitors and inductors store it and give it back later, which is why circuits with them have a *history*: what they do now depends on what happened before. Everything in [[ch08-second-order-circuits|Ch 8]] comes from the two element laws on this page.
+Resistors only turn energy into heat. Capacitors and inductors store it and give it back later, which is why circuits with them have a *history*, where what they do now depends on what happened before. Everything in [[ch08-second-order-circuits|Ch 8]] comes from the two element laws on this page.
 
 ## Intuition
 
 ### The capacitor
 
-A capacitor is two conductors (plates) separated by an insulator called the **dielectric** (Figure 1, left). Push current into one terminal and charge $+q$ builds up on that plate, while the same amount leaves the other plate, leaving it at $-q$. No charge actually crosses the gap. The separated charge sets up an electric field $E$ between the plates, and that field is where the energy is stored.
+A capacitor is two conductors (plates) separated by an insulator called the **dielectric** (Figure 1, left). Push current into one terminal and charge $+q$ builds up on that plate, while the same amount leaves the other plate and leaves it at $-q$. No charge actually crosses the gap. The separated charge sets up an electric field $E$ between the plates, and that field is where the energy is stored.
 
 The more charge on the plates, the bigger the voltage between them. The ratio is the **capacitance**:
 
@@ -31,7 +31,7 @@ $$
 - $\varepsilon$: permittivity of the dielectric
 - $A$: plate area; $d$: gap between the plates
 
-Bigger plates or a smaller gap hold more charge per volt. Real values range from picofarads (pF) to millifarads (mF); 1 F is huge.
+Bigger plates or a smaller gap hold more charge per volt. Real values range from picofarads (pF) to millifarads (mF), and 1 F is huge.
 
 **Where $i = C\frac{dv}{dt}$ comes from.** Current is the rate charge arrives, $i = \frac{dq}{dt}$. Differentiate $q = Cv$:
 
@@ -41,11 +41,11 @@ $$
 
 So a capacitor's current depends on how fast its **voltage changes**, not on the voltage itself. A capacitor sitting at a steady 100 V carries no current at all. To change its voltage quickly you need a large current, and to change it *instantly* you'd need an infinite one.
 
-> [!tip] Water analogy: a capacitor is like a tank with a stretchy rubber membrane across the middle. Water (charge) pushed in one side bulges the membrane and pushes the same amount out the other side, so it looks like water flows "through", even though none crosses. The bulge (voltage) builds up gradually and pushes back.
+> [!tip] Water analogy: a capacitor is like a tank with a stretchy rubber membrane across the middle. Water (charge) pushed in one side bulges the membrane and pushes the same amount out the other side, so it looks like water flows "through" even though none actually crosses. The bulge (voltage) builds up gradually and pushes back.
 
 ### The inductor
 
-An inductor is a coil of wire (Figure 1, right). Current through the coil sets up a magnetic field $B$ through its middle, and that field is where the energy is stored. The total magnetic flux linking the coil, $\lambda$, is proportional to the current. The ratio is the **inductance**:
+An inductor is a coil of wire (Figure 1, right). Current through the coil sets up a magnetic field $B$ through its middle, and that field is where the energy is stored. The total magnetic flux linking the coil, $\lambda$, is proportional to the current, and the ratio is the **inductance**:
 
 $$
 \lambda = L\,i, \qquad L = \frac{N^2 \mu A}{\ell}
@@ -64,20 +64,20 @@ $$
 v_L = L\frac{di_L}{dt}
 $$
 
-So an inductor's voltage depends on how fast its **current changes**. A steady current, however large, produces no voltage. By Lenz's law the induced voltage always **opposes the change** that caused it: try to speed the current up and the inductor pushes back, try to stop it and the inductor pushes forward to keep it going. This is the inductor's "inertia", the reason an LC circuit overshoots and rings.
+So an inductor's voltage depends on how fast its **current changes**. A steady current, however large, produces no voltage. By Lenz's law the induced voltage always **opposes the change** that caused it. Try to speed the current up and the inductor pushes back, and try to stop it and the inductor pushes forward to keep it going. That's the inductor's "inertia", and it's the reason an LC circuit overshoots and rings.
 
 ![[ele-302-cap-ind-structure.svg]]
 *Figure 1: A capacitor stores energy in the electric field between its plates (left). An inductor stores energy in the magnetic field through its coil (right).*
 
 ### Passive sign convention
 
-Both laws assume the **passive sign convention**: the current arrow points **into the $+$ terminal** of the voltage. If your current arrow points into the $-$ terminal instead, put a minus sign in front: $i_C = -C\frac{dv_C}{dt}$, $v_L = -L\frac{di_L}{dt}$.
+Both laws assume the **passive sign convention**, where the current arrow points **into the $+$ terminal** of the voltage. If your current arrow points into the $-$ terminal instead, put a minus sign in front: $i_C = -C\frac{dv_C}{dt}$, $v_L = -L\frac{di_L}{dt}$.
 
-> [!warning] Most sign errors in Ch 8 slopes come from this. Before writing $\frac{dv_C}{dt} = \frac{i_C}{C}$, check that $i_C$ is the current flowing into the capacitor's $+$ terminal.
+> [!warning] Most sign errors in the Ch 8 slopes come from this. Before writing $\frac{dv_C}{dt} = \frac{i_C}{C}$, check that $i_C$ is the current flowing into the capacitor's $+$ terminal.
 
 ### The two elements are mirror images
 
-Swap $v \leftrightarrow i$ and $C \leftrightarrow L$ and every capacitor result turns into an inductor result. This is called **duality**, and it means you only really have to learn one of them:
+Swap $v \leftrightarrow i$ and $C \leftrightarrow L$ and every capacitor result turns into an inductor result. This is called **duality**, and it means you really only have to learn one of them:
 
 | |Capacitor|Inductor|
 |---|---|---|
@@ -105,7 +105,7 @@ $$
 v_C(t) = \frac{1}{C}\int_{t_0}^{t} i_C\,dt + v_C(t_0), \qquad i_L(t) = \frac{1}{L}\int_{t_0}^{t} v_L\,dt + i_L(t_0)
 $$
 
-The integral adds up everything that has happened since $t_0$, and the last term is where it started. That's the "memory": a capacitor's voltage now depends on all the current that has ever flowed into it, not just the current right now. This is also why you need **initial conditions** to solve any circuit with C or L in it.
+The integral adds up everything that's happened since $t_0$, and the last term is where it started. That's the "memory". A capacitor's voltage now depends on all the current that has ever flowed into it, not just the current right now. It's also why you need **initial conditions** to solve any circuit with a C or L in it.
 
 ### Stored energy
 
@@ -124,12 +124,12 @@ $$
 Three things follow from these:
 
 - **The energy is never negative** (it's a square), so an ideal C or L can only give back energy it took in earlier. It can't generate any.
-- **Ideal capacitors and inductors don't dissipate.** If $p$ is positive the element is absorbing and storing energy; if negative, it's releasing what it stored. Over a full cycle of a steady AC signal, they absorb and release the same amount.
-- **The energy depends only on $v_C$ (or $i_L$).** That's the link to continuity, next.
+- **Ideal capacitors and inductors don't dissipate.** If $p$ is positive the element is absorbing and storing energy, and if it's negative the element is releasing what it stored. Over a full cycle of a steady AC signal, they absorb and release the same amount.
+- **The energy only depends on $v_C$ (or $i_L$).** That's the link to continuity, coming up next.
 
 ### Why $v_C$ and $i_L$ can't jump
 
-Suppose a capacitor's voltage jumped from $v_1$ to $v_2$ in zero time. Then:
+Say a capacitor's voltage jumped from $v_1$ to $v_2$ in zero time. Then:
 
 - $\frac{dv}{dt} = \frac{v_2 - v_1}{0}$ is infinite, so $i_C = C\frac{dv}{dt}$ would be infinite.
 - Equivalently, the stored energy would change from $\frac{1}{2}Cv_1^2$ to $\frac{1}{2}Cv_2^2$ in zero time, which needs infinite power.
@@ -140,7 +140,7 @@ $$
 v_C(0^+) = v_C(0^-), \qquad i_L(0^+) = i_L(0^-)
 $$
 
-The *other* variable has no such protection. A capacitor's current can jump instantly (it only sets the *slope* of the voltage), and so can an inductor's voltage. In a graph, a jump in $i_C$ shows up as a sudden **change of slope** (a corner) in $v_C$, never a step (see Example 1 below).
+The *other* variable has no such protection. A capacitor's current can jump instantly (it only sets the *slope* of the voltage), and so can an inductor's voltage. On a graph, a jump in $i_C$ shows up as a sudden **change of slope** (a corner) in $v_C$, never a step (see Example 1 below).
 
 > [!note] At $t = 0^+$ you can replace a capacitor with a voltage source of value $v_C(0^-)$, and an inductor with a current source of value $i_L(0^-)$. Ch 8 Step 3 uses exactly this.
 
@@ -149,15 +149,15 @@ The *other* variable has no such protection. A capacitor's current can jump inst
 When a DC circuit has been on for a long time, every voltage and current has stopped changing, so every derivative is 0:
 
 - Capacitor: $i_C = C \cdot 0 = 0$. No current flows, so it acts like an **open circuit**. It still holds whatever voltage it charged to.
-- Inductor: $v_L = L \cdot 0 = 0$. No voltage across it, so it acts like a **short circuit**. It still carries whatever current is flowing.
+- Inductor: $v_L = L \cdot 0 = 0$. There's no voltage across it, so it acts like a **short circuit**. It still carries whatever current is flowing.
 
 These are the two rules for finding initial values (the circuit before switching) and final values (as $t \to \infty$) in Ch 8.
 
-There's a matching pair of rules for the instant a source is first switched on, if nothing was stored beforehand: an **uncharged capacitor** ($v_C = 0$) acts like a **short** at that instant, and an inductor with **no current** ($i_L = 0$) acts like an **open**. They then gradually change toward their DC steady-state behaviour.
+There's also a matching pair of rules for the instant a source is first switched on, if nothing was stored beforehand. An **uncharged capacitor** ($v_C = 0$) acts like a **short** at that instant, and an inductor with **no current** ($i_L = 0$) acts like an **open**. They then gradually change toward their DC steady-state behaviour.
 
 ### Series and parallel
 
-Capacitors combine like resistors **the other way round**; inductors combine **exactly like resistors**.
+Capacitors combine like resistors **the other way around**, and inductors combine **exactly like resistors**.
 
 **Capacitors in parallel add.** Every capacitor has the same voltage $v$, and the currents add:
 
@@ -186,7 +186,7 @@ $$
 |DC ($\omega = 0$)|$Z_C \to \infty$: open|$Z_L = 0$: short|
 |Very high ($\omega \to \infty$)|$Z_C \to 0$: short|$Z_L \to \infty$: open|
 
-This matches the DC steady-state rules above, and it's also why a sudden change (which contains very high frequencies) gets through a capacitor but is blocked by an inductor. It's the basis of filters in [[ch14-frequency-response|Ch 14]].
+This matches the DC steady-state rules above, and it's also why a sudden change (which has very high frequencies in it) gets through a capacitor but is blocked by an inductor. It's the basis of filters in [[ch14-frequency-response|Ch 14]].
 
 ### Mechanical analogy
 
@@ -196,14 +196,14 @@ This matches the DC steady-state rules above, and it's also why a sudden change 
 |Inductor|Mass|Stores energy in how fast it's "moving" (its current), and resists changes in it (inertia)|
 |Resistor|Friction|Turns energy into heat|
 
-A charged capacitor connected to an inductor behaves like a stretched spring with a mass on it: it oscillates, at $\omega_0 = \frac{1}{\sqrt{LC}}$. Adding resistance (friction) makes the oscillation die out. That's the whole story of [[ch08-second-order-circuits|Ch 8]].
+A charged capacitor connected to an inductor behaves like a stretched spring with a mass on it, and it oscillates at $\omega_0 = \frac{1}{\sqrt{LC}}$. Adding resistance (friction) makes the oscillation die out. That's the whole story of [[ch08-second-order-circuits|Ch 8]].
 
 ### Real components
 
 Real parts are close to ideal, but not quite:
 
-- **Capacitors** leak a little: a very large resistance in parallel lets the charge slowly drain away. They also have a small series resistance (ESR) and a **maximum voltage rating**. Exceeding it breaks down the dielectric. Electrolytic capacitors are **polarized** and must be connected the right way round.
-- **Inductors** are made of wire, so they have a **winding resistance** in series. At DC a real inductor is a small resistor, not a perfect short. Inductors with iron cores also **saturate** at high current, where $L$ drops.
+- **Capacitors** leak a little, since a very large resistance in parallel lets the charge slowly drain away. They also have a small series resistance (ESR) and a **maximum voltage rating**, and going over it breaks down the dielectric. Electrolytic capacitors are **polarized** and have to be connected the right way around.
+- **Inductors** are made of wire, so they have a **winding resistance** in series. At DC a real inductor is a small resistor, not a perfect short. Inductors with iron cores also **saturate** at high current, and then $L$ drops.
 
 In ELE 302 problems, assume ideal elements unless the question says otherwise.
 
@@ -261,7 +261,7 @@ A $0.5\ \text{F}$ capacitor starts at $v(0) = 2\ \text{V}$. Its current is $1\ \
 ![[ele-302-cap-ind-ex1-waveforms.svg]]
 *Figure 2: Example 1. The current jumps at $t = 2$ and $t = 4$, but the voltage only changes slope.*
 
-From 0 to 2 s the capacitor absorbs $9 - 1 = 8\ \text{J}$. From 2 to 4 s the current reverses and it gives $9 - 4 = 5\ \text{J}$ back to the circuit. After 4 s it keeps the remaining 4 J indefinitely (an ideal capacitor doesn't leak).
+From 0 to 2 s the capacitor absorbs $9 - 1 = 8\ \text{J}$. From 2 to 4 s the current reverses and it gives $9 - 4 = 5\ \text{J}$ back to the circuit. After 4 s it holds onto the remaining 4 J indefinitely (an ideal capacitor doesn't leak).
 
 ### Example 2: Inductor voltage from its current
 
@@ -270,7 +270,7 @@ The current in a $0.2\ \text{H}$ inductor is 0 for $t < 0$ and $i(t) = 5(1 - e^{
 1. **Check continuity:** $i(0^+) = 5(1 - 1) = 0 = i(0^-)$ ✓
 2. **Element law:**
    $$v(t) = L\frac{di}{dt} = 0.2 \cdot 5 \cdot 10\,e^{-10t} = 10\,e^{-10t}\ \text{V} \quad (t > 0)$$
-   The voltage jumps from 0 to 10 V at $t = 0$. That's allowed: only the inductor's *current* has to be continuous.
+   The voltage jumps from 0 to 10 V at $t = 0$. That's fine, since only the inductor's *current* has to be continuous.
 3. **As $t \to \infty$:** $v \to 0$ (the inductor becomes a short, as at DC steady state) and $i \to 5\ \text{A}$, so
    $$w_L = \tfrac{1}{2}(0.2)(5)^2 = 2.5\ \text{J}$$
 
@@ -284,11 +284,11 @@ The current in a $0.2\ \text{H}$ inductor is 0 for $t < 0$ and $i(t) = 5(1 - e^{
 
 ## Common mistakes
 
-- Thinking capacitor **current** or inductor **voltage** must be continuous. Only $v_C$ and $i_L$ are
-- Mixing up the combination rules: capacitors in **parallel** add, inductors in **series** add
+- Thinking capacitor **current** or inductor **voltage** has to be continuous. Only $v_C$ and $i_L$ are
+- Mixing up the combination rules. Capacitors in **parallel** add and inductors in **series** add
 - Forgetting the initial value ($v_C(t_0)$ or $i_L(t_0)$) when using the integral form
 - Ignoring the passive sign convention, which flips the sign of $i = C\frac{dv}{dt}$ or $v = L\frac{di}{dt}$
-- Treating a capacitor at DC steady state as having **zero voltage**. It has zero *current*; it can still hold a voltage
+- Treating a capacitor at DC steady state as having **zero voltage**. It has zero *current*, but it can still hold a voltage
 - Thinking a large voltage on a capacitor means a large current. The current depends on how fast the voltage **changes**
 
 ## Related

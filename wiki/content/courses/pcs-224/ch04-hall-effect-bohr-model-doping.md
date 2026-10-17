@@ -9,9 +9,9 @@ tags:
 
 Three connected topics, each answering a question left open by [[ch03-intro-to-semiconductors|Chapter 3]]:
 
-1. **The Hall effect** answers "how do we actually *measure* the sign, concentration and mobility of the carriers?" A magnetic field pushes carriers sideways and a small voltage appears across the sample. It's one of the most common characterisation tools in the semiconductor industry, and it's Lab 2.
-2. **The Bohr model** answers "why are energy levels discrete?" It's the first successful quantum model of an atom, and the idea of **allowed energies** that you'll build bands from in Chapter 5.
-3. **Doping, in energy terms** answers "why does a dopant atom give up its extra carrier so easily at room temperature?" The donor electron is only loosely bound, so it takes about $0.045$ eV to free it.
+1. **The Hall effect** answers "how do we actually *measure* the sign, concentration and mobility of the carriers?" A magnetic field pushes carriers sideways and a small voltage shows up across the sample. It's one of the most common characterisation tools in the semiconductor industry, and it's Lab 2.
+2. **The Bohr model** answers "why are energy levels discrete?" It's the first successful quantum model of an atom, and it introduces the idea of **allowed energies** that you'll build bands from in Chapter 5.
+3. **Doping, in energy terms** answers "why does a dopant atom give up its extra carrier so easily at room temperature?" The donor electron is only loosely bound, so it only takes about $0.045$ eV to free it.
 
 ## Notes
 
@@ -26,7 +26,7 @@ $$
 where $\theta$ is the angle between $\vec{v}$ and $\vec{B}$. The force is perpendicular to both, so it bends the path without changing the speed.
 
 - Field lines of $\vec{B}$ are closed loops (unlike $\vec{E}$ lines, which run from $+$ to $-$).
-- The **right-hand rule** gives the direction for a **positive** charge: fingers along $\vec{v}$, curl toward $\vec{B}$, thumb along $\vec{F}_m$. **Flip it** for a negative charge.
+- The **right-hand rule** gives the direction for a **positive** charge. Point your fingers along $\vec{v}$, curl them toward $\vec{B}$, and your thumb points along $\vec{F}_m$. **Flip it** for a negative charge.
 - $[B] = \text{T} = \text{V·s/m}^2$ (from Chapter 1).
 
 **The trick that makes the Hall effect easy.** For carriers of any sign, the current is $I = nqv_dA$, so $q\vec{v}$ points along the conventional current $\vec{I}$ for both electrons and holes. So
@@ -35,7 +35,7 @@ $$
 \vec{F}_m \parallel \vec{I}\times\vec{B} \tag{4.2}
 $$
 
-**regardless of the sign of the carrier.** Positive and negative carriers are *both* deflected to the same side. What differs is the **sign of the charge that piles up** there.
+**no matter what sign the carrier is.** Positive and negative carriers are *both* deflected to the same side. What's different is the **sign of the charge that piles up** there.
 
 ### The Hall effect
 
@@ -49,9 +49,9 @@ In 1879 Edwin Hall found that a current-carrying conductor in a magnetic field d
 **What happens.**
 
 1. By Eq. (4.2), the magnetic force pushes carriers toward one **edge** of the strip.
-2. Charge accumulates on that edge, and the opposite edge is left with the opposite charge.
-3. That separated charge builds up a transverse electric field, the **Hall field** $E_H$, which pushes the carriers back.
-4. Within a very short time the electric force balances the magnetic force, the sideways drift stops, and the carriers flow straight again.
+2. Charge builds up on that edge, and the opposite edge is left with the opposite charge.
+3. That separated charge sets up a transverse electric field, the **Hall field** $E_H$, which pushes the carriers back.
+4. Very quickly the electric force balances the magnetic force, the sideways drift stops, and the carriers flow straight again.
 
 At balance:
 
@@ -65,13 +65,13 @@ $$
 V_H = E_H\,W = v_d\,B\,W \tag{4.4}
 $$
 
-Now replace the drift speed, which you can't measure, with things you can. The current is $I = n\,q\,v_d\,(Wd)$, so $v_d = \dfrac{I}{nqWd}$, and:
+Now swap the drift speed, which you can't measure, for things you can. The current is $I = n\,q\,v_d\,(Wd)$, so $v_d = \dfrac{I}{nqWd}$, and:
 
 $$
 V_H = \frac{I\,B}{q\,n\,d} \tag{4.5}
 $$
 
-Note that $W$ has cancelled: only the **thickness along $B$** matters.
+Notice that $W$ has cancelled, so only the **thickness along $B$** matters.
 
 **Carrier sign from the polarity.** Which edge is positive tells you the sign of the carriers.
 
@@ -80,11 +80,11 @@ Note that $W$ has cancelled: only the **thickness along $B$** matters.
 
 To work out any specific case:
 
-1. Find the direction of $\vec{I}\times\vec{B}$. That's the edge carriers are deflected to.
-2. Ask whether that edge came out at higher or lower potential on the voltmeter.
-3. Higher means positive carriers (p-type). Lower means negative carriers (n-type).
+1. Find the direction of $\vec{I}\times\vec{B}$. That's the edge the carriers are deflected to.
+2. Ask whether that edge reads higher or lower potential on the voltmeter.
+3. Higher means positive carriers (p-type) and lower means negative carriers (n-type).
 
-> [!tip] Electric field points from positive to negative charge, and the voltmeter reading tells you the polarity of the pile-up. A negative $V_H$ with $I$ to the right and $B$ into the page means the top edge is negative, so the carriers are electrons.
+> [!tip] The electric field points from positive to negative charge, and the voltmeter reading tells you the polarity of the pile-up. A negative $V_H$ with $I$ to the right and $B$ into the page means the top edge is negative, so the carriers are electrons.
 
 ### Measuring concentration, mobility and resistivity
 
@@ -96,9 +96,9 @@ $$
 n\ (\text{or } p) = \frac{I\,B}{q\,d\,|V_H|} \tag{4.6}
 $$
 
-> [!warning] Units. $B$ in tesla contains **metres**, so if you write $d$ in cm, convert $B$ to cm too (or just convert $d$ to metres and get $n$ in m⁻³, then divide by $10^6$ for cm⁻³).
+> [!warning] Watch the units. $B$ in tesla contains **metres**, so if you write $d$ in cm, convert $B$ to cm too (or just convert $d$ to metres and get $n$ in m⁻³, then divide by $10^6$ for cm⁻³).
 
-**Mobility.** Mobility is defined by $v_d = \mu E$, where $E$ is the field that **drives the current** along the bar, $E_x = V/L$ from the power supply. It is *not* the Hall field. The drift speed itself comes from Eq. (4.4):
+**Mobility.** Mobility is defined by $v_d = \mu E$, where $E$ is the field that **drives the current** along the bar, $E_x = V/L$ from the power supply. It's *not* the Hall field. The drift speed itself comes from Eq. (4.4):
 
 $$
 v_d = \frac{V_H}{B\,W}, \qquad \mu = \frac{v_d}{E_x} = \frac{V_H/(BW)}{V/L} \tag{4.7}
@@ -106,15 +106,15 @@ $$
 
 **Resistivity.** From the supply voltage and the current, $R = V/I$, and $\rho = RA/L$ with $A = Wd$.
 
-All three are linked by $\sigma = q\,n\,\mu$ (or $q\,p\,\mu$), which is a good check on your numbers.
+All three are linked by $\sigma = q\,n\,\mu$ (or $q\,p\,\mu$), which makes a good check on your numbers.
 
-> [!note] There are **two** electric fields and **two** voltages in a Hall problem: the field/voltage that drives the current along $L$, and the Hall field/voltage across $W$. Use the first for mobility and resistance, and the second for the carrier sign and concentration.
+> [!note] A Hall problem has **two** electric fields and **two** voltages, the field/voltage that drives the current along $L$ and the Hall field/voltage across $W$. Use the first for mobility and resistance, and the second for the carrier sign and concentration.
 
 ### Why discrete energies? The Bohr model
 
-By the end of the 19th century, electricity and magnetism were understood, but two puzzles remained:
+By the end of the 19th century, electricity and magnetism were well understood, but two puzzles were left:
 
-**Puzzle 1: line spectra.** A hot solid (a light bulb) or the sun emits a **continuous** spectrum. A hot gas, such as a neon light, emits only certain **discrete wavelengths**. Classical physics couldn't explain this. For hydrogen, Balmer found that the visible lines fit
+**Puzzle 1: line spectra.** A hot solid (a light bulb) or the sun gives off a **continuous** spectrum. A hot gas, like a neon light, only gives off certain **discrete wavelengths**. Classical physics couldn't explain this. For hydrogen, Balmer found that the visible lines fit
 
 $$
 \frac{1}{\lambda} = R_H\left(\frac{1}{2^2} - \frac{1}{n^2}\right), \qquad n = 3, 4, 5, \dots \tag{4.8}
@@ -122,7 +122,7 @@ $$
 
 with $R_H = 1.097\times10^{7}$ m⁻¹.
 
-**Puzzle 2: stability.** A planetary model has the electron orbiting the nucleus. But an accelerating charge radiates electromagnetic waves and loses energy. A classical electron would spiral into the nucleus in about $10^{-11}$ s. Atoms don't collapse.
+**Puzzle 2: stability.** A planetary model has the electron orbiting the nucleus, but an accelerating charge radiates electromagnetic waves and loses energy. A classical electron would spiral into the nucleus in about $10^{-11}$ s, and atoms don't collapse.
 
 **Bohr's model (1913)** solved both with a bold postulate: only **certain orbits are stable**, and an electron in one of them does **not** radiate.
 
@@ -134,34 +134,34 @@ $$
 E_n = -\frac{13.6\ \text{eV}}{n^2}, \qquad n = 1, 2, 3, \dots \tag{4.10}
 $$
 
-- $n$ is the **principal quantum number**. $n = 1$ is the **ground state**, $n > 1$ are **excited states**.
-- Energies are **negative** because the electron is bound. $E = 0$ is a free electron at rest. The ground state sits $13.6$ eV below it.
+- $n$ is the **principal quantum number**. $n = 1$ is the **ground state** and $n > 1$ are **excited states**.
+- Energies are **negative** because the electron is bound. $E = 0$ is a free electron at rest, and the ground state sits $13.6$ eV below it.
 
 ![[pcs-224-bohr-levels.svg]]
 *Figure 4.2: Hydrogen energy levels. A photon is emitted or absorbed when the electron jumps between levels. The ionization limit is $E = 0$.*
 
-**Transitions.** The atom radiates or absorbs only when the electron jumps between allowed levels, and the photon carries exactly the energy difference:
+**Transitions.** The atom only radiates or absorbs when the electron jumps between allowed levels, and the photon carries exactly the energy difference:
 
 $$
 hf = |E_i - E_f| = 13.6\left|\frac{1}{n_f^2} - \frac{1}{n_i^2}\right|\ \text{eV} \tag{4.11}
 $$
 
-- **Emission:** electron drops from a higher level to a lower one, and a photon leaves.
+- **Emission:** the electron drops from a higher level to a lower one, and a photon leaves.
 - **Absorption:** a photon with **exactly** the right energy $E_{\text{upper}} - E_{\text{lower}}$ lifts the electron up. A photon with the wrong energy isn't absorbed (although a photon with more than the ionization energy removes the electron entirely).
-- **Ionization** from level $n$ needs $E = 0 - E_n = 13.6/n^2$ eV. Ionizing an already-excited atom takes **less** energy than ionizing from the ground state.
+- **Ionization** from level $n$ needs $E = 0 - E_n = 13.6/n^2$ eV. Ionizing an atom that's already excited takes **less** energy than ionizing from the ground state.
 
-Eq. (4.11) reproduces the observed spectral lines exactly, which is why this model was convincing.
+Eq. (4.11) reproduces the observed spectral lines exactly, which is why this model was so convincing.
 
-> [!warning] Bohr's formulas are exact only for **single-electron** atoms like hydrogen. Multi-electron atoms and real solids need the full quantum treatment (Chapter 5), but the central message survives: **electron energies are quantized**.
+> [!warning] Bohr's formulas are only exact for **single-electron** atoms like hydrogen. Multi-electron atoms and real solids need the full quantum treatment (Chapter 5), but the main point still holds: **electron energies are quantized**.
 
 ### Doping in the Bohr picture
 
-Why does a Group V dopant release its extra electron so easily? The fifth electron of a phosphorus atom sits **outside** the four bonds. It feels the P⁺ ion, so it orbits it like an electron around a proton: a hydrogen atom embedded in the silicon crystal. Two things make its binding far weaker than $13.6$ eV:
+Why does a Group V dopant release its extra electron so easily? The fifth electron of a phosphorus atom sits **outside** the four bonds. It feels the P⁺ ion, so it orbits it like an electron around a proton, basically a hydrogen atom embedded in the silicon crystal. Two things make its binding much weaker than $13.6$ eV:
 
 1. The crystal has a **larger permittivity** than vacuum, which screens the Coulomb attraction.
 2. The electron's **effective mass** in the crystal is smaller than in vacuum.
 
-Both effects reduce the binding energy and enlarge the orbit, so the fifth electron looks much farther from its nucleus than in an isolated P atom. For phosphorus in silicon, the **ionization energy** is only
+Both effects reduce the binding energy and enlarge the orbit, so the fifth electron sits much farther from its nucleus than in an isolated P atom. For phosphorus in silicon, the **ionization energy** is only
 
 $$
 E_c - E_d \approx 0.045\ \text{eV} \tag{4.12}
@@ -170,11 +170,11 @@ $$
 ![[pcs-224-doping-levels.svg]]
 *Figure 4.3: Dopant levels in the band gap. The donor level $E_d$ sits just below $E_c$ and the acceptor level $E_a$ just above $E_v$. Both are about $0.045$ eV from the nearest band edge in silicon.*
 
-**n-type (donors).** The donor electron sits in a level $E_d$, just below the bottom of the conduction band $E_c$. At $T = 0$ K it stays bound. At room temperature, $k_BT = 0.026$ eV is comparable to $0.045$ eV, so nearly **all** donors are ionized. That adds free electrons without adding holes, so n-type material has many more electrons than holes.
+**n-type (donors).** The donor electron sits in a level $E_d$, just below the bottom of the conduction band $E_c$. At $T = 0$ K it stays bound. At room temperature $k_BT = 0.026$ eV is comparable to $0.045$ eV, so nearly **all** donors are ionized. That adds free electrons without adding holes, so n-type material has many more electrons than holes.
 
-**p-type (acceptors).** A Group III atom such as boron has a bond missing an electron, giving an empty level $E_a$ just above the top of the valence band $E_v$ (again about $0.045$ eV for B in Si). At room temperature, valence-band electrons easily hop into it. That adds holes without adding electrons.
+**p-type (acceptors).** A Group III atom such as boron has a bond missing an electron, which gives an empty level $E_a$ just above the top of the valence band $E_v$ (again about $0.045$ eV for B in Si). At room temperature, valence-band electrons easily hop into it. That adds holes without adding electrons.
 
-> [!note] "Just below $E_c$" and "just above $E_v$" are the important points. A dopant level in the *middle* of the gap would not ionize at room temperature and would be useless for doping. The band language ($E_c$, $E_v$, $E_F$) is built properly in [[ch05-band-structure-and-fermi-function|Chapter 5]].
+> [!note] The important part is "just below $E_c$" and "just above $E_v$". A dopant level in the *middle* of the gap wouldn't ionize at room temperature and would be useless for doping. The band language ($E_c$, $E_v$, $E_F$) gets built up properly in [[ch05-band-structure-and-fermi-function|Chapter 5]].
 
 ## Key formulas
 
@@ -293,7 +293,7 @@ $$
 \lambda = \frac{1240}{2.55} = 486\ \text{nm}
 $$
 
-This is a blue-green visible line (the second Balmer line).
+That's a blue-green visible line (the second Balmer line).
 
 **Ionization from $n = 2$.** The energy needed is $0 - E_2 = 13.6/4 = 3.4$ eV, corresponding to $\lambda = 1240/3.4 = 365$ nm. Compare with $13.6$ eV (91.2 nm) from the ground state.
 
@@ -321,9 +321,9 @@ This is also the **shortest** wavelength hydrogen can emit and the **longest** w
 
 - Using the Hall field instead of the supply field $E_x = V/L$ when calculating mobility
 - Mixing cm and m when $B$ is in tesla. Convert $d$ to metres for Eq. (4.6) or convert $B$ to cm-based units
-- Getting the Hall voltage sign from $\vec{F} = q\vec{E}$ reasoning without checking $\vec{I}\times\vec{B}$ first. The deflection direction is the same for electrons and holes, but the **polarity** of the pile-up is not
-- Using $d$ as the width: $V_H = IB/(qnd)$ uses the **thickness along $B$**, not $W$
+- Getting the Hall voltage sign from $\vec{F} = q\vec{E}$ reasoning without checking $\vec{I}\times\vec{B}$ first. The deflection direction is the same for electrons and holes, but the **polarity** of the pile-up isn't
+- Using $d$ as the width, when $V_H = IB/(qnd)$ uses the **thickness along $B$**, not $W$
 - Using positive energies in the Bohr model. $E_n$ is negative, so the photon energy is a **difference** of levels
-- Thinking any photon with enough energy is absorbed in a bound transition. A photon must match the gap $E_{\text{upper}} - E_{\text{lower}}$ exactly (only above the ionization energy does a continuum of energies work)
+- Thinking any photon with enough energy gets absorbed in a bound transition. A photon has to match the gap $E_{\text{upper}} - E_{\text{lower}}$ exactly (only above the ionization energy does a continuum of energies work)
 - Applying the $13.6/n^2$ formula to atoms with more than one electron
-- Picturing donor levels at mid-gap. They are just below $E_c$, which is why they ionize easily
+- Picturing donor levels at mid-gap. They're just below $E_c$, which is why they ionize easily

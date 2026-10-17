@@ -7,7 +7,7 @@ tags:
 
 > [!info] Readings Brown & Vranesic **§5.1–5.3** · Lecture 6 · week 5–6
 
-The same bit pattern can mean different numbers depending on the **representation**. This chapter covers unsigned numbers (and octal/hex as shorthand), the circuits that add them (**half adder → full adder → ripple-carry adder**), the three ways to write signed numbers (**sign-magnitude, 1's complement, 2's complement**), and why 2's complement wins: one adder circuit does both addition and subtraction. It ends with **overflow**, when a result doesn't fit.
+The same bit pattern can mean different numbers depending on the **representation**. This chapter goes through unsigned numbers (with octal/hex as shorthand), the circuits that add them (**half adder → full adder → ripple-carry adder**), and the three ways to write signed numbers (**sign-magnitude, 1's complement, 2's complement**). It also shows why 2's complement wins, which is that one adder circuit can do both addition and subtraction. It finishes with **overflow**, when a result doesn't fit.
 
 ## Notes
 
@@ -19,7 +19,7 @@ $$V(B) = b_{n-1} 2^{n-1} + \cdots + b_1 2^1 + b_0 2^0$$
 
 With $n$ bits the range is $0$ to $2^n - 1$ (8 bits: 0 to 255).
 
-> [!warning] Always state the representation before reading a bit pattern. $1111\,1011$ is 251 unsigned, $-5$ in 2's complement, $-4$ in 1's complement, and $-123$ in sign-magnitude.
+> [!warning] Always figure out the representation before you read a bit pattern. $1111\,1011$ is 251 unsigned, $-5$ in 2's complement, $-4$ in 1's complement, and $-123$ in sign-magnitude.
 
 ### Octal and hexadecimal
 
@@ -27,7 +27,7 @@ Both are shorthand for long binary numbers:
 
 - **Octal** (base 8): each digit is **3 bits**. Group from the LSB in 3s. $101\ 011\ 010\ 111_2 = 5327_8$
 - **Hex** (base 16): each digit is **4 bits**. Group from the LSB in 4s. $11\ 0110\ 1000_2 = 0011\ 0110\ 1000_2 = 368_{16}$
-- Pad with 0s on the **left** if the bit count isn't a multiple of 3 or 4: $10\ 111\ 011_2 = 273_8$
+- Pad with 0s on the **left** if the number of bits isn't a multiple of 3 or 4: $10\ 111\ 011_2 = 273_8$
 
 |Binary|Octal|Hex|Decimal|Binary|Octal|Hex|Decimal|
 |---|---|---|---|---|---|---|---|
@@ -40,7 +40,7 @@ Both are shorthand for long binary numbers:
 |0110|6|6|6|1110|16|E|14|
 |0111|7|7|7|1111|17|F|15|
 
-Hex is the usual way to display values from FPGAs and memory.
+Hex is the usual way to show values from FPGAs and memory.
 
 ### The half adder
 
@@ -55,9 +55,9 @@ Adding two bits $x$ and $y$ gives a **sum** bit $s$ and a **carry** bit $c$:
 
 $$s = x \oplus y \qquad c = xy$$
 
-- XOR gives the sum: it's 1 when **exactly one** input is 1.
-- AND gives the carry: it's 1 only when **both** inputs are 1.
-- A half adder has **no carry-in**, so it can only be used for the least significant bit.
+- XOR gives the sum, since it's 1 when **exactly one** input is 1.
+- AND gives the carry, since it's 1 only when **both** inputs are 1.
+- A half adder has **no carry-in**, so it only works for the least significant bit.
 
 ### The full adder
 
@@ -82,7 +82,7 @@ $$s_i = x_i \oplus y_i \oplus c_i \qquad c_{i+1} = x_i y_i + x_i c_i + y_i c_i$$
 - The sum is 1 when an **odd** number of inputs are 1.
 - The carry-out is 1 when **at least two** inputs are 1 (the majority function from [[ch02-intro-to-logic-circuits|Ch 2]]).
 
-A full adder can be built from **two half adders and an OR gate** (Figure 5.1): the first adds $x$ and $y$, the second adds that sum to $c_{in}$, and either one producing a carry gives a carry-out.
+A full adder can be built from **two half adders and an OR gate** (Figure 5.1). The first adds $x$ and $y$, the second adds that sum to $c_{in}$, and if either one produces a carry you get a carry-out.
 
 ![[coe-328-full-adder.svg]]
 *Figure 5.1: A full adder built from two half adders and an OR gate.*
@@ -96,11 +96,11 @@ To add two $n$-bit numbers, chain $n$ full adders:
 - For plain unsigned addition, the first carry-in is $c_0 = 0$.
 - The last carry-out, $c_n$, is the extra bit of the sum.
 
-**The problem is speed.** A carry made in the lowest bit can change the next stage, which can change the next, all the way up the chain. The result isn't settled until the carry has **rippled** through every stage, so the worst-case delay grows with $n$. Faster adders (carry-lookahead, §5.4) compute carries in parallel at the cost of more logic; they're not covered in this course.
+**The problem is speed.** A carry made in the lowest bit can change the next stage, which can change the next, all the way up the chain. The result isn't settled until the carry has **rippled** through every stage, so the worst-case delay grows with $n$. Faster adders (carry-lookahead, §5.4) work out the carries in parallel at the cost of more logic, but they're not covered in this course.
 
 ### Signed numbers
 
-The **MSB is the sign bit**: 0 for positive, 1 for negative. Positive numbers look the same in all three systems. They differ in how negatives are written.
+The **MSB is the sign bit**, with 0 for positive and 1 for negative. Positive numbers look the same in all three systems, and the difference is in how negatives are written.
 
 |Representation|How to negate|8-bit range|Zeros|
 |---|---|---|---|
@@ -110,18 +110,18 @@ The **MSB is the sign bit**: 0 for positive, 1 for negative. Positive numbers lo
 
 - In the formulas, $P$ is the **positive number** being negated, and $K_1$, $K_2$ are the bit patterns for $-P$. For example, with $n = 4$ and $P = 5$: $K_1 = 15 - 5 = 10 = 1010$ and $K_2 = 16 - 5 = 11 = 1011$.
 - In 4 bits, $+5 = 0101$. Then $-5$ is $1101$ (sign-magnitude), $1010$ (1's complement), or $1011$ (2's complement).
-- Since $K_2 = K_1 + 1$, the easy way to get a 2's complement in hardware is: invert, then add 1.
-- 2's complement gets one **extra negative number**: it has only one zero, so the pattern $1000\,0000$ that would have been $-0$ is $-128$ instead.
+- Since $K_2 = K_1 + 1$, the easy way to get a 2's complement in hardware is to invert and then add 1.
+- 2's complement gets one **extra negative number**. It only has one zero, so the pattern $1000\,0000$ that would have been $-0$ is $-128$ instead.
 
-**Reading a 2's complement number:** if the MSB is 0, read it normally. If it's 1, take the 2's complement to find the magnitude and put a minus sign in front. ($1111\,0111$ → $0000\,1001 = 9$ → $-9$.) Or: give the MSB a weight of $-2^{n-1}$ instead of $+2^{n-1}$.
+**Reading a 2's complement number:** if the MSB is 0, read it normally. If it's 1, take the 2's complement to find the magnitude and put a minus sign in front ($1111\,0111$ → $0000\,1001 = 9$ → $-9$). Another way is to give the MSB a weight of $-2^{n-1}$ instead of $+2^{n-1}$.
 
-**Try it:** click bits to see the same pattern read four ways. Use the buttons to take complements.
+**Try it:** click bits to see the same pattern read four ways, and use the buttons to take complements.
 
 <div class="melon-logic" data-view="number">Interactive number representations (open this page on the site to use it).</div>
 
 ### Adding signed numbers
 
-**1's complement addition** sometimes needs a fix: if there's a carry-out of the sign bit, add it back into the LSB (the **end-around carry**). That second addition can double the time, which is why 1's complement isn't used for arithmetic.
+**1's complement addition** sometimes needs a fix. If there's a carry-out of the sign bit, you add it back into the LSB (the **end-around carry**). That second addition can double the time, which is why 1's complement isn't used for arithmetic.
 
 $$
 \begin{aligned}
@@ -130,7 +130,7 @@ $$
 \end{aligned}
 $$
 
-**2's complement addition always works directly.** Add the bit patterns with an ordinary adder and **ignore** any carry out of the sign bit. The signs of the operands don't matter.
+**2's complement addition always works directly.** Add the bit patterns with an ordinary adder and **ignore** any carry out of the sign bit. It doesn't matter what the signs of the operands are.
 
 |Sum|Bits|Result|
 |---|---|---|
@@ -143,13 +143,13 @@ $$
 
 $$A - B = A + \overline{B} + 1$$
 
-A helpful picture is the **number circle**: in 4 bits the patterns $0000$ to $1111$ go around a circle, with $0111$ (+7) next to $1000$ (−8). Adding moves clockwise, subtracting moves counterclockwise, and crossing the +7/−8 boundary means the answer is wrong (overflow).
+It helps to picture the **number circle**. In 4 bits the patterns $0000$ to $1111$ go around a circle, with $0111$ (+7) right next to $1000$ (−8). Adding moves you clockwise, subtracting moves you counterclockwise, and crossing the +7/−8 boundary means the answer is wrong (overflow).
 
 ### The adder/subtractor unit
 
-One $n$-bit adder can do both operations, controlled by a signal $\overline{\text{Add}}/\text{Sub}$ (0 = add, 1 = subtract; the bar over Add means "add when this is 0"):
+This is the logic behind lab 3. One $n$-bit adder can do both operations, controlled by a signal $\overline{\text{Add}}/\text{Sub}$ (0 = add, 1 = subtract; the bar over Add means "add when this is 0"):
 
-- Each bit $y_i$ goes through an **XOR gate** with the control signal. XOR with 0 passes $y_i$ through; XOR with 1 inverts it. So the adder sees $Y$ when adding and $\overline{Y}$ when subtracting.
+- Each bit $y_i$ goes through an **XOR gate** with the control signal. XOR with 0 passes $y_i$ through and XOR with 1 inverts it, so the adder sees $Y$ when adding and $\overline{Y}$ when subtracting.
 - The control signal is also the **carry-in** $c_0$. When subtracting, $c_0 = 1$ supplies the "+1" that turns $\overline{Y}$ into the 2's complement.
 
 $$\text{Add } (\text{control} = 0): \; X + Y + 0 \qquad \text{Sub } (\text{control} = 1): \; X + \overline{Y} + 1 = X - Y$$
@@ -160,9 +160,9 @@ $$\text{Add } (\text{control} = 0): \; X + Y + 0 \qquad \text{Sub } (\text{contr
 
 ### Arithmetic overflow
 
-With $n$ bits, a 2's complement result must be between $-2^{n-1}$ and $2^{n-1} - 1$ (4 bits: −8 to +7). If the true answer is outside that range, the result is wrong: **arithmetic overflow**.
+With $n$ bits, a 2's complement result has to be between $-2^{n-1}$ and $2^{n-1} - 1$ (4 bits: −8 to +7). If the true answer is outside that range, the result is wrong. That's **arithmetic overflow**.
 
-- **Only possible when adding two numbers with the same sign.** A positive plus a negative always fits.
+- **It can only happen when adding two numbers with the same sign.** A positive plus a negative always fits.
 - **Sign check:** overflow happened if two positives give a negative, or two negatives give a positive.
 - **Carry check (what the hardware uses):** overflow = $c_n \oplus c_{n-1}$, the carry **out of** the sign bit XOR the carry **into** it.
 
@@ -173,7 +173,7 @@ With $n$ bits, a 2's complement result must be between $-2^{n-1}$ and $2^{n-1} -
 |$(+7) + (-2)$|$0111 + 1110 = 1\,0101$|1|1|No (+5)|
 |$(-7) + (-2)$|$1001 + 1110 = 1\,0111$|1|0|**Yes** (got +7, not −9)|
 
-> [!note] For **unsigned** numbers the rule is different: the result is wrong when $c_n = 1$ (the sum needs one more bit).
+> [!note] For **unsigned** numbers the rule is different. The result is wrong when $c_n = 1$ (the sum needs one more bit).
 
 ## Key formulas
 
@@ -237,7 +237,7 @@ $$
 
 ## Examples
 
-These follow the lecture's worked examples and practice questions, with different numbers.
+These are based on the lecture's worked examples and practice questions, with the numbers changed.
 
 ### Example 1: Hex, octal, and decimal
 
@@ -258,7 +258,7 @@ Find $s$ and $c_{out}$ for a full adder with $x = 1$, $y = 0$, $c_{in} = 1$, and
 1. **Sum:** $1 \oplus 0 \oplus 1 = 0$ (an even number of 1s).
 2. **Carry:** $xy + xc_{in} + yc_{in} = 0 + 1 + 0 = 1$ (two of the three inputs are 1).
 
-So $1 + 0 + 1 = 10_2$: $s = 0$, $c_{out} = 1$. A half adder only has two inputs, so it has nowhere to take the carry-in.
+So $1 + 0 + 1 = 10_2$, with $s = 0$ and $c_{out} = 1$. A half adder only has two inputs, so it has nowhere to take the carry-in.
 
 ### Example 3: Ripple-carry addition
 
@@ -275,7 +275,7 @@ Add $X = 0110$ and $Y = 0111$ with a 4-bit ripple-carry adder ($c_0 = 0$). Give 
 
 $S = 1101 = 13$ and $c_4 = 0$. Check: $6 + 7 = 13$ ✓
 
-> [!note] Stage 3 can't settle until $c_3$ arrives, which waits on $c_2$, which waits on $c_1$. That chain is the ripple delay.
+> [!note] Stage 3 can't settle until $c_3$ arrives, which waits on $c_2$, which waits on $c_1$. That chain is what causes the ripple delay.
 
 ### Example 4: Subtraction with 2's complement
 
@@ -330,13 +330,13 @@ In 4-bit 2's complement, does (a) $(+5) + (+4)$ or (b) $(-6) + (-3)$ overflow?
 
 **(a)** $0101 + 0100$:
 
-- Bits 0–1 produce no carries; bit 2 is $1 + 1 = 10$, so $c_3 = 1$; bit 3 is $0 + 0 + 1 = 1$, so $c_4 = 0$.
-- Result $1001$. $c_4 \oplus c_3 = 0 \oplus 1 = 1$: **overflow**. Two positives gave a negative ($-7$); the true answer $+9$ needs more than 4 bits.
+- Bits 0–1 don't produce any carries, bit 2 is $1 + 1 = 10$ so $c_3 = 1$, and bit 3 is $0 + 0 + 1 = 1$ so $c_4 = 0$.
+- The result is $1001$ and $c_4 \oplus c_3 = 0 \oplus 1 = 1$, so it's **overflow**. Two positives gave a negative ($-7$), and the true answer $+9$ needs more than 4 bits.
 
 **(b)** $1010 + 1101$:
 
-- Bits 0–2 produce no carries ($c_3 = 0$); bit 3 is $1 + 1 = 10$, so $c_4 = 1$.
-- Result $0111$. $c_4 \oplus c_3 = 1 \oplus 0 = 1$: **overflow**. Two negatives gave a positive ($+7$); the true answer $-9$ is below $-8$.
+- Bits 0–2 don't produce any carries ($c_3 = 0$), and bit 3 is $1 + 1 = 10$ so $c_4 = 1$.
+- The result is $0111$ and $c_4 \oplus c_3 = 1 \oplus 0 = 1$, so it's **overflow**. Two negatives gave a positive ($+7$), and the true answer $-9$ is below $-8$.
 
 ### Example 9: Adder/subtractor unit
 
@@ -352,9 +352,9 @@ A 4-bit adder/subtractor has $X = 0110$, $Y = 0011$, and the control set to Sub 
 
 ## Common mistakes
 
-- Reading a bit pattern without fixing the representation first.
-- Using a half adder where there's a carry-in. Only bit 0 can use a half adder.
-- Forgetting the **+1** when subtracting with 2's complement (it's the carry-in in hardware).
-- Keeping the carry out of the sign bit in 2's complement. It's **ignored** (in 1's complement it's added back).
-- Calling it overflow whenever there's a carry-out. For signed numbers, check $c_n \oplus c_{n-1}$ (or the signs), not $c_n$ alone.
+- Reading a bit pattern without settling on the representation first.
+- Using a half adder where there's a carry-in. Only bit 0 can use one.
+- Forgetting the **+1** when subtracting with 2's complement (in hardware it's the carry-in).
+- Keeping the carry out of the sign bit in 2's complement. It gets **ignored** (in 1's complement it's added back).
+- Calling it overflow whenever there's a carry-out. For signed numbers, check $c_n \oplus c_{n-1}$ (or the signs) and not just $c_n$.
 - Thinking the 8-bit 2's complement range is symmetric. It's **−128 to +127**.

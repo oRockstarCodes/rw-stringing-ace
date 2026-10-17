@@ -7,24 +7,24 @@ tags:
 
 > [!info] Readings Brown & Vranesic **§4.2** · Lecture 3 (second half: *Karnaugh Map*) · week 4
 
-A **Karnaugh map (K-map)** is a truth table rearranged so that terms which can be combined sit next to each other. Grouping the 1s gives the **minimum SOP** expression; grouping the 0s gives the **minimum POS**. This chapter covers 3- and 4-variable maps, the grouping rules, "don't care" conditions, and switching between SOP and POS on the map.
+A **Karnaugh map (K-map)** is a truth table rearranged so the terms that can be combined sit next to each other. Grouping the 1s gives you the **minimum SOP** expression and grouping the 0s gives you the **minimum POS**. This chapter covers 3- and 4-variable maps, the grouping rules, "don't care" conditions, and switching between SOP and POS on the map.
 
 ## Notes
 
 ### Why K-maps work
 
-Simplifying with algebra ([[ch02-intro-to-logic-circuits|Ch 2]]) keeps using one move: two terms that differ in **only one variable** combine, and that variable drops out.
+Simplifying with algebra ([[ch02-intro-to-logic-circuits|Ch 2]]) keeps coming back to one move. Two terms that differ in **only one variable** combine, and that variable drops out.
 
 $$AB\overline{C} + ABC = AB(\overline{C} + C) = AB$$
 
-A K-map lays out the cells so that any two **neighboring cells differ in exactly one variable**. Then every pair (or group of 4, 8, …) of neighboring 1s is a term you can combine by eye.
+A K-map lays out the cells so that any two **neighboring cells differ in exactly one variable**. Then every pair (or group of 4, 8, …) of neighboring 1s is a term you can combine just by looking at it.
 
 ### The map layout
 
 - The number of cells is $2^n$, the same as the rows of the truth table: 8 for 3 variables, 16 for 4.
 - Rows are labeled with $AB$ and columns with $C$ (3 variables) or $CD$ (4 variables).
 - The labels go in **Gray code order: 00, 01, 11, 10**, *not* 00, 01, 10, 11. That's what makes neighbors differ by one bit.
-- Each cell's value is the row label followed by the column label. In a 4-variable map, the top-right cell is $0010$ and the bottom-right cell is $1010$.
+- A cell's value is its row label followed by its column label. In a 4-variable map, the top-right cell is $0010$ and the bottom-right cell is $1010$.
 
 **4-variable map, with each cell's minterm number:**
 
@@ -46,34 +46,34 @@ A K-map lays out the cells so that any two **neighboring cells differ in exactly
 
 ### Cell adjacency
 
-- Cells that share a **side** are adjacent. Cells that only touch at a **corner** (diagonal) are not.
-- The map **wraps around**: the top row is adjacent to the bottom row, and the left column to the right column (think of it rolled into a cylinder). So in a 4-variable map, the four **corners** are all adjacent to each other.
+- Cells that share a **side** are adjacent. Cells that only touch at a **corner** (diagonal) aren't.
+- The map **wraps around**. The top row is adjacent to the bottom row, and the left column is adjacent to the right column (picture it rolled up into a cylinder). So in a 4-variable map, the four **corners** are all adjacent to each other.
 
-For example, in the 3-variable map, cell 010 is adjacent to 000, 011, and 110, but not to 001, 111, 100, or 101.
+For example, in the 3-variable map, cell 010 is adjacent to 000, 011 and 110, but not to 001, 111, 100 or 101.
 
 ### Mapping an expression
 
 **Standard SOP:** put a 1 in the cell for each minterm (the input that makes the term 1).
 
-**Nonstandard SOP:** each term with missing variables covers **several** cells. A term missing one variable covers 2 cells, missing two covers 4, and so on. Either expand it to standard form first, or fill in every cell that matches the variables that are there. For example, with domain $A, B, C$:
+**Nonstandard SOP:** each term with missing variables covers **several** cells. A term missing one variable covers 2 cells, one missing two covers 4, and so on. You can expand it to standard form first, or just fill in every cell that matches the variables that are there. For example, with domain $A, B, C$:
 
 $$\overline{A} \to 000, 001, 010, 011 \qquad A\overline{B} \to 100, 101 \qquad ABC \to 111$$
 
-**Truth table:** put each output value straight into its cell. Remember the Gray-code order when copying rows 2–3 and 6–7.
+**Truth table:** put each output value straight into its cell. Watch the Gray-code order when you copy rows 2–3 and 6–7.
 
 ### Grouping the 1s (SOP)
 
-The goal is **the biggest groups possible, and as few groups as possible**.
+The goal is **the biggest groups you can make, using as few groups as possible**.
 
-1. A group must contain **1, 2, 4, 8, or 16** cells (a power of 2).
-2. A group must be a **rectangle** of adjacent cells (wrap-around counts).
+1. A group has to contain **1, 2, 4, 8, or 16** cells (a power of 2).
+2. A group has to be a **rectangle** of adjacent cells (wrap-around counts).
 3. Make every group **as large as possible**.
-4. **Every 1** must be in at least one group.
-5. Groups may **overlap**, but only if each group includes at least one 1 that no other group covers. Don't add a group that's already fully covered.
+4. **Every 1** has to be in at least one group.
+5. Groups can **overlap**, but only if each group has at least one 1 that no other group covers. Don't add a group that's already fully covered.
 
 ### Reading the product term from a group
 
-In each group, **keep the variables that don't change**, and drop the ones that appear both complemented and uncomplemented.
+In each group, **keep the variables that don't change** and drop the ones that show up both complemented and uncomplemented.
 
 |Group size|3-variable map|4-variable map|
 |---|---|---|
@@ -83,7 +83,7 @@ In each group, **keep the variables that don't change**, and drop the ones that 
 |8 cells|whole map: $X = 1$|1 literal|
 |16 cells|—|whole map: $X = 1$|
 
-Each doubling of the group size removes one variable. The **minimum SOP** is the OR of all the group terms.
+Every time the group size doubles, one variable drops out. The **minimum SOP** is the OR of all the group terms.
 
 **Try it:** click cells to cycle 0 → 1 → X (don't care) → 0. The map finds the minimum expression and draws its groups. Switch to POS to group the 0s instead.
 
@@ -91,39 +91,39 @@ Each doubling of the group size removes one variable. The **minimum SOP** is the
 
 ### Textbook terms
 
-Brown & Vranesic name the pieces of this process:
+Brown & Vranesic have names for the pieces of this process:
 
 - **Implicant:** any valid group (a product term that's 1 only where $f$ is 1 or don't care).
 - **Prime implicant:** a group that can't be made any bigger.
-- **Essential prime implicant:** a prime implicant that covers some 1 no other prime implicant covers. It **must** be in the answer.
+- **Essential prime implicant:** a prime implicant that covers some 1 that no other prime implicant covers. It **has to** be in the answer.
 
-So the method is: find the essential prime implicants first, then add as few other prime implicants as needed to cover the remaining 1s.
+So the method is to find the essential prime implicants first, then add as few other prime implicants as you need to cover the remaining 1s.
 
 ### Don't care conditions
 
-Sometimes certain input combinations **can never happen**, so the output for them doesn't matter. The classic case is BCD: codes $1010$ to $1111$ are never used, so a circuit reading BCD digits doesn't care what it outputs for them.
+Sometimes certain input combinations **can never happen**, so it doesn't matter what the output is for them. The classic case is BCD. Codes $1010$ to $1111$ are never used, so a circuit reading BCD digits doesn't care what it outputs for them.
 
 - Mark these cells with an **X**.
-- When grouping, treat an X as a **1 if it makes a group bigger**, and as a **0 otherwise**.
-- You never *need* to cover an X. Never make a group of only Xs.
+- When grouping, treat an X as a **1 if it makes a group bigger** and as a **0 if it doesn't**.
+- You never *need* to cover an X, and you should never make a group of only Xs.
 
 ### POS minimization (grouping the 0s)
 
-The same map, used the other way round:
+It's the same map, used the other way around:
 
 1. Put **0s** in the cells where the output is 0 (for a standard POS expression, the cell for each sum term is the input that makes it 0).
-2. **Group the 0s** with exactly the same rules.
-3. Each group gives a **sum term**: keep the variables that don't change, writing a variable **uncomplemented if it's 0** in the group and **complemented if it's 1**.
+2. **Group the 0s** using exactly the same rules.
+3. Each group gives a **sum term**. Keep the variables that don't change, and write a variable **uncomplemented if it's 0** in the group and **complemented if it's 1**.
 4. The **minimum POS** is the AND of the sum terms.
 
 ### Converting between SOP and POS on the map
 
-Every cell that isn't a 1 is a 0, and vice versa. So once a function is on the map:
+Every cell that isn't a 1 is a 0, and the other way around. So once a function is on the map:
 
 - Group the **1s** for the minimum SOP.
 - Group the **0s** for the minimum POS.
 
-Compare the two and build whichever needs fewer gates.
+Compare the two and build whichever one needs fewer gates.
 
 ## Key formulas
 
@@ -161,7 +161,7 @@ $$
 
 ## Examples
 
-These follow the lecture's K-map examples, with different functions. Each map is live: click cells to experiment.
+These are based on the lecture's K-map examples, with different functions. Each map is live, so click cells to play around with it.
 
 ### Example 1: Minimize a standard SOP
 
@@ -205,7 +205,7 @@ Minimize $X = \sum m(0, 2, 5, 7, 8, 10, 13, 15)$.
 
 $$X = BD + \overline{B}\,\overline{D}$$
 
-This is the map loaded in the interactive above. It's also $\overline{B \oplus D}$: the output only depends on whether $B$ and $D$ match.
+This is the map loaded in the interactive above. It's also $\overline{B \oplus D}$, so the output only depends on whether $B$ and $D$ match.
 
 <div class="melon-logic" data-view="kmap" data-vars="4" data-ones="0,2,5,7,8,10,13,15">Karnaugh map for Example 3 (open this page on the site to use it).</div>
 
@@ -220,7 +220,7 @@ Minimize $X = \sum m(0, 1, 2, 3, 4, 6, 8, 9, 10, 11)$.
 
 $$X = \overline{B} + \overline{A}\,\overline{D}$$
 
-> [!tip] Reusing cells 0 and 2 is allowed because the new group also covers cells (4 and 6) that nothing else covers. A group of 4 beats two separate pairs.
+> [!tip] Reusing cells 0 and 2 is fine because the new group also covers cells (4 and 6) that nothing else does. A group of 4 beats two separate pairs.
 
 <div class="melon-logic" data-view="kmap" data-vars="4" data-ones="0,1,2,3,4,6,8,9,10,11">Karnaugh map for Example 4 (open this page on the site to use it).</div>
 
@@ -238,7 +238,7 @@ A circuit reads a BCD digit $ABCD$ and outputs $X = 1$ when the digit is **5 or 
 
 $$X = A + BD + BC$$
 
-**Without** the don't cares, the best you could do is $A\overline{B}\,\overline{C} + \overline{A}BD + \overline{A}BC$: three 3-literal terms instead of one literal and two 2-literal terms.
+**Without** the don't cares, the best you could do is $A\overline{B}\,\overline{C} + \overline{A}BD + \overline{A}BC$. That's three 3-literal terms instead of one literal and two 2-literal terms.
 
 <div class="melon-logic" data-view="kmap" data-vars="4" data-ones="5,6,7,8,9" data-dc="10,11,12,13,14,15">Karnaugh map for Example 5 (open this page on the site to use it).</div>
 
@@ -287,14 +287,14 @@ For the function in Example 7, find the standard SOP and the minimum SOP. Which 
 
 <div class="melon-logic" data-view="kmap" data-vars="4" data-ones="1,4,5,6,7,9,12,13,14,15">Karnaugh map for Example 8 (open this page on the site to use it).</div>
 
-The SOP needs one AND and one OR (plus an inverter for $\overline{C}$). The POS from Example 7 needs two ORs and an AND. They're equal: by Rule 12, $(B + D)(B + \overline{C}) = B + \overline{C}D$.
+The SOP needs one AND and one OR (plus an inverter for $\overline{C}$), while the POS from Example 7 needs two ORs and an AND. They're equal, since by Rule 12, $(B + D)(B + \overline{C}) = B + \overline{C}D$.
 
 ## Common mistakes
 
-- Labeling rows or columns **00, 01, 10, 11**. It must be **00, 01, 11, 10** (Gray code).
-- Grouping **diagonal** cells, or a group of 3 or 6. Groups must be rectangles of 1, 2, 4, 8, or 16 cells.
-- Forgetting **wrap-around**: the edges (and the four corners) are adjacent.
+- Labeling rows or columns **00, 01, 10, 11** when it has to be **00, 01, 11, 10** (Gray code).
+- Grouping **diagonal** cells, or making a group of 3 or 6. Groups have to be rectangles of 1, 2, 4, 8, or 16 cells.
+- Forgetting **wrap-around**. The edges (and the four corners) are adjacent.
 - Stopping at small groups when a bigger one is possible.
 - Adding a group whose cells are **all already covered**. Every group needs at least one 1 of its own.
 - Covering a don't care for no reason, or making a group of **only** don't cares.
-- In POS, writing the sum-term literals the SOP way. In POS a **0 → uncomplemented**, a **1 → complemented**.
+- Writing the sum-term literals the SOP way in POS. In POS a **0 → uncomplemented** and a **1 → complemented**.

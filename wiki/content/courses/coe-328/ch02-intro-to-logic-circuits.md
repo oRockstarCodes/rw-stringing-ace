@@ -7,13 +7,13 @@ tags:
 
 > [!info] Readings Brown & Vranesic **§2.1–2.10** · Lectures 2–4 (*Logic Gates*, *Boolean Algebra*, *NAND and NOR Logic Networks*) · weeks 2–4
 
-**Logic gates** are the building blocks of every digital circuit, and **Boolean algebra** is the math that describes them. This chapter covers each gate, how to read a circuit as a Boolean expression (and back), the rules for simplifying expressions, the two standard forms (**SOP** and **POS**), how to build anything out of just NAND or just NOR gates, and the basic design process: specification → truth table → expression → circuit.
+**Logic gates** are what every digital circuit is built from, and **Boolean algebra** is the math that describes them. This chapter goes through each gate, how to read a circuit as a Boolean expression (and the other way around), the rules for simplifying expressions, the two standard forms (**SOP** and **POS**), how to build anything out of only NAND or only NOR gates, and the basic design process: specification → truth table → expression → circuit.
 
 ## Notes
 
 ### The basic gates
 
-Every gate has one output and (except NOT) two or more inputs. A gate with $n$ inputs has $2^n$ input combinations, so its truth table has $2^n$ rows.
+Every gate has one output and, except for NOT, two or more inputs. A gate with $n$ inputs has $2^n$ input combinations, so its truth table has $2^n$ rows.
 
 |Gate|Expression|Output is 1 when…|
 |---|---|---|
@@ -38,45 +38,45 @@ Every gate has one output and (except NOT) two or more inputs. A gate with $n$ i
 
 **Notes on each gate**
 
-- **NOT:** also called **complementation**. The small circle (**bubble**) on its output is the **negation indicator**: anywhere a bubble appears, the signal is inverted.
-- **AND:** called **logical multiplication** ($A \cdot B$ or just $AB$). Useful as an **enable** gate: with one input at 1 the other passes through, with one input at 0 the output is stuck at 0.
-- **OR:** called **logical addition**. Unlike binary addition there's **no carry**: $1 + 1 = 1$.
-- **NAND / NOR:** the **universal gates**. Either one alone can build NOT, AND, and OR, so it can build any circuit (see [[#NAND and NOR logic]]).
-- **XOR:** exactly two inputs. Its output is the **sum bit** of adding two bits ($1 + 1 = 10$, sum 0), so it's a 1-bit **modulo-2 adder**, and it detects when two signals **disagree**.
+- **NOT:** also called **complementation**. The small circle (**bubble**) on its output is the **negation indicator**, so anywhere a bubble shows up, the signal is inverted.
+- **AND:** called **logical multiplication** ($A \cdot B$ or just $AB$). It works as an **enable** gate: with one input at 1 the other input passes through, and with one input at 0 the output is stuck at 0.
+- **OR:** called **logical addition**. Unlike binary addition there's **no carry**, so $1 + 1 = 1$.
+- **NAND / NOR:** the **universal gates**. Either one alone can build NOT, AND and OR, which means it can build any circuit (see [[#NAND and NOR logic]]).
+- **XOR:** exactly two inputs. Its output is the **sum bit** from adding two bits ($1 + 1 = 10$, sum 0), so it's a 1-bit **modulo-2 adder**, and it tells you when two signals **disagree**.
 - **XNOR:** the opposite of XOR, so it's a 1-bit **equality detector**.
 
 ### Active-HIGH and active-LOW
 
-The bubble also tells you what level is **active** (asserted):
+The bubble also tells you which level is **active** (asserted):
 
-- **No bubble:** the input/output is **active-HIGH**: it "does its thing" when it's 1.
-- **Bubble:** the input/output is **active-LOW**: it "does its thing" when it's 0.
+- **No bubble:** the input/output is **active-HIGH**, so it "does its thing" when it's 1.
+- **Bubble:** the input/output is **active-LOW**, so it "does its thing" when it's 0.
 
-This leads to a second way to read NAND and NOR gates:
+That gives you a second way to read NAND and NOR gates:
 
 ![[coe-328-dual-symbols.svg]]
 *Figure 2.1: The NAND gate is also a negative-OR gate, and the NOR gate is also a negative-AND gate.*
 
-- **NAND as negative-OR:** output is 1 when **$A$ is 0 OR $B$ is 0**. Use this view when you're detecting "any input LOW".
-- **NOR as negative-AND:** output is 1 when **$A$ is 0 AND $B$ is 0**. Use this view when you're detecting "all inputs LOW".
+- **NAND as negative-OR:** the output is 1 when **$A$ is 0 OR $B$ is 0**. Use this view when you're looking for "any input LOW".
+- **NOR as negative-AND:** the output is 1 when **$A$ is 0 AND $B$ is 0**. Use this view when you're looking for "all inputs LOW".
 
-Both are the same physical gate; DeMorgan's theorems ([[#DeMorgan's theorems]]) prove the two symbols are equal.
+It's the same physical gate either way. DeMorgan's theorems ([[#DeMorgan's theorems]]) prove the two symbols are equal.
 
 ### Timing diagrams
 
 In real circuits the inputs are **waveforms**, not fixed levels. A **timing diagram** lines up the waveforms on the same time axis. To find a gate's output waveform:
 
 1. Draw a vertical line at **every edge** of every input.
-2. In each interval between lines, the inputs are constant, so apply the truth table.
+2. Between the lines the inputs are constant, so just use the truth table for each interval.
 3. Draw the output level for each interval.
 
-**Try it:** click any time slot of $A$ or $B$ to flip it and watch the output. Switch gates with the buttons.
+**Try it:** click any time slot of $A$ or $B$ to flip it and watch the output. Use the buttons to switch gates.
 
 <div class="melon-logic" data-view="timing" data-device="and,or,nand,nor,xor,xnor">Interactive timing diagram (open this page on the site to use it).</div>
 
 ### Boolean algebra basics
 
-- A **variable** ($A$, $B$, …) is 0 or 1. Its **complement** $\overline{A}$ ("not A", "A bar", or $A'$) is the opposite value. A variable or its complement is a **literal**.
+- A **variable** ($A$, $B$, …) is 0 or 1. Its **complement** $\overline{A}$ ("not A", "A bar", or $A'$) is the opposite value. A variable or its complement is called a **literal**.
 - A **sum term** is literals ORed together ($A + \overline{B} + C$). It's **0 only when every literal is 0**.
 - A **product term** is literals ANDed together ($A\overline{B}C$). It's **1 only when every literal is 1**.
 
@@ -105,7 +105,7 @@ In real circuits the inputs are **waveforms**, not fixed levels. A **timing diag
 |11|$A + \overline{A}B = A + B$|proved below|
 |12|$(A + B)(A + C) = A + BC$|proved below|
 
-Rules 1–9 come straight from the gate truth tables. Rules 10–12 are derived from them:
+Rules 1–9 come straight from the gate truth tables, and Rules 10–12 are derived from them:
 
 $$
 \begin{aligned}
@@ -124,7 +124,7 @@ $$
 \end{aligned}
 $$
 
-> [!tip] Rule 12 is the distributive law "the other way": OR distributes over AND too, which ordinary algebra doesn't allow.
+> [!tip] Rule 12 is the distributive law "the other way around". OR distributes over AND too, which ordinary algebra doesn't let you do.
 
 ### DeMorgan's theorems
 
@@ -138,12 +138,12 @@ $$
 \overline{WXYZ} = \overline{W} + \overline{X} + \overline{Y} + \overline{Z} \qquad \overline{W + X + Y + Z} = \overline{W}\,\overline{X}\,\overline{Y}\,\overline{Z}
 $$
 
-**Procedure for a big expression** (e.g. $\overline{\overline{A + B\overline{C}} + D(\overline{E + \overline{F}})}$):
+**Procedure for a big expression** (like $\overline{\overline{A + B\overline{C}} + D(\overline{E + \overline{F}})}$):
 
-1. Treat each term under the longest bar as a single variable ($X = \overline{A + B\overline{C}}$, $Y = D(\overline{E + \overline{F}})$).
+1. Treat each term under the longest bar as one variable ($X = \overline{A + B\overline{C}}$, $Y = D(\overline{E + \overline{F}})$).
 2. Apply DeMorgan to the longest bar: $\overline{X + Y} = \overline{X}\,\overline{Y}$.
 3. Cancel any double bars (Rule 9).
-4. Repeat on the remaining bars until every bar sits over a single variable.
+4. Repeat on the bars that are left until every bar sits over a single variable.
 
 $$
 \overline{\overline{A + B\overline{C}} + D(\overline{E + \overline{F}})} = (A + B\overline{C})(\overline{D} + E + \overline{F})
@@ -151,19 +151,19 @@ $$
 
 ### From circuit to expression to truth table
 
-**Circuit → expression:** start at the inputs and write the expression at each gate output, working toward the final output.
+**Circuit → expression:** start at the inputs and write the expression at each gate output as you work toward the final output.
 
 **Expression → truth table:**
 
 1. List all $2^n$ input combinations (count in binary).
-2. Find which combinations make the expression 1 (or work out every intermediate column).
+2. Find which combinations make the expression 1 (or work out every column in between).
 3. Fill in the output column.
 
-For example, $A(B + CD)$ is 1 only when $A = 1$ **and** $B + CD = 1$, i.e. when $A = 1, B = 1$ (any $C, D$), or $A = 1, C = 1, D = 1$ (any $B$).
+For example, $A(B + CD)$ is 1 only when $A = 1$ **and** $B + CD = 1$, so when $A = 1, B = 1$ (any $C, D$), or $A = 1, C = 1, D = 1$ (any $B$).
 
 ### Simplifying with Boolean algebra
 
-A simpler expression means **fewer gates** for the same function: fewer chips, less power, and less material to make them. The usual moves:
+A simpler expression means **fewer gates** for the same function, so fewer chips, less power, and less material to make them. The usual moves are:
 
 - **Factor** out a common literal: $AB + A\overline{B} = A(B + \overline{B}) = A$
 - **Absorb** with Rule 10: $A + AB = A$
@@ -181,7 +181,7 @@ A simpler expression means **fewer gates** for the same function: fewer chips, l
 > $$
 > Five gates become two (one AND, one OR).
 
-Algebra works, but it's easy to miss a step. [[ch04-optimization-of-combinational-logic|Ch 4]] gives a systematic method (the Karnaugh map).
+Algebra works, but it's easy to miss a step. [[ch04-optimization-of-combinational-logic|Ch 4]] has a more systematic method (the Karnaugh map).
 
 ### Standard forms: SOP and POS
 
@@ -192,12 +192,12 @@ Any expression can be rewritten in one of two standard forms:
 |**Sum of products (SOP)**|$AB + \overline{A}C + B\overline{C}D$|AND gates feeding one OR gate (**AND-OR**)|
 |**Product of sums (POS)**|$(A + B)(\overline{A} + C)(B + \overline{C} + D)$|OR gates feeding one AND gate (**OR-AND**)|
 
-In both forms a bar can only cover **one variable**: $\overline{A}\,\overline{B}$ is allowed, $\overline{AB}$ is not.
+In both forms a bar can only cover **one variable**. $\overline{A}\,\overline{B}$ is fine, but $\overline{AB}$ is not.
 
 - To get SOP from a general expression, **distribute**: $A(B + CD) = AB + ACD$.
 - The **domain** is the set of all variables in the expression. A **standard** (canonical) SOP or POS has **every variable of the domain in every term**.
 
-**Converting to standard SOP:** multiply each product term by $(X + \overline{X})$ for each missing variable $X$ (that's multiplying by 1), and expand. Each missing variable doubles the number of terms.
+**Converting to standard SOP:** multiply each product term by $(X + \overline{X})$ for each missing variable $X$ (that's multiplying by 1) and expand. Every missing variable doubles the number of terms.
 
 $$A\overline{B} \;\text{(domain } A, B, C) = A\overline{B}(C + \overline{C}) = A\overline{B}C + A\overline{B}\,\overline{C}$$
 
@@ -209,8 +209,8 @@ $$A + \overline{B} = A + \overline{B} + C\overline{C} = (A + \overline{B} + C)(A
 
 Each row of a truth table has one standard product term that's 1 **only** on that row, and one standard sum term that's 0 **only** on that row:
 
-- **Minterm $m_i$:** product term that's 1 only on row $i$. A 1 in the row becomes the variable, a 0 becomes its complement.
-- **Maxterm $M_i$:** sum term that's 0 only on row $i$. A 0 in the row becomes the variable, a 1 becomes its complement.
+- **Minterm $m_i$:** the product term that's 1 only on row $i$. A 1 in the row becomes the variable and a 0 becomes its complement.
+- **Maxterm $M_i$:** the sum term that's 0 only on row $i$. A 0 in the row becomes the variable and a 1 becomes its complement.
 
 |Row $i$|$A\,B\,C$|Minterm $m_i$|Maxterm $M_i$|
 |---|---|---|---|
@@ -228,13 +228,13 @@ So from any truth table:
 - **Standard SOP** = OR of the minterms for the rows where the output is **1**. Shorthand: $f = \sum m(\ldots)$.
 - **Standard POS** = AND of the maxterms for the rows where the output is **0**. Shorthand: $f = \prod M(\ldots)$.
 
-The two lists are complements of each other: every row number is in exactly one of them.
+The two lists are complements of each other, so every row number shows up in exactly one of them.
 
-> [!note] The lecture slides (Floyd) describe this as the "binary value" of a term: $A\overline{B}C\overline{D}$ has binary value 1010 because that's the one input that makes it 1, and $A + \overline{B} + C + \overline{D}$ has binary value 0101 because that's the one input that makes it 0. Same idea as $m_{10}$ and $M_5$.
+> [!note] The lecture slides (Floyd) call this the "binary value" of a term. $A\overline{B}C\overline{D}$ has binary value 1010 because that's the one input that makes it 1, and $A + \overline{B} + C + \overline{D}$ has binary value 0101 because that's the one input that makes it 0. It's the same idea as $m_{10}$ and $M_5$.
 
 ### NAND and NOR logic
 
-NAND and NOR are **universal**: each one alone can make every other gate.
+NAND and NOR are **universal**, meaning each one alone can make every other gate.
 
 |To get|With NAND only|With NOR only|
 |---|---|---|
@@ -244,22 +244,22 @@ NAND and NOR are **universal**: each one alone can make every other gate.
 |NOR|OR (above), then a NAND inverter|—|
 |NAND|—|AND (above), then a NOR inverter|
 
-**Two-level NAND = SOP.** An AND-OR circuit becomes NAND-NAND just by swapping every gate for a NAND, because the bubbles cancel in pairs:
+**Two-level NAND = SOP.** An AND-OR circuit turns into NAND-NAND when you swap every gate for a NAND, because the bubbles cancel in pairs:
 
 $$
 X = \overline{\overline{AB}\;\overline{CD}} = \overline{\overline{AB}} + \overline{\overline{CD}} = AB + CD
 $$
 
-**Two-level NOR = POS.** In the same way, an OR-AND circuit becomes NOR-NOR:
+**Two-level NOR = POS.** Same idea here, an OR-AND circuit becomes NOR-NOR:
 
 $$
 X = \overline{\overline{A + B} + \overline{C + D}} = (A + B)(C + D)
 $$
 
-**Dual symbols.** To read a NAND or NOR circuit quickly, redraw it so **every connection is bubble-to-bubble or plain-to-plain**. Bubbles that meet cancel (they're a double inversion), so you can read the gates as plain AND/OR:
+**Dual symbols.** To read a NAND or NOR circuit quickly, redraw it so **every connection is bubble-to-bubble or plain-to-plain**. Bubbles that meet cancel out (it's a double inversion), so you can read the gates as plain AND/OR:
 
-- In NAND logic, draw gates as **NAND** and **negative-OR** symbols, alternating by level, with the output gate as a negative-OR.
-- In NOR logic, draw gates as **NOR** and **negative-AND** symbols, with the output gate as a negative-AND.
+- In NAND logic, draw the gates as **NAND** and **negative-OR** symbols, alternating by level, with the output gate as a negative-OR.
+- In NOR logic, draw the gates as **NOR** and **negative-AND** symbols, with the output gate as a negative-AND.
 - If a bubble meets a plain input, that variable picks up a bar.
 
 ### Design process
@@ -270,7 +270,7 @@ The textbook's three steps (§2.8):
 2. **Synthesize:** specification → truth table → Boolean expression → circuit.
 3. **Test:** apply every input combination and check the output.
 
-**Design example: three-way light control.** A room has three doors, each with a switch ($x_1$, $x_2$, $x_3$) for the same light $f$. Flipping **any one** switch must change the light. Start with the light off when all switches are open ($000$). Then flipping one switch turns it on, flipping a second turns it off, and so on: the light is on when an **odd number** of switches are closed.
+**Design example: three-way light control.** A room has three doors, and each has a switch ($x_1$, $x_2$, $x_3$) for the same light $f$. Flipping **any one** switch has to change the light. Start with the light off when all the switches are open ($000$). Flipping one switch turns it on, flipping a second turns it off, and so on, so the light is on when an **odd number** of switches are closed.
 
 |$x_1\,x_2\,x_3$|000|001|010|011|100|101|110|111|
 |---|---|---|---|---|---|---|---|---|
@@ -284,9 +284,9 @@ $$
 f = \prod M(0, 3, 5, 6) = (x_1 + x_2 + x_3)(x_1 + \overline{x_2} + \overline{x_3})(\overline{x_1} + x_2 + \overline{x_3})(\overline{x_1} + \overline{x_2} + x_3)
 $$
 
-Both are correct implementations (NOT → AND → OR for SOP, NOT → OR → AND for POS). This function is also just $f = x_1 \oplus x_2 \oplus x_3$.
+Both are correct (NOT → AND → OR for SOP, NOT → OR → AND for POS). This function is also just $f = x_1 \oplus x_2 \oplus x_3$.
 
-**Design example: 2-to-1 multiplexer.** A **multiplexer (MUX)** is a data selector: a select input $s$ picks which data input reaches the output. If $s = 0$ then $f = x_1$; if $s = 1$ then $f = x_2$.
+**Design example: 2-to-1 multiplexer.** A **multiplexer (MUX)** is a data selector, where a select input $s$ picks which data input reaches the output. If $s = 0$ then $f = x_1$, and if $s = 1$ then $f = x_2$.
 
 |$s\,x_1\,x_2$|000|001|010|011|100|101|110|111|
 |---|---|---|---|---|---|---|---|---|
@@ -354,7 +354,7 @@ $$
 
 ## Examples
 
-These follow the lecture examples, with different numbers and circuits.
+These are based on the lecture examples, with the numbers and circuits changed.
 
 ### Example 1: Truth table for a multi-input gate
 
@@ -380,7 +380,7 @@ A press has two safety guards. Each guard's sensor outputs **LOW when the guard 
 
 **(b)** "At least one input HIGH → output HIGH" is a plain **OR** gate: $X = A + B$.
 
-> [!tip] When a question describes inputs that are active-LOW, think in terms of negative-OR (NAND) and negative-AND (NOR).
+> [!tip] When a question has active-LOW inputs, think negative-OR (NAND) and negative-AND (NOR).
 
 ### Example 3: DeMorgan with several variables
 
@@ -392,7 +392,7 @@ Apply DeMorgan's theorems to (a) $\overline{(A + \overline{B})C}$ and (b) $\over
 
 $$\overline{(A + \overline{B})C} = \overline{A + \overline{B}} + \overline{C} = \overline{A}B + \overline{C}$$
 
-**(b)** The bar is over a sum, so it becomes a product of the two complemented terms, then each of those is split:
+**(b)** The bar is over a sum, so it becomes a product of the two complemented terms, and then each of those gets split:
 
 $$\overline{A\overline{B}C + \overline{D}E} = (\overline{A\overline{B}C})(\overline{\overline{D}E}) = (\overline{A} + B + \overline{C})(D + \overline{E})$$
 
@@ -402,9 +402,9 @@ $$\overline{A\overline{B}C + \overline{D}E} = (\overline{A\overline{B}C})(\overl
 
 Simplify $\overline{(\overline{A} + B)\,\overline{CD}}$ so that bars only sit over single variables.
 
-1. **Longest bar first.** It covers a product of two terms, so it becomes a sum:
+1. **Longest bar first.** It covers a product of two terms, so it turns into a sum:
    $$\overline{(\overline{A} + B)\,\overline{CD}} = \overline{\overline{A} + B} + \overline{\overline{CD}}$$
-2. **Second term:** double bar cancels, $\overline{\overline{CD}} = CD$.
+2. **Second term:** the double bar cancels, $\overline{\overline{CD}} = CD$.
 3. **First term:** DeMorgan again, $\overline{\overline{A} + B} = A\overline{B}$.
 
 $$\Rightarrow\quad A\overline{B} + CD$$
@@ -502,7 +502,7 @@ $$X = \overline{A}\,\overline{B}C + \overline{A}BC + AB\overline{C} + ABC = \sum
 
 $$X = (A + B + C)(A + \overline{B} + C)(\overline{A} + B + C)(\overline{A} + B + \overline{C}) = \prod M(0, 2, 4, 5)$$
 
-> [!note] Both describe the same function. The SOP simplifies to $\overline{A}C + AB$; [[ch04-optimization-of-combinational-logic|Ch 4]] shows how to see that at a glance.
+> [!note] Both describe the same function. The SOP simplifies to $\overline{A}C + AB$, and [[ch04-optimization-of-combinational-logic|Ch 4]] shows how to spot that right away.
 
 ### Example 10: NAND logic with dual symbols
 
@@ -548,7 +548,7 @@ The circuit $X = \overline{A(B + C)}$ is an OR gate ($Y = B + C$) feeding a NAND
 |$AY$|0|0|1|1|0|0|1|0|
 |$X = \overline{AY}$|**1**|**1**|**0**|**0**|**1**|**1**|**0**|**1**|
 
-> [!tip] Find the intermediate waveforms first (here $Y$), one gate at a time. Trying to jump straight to $X$ is where mistakes happen.
+> [!tip] Work out the in-between waveforms first (here $Y$), one gate at a time. Jumping straight to $X$ is where mistakes happen.
 
 ### Example 13: Design a majority circuit
 
@@ -571,9 +571,9 @@ Design a circuit for three judges ($A$, $B$, $C$) that outputs $f = 1$ when **at
 
 ## Common mistakes
 
-- Treating Boolean $1 + 1$ like binary: in Boolean algebra (OR), $1 + 1 = 1$, not $10$.
-- Splitting a bar without changing the operation: $\overline{AB} \neq \overline{A}\,\overline{B}$. It's $\overline{A} + \overline{B}$.
-- Dropping the parentheses when applying DeMorgan: $\overline{A + BC} = \overline{A}\,(\overline{B} + \overline{C})$, not $\overline{A}\,\overline{B} + \overline{C}$.
-- Mixing up the two lists: **SOP comes from the 1s** (0 → complemented), **POS comes from the 0s** (1 → complemented).
-- Giving an XOR gate more than two inputs. A multi-input "XOR" is a chain of 2-input XORs (it's 1 when an odd number of inputs are 1).
-- In NAND/NOR diagrams, connecting a bubble output to a plain input and forgetting that variable now has a bar.
+- Treating Boolean $1 + 1$ like binary. In Boolean algebra (OR), $1 + 1 = 1$, not $10$.
+- Splitting a bar without changing the operation. $\overline{AB} \neq \overline{A}\,\overline{B}$, it's $\overline{A} + \overline{B}$.
+- Dropping the parentheses when applying DeMorgan. $\overline{A + BC} = \overline{A}\,(\overline{B} + \overline{C})$, not $\overline{A}\,\overline{B} + \overline{C}$.
+- Mixing up the two lists. **SOP comes from the 1s** (0 → complemented) and **POS comes from the 0s** (1 → complemented).
+- Giving an XOR gate more than two inputs. A multi-input "XOR" is really a chain of 2-input XORs (it's 1 when an odd number of inputs are 1).
+- Connecting a bubble output to a plain input in a NAND/NOR diagram and forgetting that variable now has a bar.

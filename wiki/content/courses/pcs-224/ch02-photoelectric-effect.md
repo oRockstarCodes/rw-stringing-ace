@@ -7,7 +7,7 @@ tags:
 
 > [!info] Readings Serway & Jewett **39.2** + lecture notes · week 2
 
-When light shines on a metal, electrons can come out of its surface. That sounds like it should be easy to explain with classical waves, but the experiment disagrees with the classical prediction in several separate ways. Einstein's explanation, that light comes in discrete packets of energy called **photons**, is one of the first pieces of quantum physics and the idea behind everything in the next few chapters (energy levels, bands, band gaps).
+When light shines on a metal, electrons can come out of its surface. You'd think classical waves could explain that easily, but the experiment disagrees with the classical prediction in several separate ways. Einstein's explanation was that light comes in discrete packets of energy called **photons**. It's one of the first pieces of quantum physics, and the idea behind everything in the next few chapters (energy levels, bands, band gaps).
 
 The chapter in four lines:
 
@@ -24,7 +24,7 @@ The chapter in four lines:
 
 Light shines on a metal plate (the **emitter**, E) inside a vacuum tube. Electrons that escape are collected at a second plate (the **collector**, C), and an ammeter measures the current. An adjustable voltage between the plates lets you push the electrons along or slow them down.
 
-> [!tip] There's a PhET simulation of exactly this experiment (*Photoelectric Effect*, phet.colorado.edu). Ten minutes with it makes every graph below obvious.
+> [!tip] There's a PhET simulation of exactly this experiment (*Photoelectric Effect*, phet.colorado.edu). Ten minutes with it makes every graph below pretty obvious.
 
 **What you control and measure:**
 
@@ -32,25 +32,25 @@ Light shines on a metal plate (the **emitter**, E) inside a vacuum tube. Electro
 - The voltage between the plates
 - The resulting photocurrent
 
-**Work function.** Electrons in a metal are bound to it. The minimum energy needed to pull one out through the surface is the **work function** $\phi$. It's a property of the material, and it also depends on the surface condition: contamination and crystal orientation change the measured value.
+**Work function.** Electrons in a metal are bound to it. The minimum energy needed to pull one out through the surface is the **work function** $\phi$. It's a property of the material, but it also depends on the surface condition, since contamination and crystal orientation change the measured value.
 
-**Not every electron comes out with the same energy.** $\phi$ is the *minimum* escape energy, paid by electrons that start at the top of the occupied energy range. Electrons that start deeper in the material have to spend extra energy getting to the surface, so they emerge slower. The emitted electrons therefore have a **range** of kinetic energies, and the largest one belongs to the electrons that needed only $\phi$.
+**Not every electron comes out with the same energy.** $\phi$ is the *minimum* escape energy, paid by electrons that start at the top of the occupied energy range. Electrons that start deeper in the material have to spend extra energy getting to the surface, so they come out slower. The emitted electrons therefore have a **range** of kinetic energies, and the largest one belongs to the electrons that only needed $\phi$.
 
 ### Stopping potential
 
-How do you measure the kinetic energy of the fastest photoelectrons? Put a **retarding** voltage between the plates that pushes electrons back toward the emitter. Increase it until the photocurrent just reaches zero. That voltage's magnitude is the **stopping potential** $|V_s|$.
+How do you measure the kinetic energy of the fastest photoelectrons? Put a **retarding** voltage between the plates that pushes electrons back toward the emitter, and increase it until the photocurrent just reaches zero. The magnitude of that voltage is the **stopping potential** $|V_s|$.
 
-At that point even the fastest electron can't climb the potential hill, so its kinetic energy is entirely converted into potential energy:
+At that point even the fastest electron can't climb the potential hill, so all of its kinetic energy has been converted into potential energy:
 
 $$
 K_{\max} = e|V_s| \tag{2.1}
 $$
 
-So a stopping potential of $2.0$ V means $K_{\max} = 2.0$ eV. This is Eq. (1.5) from [[ch01-electrostatics-review|Chapter 1]] in action.
+So a stopping potential of $2.0$ V means $K_{\max} = 2.0$ eV. It's Eq. (1.5) from [[ch01-electrostatics-review|Chapter 1]] in action.
 
 ### What the experiment shows
 
-Four results, and they don't fit the wave picture of light.
+There are four results, and none of them fit the wave picture of light.
 
 | Observation | Classical wave prediction | What's measured |
 | --- | --- | --- |
@@ -61,39 +61,39 @@ Four results, and they don't fit the wave picture of light.
 
 In terms of the current–voltage curve:
 
-- At a sufficiently **positive** collector voltage the current saturates, because essentially every emitted electron is collected. The saturation value scales with intensity.
+- At a high enough **positive** collector voltage the current saturates, because basically every emitted electron is collected. The saturation value scales with intensity.
 - As the voltage becomes **negative** (retarding), the current falls and hits zero at $-|V_s|$.
-- At fixed frequency, the stopping potential is the same for bright and dim light. Only the saturation current differs.
+- At a fixed frequency, the stopping potential is the same for bright and dim light. Only the saturation current is different.
 
 ### Einstein's photon picture (1905)
 
-Einstein proposed that light's energy is delivered in discrete packets called **photons**, each carrying
+Einstein proposed that light's energy comes in discrete packets called **photons**, each carrying
 
 $$
 E = hf = \frac{hc}{\lambda} \tag{2.2}
 $$
 
-where $h = 6.626\times10^{-34}$ J·s is Planck's constant. A very handy form for the course:
+where $h = 6.626\times10^{-34}$ J·s is Planck's constant. This form is really handy for the course:
 
 $$
 E\ (\text{eV}) = \frac{1240}{\lambda\ (\text{nm})} \tag{2.3}
 $$
 
-One photon gives all its energy to one electron. Part of that energy pays the work function and the rest becomes kinetic energy:
+One photon gives all of its energy to one electron. Part of that energy pays the work function and the rest becomes kinetic energy:
 
 $$
 hf = \phi + K_{\max} \quad\Rightarrow\quad K_{\max} = hf - \phi = e|V_s| \tag{2.4}
 $$
 
-This explains every observation in the table:
+That explains every observation in the table:
 
-- **Intensity** is the number of photons per second. More photons means more electrons, so more current, but each photon still has the same energy. $K_{\max}$ doesn't change.
+- **Intensity** is the number of photons per second. More photons means more electrons and so more current, but each photon still has the same energy, so $K_{\max}$ doesn't change.
 - **Frequency** sets the energy per photon, so $K_{\max}$ rises linearly with $f$ with slope $h$.
 - **Threshold.** If $hf < \phi$, no single photon can free an electron, no matter how many arrive. The threshold frequency and wavelength are
   $$
   f_0 = \frac{\phi}{h}, \qquad \lambda_0 = \frac{hc}{\phi} \tag{2.5}
   $$
-- **No delay.** The energy arrives in one lump, so there's nothing to accumulate.
+- **No delay.** The energy arrives all in one lump, so there's nothing to build up.
 
 ![[pcs-224-photoelectric-k-vs-f.svg]]
 *Figure 2.1: $K_{\max}$ against frequency is a straight line with slope $h$. It crosses zero at $f_0 = \phi/h$ and would hit $-\phi$ at $f = 0$.*
@@ -104,17 +104,17 @@ This explains every observation in the table:
 - The **$f$-intercept** is the threshold frequency $f_0$.
 - The **vertical intercept** (extended back to $f = 0$) is $-\phi$.
 
-> [!warning] Don't confuse the two roles of "energy". Intensity changes **photons per second**. Frequency changes **energy per photon**. Doubling the brightness never increases $K_{\max}$, and a faint beam above threshold still ejects electrons instantly.
+> [!warning] Don't mix up the two roles of "energy". Intensity changes **photons per second** and frequency changes **energy per photon**. Doubling the brightness never increases $K_{\max}$, and a faint beam above threshold still ejects electrons instantly.
 
 ### Technology connection: EUV lithography
 
-The same relation sets how small a chip feature can be made. Advanced chip fabrication uses extreme-ultraviolet light at $\lambda = 13.5$ nm, so each photon carries
+The same relation sets how small a chip feature can be. Advanced chip fabrication uses extreme-ultraviolet light at $\lambda = 13.5$ nm, so each photon carries
 
 $$
 E = \frac{1240}{13.5} \approx 92\ \text{eV}
 $$
 
-compared with only 2–3 eV for visible photons. The photon energy is set by the wavelength, not the brightness.
+compared with only 2–3 eV for visible photons. The photon energy comes from the wavelength, not the brightness.
 
 ## Key formulas
 
@@ -196,7 +196,7 @@ A green laser pointer emits $5.0$ W at $\lambda = 532$ nm. How many photons does
    $$\frac{N}{t} = \frac{5.0\ \text{J/s}}{3.73\times10^{-19}\ \text{J}} = 1.34\times10^{19}\ \text{s}^{-1}$$
 3. **Per minute**: $60\times1.34\times10^{19} = 8.0\times10^{20}$
 
-> [!note] A "small" optical power is an enormous number of photons. This is why light looks continuous in daily life and the quantum nature only shows up when you look at single electrons.
+> [!note] Even a "small" optical power is an enormous number of photons. That's why light looks continuous in daily life, and the quantum nature only shows up when you look at single electrons.
 
 ### Example 3: Finding $\phi$ and $h$ from data
 
@@ -235,10 +235,10 @@ Light with $\lambda = 400$ nm hits a metal with $\phi = 2.0$ eV.
 
 ## Common mistakes
 
-- Believing brighter light gives faster electrons. Intensity changes the **current**, frequency changes $K_{\max}$
+- Believing brighter light gives faster electrons. Intensity changes the **current** and frequency changes $K_{\max}$
 - Using $K = hf$ and forgetting to subtract $\phi$
 - Mixing eV and J in Eq. (2.4). Use $1240/\lambda$ in eV with $\phi$ in eV, or convert **everything** to joules
 - Using nm in $E = hc/\lambda$ with SI values of $h$ and $c$ without converting to metres
 - Reading $|V_s|$ as the energy in joules. $e|V_s|$ is $K_{\max}$, and the number of volts equals the number of eV
 - Thinking the work function is the kinetic energy of every emitted electron. It's only the *minimum* escape cost, so the electrons have a spread of energies
-- Expecting a plot of $|V_s|$ against $f$ to have slope $h$. Its slope is $h/e$
+- Expecting a plot of $|V_s|$ against $f$ to have slope $h$. The slope is $h/e$

@@ -7,9 +7,9 @@ tags:
 
 > [!info] Readings Alexander & Sadiku, **Ch 8** (§8.1–8.7)
 
-A **second-order circuit** has two energy-storage elements, usually an [[capacitors-and-inductors|inductor and a capacitor]], that can't be combined into one. They can't be merged because they relate voltage and current in opposite ways: an inductor's voltage depends on the **derivative** of its current, while a capacitor's voltage depends on the **integral** of its current. Having both in one circuit makes it obey a second-order differential equation, so its response needs **two** initial conditions instead of one. Depending on how much resistance there is, the response either dies away smoothly or rings (oscillates) as energy sloshes back and forth between the L and the C.
+A **second-order circuit** has two energy-storage elements, usually an [[capacitors-and-inductors|inductor and a capacitor]], that can't be combined into one. They can't be merged because they relate voltage and current in opposite ways. An inductor's voltage depends on the **derivative** of its current, while a capacitor's voltage depends on the **integral** of its current. Having both in one circuit means it follows a second-order differential equation, so the response needs **two** initial conditions instead of one. Depending on how much resistance there is, the response either dies away smoothly or rings (oscillates) as energy sloshes back and forth between the L and the C.
 
-Every problem in this chapter is solved with basically the same four steps:
+Pretty much every problem in this chapter is solved with the same four steps:
 
 1. **Write the differential equation** for the circuit after the switch moves, using KVL and/or KCL.
 2. **Find the natural solution** from the homogeneous equation and its characteristic equation.
@@ -17,7 +17,7 @@ Every problem in this chapter is solved with basically the same four steps:
 4. **Write the total solution** (natural + forced) and use the initial conditions to find the constants.
 
 > [!tip] Background pages
-> This chapter sticks to the method for solving second-order circuits. These pages explain the ideas behind it in more detail:
+> This chapter sticks to the method for solving second-order circuits. These pages go into the ideas behind it:
 > - [[capacitors-and-inductors|Capacitors and Inductors]]: the element laws, stored energy, and why $v_C$ and $i_L$ can't jump
 > - [[lc-oscillation|LC Oscillation]]: why energy swings back and forth between L and C
 > - [[damping-series-vs-parallel|Damping in Series and Parallel RLC]]: why $R$ does opposite things in series and parallel
@@ -28,7 +28,7 @@ Every problem in this chapter is solved with basically the same four steps:
 
 ### Key Concept: Energy Can't Change Instantly
 
-Everything in this chapter rests on one physical fact: **the energy stored in an inductor or a capacitor can't change instantaneously.** Here's why, and what it means.
+Everything in this chapter comes down to one physical fact: **the energy stored in an inductor or a capacitor can't change instantly.** Here's why, and what it means.
 
 > [!tip] Need a refresher on the elements themselves? [[capacitors-and-inductors|Capacitors and Inductors]] covers how each one is built, where its element law comes from, series and parallel combinations, and worked examples.
 
@@ -38,27 +38,27 @@ $$
 v_L = L\frac{di_L}{dt}, \qquad i_C = C\frac{dv_C}{dt} \tag{8.1}
 $$
 
-Suppose the inductor current jumped from one value to another in zero time. Then $\frac{di_L}{dt} = \frac{\Delta i}{\Delta t}$ with $\Delta t \to 0$ would be infinite, so $v_L$ would be infinite. No real circuit can supply an infinite voltage, so **inductor current can't jump**. The same argument with $i_C = C\frac{dv_C}{dt}$ shows that **capacitor voltage can't jump** (it would need infinite current).
+Say the inductor current jumped from one value to another in zero time. Then $\frac{di_L}{dt} = \frac{\Delta i}{\Delta t}$ with $\Delta t \to 0$ would be infinite, so $v_L$ would be infinite. No real circuit can supply an infinite voltage, so **inductor current can't jump**. The same argument with $i_C = C\frac{dv_C}{dt}$ shows that **capacitor voltage can't jump** (it would need infinite current).
 
-The same idea in terms of energy: integrating power $p = vi$ over time gives the stored energy
+You can see the same thing with energy. Integrating power $p = vi$ over time gives the stored energy
 
 $$
 w_L = \tfrac{1}{2} L\,i_L^2, \qquad w_C = \tfrac{1}{2} C\,v_C^2 \tag{8.2}
 $$
 
-Changing that energy in zero time would need infinite power. Since $w_L$ depends only on $i_L$ and $w_C$ only on $v_C$, those are the two quantities that must be continuous at a switching instant:
+Changing that energy in zero time would take infinite power. $w_L$ only depends on $i_L$ and $w_C$ only depends on $v_C$, so those are the two quantities that have to be continuous at a switching instant:
 
 $$
 i_L(0^+) = i_L(0^-), \qquad v_C(0^+) = v_C(0^-) \tag{8.3}
 $$
 
-Here $0^-$ means "just before the switch moves" and $0^+$ means "just after". Nothing else is protected: resistor voltages, the capacitor's *current* and the inductor's *voltage* are all allowed to jump.
+Here $0^-$ means "just before the switch moves" and $0^+$ means "just after". Nothing else is protected. Resistor voltages, the capacitor's *current* and the inductor's *voltage* are all allowed to jump.
 
 > [!note] Integral forms
-> Rearranging Eq. (8.1) and integrating from 0 to $t$ gives each element's value at any time, starting from its initial value ([[capacitors-and-inductors#Integral form|more on the integral form]]). You'll use these in Step 1 to write KVL/KCL with only one unknown:
+> If you rearrange Eq. (8.1) and integrate from 0 to $t$, you get each element's value at any time, starting from its initial value ([[capacitors-and-inductors#Integral form|more on the integral form]]). You'll use these in Step 1 to write KVL/KCL with only one unknown:
 > $$i_L(t) = \frac{1}{L}\int_0^t v_L\,dt + i_L(0), \qquad v_C(t) = \frac{1}{C}\int_0^t i_C\,dt + v_C(0)$$
 
-**At DC steady state** (a circuit that has been switched on for a long time, or $t \to \infty$), nothing is changing anymore, so every derivative is zero:
+**At DC steady state** (a circuit that's been switched on for a long time, or $t \to \infty$), nothing is changing anymore, so every derivative is zero:
 
 - $v_L = L \cdot 0 = 0$: the inductor has no voltage across it, so it acts like a **short circuit**.
 - $i_C = C \cdot 0 = 0$: the capacitor passes no current, so it acts like an **open circuit**.
@@ -70,18 +70,18 @@ You can also see this from impedance. DC means $\omega = 0$, so $Z_L = j\omega L
 
 ### Why Energy Swings Between L and C
 
-A capacitor stores energy in its voltage ($\frac{1}{2}Cv^2$) and an inductor in its current ($\frac{1}{2}Li^2$). Connected together, they keep handing that energy to each other: the capacitor discharges into the inductor, and the inductor's current (which can't stop instantly) carries on and charges the capacitor the other way. So the voltage and current **oscillate**, like a mass bouncing on a spring. A resistor acts like friction, turning a little energy into heat on every swing, so the oscillation dies out. That's the damping that decides which of the three cases in Step 2 you get.
+A capacitor stores energy in its voltage ($\frac{1}{2}Cv^2$) and an inductor stores it in its current ($\frac{1}{2}Li^2$). Connect them together and they keep handing that energy back and forth. The capacitor discharges into the inductor, and then the inductor's current (which can't stop instantly) carries on and charges the capacitor the other way. So the voltage and current **oscillate**, kind of like a mass bouncing on a spring. A resistor acts like friction and turns a little energy into heat on every swing, so the oscillation dies out. That damping decides which of the three cases in Step 2 you end up with.
 
 > [!note] The full story, with a graph of one cycle, the mass-on-a-spring analogy and a worked example, is in [[lc-oscillation|LC Oscillation]].
 
 ### Step 1: Write the Differential Equation
 
-Use the circuit **after** the switch moves ($t > 0$). Pick the variable you're solving for, write KVL and/or KCL, then turn everything into that one variable:
+Use the circuit **after** the switch moves ($t > 0$). Pick the variable you're solving for, write KVL and/or KCL, and then turn everything into that one variable:
 
 1. Write KVL (around a loop) or KCL (at a node).
-2. Replace each element's voltage or current using Eq. (8.1), or the integral forms above, so the only unknown is your chosen variable.
-3. If there's an integral, differentiate the whole equation once to get rid of it. Any constant (like a DC source, or $v_C(0)$) differentiates to 0.
-4. Divide by the coefficient of the highest derivative, so the equation is in standard form. 
+2. Replace each element's voltage or current using Eq. (8.1), or the integral forms above, so the only unknown is the variable you picked.
+3. If there's an integral, differentiate the whole equation once to get rid of it. Any constant (like a DC source, or $v_C(0)$) becomes 0 when you differentiate.
+4. Divide by the coefficient of the highest derivative so the equation is in standard form.
 
 **Example: series RLC.** In Figure 8.2, the same current $i$ flows through every element. KVL around the loop, with a source $V_s$ if there is one:
 
@@ -113,7 +113,7 @@ $$
 \frac{d^2 v}{dt^2} + \frac{1}{RC}\frac{dv}{dt} + \frac{1}{LC}\,v = 0 \tag{8.5}
 $$
 
-**Standard form.** Every second-order circuit ends up looking like this, where $x$ is whichever voltage or current you chose and $f$ is whatever's left on the right (often 0 or a constant):
+**Standard form.** Every second-order circuit ends up looking like this, where $x$ is whichever voltage or current you picked and $f$ is whatever's left on the right (often 0 or a constant):
 
 $$
 \frac{d^2 x}{dt^2} + 2\alpha\frac{dx}{dt} + \omega_0^2\,x = f \tag{8.6}
@@ -137,37 +137,37 @@ $\alpha$ (the **neper frequency**, in Np/s) measures how fast resistance drains 
 
 **$R$ does opposite things in series and parallel.** In a series circuit the oscillating current flows *through* the resistor, so a bigger $R$ burns more energy and means **more** damping. In a parallel circuit the resistor sits *beside* L and C and only the current leaking through it is lost, so a bigger $R$ means **less** damping. That's why Eq. (8.7) grows with $R$ and Eq. (8.8) shrinks. The power argument, a comparison table and the critical resistance are in [[damping-series-vs-parallel|Damping in Series and Parallel RLC]].
 
-> [!warning] Eqs. (8.7) and (8.8) only apply to a **pure** series or **pure** parallel RLC, and many circuits are neither (Example 11 is one). When in doubt, derive the circuit's own differential equation with KVL/KCL, put it in standard form, and read $\alpha$ off the middle coefficient, which is $2\alpha$. That always works.
+> [!warning] Eqs. (8.7) and (8.8) only work for a **pure** series or **pure** parallel RLC, and plenty of circuits are neither (Example 11 is one). If you're not sure, derive the circuit's own differential equation with KVL/KCL, put it in standard form, and read $\alpha$ off the middle coefficient, which is $2\alpha$. That always works.
 
-> [!tip] A source transformation often turns a messier circuit into a plain series or parallel RLC: a current source with a resistor in parallel can be swapped for a voltage source with the same resistor in series ($V = IR$), and the other way round. See [[source-transformation|Source Transformation]].
+> [!tip] A source transformation can often turn a messier circuit into a plain series or parallel RLC. A current source with a resistor in parallel can be swapped for a voltage source with the same resistor in series ($V = IR$), and the other way around. See [[source-transformation|Source Transformation]].
 
 ### Step 2: Find the Natural Solution
 
-The **natural solution** $x_N$ is how the circuit behaves on its own, with no source pushing it. Get it from the **homogeneous equation**: set the right-hand side of Eq. (8.6) to 0.
+The **natural solution** $x_N$ is how the circuit behaves on its own, with no source pushing it. You get it from the **homogeneous equation**, which is Eq. (8.6) with the right-hand side set to 0.
 
 $$
 \frac{d^2 x}{dt^2} + 2\alpha\frac{dx}{dt} + \omega_0^2\,x = 0
 $$
 
-**How to solve it.** Try $x = Ae^{st}$. Every derivative of $e^{st}$ is just $s$ times itself ($\frac{d}{dt}Ae^{st} = sAe^{st}$, $\frac{d^2}{dt^2}Ae^{st} = s^2Ae^{st}$), so substituting gives
+**How to solve it.** Try $x = Ae^{st}$. Every derivative of $e^{st}$ is just $s$ times itself ($\frac{d}{dt}Ae^{st} = sAe^{st}$, $\frac{d^2}{dt^2}Ae^{st} = s^2Ae^{st}$), so plugging it in gives
 
 $$
 (s^2 + 2\alpha s + \omega_0^2)\,Ae^{st} = 0
 $$
 
-$Ae^{st}$ is never zero (unless the whole response is zero), so the bracket must be. That's the **characteristic equation**:
+$Ae^{st}$ is never zero (unless the whole response is zero), so the bracket has to be. That's the **characteristic equation**:
 
 $$
 s^2 + 2\alpha s + \omega_0^2 = 0 \tag{8.10}
 $$
 
-It's a quadratic, so the quadratic formula gives its two roots:
+It's a quadratic, so the quadratic formula gives you the two roots:
 
 $$
 s_{1,2} = -\alpha \pm \sqrt{\alpha^2 - \omega_0^2} \tag{8.11}
 $$
 
-What's under the square root decides which of three cases you're in:
+Whatever's under the square root decides which of three cases you're in:
 
 |Case|Condition|Roots|Natural solution|
 |---|---|---|---|
@@ -195,28 +195,28 @@ $$
 $$
 
 - In the underdamped case, $e^{-\alpha t}$ is the shrinking envelope, $\omega_d$ is how fast it oscillates, and $\theta$ is a phase shift.
-- The constants ($A_1$, $A_2$, or $A$ and $\theta$) are unknown until Step 4.
+- The constants ($A_1$, $A_2$, or $A$ and $\theta$) stay unknown until Step 4.
 - The textbook writes the underdamped case as $e^{-\alpha t}(B_1\cos\omega_d t + B_2\sin\omega_d t)$. It's the same function, and either form gets full marks.
 
-> [!note] Why the repeated root needs the extra $t$, how complex roots turn into a decaying cosine (Euler's formula), and how to convert between the two underdamped forms are covered in [[second-order-differential-equations|Second-Order Differential Equations]].
+> [!note] [[second-order-differential-equations|Second-Order Differential Equations]] covers why the repeated root needs the extra $t$, how complex roots turn into a decaying cosine (Euler's formula), and how to convert between the two underdamped forms.
 
 ### Step 3: Find the Initial Conditions
 
-A second-order equation needs **two** initial conditions: the starting value $x(0)$ and the starting slope $\frac{dx}{dt}(0)$, for the variable you chose in Step 1.
+A second-order equation needs **two** initial conditions, the starting value $x(0)$ and the starting slope $\frac{dx}{dt}(0)$, for the variable you picked in Step 1.
 
-**Before switching ($t = 0^-$).** If the circuit has been in this state for a long time, it's at DC steady state. Redraw it with every inductor as a **short** and every capacitor as an **open** (Figure 8.1), then use ordinary DC analysis to find $i_L(0^-)$ and $v_C(0^-)$.
+**Before switching ($t = 0^-$).** If the circuit has been sitting in this state for a long time, it's at DC steady state. Redraw it with every inductor as a **short** and every capacitor as an **open** (Figure 8.1), then use ordinary DC analysis to find $i_L(0^-)$ and $v_C(0^-)$.
 
-**After switching ($t = 0^+$).** Redraw the circuit with the switch in its new position. By Eq. (8.3), the inductor still carries $i_L(0^-)$ and the capacitor still holds $v_C(0^-)$, so treat them as a current source and a voltage source with those values. Then use KVL/KCL on this circuit to find whatever else you need, especially the inductor voltage or capacitor current, which give the slopes (measure them with the [[capacitors-and-inductors#Passive sign convention|passive sign convention]], or the slope's sign flips):
+**After switching ($t = 0^+$).** Redraw the circuit with the switch in its new position. By Eq. (8.3), the inductor still carries $i_L(0^-)$ and the capacitor still holds $v_C(0^-)$, so treat them as a current source and a voltage source with those values. Then use KVL/KCL on this circuit to find whatever else you need, especially the inductor voltage or capacitor current, since those give the slopes (measure them with the [[capacitors-and-inductors#Passive sign convention|passive sign convention]], or the sign of the slope flips):
 
 $$
 \frac{di_L}{dt}(0^+) = \frac{v_L(0^+)}{L}, \qquad \frac{dv_C}{dt}(0^+) = \frac{i_C(0^+)}{C} \tag{8.16}
 $$
 
-> [!tip] If your Step 1 variable isn't $i_L$ or $v_C$ (say, a resistor current), find its value and slope from the $0^+$ circuit too. Only $i_L$ and $v_C$ are guaranteed to carry over from $0^-$.
+> [!tip] If your Step 1 variable isn't $i_L$ or $v_C$ (a resistor current, say), find its value and slope from the $0^+$ circuit too. Only $i_L$ and $v_C$ are guaranteed to carry over from $0^-$.
 
 ### Step 4: Write the Total Solution
 
-The **forced solution** $x_F$ is where the circuit ends up as $t \to \infty$, once all the transients have died out. With DC sources, that's another DC steady state: redraw the final circuit with L shorted and C open and solve it. (You can also get it from Eq. (8.6) by setting the derivatives to 0: $\omega_0^2\,x_F = f$.)
+The **forced solution** $x_F$ is where the circuit ends up as $t \to \infty$, once all the transients have died out. With DC sources, that's another DC steady state, so redraw the final circuit with L shorted and C open and solve it. (You can also get it from Eq. (8.6) by setting the derivatives to 0, which gives $\omega_0^2\,x_F = f$.)
 
 The **total solution** is the two added together:
 
@@ -226,7 +226,7 @@ $$
 
 Now use the two initial conditions from Step 3 on the **total** solution $x_T$ (not on $x_N$ alone) to get two equations for the two unknown constants.
 
-For the **underdamped** form, the derivative at $t = 0$ is the part that trips people up. Differentiating with the product rule:
+For the **underdamped** form, the derivative at $t = 0$ is the part that trips people up. Differentiating with the product rule gives:
 
 $$
 \frac{d}{dt}\left[A e^{-\alpha t}\cos(\omega_d t + \theta)\right] = A e^{-\alpha t}\left[-\alpha\cos(\omega_d t + \theta) - \omega_d\sin(\omega_d t + \theta)\right]
@@ -243,7 +243,7 @@ Solve the first for $A\cos\theta$, then the second for $A\sin\theta$. Then:
 - $A = \sqrt{(A\cos\theta)^2 + (A\sin\theta)^2}$
 - $\theta$ is the angle whose cosine and sine have those **signs**. Picture the point $(A\cos\theta,\ A\sin\theta)$ on a graph and take its angle from the positive horizontal axis, in **radians**.
 
-> [!warning] A calculator's $\tan^{-1}$ only returns angles between $-\frac{\pi}{2}$ and $\frac{\pi}{2}$. If $A\cos\theta$ is **negative**, the real angle is in the second or third quadrant, so add $\pi$ to the calculator's answer. Always check that $\cos\theta$ and $\sin\theta$ come out with the right signs. [[second-order-differential-equations|Second-Order Differential Equations]] has a table for all four quadrants and a third-quadrant example.
+> [!warning] A calculator's $\tan^{-1}$ only gives angles between $-\frac{\pi}{2}$ and $\frac{\pi}{2}$. If $A\cos\theta$ is **negative**, the real angle is in the second or third quadrant, so add $\pi$ to the calculator's answer. Always check that $\cos\theta$ and $\sin\theta$ come out with the right signs. [[second-order-differential-equations|Second-Order Differential Equations]] has a table for all four quadrants and a third-quadrant example.
 
 ## Key formulas
 
@@ -353,7 +353,7 @@ $$
 
 ## Examples
 
-These follow the assigned textbook problems for Chapter 8, with different numbers. Tutorial problems are marked **(T)**; the quiz problems will be similar to those.
+These are based on the assigned textbook problems for Chapter 8, with the numbers changed. Tutorial problems are marked **(T)**, and the quiz problems will be similar to those.
 
 ### Example 1: Initial and final values
 
@@ -364,13 +364,13 @@ The switch in Figure 8.5 has been closed for a long time and opens at $t = 0$. F
 ![[ele-302-rlc-ex01-initial-values.svg]]
 *Figure 8.5: Circuit for Example 1.*
 
-**(a) Before switching.** The switch has been closed for a long time, so the circuit is at DC steady state: replace the inductor with a short and the capacitor with an open (Figure 8.6).
+**(a) Before switching.** The switch has been closed for a long time, so the circuit is at DC steady state. Replace the inductor with a short and the capacitor with an open (Figure 8.6).
 
 ![[ele-302-rlc-ex01-initial-values-before.svg]]
 *Figure 8.6: Example 1 at $t = 0^-$. The inductor is a short and the capacitor is an open.*
 
 - **Inductor branch:** with the inductor shorted, the 10 V source sees only the 4 Ω, so $i(0^-) = \frac{10}{4} = 2.5\ \text{A}$.
-- **Capacitor branch:** the open capacitor blocks current, so nothing flows through the 6 Ω and it drops 0 V. The capacitor therefore sees the full source voltage: $v(0^-) = 10\ \text{V}$.
+- **Capacitor branch:** the open capacitor blocks current, so nothing flows through the 6 Ω and it drops 0 V. That means the capacitor sees the full source voltage, so $v(0^-) = 10\ \text{V}$.
 
 By Eq. (8.3), inductor current and capacitor voltage don't jump:
 
@@ -403,7 +403,7 @@ For the circuit in Figure 8.8, find (a) $i_L(0^+)$, $v_C(0^+)$ and $v_R(0^+)$, (
 ![[ele-302-rlc-ex02-step-initial.svg]]
 *Figure 8.8: Circuit for Example 2.*
 
-**(a) Before switching.** $u(t)$ is the unit step: 0 for $t < 0$ and 1 for $t > 0$. So before $t = 0$ the source is 0 A, there's no other source, and nothing in the circuit has ever been charged:
+**(a) Before switching.** $u(t)$ is the unit step, which is 0 for $t < 0$ and 1 for $t > 0$. So before $t = 0$ the source is 0 A, there's no other source, and nothing in the circuit has ever been charged:
 
 $$
 i_L(0^-) = 0, \qquad v_C(0^-) = 0
@@ -439,7 +439,7 @@ $$
 v_C(\infty) = v_R(\infty) = (2)\left(\tfrac{4}{3}\right) = 2.67\ \text{V}, \qquad i_L(\infty) = \frac{2.67}{2} = 1.33\ \text{A}
 $$
 
-> [!note] With a step source and nothing stored beforehand, every initial *value* is 0, but the initial *slopes* usually aren't. The source's current has to go somewhere the instant it turns on.
+> [!note] With a step source and nothing stored beforehand, every initial *value* is 0, but the initial *slopes* usually aren't. The source's current has to go somewhere the moment it turns on.
 
 ### Example 3: Type of damping
 
@@ -447,13 +447,13 @@ $$
 
 A series RLC circuit has $R = 50\ \Omega$, $L = 10\ \text{mH}$ and $C = 1\ \mu\text{F}$. What type of damping does it have? What value of $R$ would make it critically damped?
 
-The type of damping depends only on how $\alpha$ compares with $\omega_0$ (Step 2), so find both.
+The type of damping only depends on how $\alpha$ compares with $\omega_0$ (Step 2), so find both.
 
 1. **Neper frequency**, series circuit, Eq. (8.7):
    $$\alpha = \frac{R}{2L} = \frac{50}{2(0.01)} = 2500\ \text{Np/s}$$
 2. **Resonant frequency**, Eq. (8.9):
    $$\omega_0 = \frac{1}{\sqrt{LC}} = \frac{1}{\sqrt{(0.01)(10^{-6})}} = \frac{1}{10^{-4}} = 10\,000\ \text{rad/s}$$
-3. **Compare.** $\alpha = 2500 < \omega_0 = 10\,000$, so the circuit is **underdamped**: it will oscillate as it decays, at $\omega_d = \sqrt{10\,000^2 - 2500^2} = 9682\ \text{rad/s}$ (Eq. 8.15).
+3. **Compare.** $\alpha = 2500 < \omega_0 = 10\,000$, so the circuit is **underdamped**. It oscillates as it decays, at $\omega_d = \sqrt{10\,000^2 - 2500^2} = 9682\ \text{rad/s}$ (Eq. 8.15).
 4. **Critical damping** needs $\alpha = \omega_0$:
    $$\frac{R}{2L} = \frac{1}{\sqrt{LC}} \quad\Rightarrow\quad R = 2\sqrt{\frac{L}{C}} = 2\sqrt{\frac{0.01}{10^{-6}}} = 2(100) = 200\ \Omega$$
    Any $R$ above 200 Ω makes it overdamped.
@@ -467,7 +467,7 @@ The switch in Figure 8.11 has been closed for a long time and opens at $t = 0$. 
 ![[ele-302-rlc-ex04-series-underdamped.svg]]
 *Figure 8.11: Circuit for Example 4.*
 
-**Step 1: Differential equation.** Once the switch opens, the 18 V source and the 3 Ω are cut off. What's left is one loop: the 6 Ω shunt, the 6 Ω, the capacitor and the inductor, all carrying the same current $i$. Take $i$ flowing down the right-hand branch (into the capacitor's $+$ terminal) and back up through the 6 Ω shunt. KVL around that loop, with no source:
+**Step 1: Differential equation.** Once the switch opens, the 18 V source and the 3 Ω are cut off. What's left is one loop made of the 6 Ω shunt, the 6 Ω, the capacitor and the inductor, all carrying the same current $i$. Take $i$ flowing down the right-hand branch (into the capacitor's $+$ terminal) and back up through the 6 Ω shunt. KVL around that loop, with no source:
 
 $$
 6i + v_C + L\frac{di}{dt} + 6i = 0, \qquad \text{where } v_C = \frac{1}{C}\int_0^t i\,dt + v_C(0)
@@ -596,7 +596,7 @@ $$
 
 The capacitor is in series with the inductor, so its current is the inductor current, $i_C(0^+) = 0$. By Eq. (8.16), $\frac{dv}{dt}(0^+) = \frac{0}{C} = 0$.
 
-**Step 4: Total solution.** No source is left in the loop, so $v_F = 0$ and $v_T = A_1 e^{-t} + A_2 e^{-4t}$. Apply the two initial conditions:
+**Step 4: Total solution.** There's no source left in the loop, so $v_F = 0$ and $v_T = A_1 e^{-t} + A_2 e^{-4t}$. Apply the two initial conditions:
 
 - $v(0) = 18$: $\quad A_1 + A_2 = 18$
 - $\frac{dv}{dt}(0) = 0$: differentiating gives $-A_1 e^{-t} - 4A_2 e^{-4t}$, so at $t = 0$, $\quad -A_1 - 4A_2 = 0$
@@ -663,7 +663,7 @@ $$
 \frac{0}{1} + 5 + \frac{1}{8}\frac{dv}{dt}(0^+) = 0 \quad\Rightarrow\quad \frac{dv}{dt}(0^+) = -40\ \text{V/s}
 $$
 
-The inductor's 5 A has to keep flowing, and the only place it can come from is the capacitor, which drives the voltage negative.
+The inductor's 5 A has to keep flowing, and the only place it can come from is the capacitor, which pushes the voltage negative.
 
 **Step 4: Total solution.** No source, so $v_F = 0$. Eq. (8.18) with $\alpha = 4$, $\omega_d = 3$:
 
@@ -685,7 +685,7 @@ For the network in Figure 8.20, what value of $C$ makes the response underdamped
 ![[ele-302-rlc-ex07-find-c.svg]]
 *Figure 8.20: Parallel network for Example 7.*
 
-1. **Simplify.** Every element is connected between the same two rails, so this is a parallel RLC. [[capacitors-and-inductors#Series and parallel|Capacitors in parallel add]], so the two capacitors act as one: $C_{eq} = C + 0.02$.
+1. **Simplify.** Every element is connected between the same two rails, so this is a parallel RLC. [[capacitors-and-inductors#Series and parallel|Capacitors in parallel add]], so the two capacitors act as one with $C_{eq} = C + 0.02$.
 2. **Use the parallel $\alpha$**, Eq. (8.8), and solve for $C_{eq}$:
    $$\alpha = \frac{1}{2RC_{eq}} = 2 \quad\Rightarrow\quad C_{eq} = \frac{1}{2(5)(2)} = 0.05\ \text{F}$$
    $$C = C_{eq} - 0.02 = 0.05 - 0.02 = 30\ \text{mF}$$
@@ -715,7 +715,7 @@ $$
 
 **Step 3: Initial conditions.** Given: $v(0) = 0$ and $\frac{dv}{dt}(0) = 0$.
 
-**Step 4: Total solution.** The forced solution is where $v$ settles. Once it settles, it stops changing, so both derivatives are 0 and the equation becomes $25\,v_F = 50$, giving $v_F = 2\ \text{V}$:
+**Step 4: Total solution.** The forced solution is where $v$ settles. Once it settles it stops changing, so both derivatives are 0 and the equation becomes $25\,v_F = 50$, which gives $v_F = 2\ \text{V}$:
 
 $$
 v_T = 2 + A\,e^{-3t}\cos(4t + \theta)
@@ -726,7 +726,7 @@ Eq. (8.18) with $\alpha = 3$, $\omega_d = 4$:
 - $A\cos\theta = v(0) - v_F = 0 - 2 = -2$
 - $-3(-2) - 4A\sin\theta = 0$, so $A\sin\theta = 1.5$
 
-So $A = \sqrt{(-2)^2 + 1.5^2} = \sqrt{6.25} = 2.5$. For $\theta$: the cosine is **negative** and the sine is **positive**, so the angle is in the **second quadrant**. A calculator gives $\tan^{-1}\!\left(\frac{1.5}{-2}\right) = -0.6435$, which is in the fourth quadrant (wrong signs), so add $\pi$:
+So $A = \sqrt{(-2)^2 + 1.5^2} = \sqrt{6.25} = 2.5$. For $\theta$, the cosine is **negative** and the sine is **positive**, so the angle is in the **second quadrant**. A calculator gives $\tan^{-1}\!\left(\frac{1.5}{-2}\right) = -0.6435$, which is in the fourth quadrant (wrong signs), so add $\pi$:
 
 $$
 \theta = -0.6435 + \pi = 2.498\ \text{rad}
@@ -747,9 +747,9 @@ For the circuit in Figure 8.21, find $i(t)$ and $v(t)$ for $t > 0$.
 ![[ele-302-rlc-ex09-general.svg]]
 *Figure 8.21: Circuit for Example 9. The capacitor voltage $v$ is $+$ on the right.*
 
-**Step 1: Differential equation.** First, simplify with a [[source-transformation|source transformation]]: the $12u(t)$ A source with 2 Ω in parallel becomes a $(12u(t))(2) = 24u(t)$ V source with 2 Ω in series. Now everything is in one series loop: $R = 2 + 4 = 6\ \Omega$, $L = 1\ \text{H}$, $C = 0.04\ \text{F}$, plus two sources.
+**Step 1: Differential equation.** First, simplify with a [[source-transformation|source transformation]]. The $12u(t)$ A source with 2 Ω in parallel becomes a $(12u(t))(2) = 24u(t)$ V source with 2 Ω in series. Now everything is in one series loop with $R = 2 + 4 = 6\ \Omega$, $L = 1\ \text{H}$, $C = 0.04\ \text{F}$, plus two sources.
 
-Go around the loop clockwise, in the direction of $i$: a rise of $24u(t)$ through the transformed source, then drops across the 6 Ω, the inductor, the 10 V source (entering its $+$ side) and the capacitor (entering its $+$ side, on the right):
+Go around the loop clockwise, in the direction of $i$. There's a rise of $24u(t)$ through the transformed source, then drops across the 6 Ω, the inductor, the 10 V source (entering its $+$ side) and the capacitor (entering its $+$ side, on the right):
 
 $$
 24u(t) - 6i - L\frac{di}{dt} - 10 - v = 0
@@ -773,7 +773,7 @@ $$
 \frac{d^2 v}{dt^2} + 6\frac{dv}{dt} + 25\,v = 350
 $$
 
-Same left-hand side, so the same natural solution. Only the right-hand side, and so the forced solution, is different.
+The left-hand side is the same, so the natural solution is the same. Only the right-hand side is different, and so is the forced solution.
 
 **Step 2: Natural solution.**
 
@@ -791,7 +791,7 @@ $$
 *Figure 8.22: Example 9 at $t = 0^-$. The step source is off.*
 
 - The open capacitor breaks the loop, so $i(0^-) = 0$.
-- With no current, every resistor and inductor drop is 0, so KVL around the loop reduces to $0 - 10 - v = 0$, giving $v(0^-) = -10\ \text{V}$. (The capacitor is charged "backwards" by the 10 V source.)
+- With no current, every resistor and inductor drop is 0, so KVL around the loop reduces to $0 - 10 - v = 0$, which gives $v(0^-) = -10\ \text{V}$. (The capacitor is charged "backwards" by the 10 V source.)
 
 *After switching:* the step source turns on (12 A, or 24 V after the transformation), and $i$ and $v$ keep their values (Figure 8.23).
 
@@ -826,13 +826,13 @@ $$
 - $A\cos\theta = -10 - 14 = -24$
 - $-3(-24) - 4A\sin\theta = 0$, so $A\sin\theta = 18$
 
-$A = \sqrt{24^2 + 18^2} = 30$. Cosine negative, sine positive, so second quadrant: $\theta = \tan^{-1}\!\left(\frac{18}{-24}\right) + \pi = -0.6435 + \pi = 2.498\ \text{rad}$:
+$A = \sqrt{24^2 + 18^2} = 30$. The cosine is negative and the sine is positive, so it's the second quadrant: $\theta = \tan^{-1}\!\left(\frac{18}{-24}\right) + \pi = -0.6435 + \pi = 2.498\ \text{rad}$:
 
 $$
 v(t) = 14 + 30\,e^{-3t}\cos(4t + 2.498)\ \text{V}
 $$
 
-> [!tip] Check: $i = C\frac{dv}{dt}$ should hold. Differentiating $v(t)$ and multiplying by 0.04 gives exactly $6e^{-3t}\sin 4t$ ✓.
+> [!tip] Quick check: $i = C\frac{dv}{dt}$ should hold. Differentiating $v(t)$ and multiplying by 0.04 gives exactly $6e^{-3t}\sin 4t$ ✓.
 
 ### Example 10: Choose R and C for a given $\alpha$ and $\omega_d$
 
@@ -843,7 +843,7 @@ The switch in Figure 8.24 is opened at $t = 0$ after the circuit has reached ste
 ![[ele-302-rlc-ex10-choose-rc.svg]]
 *Figure 8.24: Circuit for Example 10.*
 
-**(a)** After the switch opens, the source and 4 Ω are cut off, and L, R and C form one series loop. So use the series formulas.
+**(a)** After the switch opens, the source and 4 Ω are cut off, and L, R and C form one series loop, so use the series formulas.
 
 - From Eq. (8.7), $\alpha = \frac{R}{2L}$, so $R = 2\alpha L = 2(10)(0.25) = 5\ \Omega$.
 - From Eq. (8.15), $\omega_d^2 = \omega_0^2 - \alpha^2$, so $\omega_0^2 = \omega_d^2 + \alpha^2 = 400 + 100 = 500$.
@@ -851,7 +851,7 @@ The switch in Figure 8.24 is opened at $t = 0$ after the circuit has reached ste
 
 **(b)**
 
-**Step 1: Differential equation.** Take $i$ flowing down through the inductor. In the loop it comes back up through the R–C branch. The inductor and the R–C branch are connected across the same two nodes, so they have the same voltage. Measuring top-to-bottom, the R–C branch carries $-i$ downward:
+**Step 1: Differential equation.** Take $i$ flowing down through the inductor, and in the loop it comes back up through the R–C branch. The inductor and the R–C branch are connected across the same two nodes, so they have the same voltage. Measuring top to bottom, the R–C branch carries $-i$ downward:
 
 $$
 L\frac{di}{dt} = R(-i) + v_C, \qquad \text{where } v_C = \frac{1}{C}\int_0^t (-i)\,dt + v_C(0)
@@ -967,7 +967,7 @@ $$
 i(t) = 6 - 10e^{-t} + 10e^{-4t}\ \text{A}
 $$
 
-> [!note] $i(0^+) = 6\ \text{A}$ even though $i(0^-) = 0$. That's allowed, because $i$ isn't an inductor current. At the first instant the uncharged capacitor acts like a short across the inductor, so the source sees just the 2 Ω.
+> [!note] $i(0^+) = 6\ \text{A}$ even though $i(0^-) = 0$. That's fine, because $i$ isn't an inductor current. At the first instant the uncharged capacitor acts like a short across the inductor, so the source only sees the 2 Ω.
 
 ### Example 12: Step response of a parallel RLC
 
@@ -1012,7 +1012,7 @@ $$
 *Figure 8.29: Example 12 at $t = 0^-$.*
 
 - The shorted inductor is directly across the output, so $v_o(0^-) = 0$.
-- With the switch and the inductor both shorts, the source's top node is shorted straight to the bottom rail. The 1 Ω across the source has 0 V and takes no current, so all 6 A goes through the inductor: $i_L(0^-) = 6\ \text{A}$.
+- The switch and the inductor are both shorts, so the source's top node is shorted straight to the bottom rail. The 1 Ω across the source has 0 V and takes no current, so all 6 A goes through the inductor and $i_L(0^-) = 6\ \text{A}$.
 
 *After switching:* the inductor still carries 6 A and the capacitor still has 0 V (Figure 8.30).
 
@@ -1038,7 +1038,7 @@ $$
 
 ## Common mistakes
 
-- Using the **series** $\alpha = R/2L$ on a **parallel** circuit, or the other way round. If unsure, derive the equation with KVL/KCL
+- Using the **series** $\alpha = R/2L$ on a **parallel** circuit, or the other way around. If you're not sure, derive the equation with KVL/KCL
 - Forgetting to differentiate away the integral (and constants like $v_C(0)$) when writing the differential equation
 - Applying the initial conditions to $x_N$ only and forgetting $x_F$ in Eq. (8.17)
 - Assuming $i_C$ or $v_L$ can't jump at $t = 0$. Only $v_C$ and $i_L$ are continuous
