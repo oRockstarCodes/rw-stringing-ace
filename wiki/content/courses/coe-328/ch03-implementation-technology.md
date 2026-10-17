@@ -26,18 +26,49 @@ Logic 0 and 1 are **voltage ranges**, with an undefined region in between that s
 
 ### Transistors as switches
 
-For logic analysis, a MOSFET is treated as an **ideal switch** controlled by its gate voltage. There are two types, and they're **opposite**:
+**What a gate has to do.** The output of a gate is just a wire, and a wire only has a voltage if something connects it to a power source. There are only two voltages we care about:
 
-|Transistor|Gate HIGH (1)|Gate LOW (0)|Used to…|
-|---|---|---|---|
-|**NMOS**|ON (closed)|OFF (open)|**pull down**: connect the output to GND|
-|**PMOS** (bubble on its gate)|OFF (open)|ON (closed)|**pull up**: connect the output to $V_{DD}$|
+- **$V_{DD}$**: the high supply (say 5 V). Connect the output here and it reads **1**.
+- **GND**: ground (0 V). Connect the output here and it reads **0**.
+
+So the whole job of a gate is: *depending on the inputs, connect the output to $V_{DD}$, or connect it to GND.* Transistors are the switches that make those connections.
+
+For logic analysis, a [[mosfet|MOSFET]] is treated as an **ideal switch** flipped by **voltage** (on its **gate**) instead of a finger. There are two types, and they're **opposite**:
+
+|Transistor|Gate HIGH (1)|Gate LOW (0)|Placed between…|Job|
+|---|---|---|---|---|
+|**NMOS**|ON (closed)|OFF (open)|the output and **GND**|**pull down**: make the output 0|
+|**PMOS** (bubble on its gate)|OFF (open)|ON (closed)|**$V_{DD}$** and the output|**pull up**: make the output 1|
+
+- **Pull down** = "when I'm ON, I connect the output to ground, so it becomes 0."
+- **Pull up** = "when I'm ON, I connect the output to $V_{DD}$, so it becomes 1."
 
 > [!note] "Pull down" doesn't mean the NMOS *makes* 0 V. It means that when it's ON, it gives the output a low-resistance path to ground. Same for PMOS and $V_{DD}$.
 
+> [!tip] Picture the output as a bucket of water, with the water level as the output voltage. A pipe from a **high tank** ($V_{DD}$) runs to the bucket with a valve: that's the **PMOS**, and opening it *fills* the bucket (output 1). A pipe from the bucket to a **drain** (GND) has a valve too: that's the **NMOS**, and opening it *empties* the bucket (output 0).
+
+**Why each type goes where it does.** Each type is good at passing one value. An NMOS connected to ground can pull the output all the way to a clean 0 V, but would only give a weak 1 if used to reach $V_{DD}$. A PMOS is the mirror: clean 1s, weak 0s. So NMOS goes to ground and PMOS goes to $V_{DD}$.
+
+### Networks: series and parallel
+
+One transistor is only enough for a NOT gate. For anything else, the output should connect to a supply only for *certain input combinations*, so we wire several transistors together. Two rules decide how:
+
+- **Series** (end to end, like a chain): current only gets through if **every** switch is ON → behaves like **AND**.
+- **Parallel** (side by side, like separate lanes): current gets through if **any** switch is ON → behaves like **OR**.
+
+A group of transistors wired this way is a **network**. Every gate uses one or both of these:
+
+|Name|Made of|Connects the output to…|Makes the output…|
+|---|---|---|---|
+|**PDN** (pull-down network)|NMOS transistors|GND|**0**|
+|**PUN** (pull-up network)|PMOS transistors|$V_{DD}$|**1**|
+
 ### NMOS logic gates
 
-An NMOS gate is a **pull-down network** of NMOS transistors plus a **pull-up resistor** (or pull-up device) to $V_{DD}$. When the pull-down network conducts, the output is LOW; otherwise the resistor holds it HIGH.
+The older style uses **only a PDN**. A PDN can pull the output to 0, but when it's OFF the output is connected to *nothing*, and a floating wire isn't a reliable 1. The fix is a **pull-up resistor** (or pull-up device) from $V_{DD}$ to the output that weakly holds it high:
+
+- PDN **OFF** → the resistor wins → output **HIGH**.
+- PDN **ON** → it beats the resistor → output **LOW**.
 
 |Gate|NMOS arrangement|Output 0 when…|Result|
 |---|---|---|---|
@@ -47,18 +78,21 @@ An NMOS gate is a **pull-down network** of NMOS transistors plus a **pull-up res
 |AND|NAND followed by NOT|—|$f = AB$|
 |OR|NOR followed by NOT|—|$f = A + B$|
 
-- **Series = AND** (current flows only if every switch is closed).
-- **Parallel = OR** (current flows if any switch is closed).
+- **Series = AND**, **parallel = OR**, exactly as above.
 - The output is always the **complement** of the pull-down condition, which is why NAND and NOR are the natural gates and AND/OR need an extra inverter.
 
-The drawback: whenever the output is LOW, current flows from $V_{DD}$ through the resistor and the NMOS network to ground, wasting power.
+**The drawback:** whenever the output is LOW, current flows from $V_{DD}$ through the resistor and the NMOS network to ground the whole time. That wastes power and makes heat. CMOS fixes this.
 
 ### CMOS logic gates
 
-**CMOS** (complementary MOS) replaces the resistor with a **pull-up network (PUN)** of PMOS transistors. The PUN and the **pull-down network (PDN)** of NMOS transistors are designed so that for every input, **exactly one of them conducts**:
+**CMOS** stands for **complementary** MOS: it replaces the resistor with a **pull-up network (PUN)** of PMOS transistors, so it uses *both* kinds of transistor as a matched pair of networks. The PUN sits between $V_{DD}$ and the output, the PDN sits between the output and GND, and they are built so that for *every* input combination **exactly one of them conducts**:
 
-- PUN conducts → output connected to $V_{DD}$ → $f = 1$
-- PDN conducts → output connected to GND → $f = 0$
+|Situation|PUN|PDN|Output|
+|---|---|---|---|
+|Output should be 1|ON|OFF|Connected to $V_{DD}$ → $f = 1$|
+|Output should be 0|OFF|ON|Connected to GND → $f = 0$|
+
+**The big advantage:** in any steady state one network is OFF, so there's **no direct path from $V_{DD}$ to GND** and essentially no static current. That's the main reason CMOS became the dominant logic technology.
 
 **The duality rule:** the PUN and PDN are duals of each other. Wherever the PDN has NMOS in **series**, the PUN has PMOS in **parallel**, and vice versa.
 
@@ -70,7 +104,19 @@ The drawback: whenever the output is LOW, current flows from $V_{DD}$ through th
 |AND|NAND + NOT|NAND + NOT|6|
 |OR|NOR + NOT|NOR + NOT|6|
 
-**Why the CMOS NAND looks like that.** $f = \overline{AB}$ is 1 when $A = 0$ **or** $B = 0$. PMOS turns on with a 0, and "or" means parallel, so the PUN is two PMOS in parallel. $f$ is 0 when $A = 1$ **and** $B = 1$. NMOS turns on with a 1, and "and" means series, so the PDN is two NMOS in series.
+**Walk-through: the NOT gate.** One PMOS on top, one NMOS below, both controlled by the same input $x$, with the output between them.
+
+|$x$|PMOS (top)|NMOS (bottom)|Output connected to|$f$|
+|---|---|---|---|---|
+|0|ON (gate is 0)|OFF|$V_{DD}$|**1**|
+|1|OFF|ON (gate is 1)|GND|**0**|
+
+Input 0 turns on the top valve and fills the bucket → output 1. Input 1 turns on the bottom valve and drains it → output 0.
+
+**Walk-through: the NAND, $f = \overline{AB}$.** Work out each network from the function:
+
+- **PUN:** $f$ is 1 when $A = 0$ **or** $B = 0$. PMOS turns on with a 0, and "or" means parallel, so the PUN is two PMOS **in parallel**.
+- **PDN:** $f$ is 0 when $A = 1$ **and** $B = 1$. NMOS turns on with a 1, and "and" means series, so the PDN is two NMOS **in series**.
 
 |$A$|$B$|PMOS A|PMOS B|NMOS A|NMOS B|$f$|
 |---|---|---|---|---|---|---|
@@ -79,7 +125,9 @@ The drawback: whenever the output is LOW, current flows from $V_{DD}$ through th
 |1|0|OFF|ON|ON|OFF|1|
 |1|1|OFF|OFF|ON|ON|0|
 
-**The big advantage:** in any steady state one network is OFF, so there's **no direct path from $V_{DD}$ to GND** and essentially no static current. That's the main reason CMOS became the dominant logic technology.
+If either input is 0, at least one PMOS is ON and fills the output to 1. Only when both are 1 do both NMOS turn on and drain it to 0.
+
+> [!note] To remember: **NMOS** = ON with a 1, on the bottom, pulls **down**. **PMOS** = ON with a 0, on top, pulls **up**. **PDN** = the NMOS network, **PUN** = the PMOS network. **CMOS** = both together, always exactly one ON.
 
 **Try it:** pick a gate and flip the inputs. ON transistors are drawn solid, OFF ones faded, and the network that's connected to the output is highlighted.
 
@@ -87,17 +135,20 @@ The drawback: whenever the output is LOW, current flows from $V_{DD}$ through th
 
 ### Designing complex CMOS gates
 
-You don't have to build everything out of NAND/NOR/NOT. Any function of the form $f = \overline{(\ldots)}$ can be built **directly** as one PUN + PDN:
+You don't have to build everything out of NAND/NOR/NOT. Any function that is a **single inverting expression**, $f = \overline{(\ldots)}$, can be built **directly** as one PUN + PDN. This works because a CMOS gate is naturally **inverting**: a 1 on the inputs turns NMOS on and pulls the output *down*, so more 1s tend to give a 0. That's why NAND and NOR are easy and AND and OR (which aren't inverting) cost an extra inverter.
 
-1. Write the condition for $f = 1$ in terms of **complemented** inputs → build the **PUN** (PMOS turn on for 0s). AND → series, OR → parallel.
-2. Write the condition for $f = 0$, i.e. $\overline{f}$, in terms of **uncomplemented** inputs → build the **PDN** (NMOS turn on for 1s). AND → series, OR → parallel.
-3. Check that the PDN is the dual of the PUN (series ↔ parallel).
+The recipe is to describe *when the output is 1* for the PUN and *when it is 0* for the PDN, remembering that PMOS turns on with a **0** and NMOS turns on with a **1**:
+
+1. **PUN:** write the condition for $f = 1$ in terms of **complemented** inputs ("$x = 0$"). AND → series, OR → parallel.
+2. **PDN:** write the condition for $f = 0$, i.e. $\overline{f}$, in terms of **uncomplemented** inputs ("$x = 1$"). AND → series, OR → parallel. Use [[ch02-intro-to-logic-circuits|DeMorgan's theorems]] to get $\overline{f}$ into that form.
+3. **Check duality:** every series in the PUN is a parallel in the PDN and vice versa. If it isn't, something is wrong.
 4. Connect the PUN to $V_{DD}$, the PDN to GND, and join them at the output.
 
-**Textbook Example 3.1:** $f = \overline{x_1} + \overline{x_2}\,\overline{x_3}$
+**Worked through: Textbook Example 3.1,** $f = \overline{x_1} + \overline{x_2}\,\overline{x_3}$
 
-- **PUN:** $f = 1$ when $x_1 = 0$ OR ($x_2 = 0$ AND $x_3 = 0$) → PMOS $x_1$ **in parallel with** a series pair $x_2$, $x_3$.
-- **PDN:** $\overline{f} = x_1(x_2 + x_3)$ → NMOS $x_1$ **in series with** a parallel pair $x_2$, $x_3$.
+1. **PUN, reading $f$ directly.** $f$ is already written with complemented inputs. A product ($\overline{x_2}\,\overline{x_3}$) means "$x_2 = 0$ **and** $x_3 = 0$", so those two PMOS go in **series**. The $+$ means "$x_1 = 0$ **or** that", so $x_1$'s PMOS goes **in parallel** with the series pair.
+2. **PDN, from $\overline{f}$.** Apply DeMorgan: $\overline{f} = x_1\,\overline{(\overline{x_2}\,\overline{x_3})} = x_1(x_2 + x_3)$. Now every input is uncomplemented. The product means NMOS $x_1$ **in series** with the sum, and the sum $x_2 + x_3$ is a **parallel** pair.
+3. **Duality check:** the PUN is "$x_1$ ∥ ($x_2$ series $x_3$)", the PDN is "$x_1$ series ($x_2$ ∥ $x_3$)". Series and parallel swapped ✓. That's 6 transistors.
 
 **Textbook Example 3.2:** $f = \overline{x_1} + (\overline{x_2} + \overline{x_3})\,\overline{x_4}$
 
@@ -106,13 +157,17 @@ You don't have to build everything out of NAND/NOR/NOT. Any function of the form
 
 This uses fewer transistors than building each AND and OR as a separate gate.
 
+> [!tip] Sanity check any design by picking one input combination and tracing it. Does exactly one network conduct? If both conduct you've made a short from $V_{DD}$ to GND, and if neither does the output floats.
+
 ### Speed of logic gates
 
 The ideal-switch model explains **what** a gate does, not **how fast**. In a real circuit:
 
 - An ON transistor has some **resistance**.
-- The wires and the transistors' own structure have **capacitance**.
+- The wires and the transistors' own structure have **capacitance**: each gate input is like a tiny bucket that has to be filled or emptied before its voltage changes.
 - Changing the output means charging or discharging that capacitance through that resistance, which takes time: the **propagation delay**.
+
+In the bucket picture from earlier: opening the fill valve doesn't make the level jump to the top, because water has to flow in through a narrow pipe (the resistance). A bigger bucket (more capacitance) takes longer to fill. That's also why a gate output is never a perfect square edge. See [[propagation-delay|Propagation Delay]] for the picture and how it limits clock speed.
 
 Detailed timing analysis isn't covered in this course, but keep the idea: more load (more capacitance) → slower gate.
 
@@ -121,17 +176,23 @@ Detailed timing analysis isn't covered in this course, but keep the idea: more l
 - **Fan-in:** the number of inputs a gate has.
 - **Fan-out:** the number of other gate inputs that one gate output drives. Each one adds capacitance $C$, so driving $n$ gates is like driving $C_n = n \cdot C$. The propagation delay increases **in direct proportion to $n$**.
 
+Fan-in matters too. A 4-input NAND has four NMOS in **series** in its PDN, so the path to ground has four resistances added up and is slower than a 2-input NAND. This is why big gates are often split into smaller ones.
+
 ### Transmission gates (§3.9)
 
-A **transmission gate** is an NMOS and a PMOS in parallel, driven by complementary control signals $s$ and $\overline{s}$. It's a switch that passes 0s and 1s equally well (NMOS passes 0s well, PMOS passes 1s well):
+Everything so far connected the output to a **supply** ($V_{DD}$ or GND). A **transmission gate** instead connects one **signal** to another, like a door that lets a signal $x$ pass through or blocks it.
+
+Why not use a single transistor? Because one transistor passes only one value well: an NMOS passes clean 0s but a weak 1, a PMOS the opposite. So a **transmission gate** puts an NMOS and a PMOS **in parallel**, driven by complementary control signals $s$ and $\overline{s}$. Whatever the signal is, one of the two transistors passes it cleanly:
 
 - $s = 1$ ($\overline{s} = 0$): both transistors ON, so $f = x$.
-- $s = 0$: both OFF, so the output is disconnected.
+- $s = 0$: both OFF, so the output is disconnected (it just floats, it is not 0).
+
+See [[transmission-gate|Transmission Gate]] for how a 0 and a 1 each pass through, step by step.
 
 Uses:
 
 - **XOR gate:** built from gates, $x_1 \oplus x_2 = x_1\overline{x_2} + \overline{x_1}x_2$ takes 22 transistors in CMOS (two ANDs and an OR at 6 each, two NOTs at 2 each). With **two transmission gates and two inverters** it takes 8: when $x_1 = 0$ one transmission gate passes $x_2$, and when $x_1 = 1$ the other passes $\overline{x_2}$.
-- **2-to-1 multiplexer:** two transmission gates controlled by $s$ and $\overline{s}$. $s = 0$ passes $x_1$, $s = 1$ passes $x_2$.
+- **2-to-1 multiplexer:** two transmission gates controlled by $s$ and $\overline{s}$. $s = 0$ passes $x_1$, $s = 1$ passes $x_2$. This is the same function as the [[ch06-combinational-building-blocks|multiplexers in Ch 6]], just built at the transistor level.
 
 ### Standard chips: the 7400 series (§3.5)
 
@@ -151,7 +212,16 @@ Before programmable logic, circuits were built by wiring together **standard chi
 - Many manufacturers make the same parts, which keeps them cheap and available.
 - Packages shrank over time: the **SOIC** (small-outline IC) is the same idea as a DIP but much smaller.
 
-**Buffers.** A buffer outputs the same logic value it's given ($Y = A$). It doesn't change the logic; it **drives** the signal more strongly (more current), which helps speed when there's a big load. A **tri-state buffer** adds an **enable** input: when enabled, $Y = A$; when disabled, the output is disconnected (high impedance). Buffers are one of the main uses of standard chips today.
+**Buffers.** A buffer outputs the same logic value it's given ($Y = A$). It doesn't change the logic; it **drives** the signal more strongly (more current), which helps speed when there's a big load. A **tri-state buffer** adds an **enable** input: when enabled, $Y = A$; when disabled, the output is disconnected (**high impedance**, written Z).
+
+|Enable|$A$|$Y$|
+|---|---|---|
+|0|0|Z|
+|0|1|Z|
+|1|0|0|
+|1|1|1|
+
+"Tri-state" means the output has **three** states: 0, 1, and *not driving anything*. Z is not a third voltage. It means the output is unplugged, like a transmission gate that is OFF. This lets **many devices share one wire** (a bus): only one buffer is enabled at a time, so they never fight over the wire's value. Buffers are one of the main uses of standard chips today.
 
 **Integration scale**
 
@@ -178,6 +248,8 @@ $$\text{PLD} = \text{logic elements} + \text{programmable switches}$$
 
 A product term can be **shared** by several outputs, which saves AND gates.
 
+*Why SOP?* Any function can be written as a sum of products (see [[ch02-intro-to-logic-circuits|Ch 2]]), so a PLA that can make **any** product and sum **any** products can implement any function that fits in its size. Simplifying with [[ch04-optimization-of-combinational-logic|K-maps (Ch 4)]] means fewer product terms and a smaller PLA.
+
 **CPLD (complex PLD):** several PAL/PLA-like blocks on one chip, with a programmable interconnect between them.
 
 - Programmed **in-system** (ISP) through a **JTAG** port (an IEEE standard using 4 wires), since big chips are too fragile for programming sockets.
@@ -191,6 +263,8 @@ A product term can be **shared** by several outputs, which saves AND gates.
 - This course's labs use an FPGA board.
 
 **How a LUT works:** a LUT is a tiny memory that stores a truth table. A 2-input LUT has $2^2 = 4$ storage cells, one per row. The inputs $x_1$, $x_2$ drive the select lines of a tree of multiplexers that pick the cell for the current row. So **any** function of 2 variables fits in a 2-input LUT; you only change the stored bits.
+
+Think of it as a **cheat sheet** instead of a circuit: rather than building gates that compute the answer, the LUT just *looks up* the answer for the current inputs. The multiplexers in it are the ones from [[ch06-combinational-building-blocks|Ch 6]]. See [[lookup-table|Lookup Tables]] for a worked example and how bigger functions are built from many LUTs.
 
 ## Key formulas
 

@@ -192,6 +192,8 @@ Map and minimize $X = \overline{B}\,\overline{C} + AB + A\overline{B}C$ (domain 
 
 $$X = A + \overline{B}\,\overline{C}$$
 
+<div class="melon-logic" data-view="kmap" data-vars="3" data-ones="0,4,5,6,7">Karnaugh map for Example 2 (open this page on the site to use it).</div>
+
 ### Example 3: Wrap-around and corners
 
 > Like Lecture 3, Example 22
@@ -204,6 +206,8 @@ Minimize $X = \sum m(0, 2, 5, 7, 8, 10, 13, 15)$.
 $$X = BD + \overline{B}\,\overline{D}$$
 
 This is the map loaded in the interactive above. It's also $\overline{B \oplus D}$: the output only depends on whether $B$ and $D$ match.
+
+<div class="melon-logic" data-view="kmap" data-vars="4" data-ones="0,2,5,7,8,10,13,15">Karnaugh map for Example 3 (open this page on the site to use it).</div>
 
 ### Example 4: Overlapping groups
 
@@ -265,6 +269,8 @@ Minimize $X = \prod M(0, 2, 3, 8, 10, 11)$.
 
 $$X = (B + D)(B + \overline{C})$$
 
+<div class="melon-logic" data-view="kmap" data-vars="4" data-ones="1,4,5,6,7,9,12,13,14,15" data-mode="pos">Karnaugh map for Example 7 (open this page on the site to use it).</div>
+
 ### Example 8: SOP and POS from the same map
 
 > Like Lecture 3, Example 27
@@ -278,6 +284,8 @@ For the function in Example 7, find the standard SOP and the minimum SOP. Which 
    - Column $01$ (cells 1, 5, 9, 13) → $\overline{C}D$
 3. **Minimum SOP:**
    $$X = B + \overline{C}D$$
+
+<div class="melon-logic" data-view="kmap" data-vars="4" data-ones="1,4,5,6,7,9,12,13,14,15">Karnaugh map for Example 8 (open this page on the site to use it).</div>
 
 The SOP needs one AND and one OR (plus an inverter for $\overline{C}$). The POS from Example 7 needs two ORs and an AND. They're equal: by Rule 12, $(B + D)(B + \overline{C}) = B + \overline{C}D$.
 

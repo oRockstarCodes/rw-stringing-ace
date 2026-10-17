@@ -8,24 +8,25 @@ import { JSX } from "preact"
 //   class      a UML class (COE 318: software)       chapters are methods
 //   chip       an IC package (COE 328: logic)        chapters are pins
 //   schematic  a ladder diagram (ELE 302: circuits)  chapters are components
-//   band       an energy band diagram (PCS 224)      chapters are energy levels
+//   bohr       a hydrogen energy-level ladder (PCS 224)  chapters are levels, n = 1, 2, 3, ...
+//   band       an energy band diagram                chapters are energy levels
 //   list       a plain numbered list (any other course)
 //
 // The motif comes from the course's `motif` property if it has one, otherwise from the
 // table below. A new course shows the plain list until it's added here.
 // Styles are in custom.scss.
 
-export type MotifKind = "class" | "chip" | "schematic" | "band" | "list"
+export type MotifKind = "class" | "chip" | "schematic" | "band" | "bohr" | "list"
 
 export type MotifChapter = { href: string; n: number; name: string }
 
-const KINDS: MotifKind[] = ["class", "chip", "schematic", "band", "list"]
+const KINDS: MotifKind[] = ["class", "chip", "schematic", "band", "bohr", "list"]
 
 const BY_COURSE: Record<string, MotifKind> = {
   "coe-318": "class",
   "coe-328": "chip",
   "ele-302": "schematic",
-  "pcs-224": "band",
+  "pcs-224": "bohr",
 }
 
 // folder is "courses/coe-328/"
@@ -268,6 +269,34 @@ const Band = (p: Props) => {
   )
 }
 
+// Chapter k is the level n = k, drawn the way a textbook draws hydrogen: the ground state
+// at the bottom and the free electron (0 eV) at the top. The DOM order stays chapter 1
+// first; the list is flipped with CSS.
+const Bohr = (p: Props) => (
+  <div class="melon-motif melon-bohr melon-ui">
+    <div class="melon-bohr-top">
+      <span class="melon-bohr-n">n = ∞</span>
+      <span class="melon-bohr-ion">free electron</span>
+      <span class="melon-bohr-e">0 eV</span>
+    </div>
+    {p.chapters.length === 0 ? (
+      <Empty />
+    ) : (
+      <ol class="melon-bohr-levels">
+        {p.chapters.map((c) => (
+          <li>
+            <a href={c.href} class="internal melon-bohr-level">
+              <span class="melon-bohr-n">n = {c.n}</span>
+              <span class="melon-bohr-name">{c.name}</span>
+              <span class="melon-bohr-e">−{(13.6 / (c.n * c.n)).toFixed(2)} eV</span>
+            </a>
+          </li>
+        ))}
+      </ol>
+    )}
+  </div>
+)
+
 const List = (p: Props) => (
   <div class="melon-motif melon-ui">
     {p.chapters.length === 0 ? (
@@ -297,6 +326,8 @@ export const CourseMotif = (p: Props) => {
       return <Schematic {...p} />
     case "band":
       return <Band {...p} />
+    case "bohr":
+      return <Bohr {...p} />
     default:
       return <List {...p} />
   }

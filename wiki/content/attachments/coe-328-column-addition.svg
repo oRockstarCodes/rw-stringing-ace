@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 310" width="540" height="310" font-family="DM Sans, system-ui, sans-serif" font-size="13">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#c99a12"/>
+    </marker>
+  </defs>
+  <!-- Column header -->
+  <g fill="#8a8a93" font-size="10" text-anchor="middle" letter-spacing="0.04em">
+    <text x="150" y="26">COLUMN 4</text>
+    <text x="230" y="26">COLUMN 3</text>
+    <text x="310" y="26">COLUMN 2</text>
+    <text x="390" y="26">COLUMN 1</text>
+    <text x="470" y="26">COLUMN 0</text>
+  </g>
+  <!-- One full adder = column 1 -->
+  <rect x="352" y="38" width="76" height="222" rx="8" fill="none" stroke="#c99a12" stroke-width="1.4" stroke-dasharray="5 4"/>
+  <text x="390" y="278" text-anchor="middle" fill="#c99a12" font-size="10" letter-spacing="0.04em">ONE FULL ADDER</text>
+  <!-- Carry going left out of column 1 -->
+  <line x1="350" y1="82" x2="326" y2="82" stroke="#c99a12" stroke-width="1.6" marker-end="url(#arr)"/>
+  <!-- Row labels -->
+  <g fill="#8a8a93" font-size="12">
+    <text x="14" y="86">carry <tspan font-style="italic">c</tspan><tspan font-size="9" dy="3">i</tspan></text>
+    <text x="14" y="136"><tspan font-style="italic">X</tspan> bit <tspan font-style="italic">x</tspan><tspan font-size="9" dy="3">i</tspan></text>
+    <text x="14" y="186"><tspan font-style="italic">Y</tspan> bit <tspan font-style="italic">y</tspan><tspan font-size="9" dy="3">i</tspan></text>
+    <text x="14" y="246">sum <tspan font-style="italic">s</tspan><tspan font-size="9" dy="3">i</tspan></text>
+  </g>
+  <!-- Digits -->
+  <g font-family="ui-monospace, Consolas, monospace" font-size="26" text-anchor="middle" fill="#8a8a93">
+    <!-- carries -->
+    <text x="150" y="90">1</text>
+    <text x="230" y="90">1</text>
+    <text x="310" y="90">1</text>
+    <text x="390" y="90">0</text>
+    <text x="470" y="90">0</text>
+    <!-- X = 1011 -->
+    <text x="230" y="140">1</text>
+    <text x="310" y="140">0</text>
+    <text x="390" y="140">1</text>
+    <text x="470" y="140">1</text>
+    <!-- Y = 0110 -->
+    <text x="150" y="190" font-size="22">+</text>
+    <text x="230" y="190">0</text>
+    <text x="310" y="190">1</text>
+    <text x="390" y="190">1</text>
+    <text x="470" y="190">0</text>
+    <!-- sum = 10001 -->
+    <text x="150" y="250">1</text>
+    <text x="230" y="250">0</text>
+    <text x="310" y="250">0</text>
+    <text x="390" y="250">0</text>
+    <text x="470" y="250">1</text>
+  </g>
+  <!-- Highlight column 1 values -->
+  <g font-family="ui-monospace, Consolas, monospace" font-size="26" text-anchor="middle" fill="#c99a12" font-weight="600">
+    <text x="390" y="90">0</text>
+    <text x="390" y="140">1</text>
+    <text x="390" y="190">1</text>
+    <text x="390" y="250">0</text>
+    <text x="310" y="90">1</text>
+  </g>
+  <!-- Rule -->
+  <line x1="120" y1="208" x2="500" y2="208" stroke="#8a8a93" stroke-width="1.5"/>
+  <!-- Variable names for column 1 -->
+  <g fill="#c99a12" font-size="11" text-anchor="start" font-style="italic">
+    <text x="410" y="86">c<tspan font-size="8" dy="2">1</tspan></text>
+    <text x="410" y="136">x<tspan font-size="8" dy="2">1</tspan></text>
+    <text x="410" y="186">y<tspan font-size="8" dy="2">1</tspan></text>
+    <text x="410" y="246">s<tspan font-size="8" dy="2">1</tspan></text>
+    <text x="293" y="70" text-anchor="middle">c<tspan font-size="8" dy="2">2</tspan> (sent left)</text>
+  </g>
+  <!-- Caption -->
+  <text x="270" y="302" text-anchor="middle" fill="#8a8a93" font-size="12">Column 1 reads x₁, y₁, c₁ and writes s₁ and c₂. c₀ = 0, and c₄ becomes the extra leading bit.</text>
+</svg>

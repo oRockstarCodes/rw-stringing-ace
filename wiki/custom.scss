@@ -1164,6 +1164,79 @@ a.melon-level {
   }
 }
 
+// ----- bohr (PCS 224): chapters are the levels of hydrogen -----
+
+.melon-bohr {
+  max-width: 40rem;
+}
+
+.melon-bohr-top {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  padding: 0.35rem 0;
+  border-bottom: 2px dashed var(--secondary);
+  color: var(--gray);
+  font-size: 0.85rem;
+}
+
+.melon-bohr-levels {
+  display: flex;
+  flex-direction: column-reverse; // ground state at the bottom
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  li {
+    margin: 0;
+  }
+}
+
+a.melon-bohr-level {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  padding: 0.6rem 0 0.35rem;
+  border-bottom: 3px solid var(--darkgray);
+  color: var(--dark);
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease;
+
+  &:hover {
+    color: var(--secondary);
+    border-color: var(--secondary);
+  }
+}
+
+.melon-bohr-n,
+.melon-bohr-e {
+  flex: none;
+  font-family: var(--codeFont);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.melon-bohr-n {
+  min-width: 3.4rem;
+  color: var(--secondary);
+}
+
+.melon-bohr-e {
+  margin-left: auto;
+  color: var(--gray);
+}
+
+.melon-bohr-name {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  font-family: var(--headerFont);
+  font-size: 1.05rem;
+  font-weight: 700;
+  font-stretch: 92%;
+  line-height: 1.2;
+}
+
 // ---------- Labs pages (components/MelonLabs.tsx) ----------
 
 .melon-labs {
@@ -2527,6 +2600,70 @@ a.melon-lab {
   .lg-tt-wide th,
   .lg-tt-wide td {
     padding: 0.2rem 0.5rem;
+  }
+
+  // ----- Single MOSFET -----
+
+  .lg-controls-one {
+    grid-template-columns: 1fr;
+
+    output {
+      min-width: 3.5rem;
+      white-space: nowrap;
+    }
+  }
+  .lg-subst {
+    fill: var(--lightgray);
+    stroke: var(--gray);
+    stroke-width: 1.5;
+  }
+  .lg-diff {
+    fill: var(--tertiary);
+    fill-opacity: 0.35;
+    stroke: var(--gray);
+    stroke-width: 1.5;
+  }
+  .lg-oxide {
+    fill: var(--gray);
+    fill-opacity: 0.2;
+    stroke: var(--gray);
+    stroke-width: 1;
+  }
+  .lg-gatemetal {
+    fill: var(--gray);
+    fill-opacity: 0.55;
+    stroke: var(--gray);
+    stroke-width: 1.5;
+  }
+  .lg-channel {
+    fill: var(--secondary);
+    fill-opacity: 0.55;
+    transition: height 0.2s;
+  }
+  .lg-zone {
+    fill: var(--darkgray);
+    font-size: 11px;
+  }
+  .lg-charge {
+    fill: var(--light);
+    font-family: var(--codeFont);
+    font-size: 16px;
+    font-weight: 700;
+  }
+  .lg-carrier {
+    stroke: var(--secondary);
+    stroke-width: 1.5;
+    fill: var(--light);
+  }
+  .lg-carrier.lg-e {
+    fill: var(--secondary);
+  }
+  .lg-flow {
+    stroke-dasharray: 6 5;
+    stroke-width: 3;
+  }
+  .lg-arrow {
+    fill: var(--secondary);
   }
 
   // ----- Adder -----

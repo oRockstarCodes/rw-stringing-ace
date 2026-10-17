@@ -14,6 +14,7 @@ import { QuartzComponent, QuartzComponentConstructor } from "../types"
 //   <div class="melon-logic" data-view="number"></div>    8-bit number in every representation
 //   <div class="melon-logic" data-view="waveform"></div>  Pulse waveform on an oscilloscope grid
 //   <div class="melon-logic" data-view="cmos"></div>      CMOS NOT / NAND / NOR transistor states
+//   <div class="melon-logic" data-view="mosfet"></div>    Single NMOS / PMOS cross-section: the gate voltage forms a channel
 //   <div class="melon-logic" data-view="adder"></div>     4-bit ripple-carry adder/subtractor
 //   <div class="melon-logic" data-view="mux"></div>       4-to-1 multiplexer
 //   <div class="melon-logic" data-view="sevenseg"></div>  BCD-to-7-segment decoder
@@ -909,6 +910,114 @@ MelonLogic.afterDOMLoaded = `
     render()
   }
 
+  // ---------- Single MOSFET cross-section ----------
+
+  function buildMosfet(root) {
+    const VDD = 5, VT = 1
+    let type = "nmos"
+    let vg = 5
+    root.innerHTML =
+      chips("mtype", [["nmos", "NMOS"], ["pmos", "PMOS"]]) +
+      '<svg class="lg-svg lg-mosfet" viewBox="0 0 380 250" role="img" aria-label="Cross-section of a MOSFET. Click the gate terminal to flip it."></svg>' +
+      '<div class="lg-controls lg-controls-one"><label><span>Gate voltage</span><span class="lg-pair"><input type="range" data-k="vg" min="0" max="5" step="0.5" value="5"><output></output></span></label></div>' +
+      '<div class="lg-actions lg-actions-left"><button type="button" class="lg-btn" data-v="0">Gate = 0 (LOW)</button><button type="button" class="lg-btn" data-v="5">Gate = 1 (HIGH)</button></div>' +
+      '<p class="lg-readout lg-prose" aria-live="polite"></p>'
+    const svg = root.querySelector(".lg-mosfet")
+    const slider = root.querySelector('[data-k="vg"]')
+
+    const render = () => {
+      const n = type === "nmos"
+      // Only the gate-to-source voltage matters. An NMOS source sits at GND, a PMOS source at VDD.
+      const vgs = n ? vg : VDD - vg
+      const on = vgs > VT
+      const thick = on ? 3 + Math.min(4, vgs - VT) * 2.5 : 0
+      const cy = 140 + thick / 2
+      const xs = 90, xd = 290, xg = 190
+
+      let h =
+        '<rect class="lg-subst" x="30" y="140" width="320" height="90" rx="4"/>' +
+        '<rect class="lg-diff" x="55" y="140" width="70" height="40"/><rect class="lg-diff" x="255" y="140" width="70" height="40"/>' +
+        '<text class="lg-zone" x="90" y="164" text-anchor="middle">' + (n ? "n+" : "p+") + "</text>" +
+        '<text class="lg-zone" x="290" y="164" text-anchor="middle">' + (n ? "n+" : "p+") + "</text>" +
+        '<text class="lg-zone" x="190" y="214" text-anchor="middle">' + (n ? "p-type" : "n-type") + " body</text>"
+      if (on) h += '<rect class="lg-channel" x="125" y="140" width="130" height="' + thick + '"/>'
+      h +=
+        '<rect class="lg-oxide" x="125" y="128" width="130" height="12"/>' +
+        '<rect class="lg-gatemetal" x="125" y="104" width="130" height="24"/>' +
+        '<text class="lg-zone" x="190" y="137" text-anchor="middle" font-size="8">oxide (insulator)</text>'
+      // Charges: the gate plate and the carriers it pulls into the channel
+      if (on) {
+        for (let x = 145; x <= 235; x += 22.5) {
+          h += '<text class="lg-charge" x="' + x + '" y="121" text-anchor="middle">' + (n ? "+" : "−") + "</text>"
+          h += '<circle class="lg-carrier ' + (n ? "lg-e" : "lg-h") + '" cx="' + (x + 4) + '" cy="' + cy + '" r="2.6"/>'
+        }
+      }
+      // Leads and terminals
+      const terms = [[xs, 140, "S", n ? "GND" : "V"], [xd, 140, "D", n ? "V" : "GND"], [xg, 104, "G", ""]]
+      terms.forEach(([x, y0, name, sup]) => {
+        const hi = name === "G" ? vg > 2.5 : false
+        h += '<line class="lg-wire" x1="' + x + '" y1="46" x2="' + x + '" y2="' + y0 + '"/>'
+        h += '<circle class="lg-term' + (hi ? " is-hi" : "") + '" cx="' + x + '" cy="46" r="6"/>'
+        const sub = sup === "V" ? 'V<tspan class="lg-sub" dy="4">DD</tspan>' : sup
+        h += '<text class="lg-label" x="' + x + '" y="28" text-anchor="middle">' + name + (sup ? " (" + sub + ")" : "") + "</text>"
+      })
+      h += '<line class="lg-hit" x1="' + xg + '" y1="40" x2="' + xg + '" y2="104" role="button" tabindex="0" aria-label="Flip gate"/>'
+      // Current path when the channel conducts
+      if (on) {
+        const pts = n
+          ? [xd, 46, xd, cy, xs, cy, xs, 46]
+          : [xs, 46, xs, cy, xd, cy, xd, 46]
+        h += seg("lg-flow is-hi", pts.join(","))
+        h += n
+          ? '<polygon class="lg-arrow" points="200,' + (cy - 6) + " 186," + cy + " 200," + (cy + 6) + '"/>'
+          : '<polygon class="lg-arrow" points="180,' + (cy - 6) + " 194," + cy + " 180," + (cy + 6) + '"/>'
+      }
+      h +=
+        '<text class="lg-val lg-strong" x="' + (xg - 12) + '" y="78" font-size="11" text-anchor="end">V<tspan class="lg-sub" dy="4">G</tspan><tspan dy="-4"> = ' + vg.toFixed(1) + " V</tspan></text>"
+      svg.innerHTML = h
+
+      root.querySelector(".lg-pair output").textContent = vg.toFixed(1) + " V"
+      const gl = vg === 0 ? "LOW (0)" : vg === VDD ? "HIGH (1)" : null
+      const need = n ? "above" : "below"
+      root.querySelector(".lg-readout").innerHTML =
+        "<strong>" + (n ? "NMOS" : "PMOS") + ".</strong> " +
+        (n
+          ? "The source is tied to GND, so V<sub>GS</sub> = V<sub>G</sub> = " + vgs.toFixed(1) + " V. "
+          : "The source is tied to V<sub>DD</sub> (5 V), so V<sub>SG</sub> = 5 − V<sub>G</sub> = " + vgs.toFixed(1) + " V. ") +
+        (on
+          ? "That is more than the threshold V<sub>T</sub> = 1 V, so the gate's field pulls " + (n ? "<strong>electrons</strong>" : "<strong>holes</strong>") +
+            " up under the oxide. They form a <strong>channel</strong> joining source and drain: the switch is <strong>ON</strong>" +
+            (thick > 12 ? " (a strong channel)." : ". Raise the gate " + (n ? "voltage" : "toward 0 V") + " further and the channel gets thicker.")
+          : "That is below the threshold V<sub>T</sub> = 1 V, so no channel forms and the body blocks the current: the switch is <strong>OFF</strong>. " +
+            "(An " + (n ? "NMOS" : "PMOS") + " needs the gate " + need + " " + (n ? VT : VDD - VT) + " V to turn on.)") +
+        (gl ? " <span class='lg-note'>Logic view: gate " + gl + " → " + (on ? "ON" : "OFF") + ".</span>" : "")
+    }
+
+    onChips(root, "mtype", type, (k) => {
+      type = k
+      render()
+    })
+    slider.addEventListener("input", () => {
+      vg = +slider.value
+      render()
+    })
+    root.querySelectorAll("[data-v]").forEach((b) =>
+      b.addEventListener("click", () => {
+        vg = +b.dataset.v
+        slider.value = String(vg)
+        render()
+      }),
+    )
+    svg.addEventListener("click", (e) => {
+      if (!e.target.closest(".lg-hit")) return
+      vg = vg > 2.5 ? 0 : VDD
+      slider.value = String(vg)
+      render()
+    })
+    keyClick(svg)
+    render()
+  }
+
   // ---------- 4-bit adder/subtractor ----------
 
   function buildAdder(root) {
@@ -1144,6 +1253,7 @@ MelonLogic.afterDOMLoaded = `
     number: buildNumber,
     waveform: buildWave,
     cmos: buildCmos,
+    mosfet: buildMosfet,
     adder: buildAdder,
     mux: buildMux,
     sevenseg: buildSevenSeg,

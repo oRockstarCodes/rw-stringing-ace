@@ -61,7 +61,10 @@ $$s = x \oplus y \qquad c = xy$$
 
 ### The full adder
 
-Every other bit position also has to add the carry coming in from the position to its right. A **full adder** adds three bits, $x_i$, $y_i$, and carry-in $c_i$:
+Every other bit position also has to add the carry coming in from the position to its right. A **full adder** adds three bits, $x_i$, $y_i$, and carry-in $c_i$. It is the same carry you write above a column when adding by hand (Figure 5.0). Each column is one full adder: it reads the three digits stacked in that column and writes the sum digit $s_i$ and the carry $c_{i+1}$ for the column on its left.
+
+![[coe-328-column-addition.svg]]
+*Figure 5.0: $1011 + 0110$ by columns. The highlighted column is one full adder, with inputs $x_1, y_1, c_1$ and outputs $s_1, c_{2}$.*
 
 |$x_i$|$y_i$|$c_i$|$c_{i+1}$|$s_i$|
 |---|---|---|---|---|
@@ -105,6 +108,7 @@ The **MSB is the sign bit**: 0 for positive, 1 for negative. Positive numbers lo
 |**1's complement**|flip every bit: $K_1 = (2^n - 1) - P$|$-127$ to $+127$|two ($0000\,0000$ and $1111\,1111$)|
 |**2's complement**|flip every bit, then add 1: $K_2 = 2^n - P$|$-128$ to $+127$|one|
 
+- In the formulas, $P$ is the **positive number** being negated, and $K_1$, $K_2$ are the bit patterns for $-P$. For example, with $n = 4$ and $P = 5$: $K_1 = 15 - 5 = 10 = 1010$ and $K_2 = 16 - 5 = 11 = 1011$.
 - In 4 bits, $+5 = 0101$. Then $-5$ is $1101$ (sign-magnitude), $1010$ (1's complement), or $1011$ (2's complement).
 - Since $K_2 = K_1 + 1$, the easy way to get a 2's complement in hardware is: invert, then add 1.
 - 2's complement gets one **extra negative number**: it has only one zero, so the pattern $1000\,0000$ that would have been $-0$ is $-128$ instead.

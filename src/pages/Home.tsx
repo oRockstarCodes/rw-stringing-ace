@@ -40,7 +40,7 @@ const Home = () => (
     </section>
 
     <section className="container pb-20">
-      <div className="grid gap-5 md:grid-cols-3">
+      <div className="grid gap-5 md:grid-cols-2">
         {branches.map((b) => (
           <BranchCard key={b.href} branch={b} />
         ))}
