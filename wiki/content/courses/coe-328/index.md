@@ -28,10 +28,10 @@ Digital logic from the ground up: Boolean algebra, implementation technology (tr
 | 3 | [[ch03-implementation-technology\|Ch 3]] · Implementation Technology | §3.1–3.10 |
 | 4 | [[ch04-optimization-of-combinational-logic\|Ch 4]] · Optimization of Combinational Logic | §4.2–4.12 |
 | 5 | [[ch05-number-representation-and-arithmetic\|Ch 5]] · Number Representation and Arithmetic Circuits | §5.1–5.8 |
-| 6 | [[ch06-combinational-building-blocks\|Ch 6]] · Combinational Circuit Building Blocks | §6.1–6.6 |
-| 7–8 | [[ch07-intro-to-sequential-circuits\|Ch 7]] · Introduction to Sequential Circuits | §7.1–7.13 |
-| 9–11 | [[ch08-synchronous-sequential-circuits\|Ch 8]] · Synchronous Sequential Circuits | §8.1–8.9 |
-| 12–13 | [[ch09-asynchronous-sequential-circuits\|Ch 9]] · Asynchronous Sequential Circuits | §9.1–9.6 |
+| 6 | Ch 6 · Combinational Circuit Building Blocks | §6.1–6.6 |
+| 7–8 | Ch 7 · Introduction to Sequential Circuits | §7.1–7.13 |
+| 9–11 | Ch 8 · Synchronous Sequential Circuits | §8.1–8.9 |
+| 12–13 | Ch 9 · Asynchronous Sequential Circuits | §9.1–9.6 |
 
 **Midterm** in week 7 (covers weeks 1–6). **Final** covers weeks 8–13.
 

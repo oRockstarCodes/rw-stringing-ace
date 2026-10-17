@@ -36,7 +36,7 @@ See [[ch03-implementation-technology|Ch 3]] for how these show up in CMOS gates.
 
 ## Why it matters
 
-Signals pass through lots of gates one after another, and their delays **add up**. The slowest path through a circuit decides how short the clock period can be before the output of that path is still changing when the next clock edge arrives. That's the same reason sequential circuits have setup and hold requirements in [[ch07-intro-to-sequential-circuits|Ch 7]].
+Signals pass through lots of gates one after another, and their delays **add up**. The slowest path through a circuit decides how short the clock period can be before the output of that path is still changing when the next clock edge arrives. That's the same reason sequential circuits have setup and hold requirements in Ch 7.
 
 A **buffer** can help when a gate has to drive a big load. It has stronger transistors, so it charges the large capacitance faster than the original gate could.
 

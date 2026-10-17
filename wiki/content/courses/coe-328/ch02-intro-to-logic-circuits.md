@@ -300,7 +300,7 @@ f &= \overline{s}\,x_1\overline{x_2} + \overline{s}\,x_1 x_2 + s\,\overline{x_1}
 \end{aligned}
 $$
 
-Multiplexers with more inputs are in [[ch06-combinational-building-blocks|Ch 6]].
+Multiplexers with more inputs are in Ch 6.
 
 ## Key formulas
 

@@ -32,7 +32,7 @@ To make an AND gate, store $0, 0, 0, 1$. To make an OR gate, store $0, 1, 1, 1$.
 
 ## How the lookup works
 
-The selection is done with a tree of **multiplexers** (see [[ch06-combinational-building-blocks|Ch 6]]):
+The selection is done with a tree of **multiplexers** (see Ch 6):
 
 1. The first multiplexer pair, controlled by $x_1$ (or $x_2$), narrows four cells down to two.
 2. The last multiplexer, controlled by the other input, picks one of the two.

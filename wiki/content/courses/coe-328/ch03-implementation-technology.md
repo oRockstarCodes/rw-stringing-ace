@@ -192,7 +192,7 @@ See [[transmission-gate|Transmission Gate]] for a step-by-step look at how a 0 a
 Uses:
 
 - **XOR gate:** built from gates, $x_1 \oplus x_2 = x_1\overline{x_2} + \overline{x_1}x_2$ takes 22 transistors in CMOS (two ANDs and an OR at 6 each, two NOTs at 2 each). With **two transmission gates and two inverters** it only takes 8. When $x_1 = 0$ one transmission gate passes $x_2$, and when $x_1 = 1$ the other passes $\overline{x_2}$.
-- **2-to-1 multiplexer:** two transmission gates controlled by $s$ and $\overline{s}$. $s = 0$ passes $x_1$ and $s = 1$ passes $x_2$. It's the same function as the [[ch06-combinational-building-blocks|multiplexers in Ch 6]], just built at the transistor level.
+- **2-to-1 multiplexer:** two transmission gates controlled by $s$ and $\overline{s}$. $s = 0$ passes $x_1$ and $s = 1$ passes $x_2$. It's the same function as the multiplexers in Ch 6, just built at the transistor level.
 
 ### Standard chips: the 7400 series (§3.5)
 
@@ -264,7 +264,7 @@ A product term can be **shared** by several outputs, which saves AND gates.
 
 **How a LUT works:** a LUT is a tiny memory that stores a truth table. A 2-input LUT has $2^2 = 4$ storage cells, one per row. The inputs $x_1$, $x_2$ drive the select lines of a tree of multiplexers that pick the cell for the current row. So **any** function of 2 variables fits in a 2-input LUT, and you only change the stored bits.
 
-Think of it as a **cheat sheet** instead of a circuit. Rather than building gates that compute the answer, the LUT just *looks up* the answer for the current inputs. The multiplexers in it are the ones from [[ch06-combinational-building-blocks|Ch 6]]. See [[lookup-table|Lookup Tables]] for a worked example and how bigger functions are built from lots of LUTs.
+Think of it as a **cheat sheet** instead of a circuit. Rather than building gates that compute the answer, the LUT just *looks up* the answer for the current inputs. The multiplexers in it are the ones from Ch 6. See [[lookup-table|Lookup Tables]] for a worked example and how bigger functions are built from lots of LUTs.
 
 ## Key formulas
 

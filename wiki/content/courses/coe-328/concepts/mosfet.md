@@ -71,7 +71,7 @@ The ideal-switch model is enough for logic design, but a real MOSFET has:
 - **Capacitance:** the gate and wiring have to be charged and discharged, which is where **propagation delay** comes from (see *Speed of logic gates* in [[ch03-implementation-technology|Ch 3]]).
 - **A threshold voltage** $V_T$ below which the channel doesn't form.
 
-For the device physics behind the channel, threshold voltage and the current equations, see [[ch09-mosfet-operation|PCS 224 Ch 9: MOSFET Operation]].
+For the device physics behind the channel, threshold voltage and the current equations, see PCS 224 Ch 9: MOSFET Operation.
 
 ## Common mistakes
 
