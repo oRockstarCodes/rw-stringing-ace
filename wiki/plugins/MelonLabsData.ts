@@ -44,7 +44,7 @@ const CODE_LANGS: Record<string, string> = {
   ".s": "asm",
   ".tcl": "tcl",
 }
-const DOWNLOAD_EXTS = [".zip", ".qar", ".bdf", ".jar"]
+const DOWNLOAD_EXTS = [".zip", ".qar", ".bdf", ".jar", ".ms14"]
 const MAX_CODE_BYTES = 300_000
 
 export type LabFile = { path: string; name: string }
