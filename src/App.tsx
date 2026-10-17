@@ -1,29 +1,36 @@
-import type { ReactNode } from "react";
+import { lazy, Suspense, type ReactNode } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "./pages/Home";
-import About from "./pages/About";
-import NotFound from "./pages/NotFound";
-import StringingIndex from "./pages/stringing/Index";
-import AboutUs from "./pages/stringing/AboutUs";
-import PricingPage from "./pages/stringing/PricingPage";
-import ContactPage from "./pages/stringing/ContactPage";
-import StringDetails from "./pages/stringing/StringDetails";
-import { AuthProvider } from "@/crm/AuthProvider";
-import { RequireAuth } from "@/crm/RequireAuth";
-import CrmLayout from "@/crm/CrmLayout";
-import CrmLoginPage from "@/crm/pages/CrmLoginPage";
-import CrmDashboardPage from "@/crm/pages/CrmDashboardPage";
-import CrmCustomersPage from "@/crm/pages/CrmCustomersPage";
-import CrmCustomerDetailPage from "@/crm/pages/CrmCustomerDetailPage";
-import CrmOrdersPage from "@/crm/pages/CrmOrdersPage";
-import CrmInventoryPage from "@/crm/pages/CrmInventoryPage";
-import CrmInquiriesPage from "@/crm/pages/CrmInquiriesPage";
-import CrmStaffPage from "@/crm/pages/CrmStaffPage";
+import SmoothScroll from "@/components/SmoothScroll";
 import { features } from "@/data/site";
+
+// Routes are code-split so each page (and the whole CRM) loads on demand.
+const Home = lazy(() => import("./pages/Home"));
+const About = lazy(() => import("./pages/About"));
+const NotFound = lazy(() => import("./pages/NotFound"));
+const StringingIndex = lazy(() => import("./pages/stringing/Index"));
+const AboutUs = lazy(() => import("./pages/stringing/AboutUs"));
+const PricingPage = lazy(() => import("./pages/stringing/PricingPage"));
+const ContactPage = lazy(() => import("./pages/stringing/ContactPage"));
+const StringDetails = lazy(() => import("./pages/stringing/StringDetails"));
+const AuthProvider = lazy(() =>
+  import("@/crm/AuthProvider").then((m) => ({ default: m.AuthProvider })),
+);
+const RequireAuth = lazy(() =>
+  import("@/crm/RequireAuth").then((m) => ({ default: m.RequireAuth })),
+);
+const CrmLayout = lazy(() => import("@/crm/CrmLayout"));
+const CrmLoginPage = lazy(() => import("@/crm/pages/CrmLoginPage"));
+const CrmDashboardPage = lazy(() => import("@/crm/pages/CrmDashboardPage"));
+const CrmCustomersPage = lazy(() => import("@/crm/pages/CrmCustomersPage"));
+const CrmCustomerDetailPage = lazy(() => import("@/crm/pages/CrmCustomerDetailPage"));
+const CrmOrdersPage = lazy(() => import("@/crm/pages/CrmOrdersPage"));
+const CrmInventoryPage = lazy(() => import("@/crm/pages/CrmInventoryPage"));
+const CrmInquiriesPage = lazy(() => import("@/crm/pages/CrmInquiriesPage"));
+const CrmStaffPage = lazy(() => import("@/crm/pages/CrmStaffPage"));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -44,6 +51,8 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
+        <SmoothScroll />
+        <Suspense fallback={null}>
         <MaybeAuth>
           <Routes>
             {/* Personal site */}
@@ -80,6 +89,7 @@ const App = () => (
             <Route path="*" element={<NotFound />} />
           </Routes>
         </MaybeAuth>
+        </Suspense>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

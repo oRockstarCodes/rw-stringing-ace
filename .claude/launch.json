@@ -2,6 +2,12 @@
   "version": "0.0.1",
   "configurations": [
     {
+      "name": "dev",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
+      "port": 8080
+    },
+    {
       "name": "dist",
       "runtimeExecutable": "npx",
       "runtimeArgs": ["--yes", "serve@14.2.4", "dist", "-l", "4321"],
