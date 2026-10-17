@@ -18,7 +18,7 @@ const config: QuartzConfig = {
     pageTitleSuffix: " · Rocky Wang",
     enableSPA: true,
     enablePopovers: true,
-    analytics: null,
+    analytics: { provider: "google", tagId: "G-XEBVL6SMNV" },
     locale: "en-US",
     baseUrl: "rwangqz.ca/melon-files",
     ignorePatterns: [
