@@ -23,6 +23,8 @@ cp "$ROOT/wiki/static/icon.png" "$ENGINE/quartz/static/icon.png"
 cp "$ROOT/wiki/static/og-image.png" "$ENGINE/quartz/static/og-image.png"
 # Lenis smooth scrolling, from the same package the main site uses
 cp "$ROOT/node_modules/lenis/dist/lenis.min.js" "$ROOT/node_modules/lenis/dist/lenis.css" "$ENGINE/quartz/static/"
+# GSAP, for the page-transition motion in MelonMotion.tsx (loaded on demand like Lenis)
+cp "$ROOT/node_modules/gsap/dist/gsap.min.js" "$ENGINE/quartz/static/"
 mkdir -p "$ENGINE/quartz/components/custom"
 cp "$ROOT"/wiki/components/*.tsx "$ENGINE/quartz/components/custom/"
 mkdir -p "$ENGINE/quartz/plugins/custom"

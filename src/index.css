@@ -105,6 +105,27 @@
     box-shadow: 0 8px 32px -8px hsl(var(--gold-glow) / 0.15);
   }
 
+  /* Home cards: GSAP tilts them, so CSS must not also transition transform. A gold
+     spotlight follows the pointer through --mx / --my. */
+  .card-tilt {
+    transition-property: border-color, box-shadow;
+    will-change: transform;
+  }
+
+  .card-tilt::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s;
+    background: radial-gradient(360px circle at var(--mx, 50%) var(--my, 50%), hsl(var(--gold-glow) / 0.14), transparent 60%);
+  }
+
+  .card-tilt:hover::before {
+    opacity: 1;
+  }
+
   .btn-gold {
     @apply inline-flex items-center justify-center gap-2 rounded-full font-semibold transition-all duration-300;
     background: linear-gradient(135deg, hsl(45 100% 51%) 0%, hsl(42 100% 45%) 100%);

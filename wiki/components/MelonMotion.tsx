@@ -42,7 +42,36 @@ const MelonMotion: QuartzComponent = ({ allFiles }: QuartzComponentProps) => {
 MelonMotion.afterDOMLoaded = `
 let firstNav = true
 let alt = false
+
+// GSAP is loaded on demand from static/ (copied there by scripts/build-wiki.sh), the same
+// way Lenis is. Until it arrives, melonGsap stays null and pages just skip the extra motion.
+let melonGsap = null
+let melonGsapFirst = true
+if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  const sheet = document.querySelector('link[href*="index.css"]')
+  const base = sheet ? sheet.href.split("index.css")[0] + "static/" : "/melon-files/static/"
+  const tag = document.createElement("script")
+  tag.src = base + "gsap.min.js"
+  tag.onload = () => (melonGsap = window.gsap)
+  document.head.appendChild(tag)
+}
+
 document.addEventListener("nav", () => {
+  // Page transition: after the first page, the title and the first screenful of the page
+  // body slide up and fade in one after another. (The first load already has the CSS entrance.)
+  if (melonGsapFirst) melonGsapFirst = false
+  else if (melonGsap && !document.hidden) {
+    const blocks = [...document.querySelectorAll(".center .article-title, .center article > *")]
+      .filter((el) => el.getBoundingClientRect().top < window.innerHeight)
+      .slice(0, 14)
+    if (blocks.length)
+      melonGsap.fromTo(
+        blocks,
+        { opacity: 0, y: 16 },
+        { opacity: 1, y: 0, duration: 0.55, ease: "power2.out", stagger: 0.045, clearProps: "opacity,transform", overwrite: "auto" },
+      )
+  }
+
   // The entrance plays on its own on first load. After that, alternating this class
   // swaps to an identical keyframe name, which makes the browser replay it. (State is
   // kept here because the SPA router resets .center's classes on navigation.)

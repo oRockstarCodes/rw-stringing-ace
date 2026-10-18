@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import Lenis from "lenis";
-import gsap from "gsap";
+import { gsap, ScrollTrigger } from "@/lib/motion";
 import "lenis/dist/lenis.css";
 
 // Lenis smooth scrolling, driven by GSAP's ticker so scroll-based GSAP
@@ -16,6 +16,7 @@ const SmoothScroll = () => {
     if (!enabled) return;
 
     const lenis = new Lenis({ autoRaf: false });
+    lenis.on("scroll", ScrollTrigger.update);
     const tick = (time: number) => lenis.raf(time * 1000);
     gsap.ticker.add(tick);
     gsap.ticker.lagSmoothing(0);
