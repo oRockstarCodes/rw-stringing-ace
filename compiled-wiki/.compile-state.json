@@ -1,1 +1,6 @@
-{}
+{
+  "last_compiled": "2026-10-18",
+  "topics": ["java-oop-foundations","number-systems-and-binary-arithmetic","boolean-algebra-and-logic-minimization","cmos-and-implementation-technology","operational-amplifiers","second-order-circuits"],
+  "source_locations": ["wiki/content/courses/"],
+  "total_sources_scanned": 38
+}

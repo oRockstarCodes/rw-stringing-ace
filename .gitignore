@@ -51,3 +51,4 @@ wiki/content/courses/*/labs/**/target/
 wiki/content/courses/*/labs/**/.idea/
 wiki/content/courses/*/labs/**/.vscode/
 wiki/content/courses/*/labs/**/*.class
+graphify-out/
