@@ -3,6 +3,7 @@ import * as Component from "./quartz/components"
 import MelonHome from "./quartz/components/custom/MelonHome"
 import MelonBand from "./quartz/components/custom/MelonBand"
 import MelonMotion from "./quartz/components/custom/MelonMotion"
+import MelonSmoothScroll from "./quartz/components/custom/MelonSmoothScroll"
 import MelonOpAmp from "./quartz/components/custom/MelonOpAmp"
 import MelonFigures from "./quartz/components/custom/MelonFigures"
 import MelonLogic from "./quartz/components/custom/MelonLogic"
@@ -86,7 +87,7 @@ export const sharedPageComponents: SharedLayout = {
   header: [],
   // MelonOpAmp and MelonLogic fill in the <div class="melon-opamp"> and
   // <div class="melon-logic"> diagrams written in notes
-  afterBody: [MelonMotion(), MelonOpAmp(), MelonLogic()],
+  afterBody: [MelonMotion(), MelonSmoothScroll(),MelonOpAmp(), MelonLogic()],
   footer: Component.Footer({
     links: {
       "← rwangqz.ca": "https://rwangqz.ca",
