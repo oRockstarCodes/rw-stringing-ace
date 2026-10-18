@@ -49,6 +49,26 @@ For logic analysis, a [[mosfet|MOSFET]] is treated as an **ideal switch** that's
 
 **Why each type goes where it does.** Each type is only good at passing one value. An NMOS connected to ground can pull the output all the way down to a clean 0 V, but it would only give a weak 1 if you used it to reach $V_{DD}$. A PMOS is the mirror image, with clean 1s and weak 0s. That's why NMOS goes to ground and PMOS goes to $V_{DD}$.
 
+For how a single transistor works (gate, source, drain, and how the gate voltage forms the channel), with an interactive NMOS/PMOS cross-section, see [[mosfet|MOSFET]].
+
+### NMOS, PMOS and CMOS: what is each one built from?
+
+The three names are three **logic families**, and what separates them is *which networks the gate contains*. Everything is built from the two networks above, so keep these three lines in mind:
+
+|Family|What's inside the gate|How the output gets a 1|How the output gets a 0|
+|---|---|---|---|
+|**NMOS logic**|a **PDN** (NMOS) + a pull-up **resistor**|the resistor weakly pulls it up (when the PDN is OFF)|the PDN conducts and wins over the resistor|
+|**PMOS logic**|a **PUN** (PMOS) + a pull-down **resistor**|the PUN conducts and wins over the resistor|the resistor weakly pulls it down (when the PUN is OFF)|
+|**CMOS**|a **PUN** (PMOS) **and** a **PDN** (NMOS)|the PUN conducts (PDN is OFF)|the PDN conducts (PUN is OFF)|
+
+So **NMOS logic is "a PDN with a resistor on top"**, **PMOS logic is "a PUN with a resistor underneath"**, and **CMOS is a PUN and a PDN with no resistor at all**. The resistor in the first two is only there so the output is never left floating. In CMOS the other network does that job properly.
+
+> [!note] **Wording.** A transistor is NMOS or PMOS. A *network* (PDN or PUN) is a group of the same kind of transistor wired in series/parallel. A *logic family* (NMOS logic, PMOS logic, CMOS) is how those networks are combined into a gate. So "an NMOS gate is made of a PDN" means "a gate whose only transistors are NMOS, all of them in the pull-down network".
+
+**Try it:** switch between the three families, pick a gate, and flip the inputs. Watch the orange wires. Whenever one lights up, current is flowing from $V_{DD}$ to GND the whole time, which is the **static current** that CMOS gets rid of.
+
+<div class="melon-logic" data-view="mosfamily">Interactive NMOS / PMOS / CMOS comparison (open this page on the site to use it).</div>
+
 ### Networks: series and parallel
 
 One transistor is only enough for a NOT gate. For anything else, the output should only connect to a supply for *certain input combinations*, so we wire several transistors together. Two rules decide how:
@@ -83,9 +103,30 @@ The older style uses **only a PDN**. A PDN can pull the output to 0, but when it
 
 **The drawback:** whenever the output is LOW, current flows from $V_{DD}$ through the resistor and the NMOS network to ground the whole time. That wastes power and makes heat, and CMOS fixes it.
 
+### PMOS logic gates
+
+The mirror image of NMOS logic uses **only a PUN** of PMOS transistors, with a **pull-down resistor** from the output to GND:
+
+- PUN **ON** → it beats the resistor → output **HIGH**.
+- PUN **OFF** → the resistor pulls the output to GND → output **LOW**.
+
+Because a PMOS turns on with a **0**, the PUN conducts when its inputs are 0, and the gate computes a function of the complemented inputs:
+
+|Gate|PMOS arrangement|Output 1 when…|Result|
+|---|---|---|---|
+|NOT|One PMOS|$x = 0$|$f = \overline{x}$|
+|NAND|Two PMOS in **parallel**|$A = 0$ **or** $B = 0$|$f = \overline{AB}$|
+|NOR|Two PMOS in **series**|$A = 0$ **and** $B = 0$|$f = \overline{A + B}$|
+
+- Same series = AND, parallel = OR rule, but applied to the **0** inputs since that's what turns a PMOS on.
+- It has the same drawback as NMOS logic, flipped. When the output is **HIGH**, current flows from $V_{DD}$ through the PUN and the resistor to GND the whole time.
+- It was used in very early chips, but NMOS is faster (electrons move more easily than holes), so NMOS logic took over, and then CMOS replaced both.
+
+The PUN you just drew is **exactly** the top half of a CMOS gate. And the PDN from the NMOS section is exactly the bottom half. CMOS is just those two halves on one output, with the resistor removed.
+
 ### CMOS logic gates
 
-**CMOS** stands for **complementary** MOS. It replaces the resistor with a **pull-up network (PUN)** of PMOS transistors, so it uses *both* kinds of transistor as a matched pair of networks. The PUN sits between $V_{DD}$ and the output, the PDN sits between the output and GND, and they're built so that for *every* input combination **exactly one of them conducts**:
+**CMOS** stands for **complementary** MOS. It replaces the resistor of NMOS logic with a **pull-up network (PUN)** of PMOS transistors (or, equivalently, replaces the resistor of PMOS logic with a PDN), so it uses *both* kinds of transistor as a matched pair of networks. The PUN sits between $V_{DD}$ and the output, the PDN sits between the output and GND, and they're built so that for *every* input combination **exactly one of them conducts**:
 
 |Situation|PUN|PDN|Output|
 |---|---|---|---|

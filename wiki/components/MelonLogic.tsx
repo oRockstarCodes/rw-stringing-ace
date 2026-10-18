@@ -14,6 +14,7 @@ import { QuartzComponent, QuartzComponentConstructor } from "../types"
 //   <div class="melon-logic" data-view="number"></div>    8-bit number in every representation
 //   <div class="melon-logic" data-view="waveform"></div>  Pulse waveform on an oscilloscope grid
 //   <div class="melon-logic" data-view="cmos"></div>      CMOS NOT / NAND / NOR transistor states
+//   <div class="melon-logic" data-view="mosfamily"></div> NMOS-only (PDN + resistor) vs PMOS-only (PUN + resistor) vs CMOS (both)
 //   <div class="melon-logic" data-view="mosfet"></div>    Single NMOS / PMOS cross-section: the gate voltage forms a channel
 //   <div class="melon-logic" data-view="adder"></div>     4-bit ripple-carry adder/subtractor
 //   <div class="melon-logic" data-view="mux"></div>       4-to-1 multiplexer
@@ -813,6 +814,50 @@ MelonLogic.afterDOMLoaded = `
   }
   const seg = (cls, pts) => '<polyline class="lg-wire ' + cls + '" points="' + pts + '"/>'
 
+  // The pull-up (PMOS) half of a NOT / NAND / NOR, from VDD at y=24 down to the output node at y=160
+  function drawPun(g, a, b, U) {
+    if (g === "not") return seg(U, "180,24 180,60") + mos(180, 60, 110, true, "A", !a) + seg(U, "180,110 180,160")
+    if (g === "nand")
+      return (
+        seg(U, "130,24 130,50") + mos(130, 50, 95, true, "A", !a) + seg(U, "130,95 130,115") +
+        seg(U, "230,24 230,50") + mos(230, 50, 95, true, "B", !b) + seg(U, "230,95 230,115") +
+        seg(U, "130,115 230,115") + seg(U, "180,115 180,160")
+      )
+    return seg(U, "180,24 180,40") + mos(180, 40, 80, true, "A", !a) + seg(U, "180,80 180,98") + mos(180, 98, 138, true, "B", !b) + seg(U, "180,138 180,160")
+  }
+  // The pull-down (NMOS) half, from the output node at y=160 down to GND at y=296
+  function drawPdn(g, a, b, D) {
+    if (g === "not") return seg(D, "180,160 180,205") + mos(180, 205, 255, false, "A", !!a) + seg(D, "180,255 180,296")
+    if (g === "nand")
+      return seg(D, "180,160 180,180") + mos(180, 180, 220, false, "A", !!a) + seg(D, "180,220 180,236") + mos(180, 236, 276, false, "B", !!b) + seg(D, "180,276 180,296")
+    return (
+      seg(D, "180,160 180,185") + seg(D, "130,185 230,185") +
+      seg(D, "130,185 130,205") + mos(130, 205, 250, false, "A", !!a) + seg(D, "130,250 130,272") +
+      seg(D, "230,185 230,205") + mos(230, 205, 250, false, "B", !!b) + seg(D, "230,250 230,272") +
+      seg(D, "130,272 230,272") + seg(D, "180,272 180,296")
+    )
+  }
+  // A resistor standing in for a missing network, drawn on x=180 from y1 to y2
+  function drawRes(cls, y1, y2) {
+    const m = (y1 + y2) / 2
+    let p = "180," + y1 + " 180," + (m - 30)
+    for (let i = 0; i < 6; i++) p += " " + (i % 2 ? 190 : 170) + "," + (m - 30 + 5 + i * 10)
+    p += " 180," + (m + 30) + " 180," + y2
+    return seg(cls, p) + '<text class="lg-label" x="148" y="' + (m + 5) + '" text-anchor="end">R</text>'
+  }
+  // VDD and GND rails shared by the transistor diagrams
+  const RAILS =
+    '<line class="lg-rail" x1="90" y1="24" x2="270" y2="24"/><text class="lg-label" x="278" y="29">V' + '<tspan class="lg-sub" dy="4">DD</tspan></text>' +
+    '<line class="lg-rail" x1="90" y1="296" x2="270" y2="296"/>' +
+    '<line class="lg-wire" x1="166" y1="304" x2="194" y2="304"/><line class="lg-wire" x1="172" y1="310" x2="188" y2="310"/><line class="lg-wire" x1="178" y1="316" x2="182" y2="316"/>' +
+    '<line class="lg-wire" x1="180" y1="296" x2="180" y2="304"/><text class="lg-label" x="278" y="301">GND</text>'
+  const outNode = (f) =>
+    '<line class="lg-wire lg-outwire' + (f ? " is-hi" : "") + '" x1="180" y1="160" x2="315" y2="160"/>' +
+    '<circle class="lg-node" cx="180" cy="160" r="4"/>' +
+    '<circle class="lg-term' + (f ? " is-hi" : "") + '" cx="315" cy="160" r="6"/>' +
+    '<text class="lg-label" x="327" y="165">f</text>' +
+    '<text class="lg-val lg-strong" x="290" y="151" text-anchor="middle">' + f + "</text>"
+
   function buildCmos(root) {
     let g = "nand"
     const v = { a: 0, b: 1 }
@@ -834,32 +879,8 @@ MelonLogic.afterDOMLoaded = `
       const { pun, pdn } = state(a, b)
       const f = pun ? 1 : 0
       const U = "lg-pun" + (pun ? " is-live" : ""), D = "lg-pdn" + (pdn ? " is-live" : "")
-      let h =
-        '<line class="lg-rail" x1="90" y1="24" x2="270" y2="24"/><text class="lg-label" x="278" y="29">V' + '<tspan class="lg-sub" dy="4">DD</tspan></text>' +
-        '<line class="lg-rail" x1="90" y1="296" x2="270" y2="296"/>' +
-        '<line class="lg-wire" x1="166" y1="304" x2="194" y2="304"/><line class="lg-wire" x1="172" y1="310" x2="188" y2="310"/><line class="lg-wire" x1="178" y1="316" x2="182" y2="316"/>' +
-        '<line class="lg-wire" x1="180" y1="296" x2="180" y2="304"/><text class="lg-label" x="278" y="301">GND</text>'
-      if (g === "not") {
-        h += seg(U, "180,24 180,60") + mos(180, 60, 110, true, "A", !a) + seg(U, "180,110 180,160")
-        h += seg(D, "180,160 180,205") + mos(180, 205, 255, false, "A", !!a) + seg(D, "180,255 180,296")
-      } else if (g === "nand") {
-        h += seg(U, "130,24 130,50") + mos(130, 50, 95, true, "A", !a) + seg(U, "130,95 130,115")
-        h += seg(U, "230,24 230,50") + mos(230, 50, 95, true, "B", !b) + seg(U, "230,95 230,115")
-        h += seg(U, "130,115 230,115") + seg(U, "180,115 180,160")
-        h += seg(D, "180,160 180,180") + mos(180, 180, 220, false, "A", !!a) + seg(D, "180,220 180,236") + mos(180, 236, 276, false, "B", !!b) + seg(D, "180,276 180,296")
-      } else {
-        h += seg(U, "180,24 180,40") + mos(180, 40, 80, true, "A", !a) + seg(U, "180,80 180,98") + mos(180, 98, 138, true, "B", !b) + seg(U, "180,138 180,160")
-        h += seg(D, "180,160 180,185") + seg(D, "130,185 230,185")
-        h += seg(D, "130,185 130,205") + mos(130, 205, 250, false, "A", !!a) + seg(D, "130,250 130,272")
-        h += seg(D, "230,185 230,205") + mos(230, 205, 250, false, "B", !!b) + seg(D, "230,250 230,272")
-        h += seg(D, "130,272 230,272") + seg(D, "180,272 180,296")
-      }
+      let h = RAILS + drawPun(g, a, b, U) + drawPdn(g, a, b, D) + outNode(f)
       h +=
-        '<line class="lg-wire lg-outwire' + (f ? " is-hi" : "") + '" x1="180" y1="160" x2="315" y2="160"/>' +
-        '<circle class="lg-node" cx="180" cy="160" r="4"/>' +
-        '<circle class="lg-term' + (f ? " is-hi" : "") + '" cx="315" cy="160" r="6"/>' +
-        '<text class="lg-label" x="327" y="165">f</text>' +
-        '<text class="lg-val lg-strong" x="290" y="151" text-anchor="middle">' + f + "</text>" +
         '<text class="lg-net" x="270" y="78">PUN</text><text class="lg-net" x="270" y="94">(PMOS)</text>' +
         '<text class="lg-net" x="270" y="232">PDN</text><text class="lg-net" x="270" y="248">(NMOS)</text>'
       svg.innerHTML = h
@@ -891,6 +912,119 @@ MelonLogic.afterDOMLoaded = `
         " The other network is off, so no current flows from V<sub>DD</sub> to GND."
     }
     onChips(root, "cgate", g, (k) => {
+      g = k
+      render()
+    })
+    root.querySelectorAll(".lg-toggle").forEach((btn) =>
+      btn.addEventListener("click", () => {
+        v[btn.dataset.k] ^= 1
+        render()
+      }),
+    )
+    root.querySelector(".lg-tt").addEventListener("click", (e) => {
+      const tr = e.target.closest("tr[data-row]")
+      if (!tr) return
+      v.a = +tr.dataset.row[0]
+      if (tr.dataset.row.length > 1) v.b = +tr.dataset.row[1]
+      render()
+    })
+    render()
+  }
+
+  // ---------- NMOS-only vs PMOS-only vs CMOS ----------
+
+  function buildMosFamily(root) {
+    let fam = "nmos"
+    let g = "nand"
+    const v = { a: 1, b: 1 }
+    root.innerHTML =
+      chips("mfam", [["nmos", "NMOS logic"], ["pmos", "PMOS logic"], ["cmos", "CMOS"]]) +
+      chips("mgate", [["not", "NOT"], ["nand", "NAND"], ["nor", "NOR"]]) +
+      '<div class="lg-split"><svg class="lg-svg lg-cmos" viewBox="0 0 360 320" role="img" aria-label="Transistor circuit for the chosen logic family"></svg>' +
+      '<table class="lg-tt lg-tt-wide"></table></div>' +
+      '<div class="lg-toggles">' + toggle("a", "A") + toggle("b", "B") + "</div>" +
+      '<p class="lg-readout lg-prose" aria-live="polite"></p>'
+    const svg = root.querySelector(".lg-cmos")
+
+    // Does each transistor network conduct? (the same for every family: PMOS on for 0, NMOS on for 1)
+    const nets = (a, b) => {
+      if (g === "not") return { pun: !a, pdn: !!a }
+      if (g === "nand") return { pun: !a || !b, pdn: !!(a && b) }
+      return { pun: !a && !b, pdn: !!(a || b) }
+    }
+    const out = (a, b) => {
+      const { pun, pdn } = nets(a, b)
+      if (fam === "nmos") return { f: pdn ? 0 : 1, cur: pdn }
+      if (fam === "pmos") return { f: pun ? 1 : 0, cur: pun }
+      return { f: pun ? 1 : 0, cur: false }
+    }
+    const render = () => {
+      const { a, b } = v
+      const { pun, pdn } = nets(a, b)
+      const { f, cur } = out(a, b)
+      let h = RAILS
+      if (fam === "nmos") {
+        h += drawRes(cur ? "lg-cur" : "lg-pun is-live", 24, 160) + drawPdn(g, a, b, cur ? "lg-cur" : "lg-pdn")
+      } else if (fam === "pmos") {
+        h += drawPun(g, a, b, cur ? "lg-cur" : "lg-pun") + drawRes(cur ? "lg-cur" : "lg-pdn is-live", 160, 296)
+      } else {
+        h += drawPun(g, a, b, "lg-pun" + (pun ? " is-live" : "")) + drawPdn(g, a, b, "lg-pdn" + (pdn ? " is-live" : ""))
+      }
+      h += outNode(f)
+      h +=
+        '<text class="lg-net" x="270" y="78">' + (fam === "nmos" ? "pull-up R" : "PUN") + "</text>" +
+        (fam === "nmos" ? "" : '<text class="lg-net" x="270" y="94">(PMOS)</text>') +
+        '<text class="lg-net" x="270" y="232">' + (fam === "pmos" ? "pull-down R" : "PDN") + "</text>" +
+        (fam === "pmos" ? "" : '<text class="lg-net" x="270" y="248">(NMOS)</text>')
+      if (cur) h += '<text class="lg-net lg-warn" x="20" y="165">static current</text>'
+      svg.innerHTML = h
+
+      const one = g === "not"
+      const combos = one ? [[0], [1]] : [[0, 0], [0, 1], [1, 0], [1, 1]]
+      const word = (on) => (on ? "on" : "off")
+      let t = "<thead><tr><th>A</th>" + (one ? "" : "<th>B</th>") + "<th>Pull-up</th><th>Pull-down</th><th>f</th><th>I<sub>static</sub></th></tr></thead><tbody>"
+      combos.forEach((r) => {
+        const n = nets(r[0], r[1] || 0)
+        const o = out(r[0], r[1] || 0)
+        const here = r[0] === a && (one || r[1] === b)
+        t +=
+          '<tr data-row="' + r.join("") + '"' + (here ? ' class="is-cur"' : "") + ">" + r.map((x) => "<td>" + x + "</td>").join("") +
+          "<td>" + (fam === "nmos" ? "R" : word(n.pun)) + "</td><td>" + (fam === "pmos" ? "R" : word(n.pdn)) + "</td>" +
+          "<td><b>" + o.f + "</b></td><td>" + (o.cur ? "yes" : "no") + "</td></tr>"
+      })
+      root.querySelector(".lg-tt").innerHTML = t + "</tbody>"
+      root.querySelectorAll(".lg-toggle").forEach((btn) => setToggle(btn, v[btn.dataset.k]))
+      root.querySelector('.lg-toggle[data-k="b"]').hidden = one
+
+      const gate = g.toUpperCase()
+      let msg
+      if (fam === "nmos") {
+        msg =
+          "<strong>NMOS " + gate + ":</strong> only a <strong>pull-down network</strong> of NMOS, plus a pull-up resistor R. " +
+          (pdn
+            ? "The PDN conducts and beats the weak resistor, so <strong>f = 0</strong>. But V<sub>DD</sub> now has a path to GND through R and the PDN, so current flows the whole time the output is low."
+            : "The PDN is off, so nothing fights the resistor and it holds <strong>f = 1</strong>. No current flows.")
+      } else if (fam === "pmos") {
+        msg =
+          "<strong>PMOS " + gate + ":</strong> only a <strong>pull-up network</strong> of PMOS, plus a pull-down resistor R. " +
+          (pun
+            ? "The PUN conducts and beats the weak resistor, so <strong>f = 1</strong>. V<sub>DD</sub> has a path to GND through the PUN and R, so current flows the whole time the output is high."
+            : "The PUN is off, so the resistor pulls the output to GND: <strong>f = 0</strong>. No current flows.")
+      } else {
+        msg =
+          "<strong>CMOS " + gate + ":</strong> a PUN <em>and</em> a PDN, no resistor. " +
+          (pun
+            ? "The <strong>PUN</strong> conducts, the PDN is off: <strong>f = 1</strong>."
+            : "The <strong>PDN</strong> conducts, the PUN is off: <strong>f = 0</strong>.") +
+          " One network is always off, so there is never a path from V<sub>DD</sub> to GND."
+      }
+      root.querySelector(".lg-readout").innerHTML = msg
+    }
+    onChips(root, "mfam", fam, (k) => {
+      fam = k
+      render()
+    })
+    onChips(root, "mgate", g, (k) => {
       g = k
       render()
     })
@@ -1253,6 +1387,7 @@ MelonLogic.afterDOMLoaded = `
     number: buildNumber,
     waveform: buildWave,
     cmos: buildCmos,
+    mosfamily: buildMosFamily,
     mosfet: buildMosfet,
     adder: buildAdder,
     mux: buildMux,

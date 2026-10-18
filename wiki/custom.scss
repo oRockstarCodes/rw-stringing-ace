@@ -2592,6 +2592,14 @@ a.melon-lab {
     stroke: var(--secondary);
     stroke-width: 3;
   }
+  .lg-wire.lg-cur {
+    stroke: var(--tertiary);
+    stroke-width: 3;
+  }
+  .lg-net.lg-warn {
+    fill: var(--tertiary);
+    font-weight: 700;
+  }
   .lg-net {
     fill: var(--gray);
     font-size: 11px;

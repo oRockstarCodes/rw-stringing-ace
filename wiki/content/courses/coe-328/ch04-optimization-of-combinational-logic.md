@@ -93,11 +93,41 @@ Every time the group size doubles, one variable drops out. The **minimum SOP** i
 
 Brown & Vranesic have names for the pieces of this process:
 
-- **Implicant:** any valid group (a product term that's 1 only where $f$ is 1 or don't care).
+- **Implicant:** any valid group of 1s (a product term that's 1 only where $f$ is 1 or don't care).
 - **Prime implicant:** a group that can't be made any bigger.
 - **Essential prime implicant:** a prime implicant that covers some 1 that no other prime implicant covers. It **has to** be in the answer.
 
 So the method is to find the essential prime implicants first, then add as few other prime implicants as you need to cover the remaining 1s.
+
+#### Implicants are for SOP, implicates are for POS
+
+An **implicant** is a *product* term that **implies** $f$: whenever the product is 1, $f$ is guaranteed to be 1. On the map, that's a rectangle of 1s (X cells allowed). A single 1-cell is a minterm, which is the smallest implicant. Grouping 1s makes bigger and bigger implicants.
+
+An **implicate** is the mirror image: a *sum* term that $f$ **implies**, meaning whenever the sum is 0, $f$ is guaranteed to be 0. On the map, that's a rectangle of 0s (X cells allowed). A single 0-cell is a maxterm, which is the smallest implicate. Grouping 0s makes bigger implicates.
+
+|Implicants (SOP)|Implicates (POS)|
+|---|---|
+|Group the **1s**|Group the **0s**|
+|Each group is a **product** term|Each group is a **sum** term|
+|The term is 1 only on cells where $f = 1$|The term is 0 only on cells where $f = 0$|
+|Smallest one is a **minterm**|Smallest one is a **maxterm**|
+|**Prime implicant:** can't be enlarged|**Prime implicate:** can't be enlarged|
+|**Essential:** covers a 1 nothing else does|**Essential:** covers a 0 nothing else does|
+|**Minimum SOP** = OR of the chosen prime implicants|**Minimum POS** = AND of the chosen prime implicates|
+
+The reason the two go with different forms comes down to how each form is built:
+
+- An SOP is an OR of products, so $f = 1$ whenever **any** product is 1. Each product has to be an implicant (never 1 where $f = 0$), and together they have to cover every 1 of $f$.
+- A POS is an AND of sums, so $f = 0$ whenever **any** sum is 0. Each sum has to be an implicate (never 0 where $f = 1$), and together they have to cover every 0 of $f$.
+
+So the minimization is the same problem done twice. For SOP you pick the fewest, biggest prime implicants that cover all the 1s. For POS you pick the fewest, biggest prime implicates that cover all the 0s.
+
+**Example:** for $X = \prod M(0, 2, 3, 8, 10, 11)$ from Examples 7 and 8:
+
+- Prime implicants (from the 1s): $B$ and $\overline{C}D$. Both are essential, since $B$ is the only one covering cell 6 and $\overline{C}D$ is the only one covering cell 1. $X = B + \overline{C}D$.
+- Prime implicates (from the 0s): $(B + D)$ and $(B + \overline{C})$. Both are essential, since $(B + D)$ is the only one covering cell 0 and $(B + \overline{C})$ is the only one covering cell 3. $X = (B + D)(B + \overline{C})$.
+
+Same function, two different covers of the map.
 
 ### Don't care conditions
 
