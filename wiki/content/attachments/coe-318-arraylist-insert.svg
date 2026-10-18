@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 230" width="540" height="230" font-family="DM Sans, system-ui, sans-serif" font-size="13">
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#c99a12"/></marker>
+    <marker id="ahg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#8a8a93"/></marker>
+  </defs>
+  <text x="10" y="39" font-size="12" text-anchor="start" fill="#8a8a93" font-weight="600">1. four add() calls</text>
+  <text x="190" y="22" font-size="11" text-anchor="middle" fill="#8a8a93">0</text>
+  <text x="252" y="22" font-size="11" text-anchor="middle" fill="#8a8a93">1</text>
+  <text x="314" y="22" font-size="11" text-anchor="middle" fill="#8a8a93">2</text>
+  <text x="376" y="22" font-size="11" text-anchor="middle" fill="#8a8a93">3</text>
+  <rect x="159" y="26" width="62" height="28" fill="none" stroke="#8a8a93" stroke-width="2"/>
+  <text x="190" y="44" font-size="12" text-anchor="middle" fill="#8a8a93" font-weight="600">Paul</text>
+  <rect x="221" y="26" width="62" height="28" fill="none" stroke="#8a8a93" stroke-width="2"/>
+  <text x="252" y="44" font-size="12" text-anchor="middle" fill="#8a8a93" font-weight="600">Pete</text>
+  <rect x="283" y="26" width="62" height="28" fill="none" stroke="#8a8a93" stroke-width="2"/>
+  <text x="314" y="44" font-size="12" text-anchor="middle" fill="#8a8a93" font-weight="600">John</text>
+  <rect x="345" y="26" width="62" height="28" fill="none" stroke="#8a8a93" stroke-width="2"/>
+  <text x="376" y="44" font-size="12" text-anchor="middle" fill="#8a8a93" font-weight="600">George</text>
+  <text x="425" y="44" font-size="12" text-anchor="start" fill="#8a8a93" font-style="italic">size() = 4</text>
+
+  <text x="10" y="101" font-size="12" text-anchor="start" fill="#8a8a93" font-weight="600">2. indexOf("John")</text>
+  <rect x="159" y="82" width="62" height="28" fill="none" stroke="#8a8a93" stroke-width="2"/>
+  <text x="190" y="100" font-size="12" text-anchor="middle" fill="#8a8a93" font-weight="600">Paul</text>
+  <rect x="221" y="82" width="62" height="28" fill="none" stroke="#8a8a93" stroke-width="2"/>
+  <text x="252" y="100" font-size="12" text-anchor="middle" fill="#8a8a93" font-weight="600">Pete</text>
+  <rect x="283" y="82" width="62" height="28" fill="#c99a12" fill-opacity="0.18" stroke="#c99a12" stroke-width="2"/>
+  <text x="314" y="100" font-size="12" text-anchor="middle" fill="#8a8a93" font-weight="600">John</text>
+  <rect x="345" y="82" width="62" height="28" fill="none" stroke="#8a8a93" stroke-width="2"/>
+  <text x="376" y="100" font-size="12" text-anchor="middle" fill="#8a8a93" font-weight="600">George</text>
+  <text x="425" y="100" font-size="12" text-anchor="start" fill="#8a8a93" font-style="italic">location = 2</text>
+
+  <text x="10" y="157" font-size="12" text-anchor="start" fill="#8a8a93" font-weight="600">3. remove(2)</text>
+  <rect x="159" y="138" width="62" height="28" fill="none" stroke="#8a8a93" stroke-width="2"/>
+  <text x="190" y="156" font-size="12" text-anchor="middle" fill="#8a8a93" font-weight="600">Paul</text>
+  <rect x="221" y="138" width="62" height="28" fill="none" stroke="#8a8a93" stroke-width="2"/>
+  <text x="252" y="156" font-size="12" text-anchor="middle" fill="#8a8a93" font-weight="600">Pete</text>
+  <rect x="283" y="138" width="62" height="28" fill="none" stroke="#8a8a93" stroke-width="2"/>
+  <text x="314" y="156" font-size="12" text-anchor="middle" fill="#8a8a93" font-weight="600">George</text>
+  <rect x="345" y="138" width="62" height="28" fill="none" stroke="#8a8a93" stroke-width="1.2" stroke-dasharray="5 4"/>
+  <path d="M376,152 L350,152" fill="none" stroke="#8a8a93" stroke-width="0"/>
+  <text x="425" y="156" font-size="12" text-anchor="start" fill="#8a8a93" font-style="italic">size() = 3</text>
+
+  <text x="10" y="213" font-size="12" text-anchor="start" fill="#8a8a93" font-weight="600">4. add(2, "Ringo")</text>
+  <rect x="159" y="194" width="62" height="28" fill="none" stroke="#8a8a93" stroke-width="2"/>
+  <text x="190" y="212" font-size="12" text-anchor="middle" fill="#8a8a93" font-weight="600">Paul</text>
+  <rect x="221" y="194" width="62" height="28" fill="none" stroke="#8a8a93" stroke-width="2"/>
+  <text x="252" y="212" font-size="12" text-anchor="middle" fill="#8a8a93" font-weight="600">Pete</text>
+  <rect x="283" y="194" width="62" height="28" fill="#c99a12" fill-opacity="0.18" stroke="#c99a12" stroke-width="2"/>
+  <text x="314" y="212" font-size="12" text-anchor="middle" fill="#8a8a93" font-weight="600">Ringo</text>
+  <rect x="345" y="194" width="62" height="28" fill="none" stroke="#8a8a93" stroke-width="2"/>
+  <text x="376" y="212" font-size="12" text-anchor="middle" fill="#8a8a93" font-weight="600">George</text>
+  <text x="425" y="212" font-size="12" text-anchor="start" fill="#8a8a93" font-style="italic">size() = 4</text>
+</svg>

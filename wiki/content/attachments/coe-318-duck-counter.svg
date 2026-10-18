@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 235" width="540" height="235" font-family="DM Sans, system-ui, sans-serif" font-size="13">
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#c99a12"/></marker>
+    <marker id="ahg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#8a8a93"/></marker>
+  </defs>
+  <rect x="10" y="26" width="250" height="200" rx="8" fill="#8a8a93" fill-opacity="0.05" stroke="#8a8a93" stroke-width="1.2"/>
+  <text x="135" y="18" font-size="12" text-anchor="middle" fill="#8a8a93" font-weight="600">private int duckCount (doesn't work)</text>
+  <rect x="280" y="26" width="250" height="200" rx="8" fill="#8a8a93" fill-opacity="0.05" stroke="#8a8a93" stroke-width="1.2"/>
+  <text x="405" y="18" font-size="12" text-anchor="middle" fill="#8a8a93" font-weight="600">private static int duckCount (works)</text>
+
+  <rect x="18" y="100" width="76" height="52" rx="4" fill="none" stroke="#8a8a93" stroke-width="2"/>
+  <rect x="18" y="100" width="76" height="22" rx="4" fill="#8a8a93" fill-opacity="0.16" stroke="#8a8a93" stroke-width="0"/>
+  <text x="56" y="115" font-size="12" text-anchor="middle" fill="#8a8a93" font-weight="600">Duck</text>
+  <text x="56" y="142" font-size="11" text-anchor="middle" fill="#8a8a93">duckCount 1</text>
+  <rect x="98" y="100" width="76" height="52" rx="4" fill="none" stroke="#8a8a93" stroke-width="2"/>
+  <rect x="98" y="100" width="76" height="22" rx="4" fill="#8a8a93" fill-opacity="0.16" stroke="#8a8a93" stroke-width="0"/>
+  <text x="136" y="115" font-size="12" text-anchor="middle" fill="#8a8a93" font-weight="600">Duck</text>
+  <text x="136" y="142" font-size="11" text-anchor="middle" fill="#8a8a93">duckCount 1</text>
+  <rect x="178" y="100" width="76" height="52" rx="4" fill="none" stroke="#8a8a93" stroke-width="2"/>
+  <rect x="178" y="100" width="76" height="22" rx="4" fill="#8a8a93" fill-opacity="0.16" stroke="#8a8a93" stroke-width="0"/>
+  <text x="216" y="115" font-size="12" text-anchor="middle" fill="#8a8a93" font-weight="600">Duck</text>
+  <text x="216" y="142" font-size="11" text-anchor="middle" fill="#8a8a93">duckCount 1</text>
+  <text x="135" y="62" font-size="11" text-anchor="middle" fill="#8a8a93" font-style="italic">3 ducks created, 3 separate counters</text>
+  <text x="135" y="190" font-size="11" text-anchor="middle" fill="#8a8a93" font-style="italic">each starts at 0, then ++ makes it 1</text>
+  <text x="135" y="208" font-size="11" text-anchor="middle" fill="#8a8a93" font-style="italic">nobody ever sees 3</text>
+
+  <rect x="340" y="44" width="130" height="52" rx="4" fill="none" stroke="#8a8a93" stroke-width="2"/>
+  <rect x="340" y="44" width="130" height="22" rx="4" fill="#8a8a93" fill-opacity="0.16" stroke="#8a8a93" stroke-width="0"/>
+  <text x="405" y="59" font-size="12" text-anchor="middle" fill="#8a8a93" font-weight="600">Duck (the class)</text>
+  <rect x="346" y="70" width="118" height="20" rx="3" fill="#c99a12" fill-opacity="0.18" stroke="#c99a12" stroke-width="1.5"/>
+  <text x="405" y="84" font-size="12" text-anchor="middle" fill="#8a8a93" font-weight="600">duckCount = 3</text>
+
+  <rect x="288" y="130" width="76" height="40" rx="4" fill="none" stroke="#8a8a93" stroke-width="2"/>
+  <rect x="288" y="130" width="76" height="22" rx="4" fill="#8a8a93" fill-opacity="0.16" stroke="#8a8a93" stroke-width="0"/>
+  <text x="326" y="145" font-size="12" text-anchor="middle" fill="#8a8a93" font-weight="600">Duck</text>
+  <text x="326" y="164" font-size="11" text-anchor="middle" fill="#8a8a93">size</text>
+  <rect x="367" y="130" width="76" height="40" rx="4" fill="none" stroke="#8a8a93" stroke-width="2"/>
+  <rect x="367" y="130" width="76" height="22" rx="4" fill="#8a8a93" fill-opacity="0.16" stroke="#8a8a93" stroke-width="0"/>
+  <text x="405" y="145" font-size="12" text-anchor="middle" fill="#8a8a93" font-weight="600">Duck</text>
+  <text x="405" y="164" font-size="11" text-anchor="middle" fill="#8a8a93">size</text>
+  <rect x="446" y="130" width="76" height="40" rx="4" fill="none" stroke="#8a8a93" stroke-width="2"/>
+  <rect x="446" y="130" width="76" height="22" rx="4" fill="#8a8a93" fill-opacity="0.16" stroke="#8a8a93" stroke-width="0"/>
+  <text x="484" y="145" font-size="12" text-anchor="middle" fill="#8a8a93" font-weight="600">Duck</text>
+  <text x="484" y="164" font-size="11" text-anchor="middle" fill="#8a8a93">size</text>
+  <path d="M326,130 L370,96" fill="none" stroke="#c99a12" stroke-width="1.8" stroke-dasharray="5 4" marker-end="url(#ah)"/>
+  <path d="M405,130 L405,96" fill="none" stroke="#c99a12" stroke-width="1.8" stroke-dasharray="5 4" marker-end="url(#ah)"/>
+  <path d="M484,130 L440,96" fill="none" stroke="#c99a12" stroke-width="1.8" stroke-dasharray="5 4" marker-end="url(#ah)"/>
+  <text x="405" y="190" font-size="11" text-anchor="middle" fill="#8a8a93" font-style="italic">every constructor adds to the same counter</text>
+  <text x="405" y="208" font-size="11" text-anchor="middle" fill="#8a8a93" font-style="italic">the class remembers the total</text>
+</svg>
