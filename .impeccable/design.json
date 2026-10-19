@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-19T00:00:00Z",
+  "title": "Design System: rwangqz.ca",
+  "extensions": {
+    "colorMeta": {
+      "wiki-rose": { "role": "primary", "displayName": "Dusty Rose", "canonical": "#8c4a67" },
+      "wiki-band": { "role": "neutral", "displayName": "Form-Header Pink", "canonical": "#ead3de" },
+      "wiki-paper": { "role": "neutral", "displayName": "Notebook Paper", "canonical": "#fbf6f8" },
+      "site-gold": { "role": "primary", "displayName": "Signal Gold", "canonical": "#ffc105" },
+      "site-night": { "role": "neutral", "displayName": "Stage Black", "canonical": "#0f0f11" }
+    },
+    "typographyMeta": {
+      "wiki-header": { "displayName": "Wiki Display", "purpose": "Condensed Archivo titles and section headings." },
+      "wiki-body": { "displayName": "Wiki Body", "purpose": "Source Serif 4 prose beside KaTeX math." },
+      "site-display": { "displayName": "Site Display", "purpose": "Outfit headings on the React site." }
+    },
+    "shadows": [
+      { "name": "site-card-glow", "value": "0 8px 32px -8px hsl(45 100% 51% / 0.15)", "purpose": "Gold glow on card hover, site only." },
+      { "name": "wiki-halo", "value": "0 0 0 6px color-mix(in srgb, var(--secondary) 14%, transparent)", "purpose": "Soft ring on wiki emphasis; the wiki uses no drop shadows." }
+    ],
+    "motion": [
+      { "name": "melon-ease", "value": "cubic-bezier(0.22, 1, 0.36, 1)", "purpose": "Wiki hover and transform easing." },
+      { "name": "site-fade-up", "value": "0.6s ease-out", "purpose": "Site entrance, 20px rise; disabled under reduced motion." }
+    ],
+    "breakpoints": [
+      { "name": "wiki-phone", "value": "800px" },
+      { "name": "site-2xl", "value": "1280px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Wiki Band",
+      "kind": "custom",
+      "refersTo": "wiki-band",
+      "description": "Form-header strip with crumbs and metadata at the top of every wiki page.",
+      "html": "<div class=\"ds-band\"><span>Courses / ELE 302</span><span class=\"ds-band-meta\">Fall 2026</span></div>",
+      "css": ".ds-band{display:flex;justify-content:space-between;gap:.15rem 1.25rem;padding:.5rem .95rem;border-radius:6px 6px 0 0;background:#ead3de;color:#2a1d24;font-family:Archivo,system-ui,sans-serif;font-stretch:80%;font-weight:700;font-size:.95rem}.ds-band-meta{font-weight:500}"
+    },
+    {
+      "name": "Wiki Chip",
+      "kind": "chip",
+      "refersTo": "wiki-chip",
+      "description": "Inverted ink label for course codes.",
+      "html": "<span class=\"ds-chip\">ELE 302</span>",
+      "css": ".ds-chip{display:inline-block;padding:.15rem .5rem;border-radius:6px;background:#3a2d34;color:#f4d9e4;font-family:Archivo,system-ui,sans-serif;font-weight:700;font-size:.85rem}"
+    },
+    {
+      "name": "Gold Button",
+      "kind": "button",
+      "refersTo": "button-gold",
+      "description": "Primary pill CTA on the React site.",
+      "html": "<button class=\"ds-btn-gold\">Book a restring</button>",
+      "css": ".ds-btn-gold{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:.65rem 1.5rem;border:none;border-radius:9999px;background:linear-gradient(135deg,hsl(45 100% 51%),hsl(42 100% 45%));color:#0f0f11;font-family:'DM Sans',system-ui,sans-serif;font-weight:600;box-shadow:0 4px 20px -4px hsl(45 100% 51% / .4);transition:all .3s}.ds-btn-gold:hover{transform:translateY(-1px);box-shadow:0 6px 28px -4px hsl(45 100% 51% / .5)}.ds-btn-gold:focus-visible{outline:2px solid hsl(45 100% 51%);outline-offset:2px}"
+    },
+    {
+      "name": "Premium Card",
+      "kind": "card",
+      "refersTo": "card-premium",
+      "description": "Charcoal card with a gold hover glow on the React site.",
+      "html": "<div class=\"ds-card\"><h3>Expert Stringing</h3><p>Calibrated tension and inspection.</p></div>",
+      "css": ".ds-card{padding:1.5rem;border-radius:12px;border:1px solid #2e2e30;background:linear-gradient(145deg,#181819,#121214);color:#f5f5f5;font-family:'DM Sans',system-ui,sans-serif;transition:all .3s}.ds-card h3{margin:0 0 .5rem;font-family:Outfit,system-ui,sans-serif;letter-spacing:-.02em}.ds-card p{margin:0;color:#a1a1aa}.ds-card:hover{border-color:hsl(45 100% 51% / .4);box-shadow:0 8px 32px -8px hsl(45 100% 51% / .15)}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Lab Notebook",
+    "overview": "Two sibling systems at equal weight: Melon Files, a flat dusty-pink lab-notebook wiki, and the near-black gold-accented React site.",
+    "keyCharacteristics": [
+      "Wiki: ink-on-pink, serif body, condensed Archivo headings, grid paper on hubs, flat.",
+      "Site: charcoal ground, one gold accent, Outfit headings, glow-on-hover cards.",
+      "Each system has exactly one accent and never borrows the other's."
+    ],
+    "rules": [
+      { "name": "The Two Palettes Rule", "body": "Dusty rose belongs to Melon Files, gold belongs to the React site. Neither crosses over.", "section": "colors" },
+      { "name": "The Flat Wiki Rule", "body": "No drop shadows on wiki surfaces at rest or hover.", "section": "elevation" },
+      { "name": "The Measure Rule", "body": "Prose in the wiki stays near 40em; tables, code, figures and diagrams may use the full width.", "section": "typography" }
+    ],
+    "dos": [
+      "Do keep each system self-contained: rose and ink for Melon Files, gold on charcoal for the site.",
+      "Do use the band for orientation on every wiki page, and the trace after H2s.",
+      "Do keep wiki surfaces flat and radii at 6px."
+    ],
+    "donts": [
+      "Don't use gold in the wiki or dusty pink in the stringing pages.",
+      "Don't add drop shadows or glows to wiki surfaces.",
+      "Don't put grid paper behind long-form notes; it is for hubs only."
+    ]
+  }
+}
