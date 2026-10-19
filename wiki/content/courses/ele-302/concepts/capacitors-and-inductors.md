@@ -12,7 +12,7 @@ tags:
 
 **Capacitors and inductors are the two energy-storage elements. A capacitor stores energy in an electric field set up by its voltage, and an inductor stores energy in a magnetic field set up by its current.**
 
-Resistors only turn energy into heat. Capacitors and inductors store it and give it back later, which is why circuits with them have a *history*, where what they do now depends on what happened before. Everything in [[ch08-second-order-circuits|Ch 8]] comes from the two element laws on this page.
+Resistors only turn energy into heat. Capacitors and inductors store it and give it back later, which is why circuits with them have to now deal with a time element even with DC circuits, where what they do now depends on what happened before. Everything in [[ch08-second-order-circuits|Ch 8]] comes from the two element laws on this page.
 
 ## Intuition
 
@@ -43,6 +43,10 @@ So a capacitor's current depends on how fast its **voltage changes**, not on the
 
 > [!tip] Water analogy: a capacitor is like a tank with a stretchy rubber membrane across the middle. Water (charge) pushed in one side bulges the membrane and pushes the same amount out the other side, so it looks like water flows "through" even though none actually crosses. The bulge (voltage) builds up gradually and pushes back.
 
+Try it below. Charge the capacitor through a resistor, then discharge it, or open the switch. Watch the plates fill up and the current die away as $v_C$ catches up.
+
+<div class="melon-capind" data-view="cap">Interactive capacitor diagram (open this page on the site to use it).</div>
+
 ### The inductor
 
 An inductor is a coil of wire (Figure 1, right). Current through the coil sets up a magnetic field $B$ through its middle, and that field is where the energy is stored. The total magnetic flux linking the coil, $\lambda$, is proportional to the current, and the ratio is the **inductance**:
@@ -68,6 +72,10 @@ So an inductor's voltage depends on how fast its **current changes**. A steady c
 
 ![[ele-302-cap-ind-structure.svg]]
 *Figure 1: A capacitor stores energy in the electric field between its plates (left). An inductor stores energy in the magnetic field through its coil (right).*
+
+Here's the same circuit with an inductor. The field grows with the current, and the voltage is what jumps. Try opening the switch while the coil is energized.
+
+<div class="melon-capind" data-view="ind">Interactive inductor diagram (open this page on the site to use it).</div>
 
 ### Passive sign convention
 
@@ -143,6 +151,10 @@ $$
 The *other* variable has no such protection. A capacitor's current can jump instantly (it only sets the *slope* of the voltage), and so can an inductor's voltage. On a graph, a jump in $i_C$ shows up as a sudden **change of slope** (a corner) in $v_C$, never a step (see Example 1 below).
 
 > [!note] At $t = 0^+$ you can replace a capacitor with a voltage source of value $v_C(0^-)$, and an inductor with a current source of value $i_L(0^-)$. Ch 8 Step 3 uses exactly this.
+
+The easiest way to see all of this is as slopes. Drag along the graph: the current through a capacitor (or the voltage across an inductor) is just the slope of the curve above it, scaled by $C$ (or $L$).
+
+<div class="melon-capind" data-view="slope">Interactive slope diagram (open this page on the site to use it).</div>
 
 ### DC steady state
 

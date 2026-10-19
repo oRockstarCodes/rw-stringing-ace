@@ -7,6 +7,7 @@ import MelonSmoothScroll from "./quartz/components/custom/MelonSmoothScroll"
 import MelonOpAmp from "./quartz/components/custom/MelonOpAmp"
 import MelonFigures from "./quartz/components/custom/MelonFigures"
 import MelonLogic from "./quartz/components/custom/MelonLogic"
+import MelonCapInd from "./quartz/components/custom/MelonCapInd"
 import { hasOwnHeader } from "./quartz/components/custom/MelonFolder"
 import { QuartzComponentProps } from "./quartz/components/types"
 
@@ -85,9 +86,9 @@ const hasFigurePanel = (page: QuartzComponentProps) => {
 export const sharedPageComponents: SharedLayout = {
   head: Component.Head(),
   header: [],
-  // MelonOpAmp and MelonLogic fill in the <div class="melon-opamp"> and
-  // <div class="melon-logic"> diagrams written in notes
-  afterBody: [MelonMotion(), MelonSmoothScroll(),MelonOpAmp(), MelonLogic()],
+  // MelonOpAmp, MelonLogic and MelonCapInd fill in the <div class="melon-opamp">,
+  // <div class="melon-logic"> and <div class="melon-capind"> diagrams written in notes
+  afterBody: [MelonMotion(), MelonSmoothScroll(),MelonOpAmp(), MelonLogic(), MelonCapInd()],
   footer: Component.Footer({
     links: {
       "← rwangqz.ca": "https://rwangqz.ca",

@@ -1603,8 +1603,10 @@ a.melon-lab {
 }
 
 // ---------- Interactive op amp diagrams (components/MelonOpAmp.tsx) ----------
+// The capacitor and inductor diagrams (components/MelonCapInd.tsx) share these styles
 
-.melon-opamp {
+.melon-opamp,
+.melon-capind {
   margin: 1.5rem 0;
   padding: 1rem 1.1rem 1.1rem;
   border: 1px solid var(--lightgray);
@@ -1768,7 +1770,8 @@ a.melon-lab {
     background: var(--melon-soft);
     transition: transform 0.25s var(--melon-ease);
   }
-  &.is-ideal .oa-switch-thumb {
+  &.is-ideal .oa-switch-thumb,
+  &.is-second .oa-switch-thumb {
     transform: translateX(100%);
   }
   .oa-switch-opt {
@@ -1906,6 +1909,159 @@ a.melon-lab {
 
     .oa-controls {
       grid-template-columns: 1fr;
+    }
+  }
+}
+
+// ---------- Capacitor and inductor diagrams: the parts that are theirs ----------
+
+.melon-capind {
+  .oa-svg + .oa-chips,
+  .oa-chips + .oa-info,
+  .oa-info + .oa-svg {
+    margin-top: 0.75rem;
+  }
+
+  .ci-big {
+    font-size: 13px;
+  }
+
+  .ci-plate {
+    stroke-width: 4;
+  }
+  .ci-coil {
+    stroke-width: 2.5;
+  }
+
+  // The switch lever swings between the source and the short
+  .ci-lever {
+    transform-origin: 200px 110px;
+    transition: transform 0.25s var(--melon-ease);
+  }
+  .ci-lever-line {
+    stroke-width: 3;
+    stroke: var(--darkgray);
+  }
+  .ci-spark {
+    fill: none;
+    stroke: var(--secondary);
+    stroke-width: 2.5;
+    stroke-linejoin: round;
+    opacity: 0;
+  }
+
+  // Current: little dots that move along the wires
+  .ci-dot {
+    fill: var(--tertiary);
+  }
+
+  // Electric field arrows, magnetic field loops, and the charge on the plates
+  .ci-fieldline {
+    fill: none;
+    stroke: var(--secondary);
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .ci-field,
+  .ci-halo {
+    opacity: 0;
+  }
+  .ci-halo {
+    transform-box: view-box;
+  }
+  text.ci-charge {
+    fill: var(--secondary);
+    font-size: 15px;
+    font-weight: 700;
+    opacity: 0;
+  }
+
+  // Stored energy
+  .ci-bar {
+    fill: none;
+    stroke: var(--lightgray);
+    stroke-width: 1.5;
+  }
+  .ci-bar-fill {
+    fill: var(--secondary);
+    opacity: 0.75;
+  }
+
+  // Charts
+  .ci-circuit,
+  .ci-chart {
+    max-width: 640px;
+  }
+  .ci-frame {
+    fill: none;
+    stroke: var(--lightgray);
+    stroke-width: 1.5;
+  }
+  .ci-zero {
+    stroke: var(--gray);
+    stroke-width: 1;
+    opacity: 0.5;
+  }
+  .ci-ref {
+    stroke: var(--lightgray);
+    stroke-width: 1;
+    stroke-dasharray: 4 4;
+  }
+  .ci-trace {
+    fill: none;
+    stroke-width: 2.5;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+  }
+  .ci-a {
+    stroke: var(--secondary);
+  }
+  .ci-b {
+    stroke: var(--tertiary);
+  }
+  text.ci-tick {
+    fill: var(--gray);
+    font-family: var(--codeFont);
+    font-size: 10px;
+  }
+  text.ci-title-a {
+    fill: var(--secondary);
+  }
+  text.ci-title-b {
+    fill: var(--tertiary);
+  }
+
+  // The slope diagram: cursor, tangent and the two dots that follow it
+  .ci-slope {
+    cursor: ew-resize;
+    touch-action: pan-y;
+    user-select: none;
+  }
+  .ci-cursor {
+    stroke: var(--gray);
+    stroke-width: 1.5;
+    stroke-dasharray: 4 4;
+  }
+  .ci-tangent {
+    stroke: var(--darkgray);
+    stroke-width: 2.5;
+    stroke-linecap: round;
+  }
+  .ci-dot-a {
+    fill: var(--secondary);
+    stroke: var(--light);
+    stroke-width: 2;
+  }
+  .ci-dot-b {
+    fill: var(--tertiary);
+    stroke: var(--light);
+    stroke-width: 2;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ci-lever {
+      transition: none;
     }
   }
 }
