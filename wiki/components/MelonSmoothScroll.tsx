@@ -21,7 +21,12 @@ if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
   const script = document.createElement("script")
   script.src = base + "lenis.min.js"
   script.onload = () => {
-    const lenis = new window.Lenis({ autoRaf: true, anchors: true })
+    // Let the Explore sidebar scroll natively so the wheel moves it instead of the page.
+    const lenis = new window.Lenis({
+      autoRaf: true,
+      anchors: true,
+      prevent: (node) => !!node.closest(".explorer"),
+    })
     // Quartz's page router jumps to the top on every navigation; do the same in Lenis
     // so it doesn't glide back up from the old position.
     document.addEventListener("nav", () => lenis.scrollTo(0, { immediate: true }))
