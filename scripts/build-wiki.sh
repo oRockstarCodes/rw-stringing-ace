@@ -25,6 +25,10 @@ cp "$ROOT/wiki/static/og-image.png" "$ENGINE/quartz/static/og-image.png"
 cp "$ROOT/node_modules/lenis/dist/lenis.min.js" "$ROOT/node_modules/lenis/dist/lenis.css" "$ENGINE/quartz/static/"
 # GSAP, for the page-transition motion in MelonMotion.tsx (loaded on demand like Lenis)
 cp "$ROOT/node_modules/gsap/dist/gsap.min.js" "$ENGINE/quartz/static/"
+# three.js, for the 3D wire-web head on the home page (components/MelonHome.tsx, imported on demand)
+cp "$ROOT/node_modules/three/build/three.module.min.js" "$ENGINE/quartz/static/"
+# Delaunator, which triangulates the wire web on the home page (MelonHome.tsx)
+cp "$ROOT/node_modules/delaunator/delaunator.min.js" "$ENGINE/quartz/static/"
 mkdir -p "$ENGINE/quartz/components/custom"
 cp "$ROOT"/wiki/components/*.tsx "$ENGINE/quartz/components/custom/"
 mkdir -p "$ENGINE/quartz/plugins/custom"
