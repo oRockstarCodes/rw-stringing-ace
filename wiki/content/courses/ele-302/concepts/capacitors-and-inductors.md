@@ -14,37 +14,6 @@ tags:
 
 Resistors only turn energy into heat. Capacitors and inductors store it and give it back later, which is why circuits with them have a *history*, where what they do now depends on what happened before. Everything in [[ch08-second-order-circuits|Ch 8]] comes from the two element laws on this page.
 
-## The simple version (explain it like I'm 5)
-
-Forget the math for a minute. Here is the whole idea with no equations.
-
-**A capacitor is a water balloon.** Pour water (charge) in and the balloon gets fatter and fatter. The fatter it gets, the harder it pushes back on the water coming in. When it pushes back as hard as you're pushing in, no more water goes in. It's full.
-
-- At the very start the balloon is empty and floppy, so water rushes in fast.
-- As it fills, the water slows down to a trickle.
-- When it's full, the water stops, but the balloon is still stretched. It's *holding* the water, and it will squirt it back out if you let it.
-
-So a capacitor is a **tiny battery that fills up fast and pushes back as it fills**. The "how full it is" is its voltage. You can't make a balloon go from empty to full in zero time, which is why a capacitor's voltage can't jump. But you *can* start pouring water in suddenly, so the current can jump.
-
-**An inductor is a heavy merry-go-round.** It's hard to get spinning, and once it's spinning it's hard to stop. Push and it barely moves at first, then it slowly speeds up. Once it's going, it keeps going on its own, and if you try to grab it and stop it, it shoves back.
-
-- Current (the spin) can't change instantly, because the heavy merry-go-round has *inertia*.
-- Voltage is how hard you're pushing (or grabbing). You can start pushing instantly, so voltage can jump.
-
-So an inductor is **a coil that hates change in current**.
-
-| | Capacitor | Inductor |
-|---|---|---|
-| Think of it as | A water balloon | A heavy merry-go-round |
-| What it holds | A "push" (voltage) | A "spin" (current) |
-| What it hates | A sudden change in voltage | A sudden change in current |
-| When it's all settled down (DC) | Full, so the water stops (open circuit) | Spinning smoothly, so nothing pushes back (short circuit) |
-| Right when you turn it on | Empty balloon, water rushes in (acts like a short) | Stuck merry-go-round, can't spin yet (acts like an open) |
-
-> [!tip] The one-line version: a **capacitor** stores *how hard it's pushing* and **resists changes in voltage**. An **inductor** stores *how much is flowing* and **resists changes in current**. Everything below is just these two stories written in math.
-
-**Why do they matter together?** Put the balloon and the merry-go-round in the same loop. The balloon squirts water that spins the merry-go-round, the merry-go-round keeps spinning and refills the balloon the other way, and it goes back and forth. That sloshing is the oscillation in [[ch08-second-order-circuits|Ch 8]]. Add a bit of friction (a resistor) and it slowly dies out.
-
 ## Intuition
 
 ### The capacitor
