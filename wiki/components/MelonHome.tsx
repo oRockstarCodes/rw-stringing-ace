@@ -2,20 +2,28 @@ import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } fro
 import { FullSlug, joinSegments, pathToRoot, resolveRelative } from "../../util/path"
 import { isChapterOf } from "./MelonFolder"
 import { plural } from "./MelonPlate"
+import { EDITIONS, editionOf, isCourseIndex } from "./MelonEditions"
 
 // Copied into quartz/components/custom/ at build time by scripts/build-wiki.sh.
-// Home page: the band, the stage (the title, the tagline, the "ECE Edition" stamp) over a
-// big 3D wire-web head made from the site icon, and the list of courses, built from the
-// notes in courses/<code>/.
-// Nothing here needs editing when a course is added: each courses/<code>/index.md
+// The home pages. Each has the band and the stage (the title, the tagline) over a big 3D
+// head made from the site icon.
+//  - The site's home page (index): a door to each edition (MelonEditions.tsx), over the
+//    wire-web head.
+//  - An edition's home page (<edition>/): its stamp, if it has one, and its list of
+//    courses, built from the notes in <edition>/courses/<code>/. The regular edition has
+//    the wire-web head; the ECE Edition, in green, a circuit-board head whose traces carry
+//    pulses of current.
+// Nothing here needs editing when a course is added: each <edition>/courses/<code>/index.md
 // becomes a row, using its `code`, `term`, and `status` properties.
 
 const MelonHome: QuartzComponent = ({ fileData, allFiles }: QuartzComponentProps) => {
   const here = fileData.slug! as FullSlug
   const slugs = allFiles.map((f) => f.slug ?? "")
+  const edition = editionOf(here)
+  const coursesOf = (key: string) =>
+    allFiles.filter((f) => (f.slug ?? "").startsWith(`${key}/`) && isCourseIndex(f.slug))
 
-  const courses = allFiles
-    .filter((f) => /^courses\/[^/]+\/index$/.test(f.slug ?? ""))
+  const courses = (edition ? coursesOf(edition.key) : [])
     .map((f) => {
       const folder = f.slug!.replace(/index$/, "")
       const fm = (f.frontmatter ?? {}) as Record<string, unknown>
@@ -33,21 +41,23 @@ const MelonHome: QuartzComponent = ({ fileData, allFiles }: QuartzComponentProps
     })
     .sort((a, b) => a.code.localeCompare(b.code, undefined, { numeric: true }))
 
+  const icon = edition?.icon ?? "static/icon.png"
+
   return (
-    <section class="melon-home">
+    <section class="melon-home" data-scene={edition?.scene ?? "web"} data-icon={icon}>
       <div class="melon-band melon-ui">
         <span>Course notes</span>
-        <span class="melon-band-meta">ECE edition</span>
+        <span class="melon-band-meta">{edition ? edition.short : "Choose an edition"}</span>
       </div>
 
-      {/* The backdrop: the site icon as a big 3D wire-web head behind the whole page (script
+      {/* The backdrop: the edition's icon as a big 3D head behind the whole page (script
           at the bottom of this file; three.js is loaded from static/ on demand). The script
           moves it to the end of <body> so nothing on the page can trap its fixed position.
           Without WebGL the flat print shows there instead. */}
       <div class="melon-bg" aria-hidden="true">
         <img
           class="melon-print"
-          src={joinSegments(pathToRoot(here), "static/icon.png")}
+          src={joinSegments(pathToRoot(here), icon)}
           alt=""
           width="256"
           height="256"
@@ -72,13 +82,15 @@ const MelonHome: QuartzComponent = ({ fileData, allFiles }: QuartzComponentProps
           <p class="melon-tagline">
             Linked notes from every course I take, chapter by chapter: formulas, worked examples,
             and the ideas behind them.
+            {!edition && " Pick an edition."}
           </p>
         </div>
 
-        {/* "ECE Edition" rubber stamp: text around the ring, a resistor in the middle,
-              roughened by an SVG filter to look printed. The whole site is the ECE Edition
-              for now. Styles and the press-in animation are in custom.scss. */}
-          <span class="melon-stamp" role="img" aria-label="ECE Edition">
+        {/* The edition's rubber stamp ("ECE Edition"): text around the ring, a resistor in the
+            middle, roughened by an SVG filter to look printed. Styles and the press-in
+            animation are in custom.scss. */}
+        {edition?.stamp && (
+          <span class="melon-stamp" role="img" aria-label={edition.title}>
             <svg viewBox="0 0 120 120" aria-hidden="true">
               <defs>
                 <path id="melon-stamp-ring" d="M60,60 m-43,0 a43,43 0 1,1 86,0 a43,43 0 1,1 -86,0" />
@@ -92,7 +104,7 @@ const MelonHome: QuartzComponent = ({ fileData, allFiles }: QuartzComponentProps
                 <circle cx="60" cy="60" r="31" fill="none" stroke="currentColor" stroke-width="1.6" />
                 <text fill="currentColor">
                   <textPath href="#melon-stamp-ring" textLength="268" lengthAdjust="spacing">
-                    ECE EDITION • ECE EDITION •
+                    {`${edition.stamp} • ${edition.stamp} •`}
                   </textPath>
                 </text>
                 <path
@@ -106,11 +118,48 @@ const MelonHome: QuartzComponent = ({ fileData, allFiles }: QuartzComponentProps
               </g>
             </svg>
           </span>
+        )}
       </div>
 
-      {/* The course list, on a paper card so it reads clearly over the head */}
+      {/* The site's home page: a door to each edition, each in its own colors and icon */}
+      {!edition && (
+        <div class="melon-courses">
+          <h2 class="melon-section-title">Editions</h2>
+          <ul class="melon-doors melon-ui">
+            {EDITIONS.map((e, i) => {
+              const n = coursesOf(e.key).length
+              return (
+                <li class="melon-course melon-door" data-edition={e.key} style={`--i:${i}`}>
+                  <a
+                    href={resolveRelative(here, `${e.key}/index` as FullSlug)}
+                    class="internal melon-door-link"
+                  >
+                    <img
+                      class="melon-door-icon"
+                      src={joinSegments(pathToRoot(here), e.icon)}
+                      alt=""
+                      width="256"
+                      height="256"
+                    />
+                    <span class="melon-door-title">{e.title}</span>
+                    <span class="melon-door-blurb">{e.blurb}</span>
+                    <span class="melon-door-meta">
+                      {n > 0 ? plural(n, "course") : "Coming soon"}
+                    </span>
+                  </a>
+                </li>
+              )
+            })}
+          </ul>
+        </div>
+      )}
+
+      {/* An edition's course list, on a paper card so it reads clearly over the head */}
+      {edition && (
       <div class="melon-courses">
       <h2 class="melon-section-title">Courses</h2>
+      {courses.length === 0 && <p class="melon-empty">No courses here yet.</p>}
+      {courses.length > 0 && (
       <ul class="melon-contents melon-ui">
         {courses.map((c, i) => (
           <li class="melon-course" data-i={i} style={`--i:${i}`}>
@@ -133,7 +182,9 @@ const MelonHome: QuartzComponent = ({ fileData, allFiles }: QuartzComponentProps
           </li>
         ))}
       </ul>
+      )}
       </div>
+      )}
     </section>
   )
 }
@@ -153,10 +204,12 @@ function mhThree() {
   return window.__mhThree
 }
 
-// The site icon as a grid of darkness values (0 pink paper .. 1 black ink)
-function mhIcon() {
-  if (window.__mhIcon) return window.__mhIcon
-  window.__mhIcon = new Promise((resolve) => {
+// An icon (static/icon.png, static/icon-ece.png) as a grid of darkness values
+// (0 paper .. 1 black ink)
+function mhIcon(file) {
+  window.__mhIcons = window.__mhIcons || {}
+  if (window.__mhIcons[file]) return window.__mhIcons[file]
+  window.__mhIcons[file] = new Promise((resolve) => {
     const img = new Image()
     img.onload = () => {
       const n = 192
@@ -173,9 +226,9 @@ function mhIcon() {
       resolve({ n: n, dark: dark })
     }
     img.onerror = () => resolve(null)
-    img.src = mhBase() + "icon.png"
+    img.src = mhBase() + file
   })
-  return window.__mhIcon
+  return window.__mhIcons[file]
 }
 
 document.addEventListener("nav", () => {
@@ -217,10 +270,15 @@ document.addEventListener("nav", () => {
     bg.remove()
   })
 
-  Promise.all([mhThree(), mhIcon(), mhDelaunator()])
+  // the wire web (mhScene) or, for the ECE Edition, the circuit board (mhPcb)
+  const pcb = home.dataset.scene === "pcb"
+  const file = (home.dataset.icon || "static/icon.png").replace(/^static\\//, "")
+  Promise.all([mhThree(), mhIcon(file), pcb ? null : mhDelaunator()])
     .then((r) => {
       if (dead) return
-      disposeScene = mhScene(r[0], r[1], r[2], bg, canvas, reduced)
+      disposeScene = pcb
+        ? mhPcb(r[0], r[1], bg, canvas, reduced)
+        : mhScene(r[0], r[1], r[2], bg, canvas, reduced)
     })
     .catch(() => bg.classList.add("melon-flat"))
 })
@@ -251,38 +309,9 @@ function mhDelaunator() {
   return window.__mhDel
 }
 
-// The scene: the site icon as a big 3D wire-web head, behind the whole home page. It is a
-// handful of line meshes and point clouds, so it stays light even at full-window size.
-//  - the web: points scattered over the icon (densest along its edges and in its detail),
-//    triangulated onto a smooth head shape with a face modelled on it: light parts raised,
-//    ink sunk in. Past the face the web carries on, its triangles growing and fading until
-//    they run out.
-//  - construction lines behind it, like a face-mesh drawing
-// It sways on its own, leans toward the pointer and turns a little as the page scrolls.
-// Reduced motion: no intro and no loop, one frame drawn again on resize or theme change.
-function mhScene(T, icon, Delaunator, bg, canvas, reduced) {
-  let renderer
-  try {
-    renderer = new T.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: "low-power" })
-  } catch (e) {
-    bg.classList.add("melon-flat")
-    return () => {}
-  }
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.25))
-
-  const scene = new T.Scene()
-  const camera = new T.PerspectiveCamera(26, 1, 0.1, 100)
-
-  const read = () => {
-    const css = getComputedStyle(document.documentElement)
-    const get = (name) => new T.Color(css.getPropertyValue(name).trim() || "#888888")
-    return { ink: get("--dark"), rose: get("--secondary"), paper: get("--light") }
-  }
-  let pal = read()
-  const isDark = () => pal.paper.r < pal.ink.r
-  const dim = () => pal.rose.clone().lerp(pal.paper, isDark() ? 0.6 : 0.5)
-
-  // ----- the icon, blurred a little so the edges come out smooth
+// The face both scenes are built on: the icon, blurred a little so the edges come out
+// smooth, and the surface the head is shaped to
+function mhFace(icon) {
   const sampleDark = (x, y) => {
     if (!icon) return 0
     const n = icon.n
@@ -346,6 +375,42 @@ function mhScene(T, icon, Delaunator, bg, canvas, reduced) {
     const r2 = x * x + y * y
     return bump(r2) + face(x, y) + (0.5 - soft(x, y)) * 0.05 * (1 - r2 * 0.8)
   }
+  return { M, field, soft, detail, bump, eyes, lift }
+}
+
+// The scene: the site icon as a big 3D wire-web head, behind the whole home page. It is a
+// handful of line meshes and point clouds, so it stays light even at full-window size.
+//  - the web: points scattered over the icon (densest along its edges and in its detail),
+//    triangulated onto a smooth head shape with a face modelled on it: light parts raised,
+//    ink sunk in. Past the face the web carries on, its triangles growing and fading until
+//    they run out.
+//  - construction lines behind it, like a face-mesh drawing
+// It sways on its own, leans toward the pointer and turns a little as the page scrolls.
+// Reduced motion: no intro and no loop, one frame drawn again on resize or theme change.
+function mhScene(T, icon, Delaunator, bg, canvas, reduced) {
+  let renderer
+  try {
+    renderer = new T.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: "low-power" })
+  } catch (e) {
+    bg.classList.add("melon-flat")
+    return () => {}
+  }
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.25))
+
+  const scene = new T.Scene()
+  const camera = new T.PerspectiveCamera(26, 1, 0.1, 100)
+
+  const read = () => {
+    // (read off <body>, where an edition sets its own palette)
+    const css = getComputedStyle(document.body)
+    const get = (name) => new T.Color(css.getPropertyValue(name).trim() || "#888888")
+    return { ink: get("--dark"), rose: get("--secondary"), paper: get("--light") }
+  }
+  let pal = read()
+  const isDark = () => pal.paper.r < pal.ink.r
+  const dim = () => pal.rose.clone().lerp(pal.paper, isDark() ? 0.6 : 0.5)
+
+  const { M, field, soft, detail, bump, eyes, lift } = mhFace(icon)
 
   // ----- scatter points. On the face, a fill that gets denser where the woodcut has detail,
   // so the features show by how tight the web is. Past the rim, the web carries on with the
@@ -659,6 +724,411 @@ function mhScene(T, icon, Delaunator, bg, canvas, reduced) {
     themes.disconnect()
     cleanups.forEach((f) => f())
     ;[lineGeo, dotGeo, guideGeo, lineMat, dotMat, guideMat].forEach((o) => o.dispose())
+    renderer.dispose()
+    bg.classList.remove("melon-3d")
+  }
+}
+
+// The ECE Edition's scene: the same head, drawn as a circuit board. Copper traces are routed
+// over the face on a fine grid, running straight and turning only by 45 degrees, the way a
+// board is laid out. Each one tries to keep to the shade of the print where it started, so
+// the traces follow the edges of the ink and the face shows through. They end at vias.
+// Past the face the board carries on in longer, sparser runs that fade into the page.
+// Pulses of current run along some of the traces, and a via flashes as one arrives.
+// Behind it all, a faint grid of holes, like perfboard.
+// It leans toward the pointer and turns with the scroll like the wire web, but the board
+// itself stays rigid. Reduced motion: no intro and no pulses moving, one frame.
+function mhPcb(T, icon, bg, canvas, reduced) {
+  let renderer
+  try {
+    renderer = new T.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: "low-power" })
+  } catch (e) {
+    bg.classList.add("melon-flat")
+    return () => {}
+  }
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.25))
+
+  const scene = new T.Scene()
+  const camera = new T.PerspectiveCamera(26, 1, 0.1, 100)
+
+  const read = () => {
+    const css = getComputedStyle(document.body)
+    const get = (name, fallback) => new T.Color(css.getPropertyValue(name).trim() || fallback)
+    return {
+      ink: get("--dark", "#1e231d"),
+      rose: get("--secondary", "#4a7a2e"),
+      paper: get("--light", "#f5f9f1"),
+      glow: get("--melon-glow", "#46a11f"),
+    }
+  }
+  let pal = read()
+  const isDark = () => pal.paper.r < pal.ink.r
+  const dim = () => pal.rose.clone().lerp(pal.paper, isDark() ? 0.6 : 0.5)
+
+  const { soft, detail, bump, eyes, lift } = mhFace(icon)
+  const rnd = mhRng(23)
+
+  // ----- routing. Grid cells S apart; a trace takes cells one step at a time and keeps a
+  // free cell between itself and every other trace (three cells out past the face), so
+  // traces never touch or cross.
+  const S = 0.02
+  const RIM = 0.97
+  const OUT = 2.5
+  // shorter to the left, where the sidebar is, as with the wire web
+  const reach = (x, r) => OUT - 0.8 * Math.max(0, -x / Math.max(r, 0.001))
+  const outer = (x, y) => {
+    const r = Math.hypot(x, y)
+    return r < RIM ? 0 : Math.min(1, (r - RIM) / (reach(x, r) - RIM))
+  }
+  const inside = (x, y) => {
+    const r = Math.hypot(x, y)
+    return r < reach(x, r) - 0.06
+  }
+  const used = new Map()
+  const key = (i, j) => (i + 500) * 1000 + (j + 500)
+  const clear = (i, j, id) => {
+    const t = outer(i * S, j * S)
+    const c = t > 0.3 ? 3 : t > 0 ? 2 : 1
+    for (let di = -c; di <= c; di++)
+      for (let dj = -c; dj <= c; dj++) {
+        const o = used.get(key(i + di, j + dj))
+        if (o !== undefined && o !== id) return false
+      }
+    return true
+  }
+  const DIRS = [[1, 0], [1, 1], [0, 1], [-1, 1], [-1, 0], [-1, -1], [0, -1], [1, -1]]
+  const traces = []
+  let tries = 0
+  while (traces.length < 4000 && tries < 160000) {
+    tries++
+    const x = (rnd() * 2 - 1) * OUT
+    const y = (rnd() * 2 - 1) * OUT
+    if (!inside(x, y)) continue
+    const t = outer(x, y)
+    // starts: thickest where the print has detail and around the eyes, thinning out past
+    // the rim
+    const want = t === 0 ? 0.2 + 1.8 * Math.min(1, detail(x, y) * 3) + 0.6 * eyes(x, y) : 0.4 * (1 - t)
+    if (rnd() > want) continue
+    let i = Math.round(x / S)
+    let j = Math.round(y / S)
+    const id = traces.length
+    if (used.has(key(i, j)) || !clear(i, j, id)) continue
+    let d = Math.floor(rnd() * 8)
+    const level = soft(i * S, j * S)
+    const cells = [[i, j]]
+    used.set(key(i, j), id)
+    const max = t === 0 ? 10 + rnd() * 50 : 8 + rnd() * 50
+    for (let step = 0; step < max; step++) {
+      // straight on or a 45 degree turn, whichever stays closest to the starting shade
+      // (with a little chance, and a small cost for turning)
+      let best = -1
+      let bestScore = 1e9
+      for (const turn of [0, 1, -1]) {
+        const nd = (d + turn + 8) % 8
+        const ni = i + DIRS[nd][0]
+        const nj = j + DIRS[nd][1]
+        const nx = ni * S
+        const ny = nj * S
+        if (!inside(nx, ny) || used.has(key(ni, nj)) || !clear(ni, nj, id)) continue
+        const score = (outer(nx, ny) === 0 ? Math.abs(soft(nx, ny) - level) * 6 : 0) + (turn ? 0.2 : 0) + rnd() * 0.25
+        if (score < bestScore) {
+          bestScore = score
+          best = nd
+        }
+      }
+      if (best < 0) break
+      d = best
+      i += DIRS[d][0]
+      j += DIRS[d][1]
+      used.set(key(i, j), id)
+      cells.push([i, j])
+    }
+    if (cells.length < 4) {
+      cells.forEach((c) => used.delete(key(c[0], c[1])))
+      continue
+    }
+    traces.push(cells)
+  }
+
+  // ----- where a grid point sits in 3D: on the face, or down the outer board, curling back
+  // a little. The last two values are its ink (for its color) and how far it has faded
+  // into the page.
+  const place = (i, j) => {
+    const x = i * S
+    const y = j * S
+    const t = outer(x, y)
+    if (t === 0) return [x, y * 1.12, lift(x, y), soft(x, y), 0]
+    const r = Math.hypot(x, y)
+    return [x, y * 1.12, bump(r * r) - 0.15 * t * t, 0.18, Math.max(0.001, Math.pow(t, 1.5))]
+  }
+
+  // segments, each with its length along the trace (for the pulses) and its trace's pulse
+  // phase (-1 for a trace that carries none)
+  const segs = []
+  const ends = []
+  traces.forEach((cells) => {
+    const phase = rnd() < 0.4 ? rnd() : -1
+    const pts = cells.map((c) => place(c[0], c[1]))
+    let run = 0
+    for (let k = 0; k + 1 < pts.length; k++) {
+      const a = pts[k]
+      const b = pts[k + 1]
+      const len = Math.hypot(b[0] - a[0], b[1] - a[1], b[2] - a[2])
+      segs.push([a, b, run, run + len, phase, Math.hypot((a[0] + b[0]) / 2, (a[1] + b[1]) / 2 / 1.12)])
+      run += len
+    }
+    ;[[pts[0], 0], [pts[pts.length - 1], run]].forEach((e) => {
+      if (e[0][4] < 0.75) ends.push([e[0], e[1], phase])
+    })
+  })
+  // grow outward from the middle of the face
+  segs.sort((p, q) => p[5] - q[5])
+  ends.sort((p, q) => Math.hypot(p[0][0], p[0][1]) - Math.hypot(q[0][0], q[0][1]))
+
+  const uTime = { value: 0 }
+  const uGlow = { value: pal.glow.clone() }
+  const NL = String.fromCharCode(10)
+  // the pulse: a bright head with a short tail, travelling along the trace and coming round
+  // again every 2.4 units of length
+  const pulse = "float pulse(float len, float ph) { if (ph < 0.0) return 0.0; float d = mod(uTime * 0.5 - len + ph * 2.4, 2.4); return exp(-d * 13.0); }"
+
+  const segPos = new Float32Array(segs.length * 6)
+  const segCol = new Float32Array(segs.length * 6)
+  const segLen = new Float32Array(segs.length * 2)
+  const segPh = new Float32Array(segs.length * 2)
+  segs.forEach((s, k) => {
+    segPos.set([s[0][0], s[0][1], s[0][2], s[1][0], s[1][1], s[1][2]], k * 6)
+    segLen.set([s[2], s[3]], k * 2)
+    segPh.set([s[4], s[4]], k * 2)
+  })
+  const lineGeo = new T.BufferGeometry()
+  lineGeo.setAttribute("position", new T.BufferAttribute(segPos, 3))
+  lineGeo.setAttribute("aCol", new T.BufferAttribute(segCol, 3))
+  lineGeo.setAttribute("aLen", new T.BufferAttribute(segLen, 1))
+  lineGeo.setAttribute("aPh", new T.BufferAttribute(segPh, 1))
+  const lineMat = new T.ShaderMaterial({
+    uniforms: { uTime, uGlow },
+    vertexShader: [
+      "attribute vec3 aCol;",
+      "attribute float aLen;",
+      "attribute float aPh;",
+      "varying vec3 vCol;",
+      "varying float vLen;",
+      "varying float vPh;",
+      "void main() {",
+      "  vCol = aCol; vLen = aLen; vPh = aPh;",
+      "  gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);",
+      "}",
+    ].join(NL),
+    fragmentShader: [
+      "uniform float uTime;",
+      "uniform vec3 uGlow;",
+      "varying vec3 vCol;",
+      "varying float vLen;",
+      "varying float vPh;",
+      pulse,
+      "void main() {",
+      "  gl_FragColor = vec4(mix(vCol, uGlow, pulse(vLen, vPh)), 1.0);",
+      "  #include <colorspace_fragment>",
+      "}",
+    ].join(NL),
+  })
+  const board = new T.LineSegments(lineGeo, lineMat)
+  board.frustumCulled = false
+
+  // vias: a ring at each end of a trace, flashing as a pulse reaches it
+  const viaPos = new Float32Array(ends.length * 3)
+  const viaCol = new Float32Array(ends.length * 3)
+  const viaLen = new Float32Array(ends.length)
+  const viaPh = new Float32Array(ends.length)
+  ends.forEach((e, k) => {
+    viaPos.set([e[0][0], e[0][1], e[0][2] + 0.004], k * 3)
+    viaLen[k] = e[1]
+    viaPh[k] = e[1] > 0 ? e[2] : -1
+  })
+  const viaGeo = new T.BufferGeometry()
+  viaGeo.setAttribute("position", new T.BufferAttribute(viaPos, 3))
+  viaGeo.setAttribute("aCol", new T.BufferAttribute(viaCol, 3))
+  viaGeo.setAttribute("aLen", new T.BufferAttribute(viaLen, 1))
+  viaGeo.setAttribute("aPh", new T.BufferAttribute(viaPh, 1))
+  const viaMat = new T.ShaderMaterial({
+    uniforms: { uTime, uGlow, uSize: { value: 4.5 * renderer.getPixelRatio() } },
+    transparent: true,
+    vertexShader: [
+      "uniform float uSize;",
+      "attribute vec3 aCol;",
+      "attribute float aLen;",
+      "attribute float aPh;",
+      "varying vec3 vCol;",
+      "varying float vLen;",
+      "varying float vPh;",
+      "void main() {",
+      "  vCol = aCol; vLen = aLen; vPh = aPh;",
+      "  gl_PointSize = uSize;",
+      "  gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);",
+      "}",
+    ].join(NL),
+    fragmentShader: [
+      "uniform float uTime;",
+      "uniform vec3 uGlow;",
+      "varying vec3 vCol;",
+      "varying float vLen;",
+      "varying float vPh;",
+      pulse,
+      "void main() {",
+      "  float r = length(gl_PointCoord * 2.0 - 1.0);",
+      "  if (r > 1.0 || r < 0.42) discard;",
+      "  gl_FragColor = vec4(mix(vCol, uGlow, min(1.0, pulse(vLen, vPh) * 1.6)), 1.0);",
+      "  #include <colorspace_fragment>",
+      "}",
+    ].join(NL),
+  })
+  const vias = new T.Points(viaGeo, viaMat)
+  vias.frustumCulled = false
+
+  // the same coloring as the wire web: ink-dark where the print is dark, faint over the
+  // paper, toned down toward the edge of the face and fading out past it
+  const paint = () => {
+    const faint = dim()
+    const c = new T.Color()
+    const tone = (v) => {
+      const vr = Math.hypot(v[0], v[1] / 1.12)
+      const edge = 1 - 0.6 * Math.min(1, Math.max(0, (vr - 0.5) / 0.47))
+      c.copy(faint).lerp(pal.ink, Math.min(1, (v[3] < 0.3 ? 0 : v[3] > 0.62 ? 1 : ((v[3] - 0.3) / 0.32)) * (isDark() ? 1 : 0.85) * edge))
+      // traces over the paper of the print sink back further, so the ink shows the face
+      if (v[3] < 0.3 && !v[4]) c.lerp(pal.paper, 0.35)
+      if (v[4]) c.lerp(pal.paper, v[4])
+    }
+    segs.forEach((s, k) => {
+      for (let end = 0; end < 2; end++) {
+        tone(s[end])
+        segCol.set([c.r, c.g, c.b], k * 6 + end * 3)
+      }
+    })
+    ends.forEach((e, k) => {
+      tone(e[0])
+      viaCol.set([c.r, c.g, c.b], k * 3)
+    })
+    lineGeo.attributes.aCol.needsUpdate = true
+    viaGeo.attributes.aCol.needsUpdate = true
+    uGlow.value.copy(pal.glow)
+  }
+  paint()
+
+  const root = new T.Group()
+  const spin = new T.Group()
+  root.add(spin)
+  scene.add(root)
+  spin.add(board, vias)
+
+  // ----- perfboard behind the head: a faint grid of holes
+  const holes = []
+  for (let x = -3.4; x <= 3.4; x += 0.16) for (let y = -1.9; y <= 1.9; y += 0.16) holes.push(new T.Vector3(x, y, -0.9))
+  const holeGeo = new T.BufferGeometry().setFromPoints(holes)
+  const holeMat = new T.PointsMaterial({ size: 2, sizeAttenuation: false, color: dim() })
+  root.add(new T.Points(holeGeo, holeMat))
+
+  const retint = () => {
+    pal = read()
+    paint()
+    holeMat.color.copy(dim())
+  }
+
+  // ----- sizing, as with the wire web: the head nearly fills the window's height, to the
+  // right of the text on a wide window and centred behind it on a narrow one
+  const fit = () => {
+    const w = canvas.clientWidth || 1
+    const h = canvas.clientHeight || 1
+    renderer.setSize(w, h, false)
+    camera.aspect = w / h
+    camera.updateProjectionMatrix()
+    const half = Math.tan((camera.fov * Math.PI) / 360)
+    const vis = Math.max(1.18, 1.05 / camera.aspect)
+    camera.position.set(0, 0, vis / half)
+    camera.lookAt(0, 0, 0)
+    root.position.x = camera.aspect > 1.15 ? vis * camera.aspect * 0.52 : 0
+  }
+  fit()
+
+  // ----- input: lean toward the pointer, turn with the scroll
+  let leanX = 0
+  let leanY = 0
+  let dead = false
+  const cleanups = []
+  const on = (el, type, fn, opts) => {
+    el.addEventListener(type, fn, opts)
+    cleanups.push(() => el.removeEventListener(type, fn, opts))
+  }
+  if (!reduced) {
+    on(window, "pointermove", (e) => {
+      leanX = (e.clientY / window.innerHeight - 0.5) * 2
+      leanY = (e.clientX / window.innerWidth - 0.5) * 2
+    }, { passive: true })
+  }
+
+  // ----- drawing
+  const out4 = (t) => 1 - Math.pow(1 - t, 4)
+  const clamp = (v) => Math.min(1, Math.max(0, v))
+  let t0 = performance.now()
+  let last = t0
+  let intro = reduced ? 1 : 0
+  let clock = reduced ? 1.7 : 0
+  const nSeg = segs.length
+
+  const draw = (dt) => {
+    // the intro: the board is laid outward from the middle of the face, then the vias
+    lineGeo.setDrawRange(0, Math.floor(nSeg * out4(clamp(intro / 0.75))) * 2)
+    viaGeo.setDrawRange(0, Math.floor(ends.length * out4(clamp((intro - 0.35) / 0.55))))
+
+    if (!reduced) clock += dt
+    // the current only starts flowing once the board is laid
+    uTime.value = clock - 2
+    const scroll = reduced ? 0 : Math.min(1.5, window.scrollY / Math.max(1, window.innerHeight))
+    spin.rotation.y = (reduced ? -0.18 : Math.sin(clock * 0.25) * 0.26 - 0.12) + scroll * 0.5
+    root.rotation.x += (leanX * 0.08 + scroll * 0.12 - root.rotation.x) * Math.min(1, dt * 3)
+    root.rotation.z += (-leanY * 0.03 - root.rotation.z) * Math.min(1, dt * 3)
+
+    renderer.render(scene, camera)
+  }
+
+  let raf = 0
+  function frame(now) {
+    raf = 0
+    const dt = Math.min(0.05, (now - last) / 1000)
+    last = now
+    if (intro < 1) intro = Math.min(1, (now - t0) / 2600)
+    draw(dt)
+    if (!dead && !document.hidden && !reduced) raf = requestAnimationFrame(frame)
+  }
+  function again() {
+    if (!raf && !dead) {
+      last = performance.now()
+      raf = requestAnimationFrame(frame)
+    }
+  }
+  on(document, "visibilitychange", again)
+  const ro = new ResizeObserver(() => {
+    fit()
+    again()
+  })
+  ro.observe(canvas)
+  const themes = new MutationObserver(() => {
+    retint()
+    again()
+  })
+  themes.observe(document.documentElement, { attributes: true, attributeFilter: ["saved-theme"] })
+
+  bg.classList.add("melon-3d")
+  t0 = performance.now()
+  again()
+
+  return () => {
+    dead = true
+    cancelAnimationFrame(raf)
+    ro.disconnect()
+    themes.disconnect()
+    cleanups.forEach((f) => f())
+    ;[lineGeo, viaGeo, holeGeo, lineMat, viaMat, holeMat].forEach((o) => o.dispose())
     renderer.dispose()
     bg.classList.remove("melon-3d")
   }

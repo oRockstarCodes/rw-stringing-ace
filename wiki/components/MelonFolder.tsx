@@ -5,19 +5,22 @@ import { FullSlug, resolveRelative } from "../../util/path"
 import { isLabsPage, isReport, labsSummary } from "./MelonLabs"
 import { CoursePlate, Specs } from "./MelonPlate"
 import { CourseMotif, motifFor } from "./MelonMotif"
+import { isCourseIndex, isEditionHome } from "./MelonEditions"
 
 // Copied into quartz/components/custom/ at build time by scripts/build-wiki.sh.
-// Body of folder pages. A course folder (courses/<code>/) shows the course header
+// Body of folder pages. A course folder (<edition>/courses/<code>/) shows the course header
 // (MelonPlate.tsx), a picture of the course with its chapters as the parts (MelonMotif.tsx),
 // under the specs, then a link to its Labs page (when it has labs; see MelonLabs.tsx)
-// and any notes in courses/<code>/concepts/. The text of its index.md (the outline) is
+// and any notes in its concepts/ folder. The text of its index.md (the outline) is
 // not shown.
+// An edition's home page (<edition>/) shows nothing here: MelonHome draws it above.
 // Every other folder falls back to Quartz's normal listing.
 
-export const isCoursePage = (slug?: string) => /^courses\/[^/]+\/index$/.test(slug ?? "")
+export const isCoursePage = isCourseIndex
 
 // Folder pages that draw their own header instead of Quartz's title + date
-export const hasOwnHeader = (slug?: string) => isCoursePage(slug) || isLabsPage(slug)
+export const hasOwnHeader = (slug?: string) =>
+  isCoursePage(slug) || isLabsPage(slug) || isEditionHome(slug)
 
 // Chapters are the notes directly in a course folder. Subfolders (e.g. concepts/) are not chapters.
 export const isChapterOf = (folder: string, slug?: string) => {
@@ -40,6 +43,7 @@ export default ((opts?: Options) => {
 
   const MelonFolder: QuartzComponent = (props: QuartzComponentProps) => {
     const { fileData, allFiles } = props
+    if (isEditionHome(fileData.slug)) return null
     if (!isCoursePage(fileData.slug)) return <Listing {...props} />
 
     const here = fileData.slug! as FullSlug

@@ -5,14 +5,14 @@ import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } fro
 // every (SPA) navigation and draws a reading-progress bar along the top of the window.
 // The animations themselves live in wiki/custom.scss.
 //
-// It also carries the list of courses that have labs (data-labs="pcs-224,ele-302"),
+// It also carries the list of courses that have labs (data-labs="ece/courses/pcs-224,ece/courses/ele-302"),
 // which the sidebar reads to add a "Lab reports" item under those courses
 // (see the Explorer mapFn in quartz.layout.ts).
 
 const MelonMotion: QuartzComponent = ({ allFiles }: QuartzComponentProps) => {
   const coursesWithLabs = allFiles
-    .filter((f) => f.melonLabs?.length && /^courses\/[^/]+\/index$/.test(f.slug ?? ""))
-    .map((f) => f.slug!.split("/")[1])
+    .filter((f) => f.melonLabs?.length && /^[^/]+\/courses\/[^/]+\/index$/.test(f.slug ?? ""))
+    .map((f) => f.slug!.replace(/\/index$/, ""))
   return (
     <>
       <div
@@ -81,6 +81,15 @@ document.addEventListener("nav", () => {
     center.classList.toggle("melon-enter", alt)
   }
   firstNav = false
+
+  // The ECE Edition's tab icon is its green print (static/icon-ece.png)
+  const fav = document.querySelector('link[rel="icon"]')
+  if (fav) {
+    // (the full URL, since a relative one would be read against the page navigated to)
+    if (!fav.dataset.melon) fav.dataset.melon = fav.href
+    const ece = (document.body.dataset.slug || "").startsWith("ece/")
+    fav.href = ece ? fav.dataset.melon.replace("icon.png", "icon-ece.png") : fav.dataset.melon
+  }
 
   // Quartz fills the sidebar tree asynchronously and never clears it first, so if its
   // setup ever runs twice for one page (a double nav event, a cached script mixed with

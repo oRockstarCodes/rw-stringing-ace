@@ -29,11 +29,11 @@ const BY_COURSE: Record<string, MotifKind> = {
   "pcs-224": "bohr",
 }
 
-// folder is "courses/coe-328/"
+// folder is "ece/courses/coe-328/"
 export const motifFor = (folder: string, fm: Record<string, unknown>): MotifKind => {
   const own = String(fm.motif ?? "").toLowerCase() as MotifKind
   if (KINDS.includes(own)) return own
-  const course = folder.replace(/^courses\//, "").replace(/\/$/, "")
+  const course = folder.replace(/^[^/]+\/courses\//, "").replace(/\/$/, "")
   return BY_COURSE[course] ?? "list"
 }
 

@@ -11,12 +11,12 @@ import type { Lab } from "../../plugins/custom/MelonLabsData"
 import { CoursePlate } from "./MelonPlate"
 
 // Copied into quartz/components/custom/ at build time by scripts/build-wiki.sh.
-// A course's Labs page (courses/<code>/labs/, emitted by plugins/MelonLabsPage.ts).
+// A course's Labs page (<edition>/courses/<code>/labs/, emitted by plugins/MelonLabsPage.ts).
 // The labs come from the course's labs/ folder (read by plugins/MelonLabsData.ts).
 // Clicking a lab opens it in the panel below the cards: PDFs in an embedded viewer,
 // source code with syntax highlighting.
 
-export const isLabsPage = (slug?: string) => /^courses\/[^/]+\/labs\/index$/.test(slug ?? "")
+export const isLabsPage = (slug?: string) => /^[^/]+\/courses\/[^/]+\/labs\/index$/.test(slug ?? "")
 
 // A report is a lab with only PDFs; anything with code or project files is a project
 export const isReport = (lab: Lab) => lab.code.length === 0 && lab.pdfs.length > 0

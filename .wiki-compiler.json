@@ -2,7 +2,8 @@
   "version": 1,
   "name": "Melon Files Courses",
   "sources": [
-    { "path": "wiki/content/courses/", "exclude": ["compiled-wiki/"] }
+    { "path": "wiki/content/ece/courses/", "exclude": ["compiled-wiki/"] },
+    { "path": "wiki/content/regular/courses/", "exclude": ["compiled-wiki/"] }
   ],
   "output": "compiled-wiki/",
   "mode": "knowledge",

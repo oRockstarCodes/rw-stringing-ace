@@ -4,7 +4,7 @@ import { createHighlighter, type Highlighter } from "shiki"
 import { QuartzTransformerPlugin } from "../types"
 
 // Copied into quartz/plugins/custom/ at build time by scripts/build-wiki.sh.
-// Reads each course's labs/ folder (courses/<code>/labs/) and attaches the labs to
+// Reads each course's labs/ folder (<edition>/courses/<code>/labs/) and attaches the labs to
 // that course's index page, where components/MelonFolder.tsx shows them.
 //
 // Each file or folder directly inside labs/ is one lab:
@@ -134,9 +134,9 @@ export const MelonLabsData: QuartzTransformerPlugin = () => ({
   htmlPlugins(ctx) {
     return [
       () => async (_tree, file) => {
-        const m = (file.data.slug ?? "").match(/^courses\/([^/]+)\/index$/)
+        const m = (file.data.slug ?? "").match(/^([^/]+\/courses\/[^/]+)\/index$/)
         if (!m) return
-        const labsRel = `courses/${m[1]}/labs`
+        const labsRel = `${m[1]}/labs`
         const labsDir = path.join(ctx.argv.directory, labsRel)
         if (!fs.existsSync(labsDir)) return
 

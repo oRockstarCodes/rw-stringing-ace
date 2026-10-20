@@ -11,7 +11,7 @@ import LabsPageBody from "../../components/custom/MelonLabs"
 import { write } from "../emitters/helpers"
 
 // Copied into quartz/plugins/custom/ at build time by scripts/build-wiki.sh.
-// Emits a Labs page (courses/<code>/labs/) for every course that has labs.
+// Emits a Labs page (<edition>/courses/<code>/labs/) for every course that has labs.
 // The labs themselves are read by MelonLabsData.ts; no note is needed in labs/.
 
 declare module "vfile" {

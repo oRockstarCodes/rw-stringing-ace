@@ -42,19 +42,21 @@ export const isEmptyChapter = (markdown: string) => {
 const readChapter = (file: string) =>
   isEmptyChapter(fs.readFileSync(file, "utf8").replace(/\r\n/g, "\n"))
 
-// Slugs of every empty chapter (courses/<code>/<chapter>), read straight from the content
-// folder, since a page can link to a chapter that hasn't been processed yet
+// Slugs of every empty chapter (<edition>/courses/<code>/<chapter>), read straight from the
+// content folder, since a page can link to a chapter that hasn't been processed yet
 const findEmptyChapters = (contentDir: string) => {
   const empty = new Set<string>()
-  const coursesDir = path.join(contentDir, "courses")
-  if (!fs.existsSync(coursesDir)) return empty
-  for (const course of fs.readdirSync(coursesDir, { withFileTypes: true })) {
-    if (!course.isDirectory()) continue
-    const dir = path.join(coursesDir, course.name)
-    for (const name of fs.readdirSync(dir)) {
-      if (!name.endsWith(".md") || name === "index.md") continue
-      if (readChapter(path.join(dir, name))) {
-        empty.add(`courses/${course.name}/${name.slice(0, -3)}`)
+  for (const edition of fs.readdirSync(contentDir, { withFileTypes: true })) {
+    const coursesDir = path.join(contentDir, edition.name, "courses")
+    if (!edition.isDirectory() || !fs.existsSync(coursesDir)) continue
+    for (const course of fs.readdirSync(coursesDir, { withFileTypes: true })) {
+      if (!course.isDirectory()) continue
+      const dir = path.join(coursesDir, course.name)
+      for (const name of fs.readdirSync(dir)) {
+        if (!name.endsWith(".md") || name === "index.md") continue
+        if (readChapter(path.join(dir, name))) {
+          empty.add(`${edition.name}/courses/${course.name}/${name.slice(0, -3)}`)
+        }
       }
     }
   }
@@ -67,7 +69,7 @@ export const MelonChapterStatus: QuartzTransformerPlugin = () => ({
     return [
       () => (_tree, file) => {
         // Chapters are the notes directly in a course folder
-        if (!/^courses\/[^/]+\/(?!index$)[^/]+$/.test(file.data.slug ?? "")) return
+        if (!/^[^/]+\/courses\/[^/]+\/(?!index$)[^/]+$/.test(file.data.slug ?? "")) return
         file.data.melonEmpty = isEmptyChapter(String(file.value).replace(/\r\n/g, "\n"))
       },
     ]

@@ -39,15 +39,63 @@
   --melon-grid: rgba(217, 170, 190, 0.07);
 }
 
+// ---------- The ECE Edition (components/MelonEditions.tsx) ----------
+// Everything under ece/ is green: the print's pale yellow-green paper for the bands, and a
+// sap green in place of the dusty rose. Set on <body> (Quartz sets its own colors on
+// <html>), so the 3D scenes read them from there. --melon-glow is the pulse of current on
+// the circuit-board head (MelonHome.tsx).
+
+body[data-slug^="ece/"] {
+  --light: #f4f8ef;
+  --lightgray: #d2e0c7;
+  --gray: #6b7964;
+  --darkgray: #384334;
+  --dark: #1d231b;
+  --secondary: #457a28;
+  --tertiary: #5a6b48;
+  --highlight: rgba(69, 122, 40, 0.08);
+  --textHighlight: #d8eac3;
+
+  --melon-paper: #d5e8bd;
+  --melon-band-text: #1e2a17;
+  --melon-chip: #2a3325;
+  --melon-chip-text: #d8efbd;
+  --melon-grid: rgba(69, 122, 40, 0.1);
+  --melon-glow: #47b31a;
+  // (worked out again here, from the green)
+  --melon-soft: color-mix(in srgb, var(--secondary) 14%, transparent);
+}
+
+:root[saved-theme="dark"] body[data-slug^="ece/"] {
+  --light: #161a15;
+  --lightgray: #2e3a2a;
+  --gray: #8a9a83;
+  --darkgray: #cbd8c4;
+  --dark: #e0eada;
+  --secondary: #a6d27c;
+  --tertiary: #9cb18c;
+  --highlight: rgba(166, 210, 124, 0.1);
+  --textHighlight: rgba(166, 210, 124, 0.3);
+
+  --melon-paper: #33452a;
+  --melon-band-text: #dcebcf;
+  --melon-chip: #c3e2a0;
+  --melon-chip-text: #161a15;
+  --melon-grid: rgba(166, 210, 124, 0.07);
+  --melon-glow: #d4ffa6;
+}
+
 // ---------- Page ----------
 
 body {
   background: var(--light);
 }
 
-// Grid paper behind the home page and the course pages
+// Grid paper behind the home pages and the course pages
 body[data-slug="index"],
-body[data-slug^="courses/"][data-slug$="/index"] {
+body[data-slug="ece/index"],
+body[data-slug="regular/index"],
+body[data-slug*="/courses/"][data-slug$="/index"] {
   background-image:
     linear-gradient(var(--melon-grid) 1px, transparent 1px),
     linear-gradient(90deg, var(--melon-grid) 1px, transparent 1px);
@@ -217,6 +265,11 @@ body .page-title {
   a:hover::before {
     transform: rotate(-20deg);
   }
+}
+
+// The ECE Edition's green print
+body[data-slug^="ece/"] .page-title a::before {
+  background-image: url("./static/icon-ece.png");
 }
 
 // Phones: the title shares the top bar with the menu, search and buttons
@@ -410,7 +463,9 @@ article p > img + em {
 
 // ---------- Home page (components/MelonHome.tsx) ----------
 
-body[data-slug="index"] .center > hr {
+body[data-slug="index"] .center > hr,
+body[data-slug="ece/index"] .center > hr,
+body[data-slug="regular/index"] .center > hr {
   display: none;
 }
 
@@ -514,8 +569,7 @@ body[data-slug="index"] .center > hr {
   }
 }
 
-// "ECE Edition" rubber stamp, pressed under the tagline.
-// The whole site is the ECE Edition for now.
+// The edition's rubber stamp ("ECE Edition"), pressed under the tagline
 .melon-stamp {
   display: block;
   margin: 1.75rem 0 0 0.5rem;
@@ -663,9 +717,95 @@ a.melon-row {
   }
 }
 
+// Editions (the site's home page): a door to each, side by side on a wide page. Each door
+// wears its own edition's colors, so the ECE door is green on the pink page.
+.melon-doors {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: 1rem;
+  margin: 0;
+  padding: 1rem 0 0.5rem;
+  border-top: 2px solid var(--dark);
+}
+
+li.melon-door {
+  margin: 0;
+  padding: 0;
+}
+
+.melon-door[data-edition="ece"] {
+  --secondary: #457a28;
+  --lightgray: #c3d8b2;
+  --melon-door-paper: #e0efcf;
+}
+
+:root[saved-theme="dark"] .melon-door[data-edition="ece"] {
+  --secondary: #a6d27c;
+  --lightgray: #3c4d34;
+  --melon-door-paper: #27331f;
+}
+
+a.melon-door-link {
+  display: grid;
+  grid-template-columns: 4.25rem 1fr;
+  grid-template-rows: auto 1fr auto;
+  gap: 0.3rem 1rem;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 1.1rem 1.15rem;
+  border: 1px solid var(--lightgray);
+  border-radius: var(--melon-radius);
+  background: var(--melon-door-paper, color-mix(in srgb, var(--melon-paper) 60%, var(--light)));
+  color: var(--dark);
+  font-weight: 400;
+  transition: border-color 0.2s ease;
+
+  &:hover {
+    border-color: var(--secondary);
+
+    .melon-door-title {
+      color: var(--secondary);
+    }
+
+    .melon-door-icon {
+      transform: rotate(-16deg);
+    }
+  }
+}
+
+.melon-door-icon {
+  grid-row: 1 / span 3;
+  width: 4.25rem;
+  height: 4.25rem;
+  margin: 0;
+  border-radius: 50%;
+  transition: transform 0.5s var(--melon-ease);
+}
+
+.melon-door-title {
+  font-family: var(--headerFont);
+  font-size: 1.75rem;
+  font-weight: 800;
+  font-stretch: 62%;
+  line-height: 1;
+  transition: color 0.2s ease;
+}
+
+.melon-door-blurb {
+  font-size: 0.95rem;
+  line-height: 1.45;
+  color: var(--darkgray);
+}
+
+.melon-door-meta {
+  font-size: 0.85rem;
+  color: var(--gray);
+}
+
 // ---------- Course pages (components/MelonFolder.tsx, MelonPlate.tsx) ----------
 
-body[data-slug^="courses/"][data-slug$="/index"] .center > hr {
+body[data-slug*="/courses/"][data-slug$="/index"] .center > hr {
   display: none;
 }
 

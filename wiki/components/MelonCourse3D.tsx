@@ -364,7 +364,8 @@ MelonCourse3D.afterDOMLoaded = `
     const scene = new T.Scene()
     const camera = new T.PerspectiveCamera(28, 2, 0.1, 100)
     const read = () => {
-      const css = getComputedStyle(document.documentElement)
+      // (read off <body>, where an edition sets its own palette)
+      const css = getComputedStyle(document.body)
       const get = (name, fallback) => new T.Color(css.getPropertyValue(name).trim() || fallback)
       return { ink: get("--dark", "#231f20"), rose: get("--secondary", "#8c4a67"), paper: get("--light", "#fbf6f8") }
     }

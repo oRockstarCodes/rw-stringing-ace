@@ -1,6 +1,7 @@
 import readingTime from "reading-time"
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "../types"
 import { FullSlug, resolveRelative } from "../../util/path"
+import { editionOf } from "./MelonEditions"
 
 // Copied into quartz/components/custom/ at build time by scripts/build-wiki.sh.
 // The pink band above every note: where you are (Melon Files / COE 328 / Ch 6) on the
@@ -16,22 +17,31 @@ const MelonBand: QuartzComponent = ({ fileData, allFiles }: QuartzComponentProps
     { label: "Melon Files", href: resolveRelative(slug, "index" as FullSlug) },
   ]
 
-  if (parts[0] === "courses" && parts.length >= 3) {
-    const courseSlug = `courses/${parts[1]}/index` as FullSlug
+  // Inside an edition: its name, then the course (<edition>/courses/<code>/...)
+  const edition = editionOf(slug)
+  if (edition) {
+    crumbs.push({
+      label: edition.short,
+      href: resolveRelative(slug, `${edition.key}/index` as FullSlug),
+    })
+  }
+
+  if (edition && parts[1] === "courses" && parts.length >= 4) {
+    const courseSlug = `${edition.key}/courses/${parts[2]}/index` as FullSlug
     const course = allFiles.find((f) => f.slug === courseSlug)
     const fm = (course?.frontmatter ?? {}) as Record<string, unknown>
     crumbs.push({
-      label: String(fm.code ?? parts[1].toUpperCase().replace("-", " ")),
+      label: String(fm.code ?? parts[2].toUpperCase().replace("-", " ")),
       href: resolveRelative(slug, courseSlug),
     })
 
-    const rest = parts.slice(2)
+    const rest = parts.slice(3)
     const last = rest[rest.length - 1]
     const chapter = last.match(/^ch(\d+)/i)
     if (rest[0] === "concepts") crumbs.push({ label: last === "index" ? "Concepts" : "Concept" })
     else if (rest[0] === "labs") crumbs.push({ label: "Labs" })
     else if (chapter) crumbs.push({ label: `Ch ${Number(chapter[1])}` })
-  } else if (slug !== "index") {
+  } else if (slug !== "index" && !edition) {
     crumbs.push({ label: String(fileData.frontmatter?.title ?? slug) })
   }
 

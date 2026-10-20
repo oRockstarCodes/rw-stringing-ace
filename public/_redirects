@@ -6,3 +6,6 @@
 # Wiki moved from /wiki to /melon-files
 /wiki       /melon-files/          301
 /wiki/*     /melon-files/:splat    301
+
+# The courses moved into the ECE Edition when the Melon Files split into editions
+/melon-files/courses/*    /melon-files/ece/courses/:splat    301

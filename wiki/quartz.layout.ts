@@ -10,7 +10,8 @@ import MelonLogic from "./quartz/components/custom/MelonLogic"
 import MelonCapInd from "./quartz/components/custom/MelonCapInd"
 import MelonCourse3D from "./quartz/components/custom/MelonCourse3D"
 import { hasOwnHeader } from "./quartz/components/custom/MelonFolder"
-import { QuartzComponentProps } from "./quartz/components/types"
+import { isEditionHome } from "./quartz/components/custom/MelonEditions"
+import { QuartzComponent, QuartzComponentProps } from "./quartz/components/types"
 
 // Copied into the Quartz engine at build time by scripts/build-wiki.sh.
 // Docs: https://quartz.jzhao.xyz/layout
@@ -23,29 +24,53 @@ const explorerOptions: Parameters<typeof Component.Explorer>[0] = {
   // Courses only: concepts go in a chapter or a course's own concepts/ folder,
   // so the old top-level concepts/ folder is hidden
   filterFn: (node) => node.slugSegment !== "tags" && node.slug !== "concepts/index",
-  // "courses" -> "Courses". Inside each course:
+  // The editions (components/MelonEditions.tsx). On a page inside an edition the sidebar
+  // shows only that edition's courses, at the top. Elsewhere (the home page) each edition
+  // is a folder holding its courses. Either way the courses/ folder level is skipped.
+  // Inside each course:
   // - a "Lab reports" item, for courses with labs (the list comes from #melon-data,
   //   see components/MelonMotion.tsx)
   // - for courses with a concepts/ folder, its notes are lifted out of the folder and
   //   the course is split into a "Chapters" and a "Concepts" section. The two headings
   //   are links to the course page and the concepts page (styled in custom.scss).
   mapFn: (node) => {
-    if (node.slug === "courses/index") node.displayName = "Courses"
-    const course = node.isFolder && node.slug.match(/^courses\/([^/]+)\/index$/)
-    if (!course) return
     // (No named helper functions in here: the bundler wraps those in a __name() call
     // that doesn't exist in the browser.)
+    const editions: Record<string, string> = { regular: "Melon Files", ece: "ECE Edition" }
+    const here = (document.body.dataset.slug ?? "").split("/")[0]
+    if (node.slugSegment === undefined) {
+      // the root
+      const ed = editions[here] && node.children.find((c) => c.isFolder && c.slugSegment === here)
+      if (!ed) return
+      const courses = ed.children.find((c) => c.isFolder && c.slugSegment === "courses")
+      node.children = [
+        ...ed.children.filter((c) => c !== courses),
+        ...(courses ? courses.children : []),
+        ...node.children.filter((c) => !(c.isFolder && editions[c.slugSegment])),
+      ]
+      return
+    }
+    if (node.isFolder && editions[node.slugSegment] && node.slug === `${node.slugSegment}/index`) {
+      node.displayName = editions[node.slugSegment]
+      const courses = node.children.find((c) => c.isFolder && c.slugSegment === "courses")
+      if (courses)
+        node.children = [...node.children.filter((c) => c !== courses), ...courses.children]
+      return
+    }
+    if (node.isFolder && node.slugSegment === "courses") node.displayName = "Courses"
+    const course = node.isFolder && node.slug.match(/^([^/]+\/courses\/[^/]+)\/index$/)
+    if (!course) return
     const added: [string, string][] = []
     const withLabs = (document.getElementById("melon-data")?.dataset.labs ?? "").split(",")
     if (withLabs.includes(course[1]) && !node.children.some((c) => c.slug.endsWith("/labs/index")))
-      added.push([`courses/${course[1]}/labs/index`, "Lab reports"])
+      added.push([`${course[1]}/labs/index`, "Lab reports"])
 
     const concepts = node.children.find((c) => c.isFolder && c.slugSegment === "concepts")
     if (concepts) {
       node.children = node.children.filter((c) => c !== concepts)
       node.children.push(...concepts.children.filter((c) => !c.slug.endsWith("/index")))
-      added.push([`courses/${course[1]}/index`, "Chapters"])
-      added.push([`courses/${course[1]}/concepts/index`, "Concepts"])
+      added.push([`${course[1]}/index`, "Chapters"])
+      added.push([`${course[1]}/concepts/index`, "Concepts"])
     }
 
     const Node = node.constructor as new (segments: string[], data: object) => typeof node
@@ -59,7 +84,7 @@ const explorerOptions: Parameters<typeof Component.Explorer>[0] = {
     const [rankA, rankB] = [a, b].map((n) =>
       n.isFolder
         ? 5
-        : /^courses\/[^/]+\/index$/.test(n.slug)
+        : /^[^/]+\/courses\/[^/]+\/index$/.test(n.slug)
           ? 0
           : n.slug.endsWith("/labs/index")
             ? 2
@@ -75,9 +100,9 @@ const explorerOptions: Parameters<typeof Component.Explorer>[0] = {
   },
 }
 
-// Concept notes (courses/<code>/concepts/...) with at least one embedded image
+// Concept notes (<edition>/courses/<code>/concepts/...) with at least one embedded image
 const hasFigurePanel = (page: QuartzComponentProps) => {
-  if (!/^courses\/[^/]+\/concepts\/(?!index$)/.test(page.fileData.slug ?? "")) return false
+  if (!/^[^/]+\/courses\/[^/]+\/concepts\/(?!index$)/.test(page.fileData.slug ?? "")) return false
   const hasImage = (node: { tagName?: string; children?: unknown[] }): boolean =>
     node.tagName === "img" ||
     (node.children ?? []).some((c) => hasImage(c as { tagName?: string; children?: unknown[] }))
@@ -91,13 +116,8 @@ export const sharedPageComponents: SharedLayout = {
   // <div class="melon-logic"> and <div class="melon-capind"> diagrams written in notes.
   // MelonCourse3D draws the 3D scene behind each course page's title.
   afterBody: [MelonMotion(), MelonSmoothScroll(),MelonOpAmp(), MelonLogic(), MelonCapInd(), MelonCourse3D()],
-  footer: Component.Footer({
-    links: {
-      "← rwangqz.ca": "https://rwangqz.ca",
-      Projects: "https://rwangqz.ca/projects",
-      Stringing: "https://rwangqz.ca/stringing",
-    },
-  }),
+  // No footer. Quartz requires the slot, so it gets a component that renders nothing.
+  footer: (() => null) as QuartzComponent,
 }
 
 export const defaultContentPageLayout: PageLayout = {
@@ -138,6 +158,12 @@ export const defaultContentPageLayout: PageLayout = {
 
 export const defaultListPageLayout: PageLayout = {
   beforeBody: [
+    // An edition's home page (<edition>/) is its folder page, with the edition's hero and
+    // course list (components/MelonEditions.tsx)
+    Component.ConditionalRender({
+      component: MelonHome(),
+      condition: (page) => isEditionHome(page.fileData.slug),
+    }),
     // Course pages and Lab Reports draw their own header (components/MelonFolder.tsx)
     Component.ConditionalRender({
       component: Component.Breadcrumbs(),
