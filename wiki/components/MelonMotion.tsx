@@ -110,8 +110,10 @@ document.addEventListener("nav", () => {
     window.addCleanup(() => observer.disconnect())
   }
 
+  // The reading bar is filled by CSS where scroll-driven animations exist (custom.scss), so
+  // this only scripts it in browsers without them
   const bar = document.querySelector(".melon-progress")
-  if (!bar) return
+  if (!bar || CSS.supports("animation-timeline: scroll()")) return
   let queued = false
   const update = () => {
     queued = false

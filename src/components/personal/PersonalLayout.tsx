@@ -40,7 +40,7 @@ const PersonalLayout = ({ title, children }: PersonalLayoutProps) => {
   return (
     <div className="min-h-screen flex flex-col bg-background text-foreground">
       <ScrollToTop />
-      <header className="sticky top-0 z-50 border-b border-border/60 bg-background/85 backdrop-blur-lg">
+      <header className="sticky top-0 z-50 border-b border-border/60 bg-background/90 backdrop-blur-sm">
         <div className="container flex h-16 items-center justify-between">
           <Link to="/" className="font-display text-lg font-bold tracking-tight hover:text-accent transition-colors">
             {me.handle}

@@ -138,7 +138,8 @@ const Home = () => {
     <PersonalLayout>
       <div ref={page}>
         <section className="relative overflow-hidden">
-          <div data-hero="glow" className="absolute inset-0 bg-mesh-gold opacity-60" />
+          {/* Its own layer, so the endless drift is moved by the compositor instead of repainted. */}
+          <div data-hero="glow" className="absolute inset-0 bg-mesh-gold opacity-60 will-change-transform" />
           <div className="container relative pt-20 pb-16 md:pt-32 md:pb-24">
             <p data-hero="eyebrow" className="text-sm font-medium text-accent">Hi, I'm</p>
             <h1 aria-label={me.name} className="mt-2 text-5xl md:text-7xl font-bold leading-[1.05]">

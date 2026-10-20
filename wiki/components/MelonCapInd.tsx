@@ -202,7 +202,23 @@ MelonCapInd.afterDOMLoaded = `
     titles[0].classList.add("ci-title-a")
     titles[1].classList.add("ci-title-b")
 
-    const $ = (k) => root.querySelector('[data-val="' + k + '"]')
+    // Looked up once, since draw() reaches for these every frame
+    const found = {}
+    const $ = (k) => found[k] || (found[k] = root.querySelector('[data-val="' + k + '"]'))
+    // Writes only what changed since the last frame: rewriting a label or line with the same
+    // value still costs the page a fresh layout and paint. key is "text", "style.<prop>" or
+    // an attribute name.
+    const last = new WeakMap()
+    const put = (el, key, v) => {
+      v = String(v)
+      let m = last.get(el)
+      if (!m) last.set(el, (m = {}))
+      if (m[key] === v) return
+      m[key] = v
+      if (key === "text") el.textContent = v
+      else if (key.startsWith("style.")) el.style[key.slice(6)] = v
+      else el.setAttribute(key, v)
+    }
     const rIn = root.querySelector('input[data-k="r"]')
     const eIn = root.querySelector('input[data-k="e"]')
     const lever = root.querySelector(".ci-lever")
@@ -313,16 +329,16 @@ MelonCapInd.afterDOMLoaded = `
       const volt = cap ? st.x : ph.y
 
       // switch lever
-      lever.style.transform = "rotate(" + (st.mode === "src" ? 45 : st.mode === "short" ? -45 : 0) + "deg)"
-      spark.style.opacity = st.spark
+      put(lever, "style.transform", "rotate(" + (st.mode === "src" ? 45 : st.mode === "short" ? -45 : 0) + "deg)")
+      put(spark, "style.opacity", st.spark)
 
       // current dots: speed follows the current, and they fade out as it dies away
       const flow = Math.abs(cur) / iRef
-      dotsG.style.opacity = clamp(flow * 8, 0, 1)
+      put(dotsG, "style.opacity", clamp(flow * 8, 0, 1))
       dots.forEach((d) => {
         const p = pointAt(d.ch, st.s + d.off)
-        d.el.setAttribute("cx", p[0].toFixed(1))
-        d.el.setAttribute("cy", p[1].toFixed(1))
+        put(d.el, "cx", p[0].toFixed(1))
+        put(d.el, "cy", p[1].toFixed(1))
       })
 
       // stored energy
@@ -330,29 +346,29 @@ MelonCapInd.afterDOMLoaded = `
       const wMax = 0.5 * E * (cap ? VS * VS : iRef * iRef)
       const hBar = clamp((w / wMax) * 100, 0, 100)
       const bar = $("bar")
-      bar.setAttribute("height", hBar.toFixed(1))
-      bar.setAttribute("y", (220 - hBar).toFixed(1))
-      $("w").textContent = eng(w, "J")
+      put(bar, "height", hBar.toFixed(1))
+      put(bar, "y", (220 - hBar).toFixed(1))
+      put($("w"), "text", eng(w, "J"))
 
       // the field
       if (cap) {
         const f = clamp(st.x / VS, 0, 1)
-        field.style.opacity = (0.9 * f).toFixed(3)
+        put(field, "style.opacity", (0.9 * f).toFixed(3))
         charges.forEach((c, i) => {
-          c.style.opacity = clamp(f * 7.4 - (i % 7), 0, 1).toFixed(2)
+          put(c, "style.opacity", clamp(f * 7.4 - (i % 7), 0, 1).toFixed(2))
         })
       } else {
         const f = clamp(st.x / iRef, 0, 1.2)
         const sc = 0.3 + 0.7 * Math.min(f, 1)
-        halo.setAttribute("transform", "translate(400 175) scale(" + sc.toFixed(3) + ") translate(-400 -175)")
-        halo.style.opacity = clamp(f * 1.1, 0, 1).toFixed(3)
+        put(halo, "transform", "translate(400 175) scale(" + sc.toFixed(3) + ") translate(-400 -175)")
+        put(halo, "style.opacity", clamp(f * 1.1, 0, 1).toFixed(3))
       }
 
       // labels
-      $("r").textContent = "R = " + eng(R, "\\u03a9")
-      $("i").textContent = " = " + eng(cur, "A")
-      $("v").textContent = " = " + eng(volt, "V")
-      $("e").textContent = (cap ? "C = " : "L = ") + eng(E, cap ? "F" : "H")
+      put($("r"), "text", "R = " + eng(R, "\\u03a9"))
+      put($("i"), "text", " = " + eng(cur, "A"))
+      put($("v"), "text", " = " + eng(volt, "V"))
+      put($("e"), "text", (cap ? "C = " : "L = ") + eng(E, cap ? "F" : "H"))
 
       // chart ranges
       const loA = cap ? -0.25 : -0.08 * iRef
@@ -362,18 +378,18 @@ MelonCapInd.afterDOMLoaded = `
       const refB = cap ? iRef * 1000 : VS
       const sB = cap ? 1000 : 1
       const yOf = (v, lo, hi, y0) => y0 + 80 * (1 - (v - lo) / (hi - lo))
-      const line = (k, y) => { $(k).setAttribute("y1", y); $(k).setAttribute("y2", y) }
+      const line = (k, y) => { put($(k), "y1", y); put($(k), "y2", y) }
       line("zero-a", yOf(0, loA, hiA, 30))
       line("ref-a", yOf(refA, loA, hiA, 30))
       line("zero-b", yOf(0, -mB, mB, 154))
       line("ref-b", yOf(refB, -mB, mB, 154))
-      const tick = (k, y, text) => { const e = $(k); e.setAttribute("y", y + 4); e.textContent = text }
+      const tick = (k, y, text) => { const e = $(k); put(e, "y", y + 4); put(e, "text", text) }
       tick("tick0-a", yOf(0, loA, hiA, 30), "0")
       tick("tick1-a", yOf(refA, loA, hiA, 30), cap ? "5 V" : eng(iRef, "A"))
       tick("tick0-b", yOf(0, -mB, mB, 154), "0")
       tick("tick1-b", yOf(refB, -mB, mB, 154), cap ? eng(iRef, "A") : "5 V")
-      $("path-a").setAttribute("d", chartPath(1, loA, hiA, 30, 80, 1))
-      $("path-b").setAttribute("d", chartPath(2, -mB, mB, 154, 80, sB))
+      put($("path-a"), "d", chartPath(1, loA, hiA, 30, 80, 1))
+      put($("path-b"), "d", chartPath(2, -mB, mB, 154, 80, sB))
 
       // readout, ten times a second
       if (now - st.readAt > 100) {

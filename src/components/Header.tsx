@@ -41,14 +41,16 @@ const Header = () => {
     );
 
   return (
-    <header
-      className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-        isScrolled
-          ? "bg-background/90 backdrop-blur-lg border-b border-border shadow-lg shadow-black/20"
-          : "bg-transparent",
-      )}
-    >
+    <header className="fixed top-0 left-0 right-0 z-50">
+      {/* The scrolled look lives on its own layer and only its opacity fades: animating the
+          blur and shadow themselves stutters while the page scrolls. */}
+      <div
+        aria-hidden
+        className={cn(
+          "absolute inset-0 -z-10 bg-background/90 backdrop-blur-sm border-b border-border shadow-lg shadow-black/20 transition-opacity duration-300",
+          isScrolled ? "opacity-100" : "opacity-0",
+        )}
+      />
       <div className="container">
         <div className="flex items-center justify-between h-16 md:h-20">
           <Link
