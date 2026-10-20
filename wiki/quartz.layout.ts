@@ -9,6 +9,7 @@ import MelonFigures from "./quartz/components/custom/MelonFigures"
 import MelonLogic from "./quartz/components/custom/MelonLogic"
 import MelonCapInd from "./quartz/components/custom/MelonCapInd"
 import MelonCourse3D from "./quartz/components/custom/MelonCourse3D"
+import MelonPageTitle from "./quartz/components/custom/MelonPageTitle"
 import { hasOwnHeader } from "./quartz/components/custom/MelonFolder"
 import { isEditionHome } from "./quartz/components/custom/MelonEditions"
 import { QuartzComponent, QuartzComponentProps } from "./quartz/components/types"
@@ -133,7 +134,7 @@ export const defaultContentPageLayout: PageLayout = {
     Component.TagList(),
   ],
   left: [
-    Component.PageTitle(),
+    MelonPageTitle(),
     Component.MobileOnly(Component.Spacer()),
     Component.Flex({
       components: [
@@ -179,7 +180,7 @@ export const defaultListPageLayout: PageLayout = {
     }),
   ],
   left: [
-    Component.PageTitle(),
+    MelonPageTitle(),
     Component.MobileOnly(Component.Spacer()),
     Component.Flex({
       components: [

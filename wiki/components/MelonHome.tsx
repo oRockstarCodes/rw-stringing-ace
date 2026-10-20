@@ -47,7 +47,17 @@ const MelonHome: QuartzComponent = ({ fileData, allFiles }: QuartzComponentProps
     <section class="melon-home" data-scene={edition?.scene ?? "web"} data-icon={icon}>
       <div class="melon-band melon-ui">
         <span>Course notes</span>
-        <span class="melon-band-meta">{edition ? edition.short : "Choose an edition"}</span>
+        {/* an edition's home page leads back to the combined one, the door to every edition */}
+        {edition ? (
+          <span class="melon-band-meta">
+            <span>{edition.short}</span>
+            <a href={resolveRelative(here, "index" as FullSlug)} class="internal">
+              ← All editions
+            </a>
+          </span>
+        ) : (
+          <span class="melon-band-meta">Choose an edition</span>
+        )}
       </div>
 
       {/* The backdrop: the edition's icon as a big 3D head behind the whole page (script
@@ -321,6 +331,7 @@ function mhFace(icon) {
   }
   const M = 128
   const field = new Float32Array(M * M)
+  const raw = new Float32Array(M * M)
   for (let j = 0; j < M; j++)
     for (let i = 0; i < M; i++) {
       let s = 0
@@ -329,15 +340,20 @@ function mhFace(icon) {
       // the print has an inked ring around its edge; fade the ink out toward the rim so the
       // web does not trace that ring as a hard bright edge around the face
       const fr = Math.hypot((i / (M - 1)) * 2 - 1, 1 - (j / (M - 1)) * 2)
+      raw[j * M + i] = s / 9
       field[j * M + i] = (s / 9) * (1 - Math.min(1, Math.max(0, (fr - 0.74) / 0.16)))
     }
-  const soft = (x, y) => {
+  const sampler = (arr) => (x, y) => {
     const fx = Math.min(M - 1.001, Math.max(0, ((x + 1) / 2) * (M - 1)))
     const fy = Math.min(M - 1.001, Math.max(0, ((1 - y) / 2) * (M - 1)))
     const i = Math.floor(fx), j = Math.floor(fy), u = fx - i, w = fy - j
-    const f = (a, b) => field[b * M + a]
+    const f = (a, b) => arr[b * M + a]
     return (f(i, j) * (1 - u) + f(i + 1, j) * u) * (1 - w) + (f(i, j + 1) * (1 - u) + f(i + 1, j + 1) * u) * w
   }
+  const soft = sampler(field)
+  // the print as it is, ink right out to the rim (for the circuit board, which draws the
+  // logo's two tones)
+  const ink = sampler(raw)
   const detail = (x, y) => {
     const e = 0.012
     return Math.abs(soft(x + e, y) - soft(x - e, y)) + Math.abs(soft(x, y + e) - soft(x, y - e))
@@ -375,7 +391,7 @@ function mhFace(icon) {
     const r2 = x * x + y * y
     return bump(r2) + face(x, y) + (0.5 - soft(x, y)) * 0.05 * (1 - r2 * 0.8)
   }
-  return { M, field, soft, detail, bump, eyes, lift }
+  return { M, field, soft, ink, detail, bump, eyes, lift }
 }
 
 // The scene: the site icon as a big 3D wire-web head, behind the whole home page. It is a
@@ -729,10 +745,11 @@ function mhScene(T, icon, Delaunator, bg, canvas, reduced) {
   }
 }
 
-// The ECE Edition's scene: the same head, drawn as a circuit board. Copper traces are routed
-// over the face on a fine grid, running straight and turning only by 45 degrees, the way a
-// board is laid out. Each one tries to keep to the shade of the print where it started, so
-// the traces follow the edges of the ink and the face shows through. They end at vias.
+// The ECE Edition's scene: the logo, drawn as a circuit board. Copper traces are routed over
+// the face on a fine grid, running straight and turning only by 45 degrees, the way a board
+// is laid out. Each one stays inside either the ink or the paper of the print: traces first
+// run round the outlines of the ink, then pack it solid, while the paper gets only a few
+// faint ones, so the board reads as the logo itself. The longer traces end at vias.
 // Past the face the board carries on in longer, sparser runs that fade into the page.
 // Pulses of current run along some of the traces, and a via flashes as one arrives.
 // Behind it all, a faint grid of holes, like perfboard.
@@ -765,13 +782,13 @@ function mhPcb(T, icon, bg, canvas, reduced) {
   const isDark = () => pal.paper.r < pal.ink.r
   const dim = () => pal.rose.clone().lerp(pal.paper, isDark() ? 0.6 : 0.5)
 
-  const { soft, detail, bump, eyes, lift } = mhFace(icon)
+  const { ink, bump, lift } = mhFace(icon)
   const rnd = mhRng(23)
 
   // ----- routing. Grid cells S apart; a trace takes cells one step at a time and keeps a
-  // free cell between itself and every other trace (three cells out past the face), so
-  // traces never touch or cross.
-  const S = 0.02
+  // free cell between itself and every other trace (more out past the face), so traces
+  // never touch or cross.
+  const S = 0.012
   const RIM = 0.97
   const OUT = 2.5
   // shorter to the left, where the sidebar is, as with the wire web
@@ -788,7 +805,7 @@ function mhPcb(T, icon, bg, canvas, reduced) {
   const key = (i, j) => (i + 500) * 1000 + (j + 500)
   const clear = (i, j, id) => {
     const t = outer(i * S, j * S)
-    const c = t > 0.3 ? 3 : t > 0 ? 2 : 1
+    const c = t > 0.3 ? 5 : t > 0 ? 3 : 1
     for (let di = -c; di <= c; di++)
       for (let dj = -c; dj <= c; dj++) {
         const o = used.get(key(i + di, j + dj))
@@ -796,41 +813,48 @@ function mhPcb(T, icon, bg, canvas, reduced) {
       }
     return true
   }
+  // which part of the logo a grid cell is in: 1 the ink of the print, 0 its paper, 2 past
+  // the rim. A trace never leaves the part it starts in, so the ink fills in solid with
+  // traces and its outline is drawn by where they stop.
+  const parts = new Map()
+  const part = (i, j) => {
+    const k = key(i, j)
+    let p = parts.get(k)
+    if (p === undefined) {
+      const x = i * S
+      const y = j * S
+      p = Math.hypot(x, y) >= RIM ? 2 : ink(x, y) > 0.45 ? 1 : 0
+      parts.set(k, p)
+    }
+    return p
+  }
+  // an ink cell on the outline of its shape: some paper (or the rim) within two cells
+  const edge = (i, j) => {
+    for (let di = -2; di <= 2; di++) for (let dj = -2; dj <= 2; dj++) if (part(i + di, j + dj) !== 1) return true
+    return false
+  }
   const DIRS = [[1, 0], [1, 1], [0, 1], [-1, 1], [-1, 0], [-1, -1], [0, -1], [1, -1]]
   const traces = []
-  let tries = 0
-  while (traces.length < 4000 && tries < 160000) {
-    tries++
-    const x = (rnd() * 2 - 1) * OUT
-    const y = (rnd() * 2 - 1) * OUT
-    if (!inside(x, y)) continue
-    const t = outer(x, y)
-    // starts: thickest where the print has detail and around the eyes, thinning out past
-    // the rim
-    const want = t === 0 ? 0.2 + 1.8 * Math.min(1, detail(x, y) * 3) + 0.6 * eyes(x, y) : 0.4 * (1 - t)
-    if (rnd() > want) continue
-    let i = Math.round(x / S)
-    let j = Math.round(y / S)
+  const free = (i, j, zone, id) => inside(i * S, j * S) && part(i, j) === zone && !used.has(key(i, j)) && clear(i, j, id)
+  // lay one trace from cell (i, j) heading d: straight on or a 45 degree turn, staying in its
+  // own part of the logo (with a little chance, and a small cost for turning; a trace that
+  // hugs keeps to the outline of the ink). Kept only if it gets to at least min cells.
+  const grow = (i, j, d, zone, max, min, hug) => {
     const id = traces.length
-    if (used.has(key(i, j)) || !clear(i, j, id)) continue
-    let d = Math.floor(rnd() * 8)
-    const level = soft(i * S, j * S)
+    if (!free(i, j, zone, id)) return
     const cells = [[i, j]]
     used.set(key(i, j), id)
-    const max = t === 0 ? 10 + rnd() * 50 : 8 + rnd() * 50
     for (let step = 0; step < max; step++) {
-      // straight on or a 45 degree turn, whichever stays closest to the starting shade
-      // (with a little chance, and a small cost for turning)
       let best = -1
       let bestScore = 1e9
-      for (const turn of [0, 1, -1]) {
+      for (const turn of [0, 1, -1, 2, -2]) {
+        // a right-angle turn only for a trace following the outline round a corner
+        if (!hug && Math.abs(turn) > 1) continue
         const nd = (d + turn + 8) % 8
         const ni = i + DIRS[nd][0]
         const nj = j + DIRS[nd][1]
-        const nx = ni * S
-        const ny = nj * S
-        if (!inside(nx, ny) || used.has(key(ni, nj)) || !clear(ni, nj, id)) continue
-        const score = (outer(nx, ny) === 0 ? Math.abs(soft(nx, ny) - level) * 6 : 0) + (turn ? 0.2 : 0) + rnd() * 0.25
+        if (!free(ni, nj, zone, id)) continue
+        const score = (turn ? 0.2 * Math.abs(turn) : 0) + rnd() * 0.25 + (hug && !edge(ni, nj) ? 2 : 0)
         if (score < bestScore) {
           bestScore = score
           best = nd
@@ -843,12 +867,45 @@ function mhPcb(T, icon, bg, canvas, reduced) {
       used.set(key(i, j), id)
       cells.push([i, j])
     }
-    if (cells.length < 4) {
-      cells.forEach((c) => used.delete(key(c[0], c[1])))
-      continue
-    }
-    traces.push(cells)
+    if (cells.length < min) cells.forEach((c) => used.delete(key(c[0], c[1])))
+    else traces.push(cells)
   }
+  const R = Math.ceil(RIM / S)
+  // first the outlines of the ink, so the shapes of the face are drawn
+  for (let j = R; j >= -R; j--)
+    for (let i = -R; i <= R; i++) {
+      if (part(i, j) !== 1 || used.has(key(i, j)) || !edge(i, j)) continue
+      const d0 = Math.floor(rnd() * 8)
+      for (let k = 0; k < 8 && !used.has(key(i, j)); k++) grow(i, j, (d0 + k) % 8, 1, 400, 6, true)
+    }
+  // then long runs over the ink, the paper only here and there, and the board past the rim,
+  // thinning out
+  let tries = 0
+  while (traces.length < 9000 && tries < 240000) {
+    tries++
+    const onFace = tries % 2 === 0
+    const a = rnd() * Math.PI * 2
+    const rr = Math.sqrt(rnd()) * RIM
+    const x = onFace ? Math.cos(a) * rr : (rnd() * 2 - 1) * OUT
+    const y = onFace ? Math.sin(a) * rr : (rnd() * 2 - 1) * OUT
+    if (!inside(x, y)) continue
+    const t = outer(x, y)
+    const i = Math.round(x / S)
+    const j = Math.round(y / S)
+    const zone = part(i, j)
+    const want = zone === 1 ? 1 : zone === 0 ? 0.08 : 0.4 * (1 - t)
+    if (rnd() > want) continue
+    const max = zone === 1 ? 30 + rnd() * 110 : zone === 0 ? 6 + rnd() * 20 : 14 + rnd() * 80
+    grow(i, j, Math.floor(rnd() * 8), zone, max, 5)
+  }
+  // and every gap left in the ink gets a short trace too, so the ink packs solid and the
+  // face reads from across the room
+  for (let j = R; j >= -R; j--)
+    for (let i = -R; i <= R; i++) {
+      if (part(i, j) !== 1 || used.has(key(i, j))) continue
+      const d0 = Math.floor(rnd() * 8)
+      for (let k = 0; k < 8 && !used.has(key(i, j)); k++) grow(i, j, (d0 + k) % 8, 1, 10 + rnd() * 30, 3)
+    }
 
   // ----- where a grid point sits in 3D: on the face, or down the outer board, curling back
   // a little. The last two values are its ink (for its color) and how far it has faded
@@ -857,7 +914,7 @@ function mhPcb(T, icon, bg, canvas, reduced) {
     const x = i * S
     const y = j * S
     const t = outer(x, y)
-    if (t === 0) return [x, y * 1.12, lift(x, y), soft(x, y), 0]
+    if (t === 0) return [x, y * 1.12, lift(x, y), part(i, j) === 1 ? 1 : 0, 0]
     const r = Math.hypot(x, y)
     return [x, y * 1.12, bump(r * r) - 0.15 * t * t, 0.18, Math.max(0.001, Math.pow(t, 1.5))]
   }
@@ -877,9 +934,11 @@ function mhPcb(T, icon, bg, canvas, reduced) {
       segs.push([a, b, run, run + len, phase, Math.hypot((a[0] + b[0]) / 2, (a[1] + b[1]) / 2 / 1.12)])
       run += len
     }
-    ;[[pts[0], 0], [pts[pts.length - 1], run]].forEach((e) => {
-      if (e[0][4] < 0.75) ends.push([e[0], e[1], phase])
-    })
+    // vias only on the longer traces, so the short ones packing the ink stay clean
+    if (cells.length >= 10)
+      [[pts[0], 0], [pts[pts.length - 1], run]].forEach((e) => {
+        if (e[0][4] < 0.75) ends.push([e[0], e[1], phase])
+      })
   })
   // grow outward from the middle of the face
   segs.sort((p, q) => p[5] - q[5])
@@ -986,17 +1045,17 @@ function mhPcb(T, icon, bg, canvas, reduced) {
   const vias = new T.Points(viaGeo, viaMat)
   vias.frustumCulled = false
 
-  // the same coloring as the wire web: ink-dark where the print is dark, faint over the
-  // paper, toned down toward the edge of the face and fading out past it
+  // ink-dark over the ink of the print, faint over its paper, so the board reads as the
+  // logo; toned down a little toward the rim and fading out past it
   const paint = () => {
     const faint = dim()
     const c = new T.Color()
     const tone = (v) => {
       const vr = Math.hypot(v[0], v[1] / 1.12)
-      const edge = 1 - 0.6 * Math.min(1, Math.max(0, (vr - 0.5) / 0.47))
-      c.copy(faint).lerp(pal.ink, Math.min(1, (v[3] < 0.3 ? 0 : v[3] > 0.62 ? 1 : ((v[3] - 0.3) / 0.32)) * (isDark() ? 1 : 0.85) * edge))
+      const edge = 1 - 0.25 * Math.min(1, Math.max(0, (vr - 0.6) / 0.37))
+      c.copy(faint).lerp(pal.ink, v[3] * (isDark() ? 1 : 0.85) * edge)
       // traces over the paper of the print sink back further, so the ink shows the face
-      if (v[3] < 0.3 && !v[4]) c.lerp(pal.paper, 0.35)
+      if (!v[3] && !v[4]) c.lerp(pal.paper, 0.5)
       if (v[4]) c.lerp(pal.paper, v[4])
     }
     segs.forEach((s, k) => {
