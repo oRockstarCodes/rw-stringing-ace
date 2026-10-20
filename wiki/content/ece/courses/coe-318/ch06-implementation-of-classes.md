@@ -13,7 +13,9 @@ This chapter covers more of what Java lets you do with classes and arrays. **Typ
 
 ### The `Object` class
 
-`Object` is defined in `java.lang`. **Every class is (implicitly) derived from it**, so `Car`, `Account` and `Scanner` all sit below `Object` in the class hierarchy.
+`Object` is defined in `java.lang`. **Every class is (implicitly) derived from it**, so `Car`, `Account` and `Scanner` all sit below `Object` in the class hierarchy. You never have to write `extends Object`: `class Animal { }` already derives from `Object`.
+
+> [!note] Don't mix up **an object** (lowercase: any instance, like the one `new Dog()` makes) with **`Object`** (capital O: an actual Java class). `Object o;` declares a reference whose type is the `Object` class.
 
 ### Typecasting objects
 
@@ -54,6 +56,18 @@ There is only **one** `Dog` object here. `d`, `a`, `o`, `a2` and `d2` are five r
 
 > [!warning] `a.fetch()` doesn't compile: `a` is an `Animal` reference, and `Animal` has no `fetch()`. Cast first: `((Dog) a).fetch()`. A downcast to a type the object *isn't* compiles but throws a `ClassCastException` at runtime.
 
+**Reference type vs actual object type.** A cast only satisfies the compiler. What matters at runtime is the object itself:
+
+```java
+Animal a1 = new Dog();
+Dog d1 = (Dog) a1;          // OK: the object really is a Dog
+
+Animal a2 = new Animal();
+Dog d2 = (Dog) a2;          // compiles, but fails at runtime: the object is just an Animal
+```
+
+Java won't let you write `Dog d = a1;` without the cast, because an `Animal` reference *might* point at some other subclass. For a casting question, draw the hierarchy, decide the direction (up or down), then ask what the actual object is.
+
 > [!note] Which `speak()` actually runs (`Animal`'s or `Dog`'s) is covered in [[ch10-polymorphism\|Ch 10]]. The classes here use `extends`, which is [[ch09-inheritance\|Ch 9]].
 
 ### Enhanced `for` loop
@@ -70,7 +84,9 @@ for (int element : arrayOfInts)                    // enhanced: no index
     System.out.print(element + " ");
 ```
 
-Read `:` as "in": for each `element` in `arrayOfInts`. It works on arrays and on `ArrayList`s.
+Read `:` as "in": for each `element` in `arrayOfInts`. It works on arrays and on `ArrayList`s. `element` isn't a keyword: `number` or `x` works just as well.
+
+Use the enhanced loop when you only care about each value. Use the index loop when the index itself matters: assigning `array[i] = ...`, or comparing `array[i]` with `array[i + 1]`.
 
 ### `ArrayList`
 
@@ -130,7 +146,9 @@ for (Object obj : misc)
 ArrayList<Car> myList = new ArrayList<Car>();
 ```
 
-Now `myList.add("hello")` is a compile error, and `get()` hands back a `Car` with no cast.
+Now `myList.add("hello")` is a compile error, and `get()` hands back a `Car` with no cast. The same goes for `ArrayList<String> names`: `names.add(10)` won't compile.
+
+**Arrays or `ArrayList`?** Neither is always better. Use an array when the size is known and won't change. Use an `ArrayList` when elements get added, inserted or removed as the program runs, or when its methods save you work.
 
 ### Command-line arguments
 
@@ -207,7 +225,11 @@ System.out.println(sedan.navigator);     // Google Maps
 ![[coe-318-static-vs-instance.svg]]
 *Figure 6.3: Each Car object has its own licensePlate, speed and maxSpeed, but both objects see the single navigator that lives in the Car class.*
 
-> [!tip] Reach `static` members through the **class name** (`Car.navigator`). Writing `miniVan.navigator` works, but it makes it look like the variable belongs to that one object.
+> [!tip] Reach `static` members through the **class name** (`Car.navigator`, `Lottery.reset(0)`). Writing `miniVan.navigator` or `l.reset(0)` works, but it makes it look like the member belongs to that one object.
+
+**`static` isn't an access modifier.** `private static int count;` holds two separate ideas: `private` decides **who** can reach it, and `static` decides that there's **one class-level copy**. `static` doesn't mean `public`, and `private` doesn't mean instance-only.
+
+**A parameter with the same name as a static field.** In `Lottery.numTickets = numTickets;` the left side is the static field and the right side is the parameter. It works like `this.x = x;`, but uses the class name because the field is static.
 
 **Why `main` is always static.** Java needs an entry point **before any object exists**. If `main` were an instance method, you'd need an object to call it, and nothing could create that object yet.
 
@@ -343,6 +365,13 @@ miniVan = new Car("DEF", 60);       // ERROR: can't reassign a final reference
 ![[coe-318-final-reference.svg]]
 *Figure 6.5: A final reference a can't be pointed at another Box, but the Box it points to can still have its value changed. This is Example 4's lines B and C.*
 
+Whenever you see `final SomeClass x = ...;`, ask two separate questions:
+
+1. **Am I changing the reference?** `x = anotherObject;` is not allowed once `x` is set.
+2. **Am I changing something inside the object?** `x.someField = 20;` can be fine, as long as `someField` itself isn't `final`.
+
+A `final` reference does **not** make the object immutable.
+
 ### Order of modifiers
 
 The order doesn't matter to Java: `private static final double c`, `static final private double c` and `final static private double c` are all the same. The recommended order is:
@@ -350,6 +379,19 @@ The order doesn't matter to Java: `private static final double c`, `static final
 ```java
 private static final double c
 ```
+
+### Reading a stacked declaration
+
+Week 6 questions often pile several modifiers onto one line. Don't read `private static final int ID = 10;` as one rule. Split it up and ask one question per word:
+
+|Part|Question|
+|---|---|
+|`private`|Who can access it?|
+|`static`|Does it belong to the class or to each object?|
+|`final`|Can it be reassigned?|
+|`int`|What type of value does it hold?|
+
+Do this for every field **before** you trace any code (it's how Example 2 is solved). For a `static` method, also ask whether it touches instance state directly, and if so, which object would supply it. For `ArrayList` traces, write out the index and value rows after every `add` or `remove` instead of tracking the shifts in your head.
 
 ## Key syntax
 
@@ -618,6 +660,10 @@ The `add(index, obj)` in step 4 pushes `George` one place to the right to make r
 - Making a counter an instance variable (`private int duckCount`), so each object starts again at 0
 - Writing `a.fetch()` on an `Animal` reference and expecting it to compile, when you need a downcast first
 - Downcasting to a type the object isn't (`ClassCastException`)
+- Thinking a cast or an assignment like `Animal a = dog;` makes a new object. It only copies the reference
+- Reasoning only from the variable's type and forgetting what the actual object is
+- Thinking `static` means `public` (`private static int count;` is perfectly valid)
+- Assuming `ArrayList` is always better than an array
 - Using `.length` on an `ArrayList` (it's `size()`) or `size()` on an array (it's `.length`)
 - Forgetting `import java.util.ArrayList;`
 - Putting a primitive in the angle brackets: `ArrayList<int>` is an error, use `ArrayList<Integer>`
