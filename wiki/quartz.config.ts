@@ -2,9 +2,11 @@ import { QuartzConfig } from "./quartz/cfg"
 import * as Plugin from "./quartz/plugins"
 import { QuartzPluginData } from "./quartz/plugins/vfile"
 import MelonFolder from "./quartz/components/custom/MelonFolder"
+import { melonOgImage } from "./quartz/components/custom/MelonOgImage"
 import { LAB_JUNK_DIRS, MelonLabsData } from "./quartz/plugins/custom/MelonLabsData"
 import { MelonLabsPage } from "./quartz/plugins/custom/MelonLabsPage"
 import { HideEmptyChapters, MelonChapterStatus } from "./quartz/plugins/custom/MelonChapterStatus"
+import { MelonSummary } from "./quartz/plugins/custom/MelonSummary"
 
 // Copied into the Quartz engine at build time by scripts/build-wiki.sh.
 // Docs: https://quartz.jzhao.xyz/configuration
@@ -15,7 +17,7 @@ const byFileName = (a: QuartzPluginData, b: QuartzPluginData) =>
 const config: QuartzConfig = {
   configuration: {
     pageTitle: "Melon Files",
-    pageTitleSuffix: " · Rocky Wang",
+    pageTitleSuffix: "",
     enableSPA: true,
     enablePopovers: true,
     analytics: { provider: "google", tagId: "G-XEBVL6SMNV" },
@@ -90,6 +92,8 @@ const config: QuartzConfig = {
       Plugin.TableOfContents(),
       Plugin.CrawlLinks({ markdownLinkResolution: "shortest" }),
       Plugin.Description(),
+      // The link-preview summary: the page's first real paragraph
+      MelonSummary(),
       Plugin.Latex({ renderEngine: "katex" }),
       // Each course's labs/ folder, shown on the course page
       MelonLabsData(),
@@ -120,6 +124,9 @@ const config: QuartzConfig = {
       Plugin.Assets(),
       Plugin.Static(),
       Plugin.Favicon(),
+      // A link-preview image for each note, showing its title and summary
+      // (components/MelonOgImage.tsx). Pages without a note (tags, labs) use static/og-image.png.
+      Plugin.CustomOgImages({ imageStructure: melonOgImage }),
       Plugin.NotFoundPage(),
     ],
   },
