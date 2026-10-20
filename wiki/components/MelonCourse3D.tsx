@@ -32,12 +32,15 @@ const MelonCourse3D: QuartzComponent = () => null
 // A plain string inlined into the page: no backticks or dollar-brace in here.
 MelonCourse3D.afterDOMLoaded = `
 (() => {
+  // static/, worked out as the page first loads (see mhBase in MelonHome.tsx: the SPA router
+  // keeps the first page's relative stylesheet link, so it can't be read later)
+  window.__melonStatic =
+    window.__melonStatic ||
+    ((sheet) => (sheet ? sheet.href.replace(/index\\.css.*$/, "static/") : "/melon-files/static/"))(
+      document.querySelector('link[href*="index.css"]'),
+    )
   function mcThree() {
-    if (!window.__mhThree) {
-      const sheet = document.querySelector('link[href*="index.css"]')
-      const base = sheet ? sheet.href.replace(/index\\.css.*$/, "static/") : "/melon-files/static/"
-      window.__mhThree = import(base + "three.module.min.js")
-    }
+    if (!window.__mhThree) window.__mhThree = import(window.__melonStatic + "three.module.min.js")
     return window.__mhThree
   }
 

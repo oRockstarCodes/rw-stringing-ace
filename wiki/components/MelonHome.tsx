@@ -204,9 +204,16 @@ const MelonHome: QuartzComponent = ({ fileData, allFiles }: QuartzComponentProps
 // copied to static/ by scripts/build-wiki.sh and imported on first use, like GSAP and Lenis.
 // What it draws is described above mhScene, inside the string.
 MelonHome.afterDOMLoaded = `
+// static/, found from the stylesheet link. Worked out once, as the page first loads: the
+// SPA router keeps that link as it was written for the first page (../index.css and so on),
+// so read against a page at another depth it would point to the wrong folder.
+window.__melonStatic =
+  window.__melonStatic ||
+  ((sheet) => (sheet ? sheet.href.replace(/index\\.css.*$/, "static/") : "/melon-files/static/"))(
+    document.querySelector('link[href*="index.css"]'),
+  )
 function mhBase() {
-  const sheet = document.querySelector('link[href*="index.css"]')
-  return sheet ? sheet.href.replace(/index\\.css.*$/, "static/") : "/melon-files/static/"
+  return window.__melonStatic
 }
 
 function mhThree() {
