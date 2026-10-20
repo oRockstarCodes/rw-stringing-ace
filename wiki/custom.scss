@@ -2054,10 +2054,12 @@ a.melon-lab {
 }
 
 // ---------- Interactive op amp diagrams (components/MelonOpAmp.tsx) ----------
-// The capacitor and inductor diagrams (components/MelonCapInd.tsx) share these styles
+// The capacitor and inductor diagrams (components/MelonCapInd.tsx) and the mirror and
+// lens ray diagram (components/MelonOptics.tsx) share these styles
 
 .melon-opamp,
-.melon-capind {
+.melon-capind,
+.melon-optics {
   margin: 1.5rem 0;
   padding: 1rem 1.1rem 1.1rem;
   border: 1px solid var(--lightgray);
@@ -2515,6 +2517,160 @@ a.melon-lab {
       transition: none;
     }
   }
+}
+
+// ---------- Mirror and lens ray diagram: the parts that are its own ----------
+
+.melon-optics {
+  --op-teal: #2c7d88;
+
+  // Concave mirror | Convex mirror | Converging lens | Diverging lens
+  .op-modes {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.4rem;
+    margin-bottom: 0.75rem;
+  }
+  .op-mode[aria-checked="true"] {
+    background: var(--melon-soft);
+    border-color: var(--secondary);
+    color: var(--secondary);
+    font-weight: 600;
+  }
+
+  .op-axis {
+    stroke: var(--lightgray);
+    stroke-width: 1.5;
+    stroke-dasharray: 6 4;
+  }
+  .op-lens {
+    fill: var(--melon-soft);
+    stroke: var(--darkgray);
+    stroke-width: 2;
+  }
+  .op-mirror {
+    fill: none;
+    stroke: var(--darkgray);
+    stroke-width: 3;
+    stroke-linecap: round;
+  }
+  .op-hatch {
+    stroke: var(--gray);
+    stroke-width: 1;
+  }
+  .op-dot {
+    fill: var(--darkgray);
+  }
+  .op-dot-faint {
+    fill: var(--gray);
+  }
+  .op-mark-label {
+    fill: var(--gray);
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  // The three principal rays, each its own colour (matching the swatches on the buttons)
+  .op-ray {
+    fill: none;
+    stroke-width: 1.8;
+    stroke-linejoin: round;
+    transition: opacity 0.2s;
+  }
+  .op-ray-1,
+  .op-swatch-1 {
+    stroke: var(--secondary);
+    background: var(--secondary);
+  }
+  // (--secondary and --tertiary are both rose here, too close to tell apart, so the middle
+  // ray is teal)
+  .op-ray-2,
+  .op-swatch-2 {
+    stroke: var(--op-teal);
+    background: var(--op-teal);
+  }
+  .op-ray-3,
+  .op-swatch-3 {
+    stroke: var(--dark);
+    background: var(--dark);
+  }
+  // Where the rays only appear to come from (a virtual image)
+  .op-virt {
+    stroke-width: 1.3;
+    stroke-dasharray: 5 4;
+    opacity: 0.65;
+  }
+  @each $n in 1, 2, 3 {
+    &[data-ray="#{$n}"] .op-ray:not(.op-ray-#{$n}) {
+      opacity: 0.12;
+    }
+  }
+  .op-swatch {
+    display: inline-block;
+    width: 0.9em;
+    height: 3px;
+    margin-right: 0.4em;
+    border-radius: 2px;
+    vertical-align: middle;
+  }
+
+  .op-obj,
+  .op-img {
+    line {
+      stroke-width: 3;
+      stroke-linecap: round;
+    }
+  }
+  .op-obj {
+    line {
+      stroke: var(--dark);
+    }
+    polygon {
+      fill: var(--dark);
+    }
+  }
+  .op-img.is-real {
+    line {
+      stroke: var(--secondary);
+    }
+    polygon {
+      fill: var(--secondary);
+    }
+  }
+  .op-img.is-virtual {
+    line {
+      stroke: var(--secondary);
+      stroke-dasharray: 4 4;
+    }
+    polygon {
+      fill: var(--light);
+      stroke: var(--secondary);
+      stroke-width: 1.5;
+    }
+  }
+
+  // The object can be dragged along the axis
+  .op-object {
+    cursor: ew-resize;
+    touch-action: none;
+  }
+  &.is-dragging {
+    user-select: none;
+  }
+
+  .oa-controls label {
+    grid-template-columns: 2.4rem 1fr 4.5rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .op-ray {
+      transition: none;
+    }
+  }
+}
+:root[saved-theme="dark"] .melon-optics {
+  --op-teal: #86cdd6;
 }
 
 // ---------- Interactive digital logic diagrams (components/MelonLogic.tsx) ----------
