@@ -23,6 +23,14 @@ export type Edition = {
 // In the order of the doors on the home page
 export const EDITIONS: Edition[] = [
   {
+    key: "regular",
+    title: "Melon Files",
+    short: "Regular edition",
+    blurb: "The regular edition, for mechanical engineering courses.",
+    icon: "static/icon.png",
+    scene: "web",
+  },
+  {
     key: "ece",
     title: "ECE Edition",
     short: "ECE edition",
@@ -30,14 +38,6 @@ export const EDITIONS: Edition[] = [
     icon: "static/icon-ece.png",
     scene: "pcb",
     stamp: "ECE EDITION",
-  },
-  {
-    key: "regular",
-    title: "Melon Files",
-    short: "Regular edition",
-    blurb: "The regular edition, for mechanical engineering courses.",
-    icon: "static/icon.png",
-    scene: "web",
   },
 ]
 
