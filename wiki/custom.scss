@@ -687,6 +687,172 @@ body[data-slug^="courses/"][data-slug$="/index"] .center > hr {
   color: var(--dark);
 }
 
+// The title on its stage, over the course's 3D scene (components/MelonCourse3D.tsx). The
+// scene sits at the right on a wide page and behind the title, dimmed, on a narrow one.
+.melon-plate-stage {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  min-height: clamp(11rem, 26vw, 16.5rem);
+
+  .melon-course-title {
+    position: relative;
+    max-width: 58%;
+  }
+
+  .melon-word {
+    margin-right: 0.18em;
+  }
+}
+
+.melon-plate-gl {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+.melon-plate.melon-3d .melon-plate-gl {
+  opacity: 1;
+}
+
+// Linked: on a wide page the stage grows under the title and the chapter links are pinned
+// to their parts of the drawing (the script moves them every frame). The flat motif
+// below steps aside while they are.
+.melon-plate-parts {
+  display: none;
+}
+
+.melon-plate.melon-linked {
+  .melon-plate-stage {
+    display: block;
+    height: clamp(25rem, 42vw, 31rem);
+    min-height: 0;
+  }
+
+  .melon-course-title {
+    max-width: none;
+  }
+
+  .melon-plate-parts {
+    display: block;
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+}
+
+// Compact (narrow page): a shorter stage at full strength, and each link shrinks to a
+// round numbered badge, big enough to tap. The motif below keeps the chapter names.
+.melon-plate.melon-linked.melon-compact {
+  .melon-plate-stage {
+    height: clamp(19rem, 92vw, 24rem);
+  }
+
+  .melon-plate-gl {
+    opacity: 1;
+  }
+
+  .melon-plate-parts a.melon-plate-link {
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.25rem;
+    height: 2.25rem;
+    padding: 0 0.4rem;
+    border: 1px solid var(--lightgray);
+    border-radius: 999px;
+    background: var(--light);
+    font-size: 0.9rem;
+  }
+
+  .melon-plate-link-n {
+    font-size: 0.85rem;
+  }
+
+  .melon-plate-link-name {
+    display: none;
+  }
+}
+
+// The links never push the page wider, whatever the drawing does
+.melon-plate.melon-linked .melon-plate-stage {
+  overflow: clip;
+}
+
+.melon-plate-stage.is-pointing {
+  cursor: pointer;
+}
+
+.melon-plate-parts a.melon-plate-link {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.melon-course.melon-course-linked .melon-motif {
+  display: none;
+}
+
+.melon-plate-parts a.melon-plate-link {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  max-width: 13rem;
+  padding: 0.15rem 0.45rem;
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--light) 85%, transparent);
+  color: var(--darkgray);
+  font-family: var(--headerFont);
+  font-size: 0.85rem;
+  font-weight: 600;
+  font-stretch: 82%;
+  line-height: 1.25;
+  white-space: nowrap;
+  text-decoration: none;
+  pointer-events: auto;
+  opacity: 0;
+  will-change: transform;
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease;
+
+  &.is-left {
+    flex-direction: row-reverse;
+  }
+
+  &.is-hot,
+  &:focus-visible {
+    background: var(--melon-paper);
+    color: var(--melon-band-text);
+  }
+}
+
+.melon-plate-link-n {
+  font-family: var(--codeFont);
+  font-size: 0.75rem;
+  color: var(--secondary);
+}
+
+.melon-plate-link-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (max-width: 640px) {
+  .melon-plate-stage .melon-course-title {
+    max-width: none;
+  }
+
+  .melon-plate.melon-3d .melon-plate-gl {
+    opacity: 0.5;
+  }
+}
+
 .melon-course-body {
   margin-top: 1.25rem;
 }

@@ -63,10 +63,16 @@ export default ((opts?: Options) => {
     const term = fm.term ? String(fm.term) : undefined
     const status = fm.status ? String(fm.status) : undefined
     const kind = motifFor(folder, fm)
+    // The chapters as links: parts of the 3D header on a wide page, the motif otherwise
+    const links = chapters.map((f, i) => ({
+      href: resolveRelative(here, f.slug! as FullSlug),
+      n: chapterNumber(f.slug!, i + 1),
+      name: chapterName(String(f.frontmatter?.title ?? f.slug)),
+    }))
 
     return (
       <div class="popover-hint melon-course">
-        <CoursePlate code={code} title={name}>
+        <CoursePlate code={code} title={name} scene={kind} parts={links}>
           {term && <span>{term}</span>}
         </CoursePlate>
 
@@ -87,11 +93,7 @@ export default ((opts?: Options) => {
             term={term}
             status={status}
             labs={labs.length}
-            chapters={chapters.map((f, i) => ({
-              href: resolveRelative(here, f.slug! as FullSlug),
-              n: chapterNumber(f.slug!, i + 1),
-              name: chapterName(String(f.frontmatter?.title ?? f.slug)),
-            }))}
+            chapters={links}
           />
 
           {(labs.length > 0 || concepts.length > 0) && (

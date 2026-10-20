@@ -8,6 +8,7 @@ import MelonOpAmp from "./quartz/components/custom/MelonOpAmp"
 import MelonFigures from "./quartz/components/custom/MelonFigures"
 import MelonLogic from "./quartz/components/custom/MelonLogic"
 import MelonCapInd from "./quartz/components/custom/MelonCapInd"
+import MelonCourse3D from "./quartz/components/custom/MelonCourse3D"
 import { hasOwnHeader } from "./quartz/components/custom/MelonFolder"
 import { QuartzComponentProps } from "./quartz/components/types"
 
@@ -87,8 +88,9 @@ export const sharedPageComponents: SharedLayout = {
   head: Component.Head(),
   header: [],
   // MelonOpAmp, MelonLogic and MelonCapInd fill in the <div class="melon-opamp">,
-  // <div class="melon-logic"> and <div class="melon-capind"> diagrams written in notes
-  afterBody: [MelonMotion(), MelonSmoothScroll(),MelonOpAmp(), MelonLogic(), MelonCapInd()],
+  // <div class="melon-logic"> and <div class="melon-capind"> diagrams written in notes.
+  // MelonCourse3D draws the 3D scene behind each course page's title.
+  afterBody: [MelonMotion(), MelonSmoothScroll(),MelonOpAmp(), MelonLogic(), MelonCapInd(), MelonCourse3D()],
   footer: Component.Footer({
     links: {
       "← rwangqz.ca": "https://rwangqz.ca",
