@@ -45,7 +45,7 @@ When $s = 0$ the output isn't tied to anything. It's *not* 0, it's just unconnec
 
 ## Where it's used
 
-- **2-to-1 multiplexer:** two transmission gates driven by $s$ and $\overline{s}$. Exactly one is ON, so the output is either $x_1$ or $x_2$. See Ch 6 for the same function built from logic gates.
+- **2-to-1 multiplexer:** two transmission gates driven by $s$ and $\overline{s}$. Exactly one is ON, so the output is either $x_1$ or $x_2$. See [[ch06-combinational-building-blocks|Ch 6]] for the same function built from logic gates.
 - **XOR gate:** two inverters and two transmission gates, which is 8 transistors total instead of 22 with AND/OR/NOT gates. One transmission gate passes $x_2$ when $x_1 = 0$, and the other passes $\overline{x_2}$ when $x_1 = 1$.
 
 Both come from [[ch03-implementation-technology|Ch 3]].
