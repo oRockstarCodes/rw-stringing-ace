@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 470 200" width="470" height="200" font-family="DM Sans, system-ui, sans-serif" font-size="13">
+<g fill="none" stroke="#8a8a93" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+<circle cx="50" cy="105" r="16"/>
+<polyline points="50,89 50,40 70,40"/>
+<path d="M70 40 h10 a5 5 0 0 1 10 0 a5 5 0 0 1 10 0 a5 5 0 0 1 10 0 a5 5 0 0 1 10 0 h10"/>
+<polyline points="130,40 145,40"/>
+<polyline points="145,40 170,40"/><polyline points="170,28 170,52"/><polyline points="180,28 180,52"/><polyline points="180,40 205,40"/>
+<polyline points="205,40 300,40"/>
+<polyline points="240,40 240,75"/>
+<polyline points="240,75 232,80 248,90 232,100 248,110 232,120 248,130 240,135"/>
+<polyline points="240,135 240,170"/>
+<polyline points="50,121 50,170 300,170"/>
+<rect x="300" y="25" width="70" height="160" rx="4"/>
+<polyline points="370,40 420,40"/>
+<polyline points="370,170 420,170"/>
+</g>
+<circle cx="240" cy="40" r="3" fill="#8a8a93"/>
+<circle cx="240" cy="170" r="3" fill="#8a8a93"/>
+<circle cx="420" cy="40" r="3.5" fill="none" stroke="#8a8a93" stroke-width="2"/>
+<circle cx="420" cy="170" r="3.5" fill="none" stroke="#8a8a93" stroke-width="2"/>
+<g fill="#8a8a93">
+<text x="50" y="102" font-size="12" text-anchor="middle">+</text><text x="50" y="117" font-size="12" text-anchor="middle">−</text><text x="272" y="92" font-size="12" text-anchor="middle">+</text><text x="272" y="128" font-size="12" text-anchor="middle">−</text><text x="420" y="92" font-size="12" text-anchor="middle">+</text><text x="420" y="128" font-size="12" text-anchor="middle">−</text>
+</g>
+<g fill="#c99a12" font-weight="600">
+<text x="26" y="110" text-anchor="end">v<tspan font-size="10" dy="4">i</tspan><tspan dy="-4"></tspan></text><text x="100" y="25" text-anchor="middle">L</text><text x="175" y="22" text-anchor="middle">C</text><text x="222" y="110" text-anchor="end">R</text><text x="286" y="110" text-anchor="middle">v<tspan font-size="10" dy="4">R</tspan><tspan dy="-4"></tspan></text><text x="335" y="110" text-anchor="middle">K</text><text x="436" y="110" text-anchor="start">v<tspan font-size="10" dy="4">o</tspan><tspan dy="-4"></tspan></text>
+</g>
+</svg>

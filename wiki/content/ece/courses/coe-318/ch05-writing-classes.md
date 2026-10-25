@@ -7,38 +7,59 @@ tags:
 
 > [!info] Readings Lectures 4–5 · week 5 · Reference ch. 5
 
-A good class is all about **controlling how other code interacts with it**. Packages organize where classes live, **encapsulation** (`private` plus getters and setters) controls who can touch an object's data, **scope** controls where a variable can be seen, and `Scanner` lets the program take input from the user. The chapter also covers tracing chains of objects and passing arrays to methods.
+So far any code could reach into any object and change anything. That's fine for a ten-line program and a disaster for a big one: if a car's speed is somehow negative, every line in the program is a suspect. This chapter is about **control**: deciding who's allowed to see and change what.
+
+- **Packages** control where classes live and which names they can see.
+- **Encapsulation** (`private` fields plus methods) controls who can touch an object's data, so the object can protect itself from nonsense values.
+- **Scope** controls where a variable's name means something, and for how long it exists.
+
+It also covers passing arrays to methods, 2D arrays, and reading input with `Scanner`, all of which come down to the same theme of what code can reach.
 
 ## Notes
 
 ### Packages
 
-A **package** groups related classes together, kind of like a folder. It keeps the code organized, makes classes easier to find, and avoids name clashes (two classes can have the same name if they're in different packages).
+A **package** is a named group of related classes, like a folder. It solves two problems that appear as programs grow:
+
+- **Organization.** Thousands of classes in one pile would be impossible to navigate. `java.util` holds utilities, `java.io` holds input/output, and your labs go in `coe318`.
+- **Name clashes.** Two programmers can both write a class called `Point`. If they're in different packages, their full names (`graphics.Point` and `geometry.Point`) are different, so there's no conflict. The package name works like a surname.
 
 |Kind|Examples|
 |---|---|
 |**Built-in**|`java.lang` (String, Math; imported automatically), `java.util` (Scanner, ArrayList)|
 |**User-defined**|`coe318` for your labs|
 
-Each package is a **directory**: classes in package `mypack` must be in a folder called `mypack`.
+A package is literally a **directory**: classes in package `mypack` must be in a folder called `mypack`. That's how the compiler finds them.
 
 ```java
 package coe318;            // first line of the file (NetBeans adds it)
 public class Lab3 { int labNum = 3; }
 ```
 
-To use a class from **another** package, `import` it:
+To use a class from **another** package by its short name, `import` it. Importing doesn't copy any code. It just tells the compiler which `Lab3` you mean when you write `Lab3`:
 
 ```java
-import coe318.Lab3;        // one class (preferred)
+import coe318.Lab3;        // one class (preferred: it's clear where each name comes from)
 import coe318.*;           // every class in the package
 ```
 
+`java.lang` is imported automatically, because almost every program needs `String` and `Math`.
+
 ### Encapsulation
 
-**Encapsulation** means keeping an object's variables hidden inside the class, so other code can only get to them through **methods**. That way `main` or another object can't "reach in" and set nonsense values, like a negative speed or a changed licence plate.
+**Encapsulation** means hiding an object's variables inside the class, so other code can only reach them through the class's **methods**. The object becomes a sealed box with a few buttons on the outside.
+
+**Why this matters so much:**
+
+1. **The object can protect its own rules.** A car's speed should never be negative or above its maximum. If any code can write `car.speed = -50`, that rule can be broken from anywhere in the program. If the only way to change speed is `setSpeed`, then `setSpeed` can check the value, and the rule holds everywhere, guaranteed by one method.
+2. **Bugs have one address.** If the speed is wrong, only the methods of `Car` could have set it. You look in one class instead of the whole program.
+3. **The inside can change without breaking the outside.** Suppose you later store speed in m/s instead of km/h. If other code only ever calls `getSpeed()`, you update that method to convert, and nothing else in the program needs to change. If other code read `speed` directly, every one of those lines would now be wrong.
+
+It's the same reason a car has a pedal instead of exposing the fuel injectors: the driver gets a simple, safe interface, and the engineers stay free to change the engine.
 
 ### Visibility modifiers
+
+**Access modifiers** are how Java enforces encapsulation. They're checked by the compiler, so a violation doesn't even compile.
 
 |Modifier|Accessible from|
 |---|---|
@@ -64,7 +85,7 @@ mod.privData = 1;      // compile error
 mod.privMethod();      // compile error
 ```
 
-> [!note] If `main` is inside the **same class**, the access modifiers don't restrict it at all. `private` only blocks *other* classes.
+> [!note] The restriction is **per class**, not per object. If `main` is inside the same class, it can use the private members of any object of that class. `private` means "only code written inside this class", because that's the code the class's author controls.
 
 ### Rule of thumb
 
@@ -74,14 +95,16 @@ mod.privMethod();      // compile error
 |Methods other classes should call|`public`|**Service methods**|
 |Helper methods used only inside the class|`private`|**Support methods**|
 
+The `public` methods are the class's **interface**, its promise to the rest of the program. Keep it small. Everything private is an implementation detail you can change freely later, and everything public is something other code may depend on forever.
+
 ### Getters and setters
 
-With private fields, the class gives you:
+With private fields, the class decides exactly what to expose:
 
 - **Accessor (getter):** returns a field's value, like `getSpeed()`
 - **Mutator (setter):** changes a field, like `setSpeed(double)`
 
-Only write getters and setters for the fields that should be exposed. Everything else just gets set once through the **constructor**:
+The point isn't to write a getter and setter for every field automatically, because that would just be a public field with extra steps. Expose only what other code genuinely needs. A licence plate that should never change gets set once, by the **constructor**, and has no setter at all:
 
 ```java
 public class Car {
@@ -99,16 +122,20 @@ public class Car {
 }
 ```
 
-> [!tip] A setter lets you **validate** the value: `if (speedVal >= 0 && speedVal <= maxSpeed) speed = speedVal;`. A public field can't protect itself like that.
+> [!tip] This is where encapsulation pays off. A setter can **validate**: `if (speedVal >= 0 && speedVal <= maxSpeed) speed = speedVal;`. A public field can't protect itself like that.
 
 ### Scope
 
+A variable's **scope** is the part of the code where its name means something. It matches where the variable is declared and how long it lives:
+
 |Variable|Scope|Visible…|
 |---|---|---|
-|Instance variable|**Class scope**|Anywhere in the class, from its `{` to its `}`. Effectively "global" within the class.|
+|Instance variable|**Class scope**|Anywhere in the class, from its `{` to its `}`. It belongs to the object, so every method can use it.|
 |Local variable / parameter|**Block scope**|Only inside the `{ }` block where it's declared|
 
-**Shadowing:** if a local variable or parameter has the **same name** as an instance variable, the local one **hides** the field inside that method. Use `this.name` to get to the field.
+**Why block scope?** A local variable only exists while its block is running; it lives on the stack and disappears when the block ends ([[ch03-variables|Ch 3]]). Letting code outside the block use the name would mean referring to something that doesn't exist anymore, so the compiler forbids it. A bonus is that small scopes keep names from colliding: a loop counter `i` in one method has nothing to do with an `i` in another.
+
+**Shadowing.** When a local variable or parameter has the **same name** as an instance variable, the name refers to the **nearest** declaration, the local one. The field is still there, just hidden ("in its shadow") inside that method. `this.name` reaches past the shadow to the field:
 
 ```java
 public Point(double x, double y) {
@@ -117,16 +144,22 @@ public Point(double x, double y) {
 }
 ```
 
+Shadowing in constructors and setters is normal, because the parameter's job is to carry a value for the field of the same name. Shadowing by accident (a local you forgot shares a field's name) is a classic bug: the method changes the local and the field silently stays the same.
+
 ### Arrays as parameters
 
-|Passing|Behaves like|Method can change caller's array?|
+Passing an array follows the same rule as any argument ([[ch04-using-classes-and-objects|Ch 4]]): Java copies what's in the variable. What's in the variable differs:
+
+|Passing|What gets copied|Method can change caller's data?|
 |---|---|---|
-|The whole array, `f(xyz)`|An object (reference copied)|**Yes**|
-|One element, `f(xyz[3])`|A primitive (value copied)|**No**|
+|The whole array, `f(xyz)`|The **reference** to the array|**Yes**: the method reaches the same array|
+|One element, `f(xyz[3])`|The element's **value** (if it's a primitive)|**No**: the method gets its own copy of that number|
+
+So a method like `void zeroOut(int[] a) { a[0] = 0; }` really does change the caller's array, since there's only one array and both variables point at it. `void zero(int n) { n = 0; }` called as `zero(xyz[3])` changes nothing, because `n` is just a copy of the number that was in slot 3.
 
 ### 2D arrays
 
-A 2D array is an **array of arrays** (rows of columns):
+Java doesn't really have a grid type. A 2D array is an **array of arrays**: an outer array whose elements are references to inner arrays, one per row.
 
 ```java
 int[][] A = { {  1,  0, 12, -1 },
@@ -134,10 +167,12 @@ int[][] A = { {  1,  0, 12, -1 },
               { -5, -2,  2,  9 } };
 int[][] B = new int[3][4];      // 3 rows, 4 columns, all 0
 
-A.length        // 3: number of rows
-A[0].length     // 4: columns in row 0
-A[1][2]         // 2: row 1, column 2
+A.length        // 3: number of rows (length of the outer array)
+A[0].length     // 4: columns in row 0 (length of that inner array)
+A[1][2]         // 2: row 1, then element 2 of that row
 ```
+
+Reading `A[1][2]` from left to right explains it: `A[1]` is the second row (itself an array), and `[2]` picks element 2 from it. That's also why `A.length` gives rows and `A[0].length` gives columns. Since each row is its own array, rows could even have different lengths, which is why careful code uses `A[row].length` rather than assuming every row is the same.
 
 Go through it with nested loops, rows on the outside and columns on the inside:
 
@@ -147,9 +182,11 @@ for (int row = 0; row < A.length; row++)
         System.out.println(A[row][col]);
 ```
 
+The inner loop runs completely for each pass of the outer loop, so this visits row 0 left to right, then row 1, and so on, the same order you'd read a page.
+
 ### User input with `Scanner`
 
-`Scanner` (in `java.util`) reads input from the console or a file:
+`Scanner` (in `java.util`) reads text from the keyboard or a file and turns it into the values you ask for:
 
 ```java
 import java.util.Scanner;
@@ -158,16 +195,27 @@ Scanner scan = new Scanner(System.in);                     // console
 Scanner fileScan = new Scanner(new FileReader("myfile"));  // file
 ```
 
+**How it reads.** Everything the user types, including the Enter key (a newline character), goes into a buffer. Scanner works through that buffer from the front. Most methods read one **token**, a chunk of text up to the next whitespace (space, tab or newline):
+
 |Method|Reads|
 |---|---|
-|`nextLine()`|The whole rest of the line, spaces included|
+|`nextLine()`|The whole rest of the current line, spaces included, and consumes the newline|
 |`next()`|One **token** (up to the next whitespace)|
 |`nextInt()` / `nextDouble()`|One token, converted to a number|
-|`hasNextInt()` / `hasNextDouble()`|`true` if the next token *is* that type (doesn't consume it)|
+|`hasNextInt()` / `hasNextDouble()`|`true` if the next token *is* that type. It only looks, without consuming anything|
 
-The program **waits** at each `next...()` call until the user types something.
+If the buffer is empty, the program **waits** at the `next...()` call until the user types something and presses Enter.
 
-> [!warning] `nextInt()` throws an `InputMismatchException` if the user types something that isn't an int. Check with `hasNextInt()` first.
+> [!warning] **The `nextInt()` then `nextLine()` trap.** If the user types `42` and presses Enter, the buffer holds `42\n`. `nextInt()` takes the `42` but leaves the `\n` behind. A `nextLine()` right after it finds that leftover newline, returns an empty string immediately, and seems to "skip" the input. Fix it by calling an extra `scan.nextLine();` after `nextInt()` to clear the rest of the line.
+
+> [!warning] `nextInt()` throws an `InputMismatchException` if the next token isn't an int (the user typed `abc`). Because `hasNextInt()` only peeks, it lets you check first and handle bad input yourself:
+> ```java
+> while (!scan.hasNextInt()) {
+>     System.out.println("Please enter a whole number.");
+>     scan.next();               // throw away the bad token
+> }
+> int n = scan.nextInt();
+> ```
 
 ## Key syntax
 

@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 180" width="340" height="180" font-family="DM Sans, system-ui, sans-serif" font-size="13">
+<g fill="none" stroke="#8a8a93" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+<polyline points="40,40 90,40"/>
+<polyline points="90,40 115,40"/><polyline points="115,28 115,52"/><polyline points="125,28 125,52"/><polyline points="125,40 150,40"/>
+<polyline points="150,40 300,40"/>
+<polyline points="220,40 220,65"/>
+<polyline points="220,65 212,70 228,80 212,90 228,100 212,110 228,120 220,125"/>
+<polyline points="220,125 220,150"/>
+<polyline points="40,150 300,150"/>
+</g>
+<circle cx="40" cy="40" r="3.5" fill="none" stroke="#8a8a93" stroke-width="2"/>
+<circle cx="40" cy="150" r="3.5" fill="none" stroke="#8a8a93" stroke-width="2"/>
+<circle cx="300" cy="40" r="3.5" fill="none" stroke="#8a8a93" stroke-width="2"/>
+<circle cx="300" cy="150" r="3.5" fill="none" stroke="#8a8a93" stroke-width="2"/>
+<circle cx="220" cy="40" r="3" fill="#8a8a93"/>
+<circle cx="220" cy="150" r="3" fill="#8a8a93"/>
+<g fill="#8a8a93">
+<text x="40" y="82" font-size="12" text-anchor="middle">+</text><text x="40" y="116" font-size="12" text-anchor="middle">−</text><text x="300" y="82" font-size="12" text-anchor="middle">+</text><text x="300" y="116" font-size="12" text-anchor="middle">−</text>
+</g>
+<g fill="#c99a12" font-weight="600">
+<text x="24" y="100" text-anchor="end">v<tspan font-size="10" dy="4">i</tspan><tspan dy="-4"></tspan></text><text x="316" y="100" text-anchor="start">v<tspan font-size="10" dy="4">o</tspan><tspan dy="-4"></tspan></text><text x="120" y="24" text-anchor="middle">C</text><text x="236" y="100" text-anchor="start">R</text>
+</g>
+</svg>

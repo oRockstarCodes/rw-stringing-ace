@@ -7,13 +7,22 @@ tags:
 
 > [!info] Readings Lecture 4 · week 4 · Reference ch. 4, 10
 
-Real programs have lots of objects that hold references to each other and pass information around. This chapter goes over the built-in `String` class, how to compare values and objects properly (`==` vs `equals`), how Java passes arguments to methods, and how to **link** objects together and design a small system from a written description.
+A single object isn't very useful. Real programs are made of many objects that hold references to each other and pass information back and forth. This chapter is about the questions that come up as soon as objects start interacting:
+
+- **What does it mean for two things to be "equal"?** Same value, or the same object? (`==` vs `equals`)
+- **When you hand an object to a method, can the method change it?** (parameter passing)
+- **How do objects find each other?** (linking, through reference fields)
+- **How do you go from a written problem to a set of classes?** (design)
+
+It starts with Java's built-in `String` class, which is the first object most programs use and a good illustration of all of these.
+
+> [!tip] Nearly every surprise in this chapter is the reference idea from [[ch03-variables|Ch 3]] again: an object variable holds an address, not the object. When something behaves strangely, draw the boxes and arrows.
 
 ## Notes
 
 ### The `String` class
 
-`String` is a built-in class, so a `String` variable is a **reference**. Strings have one special shortcut, which is that you can create them from a **literal** without using `new`.
+`String` is a class, so a `String` variable is a **reference** to a String object, not the text itself. Strings get one special privilege, though: you can create them from a **literal** (text in quotes) without writing `new`.
 
 ```java
 String a = "ABC 41";              // literal: stored in the String pool
@@ -21,14 +30,18 @@ String b = "ABC 41";              // same literal → reuses the SAME object
 String c = new String("ABC 41");  // new → always a brand-new object
 ```
 
-**Strings are immutable.** Methods like `concat`, `replace` and `toUpperCase` never change the original. They **return a new String**, so you have to keep the result or it's gone:
+**Why the pool exists.** Programs use the same bits of text over and over. Instead of making a new object for every `"ABC 41"` in the code, Java keeps one shared copy in a **String pool** and points every identical literal at it. That saves memory, and it's only safe because of the next point.
+
+**Strings are immutable.** Once created, a String's characters can never change. Methods like `concat`, `replace` and `toUpperCase` don't modify the original. They build and **return a new String**:
 
 ```java
 name.toUpperCase();          // does nothing useful: result thrown away
 name = name.toUpperCase();   // keeps it
 ```
 
-**Common methods** (indices start at 0):
+Immutability is what makes sharing safe. If `a` and `b` point at the same pooled `"ABC 41"` and `a` could change its letters, `b`'s text would change too, out of nowhere. Because no String can ever change, any number of variables can share one with no risk. The price is that "changing" a string really means making a new one and moving your variable to it, which is why you must keep the result.
+
+**Common methods** (indices start at 0, as with arrays):
 
 |Method|Returns|Example on `"ABC 41"`|
 |---|---|---|
@@ -43,18 +56,24 @@ name = name.toUpperCase();   // keeps it
 |`equalsIgnoreCase(s)`|Same, ignoring case|—|
 |`compareTo(s)`|`< 0`, `0`, or `> 0` (alphabetical order)|—|
 
-> [!note] `length()` has parentheses for Strings because it's a method. For arrays it's just `length` with no parentheses because it's a field.
+`substring(i, j)` excludes `j` on purpose. That way the length of the result is just `j - i`, and `substring(0, k)` plus `substring(k)` glue back together into the original with no overlap.
 
-Using an index past the end, like `substring(1, 8)` on a 6-character string, throws a `StringIndexOutOfBoundsException`.
+> [!note] `length()` has parentheses for Strings because it's a **method** (the String works it out). For arrays it's `length` with no parentheses because it's a **field**, a stored value. They do the same job but come from different kinds of thing.
+
+Asking for an index past the end, like `substring(1, 8)` on a 6-character string, throws a `StringIndexOutOfBoundsException`.
 
 ### Comparing values
 
+What "equal" means depends on what you're comparing:
+
 |Type|How to compare|Why|
 |---|---|---|
-|`int`, `long`, `char`|`==`|Exact values|
+|`int`, `long`, `char`|`==`|Whole numbers are stored exactly|
 |`float`, `double`|`Math.abs(a - b) < TOLERANCE`|Decimals are only stored approximately, so `0.1 + 0.2 == 0.3` is `false`|
-|`char`|`==`, `<`, `>`|Compares Unicode values: `'0' < 'L'` is `true`|
-|`String` / objects|`.equals()`|`==` compares references, not contents|
+|`char`|`==`, `<`, `>`|Compares Unicode numbers: `'0' < 'L'` is `true`|
+|`String` / objects|`.equals()`|`==` compares addresses, not contents|
+
+**Why decimals need a tolerance.** As [[ch02-classes-and-objects|Ch 2]] explained, 0.1 has no exact binary form, so it's stored as the closest value that fits. Add two of those approximations and the tiny errors add up: `0.1 + 0.2` comes out as `0.30000000000000004`. It's not equal to the stored 0.3, even though mathematically it should be. So instead of asking "are these exactly equal?", ask "are they close enough that the difference is just rounding error?":
 
 ```java
 final double TOLERANCE = 0.00000001;
@@ -63,7 +82,7 @@ if (Math.abs(a - b) < TOLERANCE) { /* treat as equal */ }
 
 ### `==` vs `equals()`
 
-For references, `==` asks **"are these the same object?"** (same address). It doesn't ask whether they hold the same data.
+For references, `==` compares what's actually in the two variables, which is two **addresses**. So it asks **"are these the same object?"**, not "do these hold the same data?".
 
 ```java
 String name1 = new String("Lewis");
@@ -72,11 +91,13 @@ name1 == name2        // false: two separate objects
 name1.equals(name2)   // true: same characters
 ```
 
-> [!warning] Two identical literals (`"Lewis" == "Lewis"`) will often come out `true` just because of the String pool. Don't count on that. **Always use `.equals()` for Strings.**
+Think of two printed copies of the same book. They have identical contents (`equals` is true), but they're two different physical books (`==` is false). `equals` is a method the class provides to compare **contents**, and `String`'s version compares the characters one by one.
+
+> [!warning] Two identical literals (`"Lewis" == "Lewis"`) often come out `true`, but only because the String pool made them the same object. Strings built while the program runs (from input, or by joining) won't be pooled. Code that relies on `==` for Strings works in testing and then fails on real input. **Always use `.equals()` for Strings.**
 
 ### Comparing your own objects
 
-For a class you wrote, `equals()` doesn't know what "equal" means yet, so by default it acts just like `==`:
+For a class you wrote, Java has no idea what "same contents" should mean. Should two cars be equal if their plates match? If their speeds match too? So by default `equals()` falls back to the only thing it can check, the address, and acts just like `==`:
 
 ```java
 Car miniVan = new Car("ABC", 50, 100);
@@ -85,7 +106,7 @@ sedan == miniVan          // false: different objects
 sedan.equals(miniVan)     // STILL false: default equals is ==
 ```
 
-To compare contents, compare the fields yourself (or write your own `equals` method later on):
+To compare contents, compare the fields that matter (later you'll write your own `equals` method that does this):
 
 ```java
 sedan.licensePlate.equals(miniVan.licensePlate)
@@ -93,16 +114,16 @@ sedan.licensePlate.equals(miniVan.licensePlate)
     && sedan.maxSpeed == miniVan.maxSpeed     // true
 ```
 
-> [!tip] *You* get to decide what makes two objects equal. Two cars could count as "equal" just because their licence plates match.
+> [!tip] *You* decide what makes two objects equal, based on what the class represents. For cars, matching licence plates might be enough, since a plate identifies one real car, even if the speeds differ at the moment.
 
 ### Parameter passing
 
-Java always passes **a copy of whatever is in the variable**. What that copy means depends on the type:
+When you call a method, Java **copies whatever is in each argument variable** into the matching parameter. Always. That one rule (called **pass by value**) explains everything; what changes is *what* is in the variable:
 
-|Argument type|What's copied|Can the method change the caller's data?|
+|Argument type|What's in the variable, and so what gets copied|Can the method change the caller's data?|
 |---|---|---|
-|Primitive (`int`, `double`, …)|The value|**No**|
-|Object / array|The **reference** (address)|**Yes**, by changing the object it points at|
+|Primitive (`int`, `double`, …)|The value itself|**No**: the method gets its own copy of the number|
+|Object / array|The **reference** (address)|**Yes**: both copies of the address lead to the same object|
 
 ```java
 void changeMe(double d) { d = 345.0; }     // changes only the local copy
@@ -112,6 +133,8 @@ changeMe(d);
 System.out.println(d);                     // 2.0
 ```
 
+The method's `d` is a separate box that started with a copy of 2.0. Changing it does nothing to the caller's box.
+
 ```java
 void changeParameters(Car c) { c.speed = 30; }   // follows the reference
 
@@ -120,14 +143,16 @@ changeParameters(miniVan);
 System.out.println(miniVan.speed);               // 30.0
 ```
 
-> [!warning] Reassigning the parameter itself (`c = new Car(...)`) inside the method **doesn't** affect the caller. It only points the local copy of the reference somewhere else. The caller only sees changes made *through* the reference (`c.speed = ...`).
+Here the copied value is an address. `c` and `miniVan` are two boxes holding the same address, like two copies of a house key. Whoever uses their key and rearranges the furniture changes the one house both keys open.
+
+> [!warning] Reassigning the parameter itself (`c = new Car(...)`) inside the method **doesn't** affect the caller. That just puts a different address into the method's own box, like swapping your copy of the key for one to a different house. The caller's key, and their house, are untouched. The caller only sees changes made *through* the reference (`c.speed = ...`).
 
 ![[coe-318-parameter-passing.svg]]
 *Figure 4.1: A primitive argument is copied by value. A reference argument copies the address, so both variables reach the same object.*
 
 ### Linking objects
 
-A field can hold a reference to **another object**, and that **links** the two. Any reference can also be `null`, which means "linked to nothing".
+A field can hold a reference to **another object**, and that **links** the two. This is how objects find each other: an object doesn't search for the others it needs, it keeps their addresses. A reference can also be `null`, meaning "linked to nothing".
 
 ```java
 class Employee {
@@ -150,20 +175,22 @@ else
 // The supervisor of Gavin is Stacey
 ```
 
-`emp.supervisor.name` follows two links, from `emp` to Stacey's object and then to her `name`.
+`emp.supervisor.name` follows two links: from `emp` to Stacey's object, then to her `name`. Each dot means "go to the object this refers to". Note that `supervisor` has type `Employee`, the same class it's in. A class can refer to its own kind, which is how chains and hierarchies (an org chart, a family tree) get built. The `null` check matters: the chain has to end somewhere, and following a `null` link crashes the program.
 
 ![[coe-318-linked-employees.svg]]
 *Figure 4.2: Two Employee objects linked through the supervisor field. Stacey's own supervisor is null.*
 
 ### Designing from a description
 
-To turn a written problem into classes:
+Turning a paragraph of requirements into classes is the design phase from [[ch01-software-development-and-oop|Ch 1]]. A reliable starting point is to read the description for its grammar:
 
-1. **Nouns turn into classes** (Book, Member, Library)
-2. **Properties turn into fields** (title, author, ISBN)
-3. **"Has many" turns into an array or list field** (a Member *has* borrowed books)
-4. **Verbs turn into methods** (borrow, add, register)
-5. Write a **tester class** that plays out the scenario
+1. **Nouns become classes** (Book, Member, Library). They're the things the problem is about.
+2. **Their properties become fields** (title, author, ISBN). That's what each thing needs to remember.
+3. **"Has many" becomes an array or list field** (a Member *has* borrowed books). That's a link to several objects at once.
+4. **Verbs become methods** (borrow, add, register). That's what the things do, and each method goes in the class whose data it mainly changes.
+5. Write a **tester class** that plays out the scenario in the description, to check the design can actually do what's asked.
+
+This works because OOP is built to mirror the problem ([[ch01-software-development-and-oop|Ch 1]]). If the description is about members borrowing books from a library, the code should have members, books and a library, doing borrowing.
 
 ## Key syntax
 

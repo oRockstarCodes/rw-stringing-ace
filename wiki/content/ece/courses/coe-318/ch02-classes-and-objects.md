@@ -7,13 +7,21 @@ tags:
 
 > [!info] Readings Lecture 2 · week 2 · Reference ch. 1–2
 
-Programming really comes down to three things: **storing information** (variables and types), **doing something with it** (operators), and **deciding which operations run and how many times** (if, switch, loops). Classes then bundle related data and behaviour together, so you can make lots of separate objects from one template.
+Every program, however big, is built from three abilities:
 
-> [!tip] Trace the code the way the computer would. Don't guess what a program does from how it looks. Go through it one statement at a time and write down every variable's value as it changes.
+1. **Remembering things**: variables, and the types that say what kind of thing each one holds.
+2. **Calculating with them**: operators like `+`, `/` and `==`.
+3. **Choosing what to do next**: `if` and `switch` pick between options, and loops repeat things.
+
+Most of this chapter is about how Java does each of those, and the surprises that come from the way computers store numbers (why `7 / 2` is 3, why `"1" + 2 + 3` is `"123"`). The last part puts them together into classes, the blueprints from [[ch01-software-development-and-oop|Ch 1]], and looks at what's really going on when you create an object.
+
+> [!tip] Trace code the way the computer would. Don't guess what a program does from how it looks. Go one statement at a time and write down every variable's value as it changes. Every surprise in this chapter shows up the moment you trace it.
 
 ## Notes
 
 ### Primitive data types
+
+Memory is just a long row of bits. To store a number, Java has to decide **how many bits** to use and **how to read them**, and that's what a type is. A **primitive type** is one of Java's built-in, simplest kinds of value:
 
 |Type|Size|Range / meaning|Typical use|
 |---|---|---|---|
@@ -26,26 +34,36 @@ Programming really comes down to three things: **storing information** (variable
 |`char`|2 bytes, unsigned|0 to 65 535 (Unicode)|A single character `'A'`|
 |`boolean`|—|`true` / `false`|Conditions|
 
+**Where the ranges come from.** With $n$ bits there are $2^n$ possible patterns. A `byte` has 8 bits, so 256 patterns. "Signed" means half of them are used for negatives, which gives −128 to 127 (zero takes one of the non-negative slots, which is why the top is 127 and not 128). Each step up the table doubles the bits, so the range grows enormously. Go past the end of the range and the value **wraps around**: adding 1 to the biggest `int` gives the most negative one, with no error.
+
+**Why decimals are approximate.** `float` and `double` store numbers in a binary version of scientific notation, with a fixed number of significant digits. Many simple decimals, like 0.1, can't be written exactly in binary (just as $\frac{1}{3}$ can't be written exactly in decimal), so they're stored as the nearest value that fits. That's why decimals are compared with a tolerance rather than `==` ([[ch04-using-classes-and-objects|Ch 4]]).
+
+**Why `char` is a number.** A character is stored as its Unicode code number: `'A'` is 65. That's why you can do arithmetic on characters (`'A' + 1` is 66) and compare them with `<`.
+
 ### Arithmetic operators
 
-`+`, `-`, `*`, `/`, and `%` (remainder: `8 % 3` is `2`).
+`+`, `-`, `*`, `/`, and `%` (the remainder after division: `8 % 3` is `2`, because $8 = 2 \times 3 + 2$).
 
-> [!warning] **Integer division drops the fraction.** If both operands are integers, `/` gives an integer, so `7 / 2` is `3`, not `3.5`. It cuts off the decimal instead of rounding. Make one operand a `double` (`7.0 / 2`) if you want `3.5`.
+> [!warning] **Integer division drops the fraction.** When both operands are integers, the result is an integer too, and an integer can't hold a fraction. So `7 / 2` is `3`, not `3.5`. The fraction is cut off, not rounded, so `-7 / 2` is `-3`. Make one operand a `double` (`7.0 / 2`) and the whole calculation is done in decimals, giving `3.5`.
 
-`%` is useful for checking divisibility. `n % 2 == 0` means `n` is even.
+The rule behind this is that **the result's type comes from the operands' types**, not from what you'd like the answer to be. `double d = 7 / 2;` still gives `3.0`. The division happens first, in integers, and only the finished `3` gets converted to a double.
+
+`%` is handy for anything that repeats in cycles. `n % 2 == 0` means `n` is even, and `n % 10` is the last digit of `n`.
 
 ### The overloaded `+`
 
-- Both operands numbers → **addition**: `2 + 3` is `5`
-- Either operand a `String` → **concatenation**: `"Hello" + 2` is `"Hello2"`
+`+` does two different jobs depending on its operands:
 
-With several operands, `+` goes **left to right** and switches to concatenation as soon as it hits a String. Parentheses let you force the order:
+- Both operands numbers → **addition**: `2 + 3` is `5`
+- Either operand a `String` → **concatenation** (joining): `"Hello" + 2` is `"Hello2"`
+
+When there are several `+`s, Java does them **one at a time, left to right**, and each step decides its own meaning from the two values in front of it. Once a String appears, every result after that is a String, so every later `+` is concatenation too:
 
 |Expression|Steps|Result|
 |---|---|---|
-|`"1" + 2 + 3`|`"12"` then `"123"`|`"123"`|
-|`1 + 2 + "3"`|`3` then `"33"`|`"33"`|
-|`"1" + (2 + 3)`|`5` first, then `"15"`|`"15"`|
+|`"1" + 2 + 3`|`"1" + 2` is `"12"`, then `"12" + 3` is `"123"`|`"123"`|
+|`1 + 2 + "3"`|`1 + 2` is `3` (both numbers), then `3 + "3"` is `"33"`|`"33"`|
+|`"1" + (2 + 3)`|parentheses first: `5`, then `"1" + 5` is `"15"`|`"15"`|
 
 ### Comparison operators
 
@@ -56,9 +74,13 @@ With several operands, `+` goes **left to right** and switches to concatenation 
 |`>` / `<`|greater / less than|
 |`>=` / `<=`|greater / less than or equal to|
 
-> [!warning] `=` **assigns** and `==` **compares**. `x = 3` changes `x`, while `x == 3` asks a yes/no question and gives back a `boolean`.
+Each one asks a yes/no question and gives back a `boolean`, `true` or `false`. That `boolean` is what `if` statements and loops use to decide what to do.
+
+> [!warning] `=` **assigns** and `==` **compares**. `x = 3` is an instruction ("make x be 3"). `x == 3` is a question ("is x 3?").
 
 ### Compound assignment and increment
+
+Updating a variable based on its own value is so common that there are shortcuts:
 
 |Operator|Example|Means|
 |---|---|---|
@@ -68,10 +90,10 @@ With several operands, `+` goes **left to right** and switches to concatenation 
 |`/=`|`x /= y`|`x = x / y`|
 |`%=`|`x %= y`|`x = x % y`|
 
-**Prefix vs postfix** only matters when the increment is inside a bigger expression:
+`++` and `--` add or subtract 1. They do **two** things at once: they change the variable, and, as an expression, they also produce a value. Prefix and postfix differ only in **which value they produce**:
 
-- `++i`: add 1 to `i` first, **then** use the new value
-- `i++`: use the current value, **then** add 1 to `i`
+- `++i` adds 1 first, then produces the **new** value.
+- `i++` produces the **old** value, then adds 1.
 
 ```java
 int i = 5;
@@ -79,9 +101,11 @@ int a = ++i;   // i becomes 6, a = 6
 int b = i++;   // b = 6, then i becomes 7
 ```
 
-`--i` and `i--` work the same way.
+On a line by itself (`i++;`), the produced value is thrown away, so the two forms do exactly the same thing. The difference only shows up when the `++` sits inside a bigger expression.
 
 ### Conditionals
+
+An `if` chain checks its conditions **from the top down** and runs the **first** branch whose condition is true, then skips the rest:
 
 ```java
 if (x == 3) {
@@ -93,9 +117,9 @@ if (x == 3) {
 }
 ```
 
-Only the **first** true branch runs. Anything after the whole `if` chain runs no matter what.
+Because it stops at the first match, the order matters. If you check `grade >= 50` before `grade >= 80`, an 85 matches the first test and never reaches the second. Put the most specific conditions first. The `else` at the end catches everything nothing else matched, and code after the whole chain runs no matter which branch ran.
 
-**Conditional (ternary) operator**: a one-line `if/else` that gives back a value:
+**Conditional (ternary) operator.** A one-line `if/else` that **produces a value**, so it can go anywhere a value can:
 
 ```java
 String result = grade >= 50 ? "passed" : "failed";
@@ -104,7 +128,7 @@ String result = grade >= 50 ? "passed" : "failed";
 
 ### Switch
 
-`switch` evaluates an expression and jumps to the `case` that matches it:
+`switch` compares one value against a list of constants and **jumps** to the matching `case`:
 
 ```java
 switch (x) {
@@ -120,16 +144,27 @@ switch (x) {
 }
 ```
 
-- `default` runs if no case matches (it's optional and usually goes last)
-- `break` ends the switch. **Without `break`, it falls through** into the next case's statements, even though that case didn't match.
+The key idea is that **case labels are just entry points**, like bookmarks. `switch` jumps to the matching label and then keeps running statements downward. It doesn't stop at the next label, because a label isn't a wall. Only `break` makes it leave. So **without `break`, it falls through** into the next case's statements even though that case didn't match.
+
+Fall-through is occasionally useful on purpose, to give several values the same code:
+
+```java
+case 'a': case 'e': case 'i': case 'o': case 'u':
+    System.out.println("vowel");
+    break;
+```
+
+`default` is where it jumps if no case matches. It's optional and usually goes last.
 
 ### Loops
 
+All three loops repeat a body while a condition is true. What differs is **where the check happens**:
+
 |Loop|Checks condition|Runs at least once?|Use when|
 |---|---|---|---|
-|`while`|Before each pass|No|Unknown number of repeats|
+|`while`|Before each pass|No|You don't know how many repeats in advance|
 |`for`|Before each pass|No|Counting a known number of times|
-|`do-while`|After each pass|**Yes**|Body must run once (e.g. a menu)|
+|`do-while`|After each pass|**Yes**|The body has to run once before you can check (e.g. show a menu, then ask whether to repeat)|
 
 ```java
 while (x < 4) { ...; x = x + 1; }
@@ -139,11 +174,15 @@ for (x = 1; x < 4; x++) { ... }    // init; condition; update
 do { ... } while (x != 1);         // note the semicolon
 ```
 
-> [!warning] **Infinite loops** happen when nothing in the body ever makes the condition false, like forgetting `x = x + 1` in a `while`.
+A `for` loop is a `while` loop with its three parts collected on one line: the setup runs once, the condition is checked before each pass, and the update runs after each pass. Putting them together makes it hard to forget the update.
+
+**Counting passes.** `for (x = 1; x < 4; x++)` runs for $x = 1, 2, 3$: three times. In general, `x = a; x < b` runs $b - a$ times, and `x <= b` runs one more. Off-by-one mistakes almost always come from `<` vs `<=`.
+
+> [!warning] **Infinite loops** happen when nothing in the body ever makes the condition false, like forgetting `x = x + 1` in a `while`. Something inside the loop has to move it toward the exit.
 
 ### Classes and objects
 
-A **class** is a template, and it can only contain **variable declarations** and **methods**. You can't put loose statements in a class outside of a method.
+A **class** describes a kind of object. It holds only **variable declarations** (what each object knows) and **methods** (what each object can do). Loose statements can't sit in a class outside of a method, because a statement is an action, and actions happen when a method runs.
 
 ```java
 class ClassName {
@@ -161,10 +200,14 @@ An **object** is one **instance** of a class, made with `new`. Its variables are
 ![[coe-318-class-vs-objects.svg]]
 *Figure 2.1: A class is the template. Each object made with new gets its own copy of the fields, and a reference variable holds the address of its object.*
 
-**Creating an object takes two steps** (usually written on one line):
+#### Variables hold addresses, not objects
 
-1. **Declare a reference variable:** `Car miniVan;` holds `null` for now (it doesn't refer to anything yet)
-2. **Create the object and store a reference to it:** `miniVan = new Car();` sets aside memory for a new `Car` and points `miniVan` at it
+This is the most important idea in the chapter, and most later confusion traces back to it. A primitive variable like `int x` holds the number itself. A variable of a **class** type holds the object's **address**: where in memory the object lives. That's called a **reference**. The object itself lives elsewhere.
+
+So **creating an object takes two separate steps** (usually written on one line):
+
+1. **Declare a reference variable:** `Car miniVan;` makes a variable that *can* hold the address of a `Car`. It holds `null` for now, meaning "doesn't refer to anything yet". No car exists.
+2. **Create the object and store its address:** `miniVan = new Car();` sets aside memory for a new `Car`, runs its constructor, and puts that memory's address into `miniVan`.
 
 ```java
 Car miniVan = new Car();   // both steps at once
@@ -173,21 +216,23 @@ Car miniVan = new Car();   // both steps at once
 ![[coe-318-declare-then-new.svg]]
 *Figure 2.2: Declaring a reference variable only makes the variable (null). new makes the object, and the assignment stores its address.*
 
-**Accessing an object** uses the dot operator:
+Think of the reference as a remote control and the object as the TV. Declaring the variable gives you a remote that isn't paired with anything. `new` builds a TV and pairs the remote with it. Using a `null` reference is like pressing buttons on an unpaired remote, and it causes a `NullPointerException`.
+
+**Accessing an object** uses the dot operator, which means "follow the reference to the object, then use this part of it":
 
 ```java
 miniVan.speed = 100;       // object.variable (works, but bad practice)
 miniVan.setSpeed(50);      // object.method()  (preferred)
 ```
 
-> [!note] Good practice is to not touch instance variables directly. Give each one you want to expose a **getter** (`getSpeed()`) and a **setter** (`setSpeed()`). In [[ch05-writing-classes|Ch 5]] you can actually enforce this with `private`.
+> [!note] Why prefer `setSpeed(50)` over `speed = 100`? Because a method can check the value first (no negative speeds) and the class can change how it stores speed later without breaking the code that uses it. Reaching straight into the variable bypasses both. [[ch05-writing-classes|Ch 5]] shows how `private` lets a class forbid direct access completely.
 
 ### Where does `main` go?
 
-The program starts at `main`, so something has to create the objects. There are two options:
+The program starts at `main`, so `main` is where the first objects get created. There are two options:
 
-1. Put `main` inside the class itself. It works, but it mixes test code in with the class
-2. **Better:** make a separate **tester class** (`CarTest.java`) that only has `main`, in the same project
+1. Put `main` inside the class itself. It works, but it mixes the code that *uses* the class in with the class.
+2. **Better:** make a separate **tester class** (`CarTest.java`) that only has `main`, in the same project.
 
 ```java
 public class CarTest {
@@ -202,7 +247,9 @@ public class CarTest {
 }
 ```
 
-Each object has its **own** copy of the instance variables, so changing the sedan's speed doesn't affect the minivan's.
+The separate tester keeps `Car` clean and reusable: any program can use it, and `Car` doesn't carry test code around. It also tests the class the way real code will use it, from the outside, through its methods.
+
+Each object has its **own** copy of the instance variables, so changing the sedan's speed doesn't affect the minivan's. Two `new`s made two separate cars.
 
 ### Methods
 
@@ -212,11 +259,11 @@ ReturnType methodName(parameter-list) {
 }
 ```
 
-- **ReturnType:** any primitive or object type, or `void` if it doesn't return anything
-- **methodName:** no spaces, first word lowercase, capitalize the rest
-- **parameter-list:** `type name` pairs separated by commas
+- **ReturnType:** any primitive or object type, or `void` if it doesn't hand back anything
+- **methodName:** no spaces, first word lowercase, later words capitalized
+- **parameter-list:** `type name` pairs separated by commas. When the method is called, the values passed in are copied into these.
 
-Methods work on the object's data and can call other methods, either in the same class or in other classes. Objects talk to each other by calling each other's methods, and that's how OOP models real things.
+A method runs **on a particular object**. When you call `miniVan.setSpeed(50)`, the `speed` inside `setSpeed` means the minivan's speed, and the same method called on `sedan` changes the sedan's. Objects get work done by calling each other's methods. In OOP terms they "send each other messages", the way real things interact: a driver doesn't reach into the engine, they press the pedal and let the car handle it.
 
 ## Key syntax
 
