@@ -12,13 +12,35 @@ tags:
 
 **Capacitors and inductors are the two energy-storage elements. A capacitor stores energy in an electric field set up by its voltage, and an inductor stores energy in a magnetic field set up by its current.**
 
-Resistors only turn energy into heat. Capacitors and inductors store it and give it back later, which is why circuits with them have to now deal with a time element even with DC circuits, where what they do now depends on what happened before. Everything in [[ch08-second-order-circuits|Ch 8]] comes from the two element laws on this page.
+Resistors only turn energy into heat. Capacitors and inductors store it and give it back later, so circuits with them have a time element even when the source is DC. What they do now depends on what happened before. Everything in [[ch08-second-order-circuits|Ch 8]] comes from the two element laws on this page.
 
 ## Intuition
 
+### The big idea (the "explain it to a 5 year old" version)
+
+Both parts are **stubborn**, and they are stubborn about different things:
+
+- A **capacitor** is stubborn about its **voltage**. It doesn't like the voltage across it changing quickly, so it takes *time* to fill up (or empty out) its voltage.
+- An **inductor** is stubborn about its **current**. It doesn't like the current through it changing quickly, so it takes *time* to build up (or stop) its current.
+
+Think of a **bucket** and a **heavy merry-go-round**:
+
+- A capacitor is a **bucket**. Pour water in (current) and the water level (voltage) rises slowly. You can't make the bucket full in an instant, no matter how hard you pour. The fuller it gets, the harder it pushes back, so the last bit fills the slowest.
+- An inductor is a **heavy merry-go-round** in a pipe of flowing water. Push on it (apply voltage) and it speeds up slowly, because it's heavy. Once it's spinning (current is flowing) it *wants to keep spinning*, and if you try to stop it suddenly it shoves back hard.
+
+| | Capacitor (bucket) | Inductor (merry-go-round) |
+|---|---|---|
+| What it's stubborn about | Voltage (the water level) | Current (how fast it's spinning) |
+| What takes time | Voltage building up | Current building up |
+| If you try to change it instantly | Needs a huge rush of current | Makes a huge voltage spike |
+| After a long time at DC | Full bucket, no more water flows in: **open** | Spinning at full speed, nothing pushing on it: **short** |
+| What it's storing | Energy in an electric field | Energy in a magnetic field |
+
+Everything below is just this picture with the math attached.
+
 ### The capacitor
 
-A capacitor is two conductors (plates) separated by an insulator called the **dielectric** (Figure 1, left). Push current into one terminal and charge $+q$ builds up on that plate, while the same amount leaves the other plate and leaves it at $-q$. No charge actually crosses the gap. The separated charge sets up an electric field $E$ between the plates, and that field is where the energy is stored.
+A capacitor is two conductors (plates) separated by an insulator called the **dielectric** (Figure 1, left). Push current into one terminal and charge $+q$ builds up on that plate, while the same amount of charge leaves the other plate, which leaves it at $-q$. No charge actually crosses the gap. The separated charge sets up an electric field $E$ between the plates, and that field is where the energy is stored.
 
 The more charge on the plates, the bigger the voltage between them. The ratio is the **capacitance**:
 
@@ -42,6 +64,14 @@ $$
 So a capacitor's current depends on how fast its **voltage changes**, not on the voltage itself. A capacitor sitting at a steady 100 V carries no current at all. To change its voltage quickly you need a large current, and to change it *instantly* you'd need an infinite one.
 
 > [!tip] Water analogy: a capacitor is like a tank with a stretchy rubber membrane across the middle. Water (charge) pushed in one side bulges the membrane and pushes the same amount out the other side, so it looks like water flows "through" even though none actually crosses. The bulge (voltage) builds up gradually and pushes back.
+
+**Why a capacitor takes time to charge.** Connect an empty capacitor to a battery through a resistor. At the first instant the capacitor has no voltage, so the whole battery voltage sits across the resistor and the current is at its biggest ($I = V_s/R$). That current piles charge onto the plates, so the capacitor's voltage rises. But as it rises, there's less voltage left across the resistor, so the current shrinks, so the voltage rises more slowly. It's like filling a bucket where the hose gets weaker the fuller the bucket gets. The voltage creeps toward the battery voltage but never needs to jump:
+
+$$
+v_C(t) = V_s\left(1 - e^{-t/RC}\right), \qquad \tau = RC
+$$
+
+After one **time constant** $\tau = RC$ the capacitor is about 63% charged, and after about $5\tau$ it's essentially full. A bigger $C$ (a bigger bucket) or a bigger $R$ (a thinner hose) both make it slower.
 
 Try it below. Charge the capacitor through a resistor, then discharge it, or open the switch. Watch the plates fill up and the current die away as $v_C$ catches up.
 
@@ -69,6 +99,16 @@ v_L = L\frac{di_L}{dt}
 $$
 
 So an inductor's voltage depends on how fast its **current changes**. A steady current, however large, produces no voltage. By Lenz's law the induced voltage always **opposes the change** that caused it. Try to speed the current up and the inductor pushes back, and try to stop it and the inductor pushes forward to keep it going. That's the inductor's "inertia", and it's the reason an LC circuit overshoots and rings.
+
+> [!tip] Water analogy: an inductor is like a heavy flywheel (or paddle wheel) sitting in a pipe. Water (current) has to spin the heavy wheel up before it can flow at full speed, so the flow builds up slowly. Once it's flowing, the spinning wheel keeps the water moving, and if you slam the valve shut the wheel keeps pushing and makes a big pressure spike (voltage).
+
+**Why an inductor takes time to build up current.** Connect an inductor to a battery through a resistor. At the first instant the current is 0 (it can't jump), so there's no voltage across the resistor, and the whole battery voltage sits across the inductor. A big $v_L$ means a big $\frac{di}{dt}$, so the current starts climbing. As the current climbs, the resistor takes more of the battery voltage, so less is left across the inductor, so the climb slows down. The current creeps up to its final value $V_s/R$:
+
+$$
+i_L(t) = \frac{V_s}{R}\left(1 - e^{-Rt/L}\right), \qquad \tau = \frac{L}{R}
+$$
+
+It's the mirror image of the capacitor: the same 63% after one $\tau$ and about $5\tau$ to finish. A bigger $L$ (a heavier flywheel) makes it slower, but a bigger $R$ makes it *faster*, since the final current is smaller and there's less to build up to.
 
 ![[ele-302-cap-ind-structure.svg]]
 *Figure 1: A capacitor stores energy in the electric field between its plates (left). An inductor stores energy in the magnetic field through its coil (right).*
@@ -204,7 +244,7 @@ This matches the DC steady-state rules above, and it's also why a sudden change 
 
 |Electrical|Mechanical|Why|
 |---|---|---|
-|Capacitor|Spring|Stores energy in how far it's "stretched" (its voltage)|
+|Capacitor|Spring|Stores energy in how far it's "stretched" (its charge, which sets its voltage)|
 |Inductor|Mass|Stores energy in how fast it's "moving" (its current), and resists changes in it (inertia)|
 |Resistor|Friction|Turns energy into heat|
 
@@ -237,6 +277,12 @@ $$
 
 $$
 v_C(0^+) = v_C(0^-), \qquad i_L(0^+) = i_L(0^-)
+$$
+
+**Charging from zero through a resistor** (source $V_s$)
+
+$$
+v_C(t) = V_s\left(1 - e^{-t/\tau}\right),\ \ \tau = RC, \qquad i_L(t) = \frac{V_s}{R}\left(1 - e^{-t/\tau}\right),\ \ \tau = \frac{L}{R}
 $$
 
 **Combinations**
@@ -302,6 +348,8 @@ The current in a $0.2\ \text{H}$ inductor is 0 for $t < 0$ and $i(t) = 5(1 - e^{
 - Ignoring the passive sign convention, which flips the sign of $i = C\frac{dv}{dt}$ or $v = L\frac{di}{dt}$
 - Treating a capacitor at DC steady state as having **zero voltage**. It has zero *current*, but it can still hold a voltage
 - Thinking a large voltage on a capacitor means a large current. The current depends on how fast the voltage **changes**
+- Mixing up which one is stubborn about what. Capacitors resist changes in **voltage**, and inductors resist changes in **current**
+- Thinking a bigger $R$ always slows things down. It does for $\tau = RC$, but $\tau = \frac{L}{R}$ gets *faster* with bigger $R$
 
 ## Related
 

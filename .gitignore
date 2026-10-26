@@ -52,3 +52,10 @@ wiki/content/courses/*/labs/**/.idea/
 wiki/content/courses/*/labs/**/.vscode/
 wiki/content/courses/*/labs/**/*.class
 graphify-out/
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/

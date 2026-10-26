@@ -192,6 +192,7 @@ MelonCapInd.afterDOMLoaded = `
       '<div class="oa-controls">' +
       slider("r", "R", P.rMin, P.rMax, P.rStep, P.r0) +
       slider("e", cap ? "C" : "L", P.eMin, P.eMax, P.eStep, P.e0) +
+      slider("speed", "Speed", 0.05, 1, 0.05, 1) +
       "</div>" +
       '<p class="oa-readout"></p>'
 
@@ -221,6 +222,7 @@ MelonCapInd.afterDOMLoaded = `
     }
     const rIn = root.querySelector('input[data-k="r"]')
     const eIn = root.querySelector('input[data-k="e"]')
+    const spIn = root.querySelector('input[data-k="speed"]')
     const lever = root.querySelector(".ci-lever")
     const spark = root.querySelector(".ci-spark")
     const dotsG = root.querySelector(".ci-dots")
@@ -408,16 +410,19 @@ MelonCapInd.afterDOMLoaded = `
       const { R, E } = params()
       rIn.nextElementSibling.textContent = eng(R, "\\u03a9")
       eIn.nextElementSibling.textContent = eng(E, cap ? "F" : "H")
+      spIn.nextElementSibling.textContent = (+spIn.value).toFixed(2).replace(/0$/, "") + "\\u00d7"
     }
     rIn.addEventListener("input", () => { sliders(); sample() })
     eIn.addEventListener("input", () => { sliders(); sample() })
+    spIn.addEventListener("input", sliders)
     sliders()
 
     setMode("open")
     draw(physics("open", 0, params().R, params().E), 0)
     root.addEventListener("ci-visible", () => { if (!calm && st.mode === "open" && st.x === 0) setMode("src") })
 
-    animate(root, (dt) => {
+    animate(root, (realDt) => {
+      const dt = realDt * +spIn.value // slow motion: the whole simulation runs on scaled time
       const { R, E } = params()
       const ph = physics(st.mode, st.x, R, E)
       st.x = ph.target + (st.x - ph.target) * Math.exp(-dt / ph.tau)
