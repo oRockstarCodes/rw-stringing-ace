@@ -18,6 +18,16 @@ The reason the gain changes with frequency at all is that inductors and capacito
 3. **Resonance**: the special frequency where L and C cancel each other out.
 4. **Filters**: circuits designed to pass some frequencies and block others.
 
+> [!example] The whole chapter in plain words
+> - **Frequency response:** sing to the circuit at every pitch, and write down how loud it hears you and how late it answers.
+> - **Transfer function:** the formula for that list. Output divided by input, with L and C written as impedances.
+> - **Decibels:** a squashed ruler, so gains of a million and a millionth fit on the same page.
+> - **Bode plot:** the list drawn as a graph. Every factor in $H$ is two straight lines, so you sketch it by adding lines.
+> - **Resonance:** pushing a swing in time with its own rhythm. Small pushes make a big motion, and only R (friction) limits it.
+> - **Filters:** a bouncer at the door who only lets certain pitches in.
+>
+> [[#Solving the problems]] turns each of these into a recipe.
+
 > [!tip] Background pages
 > - [[capacitors-and-inductors#Impedance: how they behave at different frequencies|Capacitors and Inductors: impedance]]: why $Z_L$ grows with frequency and $Z_C$ shrinks
 > - [[ch08-second-order-circuits|Ch 8: Second-Order Circuits]]: $\omega_0 = 1/\sqrt{LC}$ and $\alpha = R/2L$ come back here, along with the idea of damping
@@ -515,6 +525,83 @@ $$
 - $\omega_c$: cutoff frequency, where $|H| = 0.707$
 - Band-pass and band-stop share $\omega_0$, $B = R/L$ and $Q$ with series resonance
 
+## Solving the problems
+
+Almost every problem in this chapter (the textbook's problem sets for §14.2–14.7, and the tutorial) is one of the types below. Work out which one you have, then follow its recipe.
+
+|The question asks you to…|Type|Worked in|
+|---|---|---|
+|find $V_o/V_i$, the zeros and the poles|Transfer function|Examples 1, 4|
+|convert a gain to dB or back|Decibels|the table in [[#Decibels]]|
+|sketch the magnitude and phase|Bode plot|Examples 1–4, 9–11|
+|find $H$ from a given Bode plot|Bode plot in reverse|Example 15|
+|find $\omega_0$, $B$, $Q$, $\omega_1$, $\omega_2$, or a current, voltage or power at resonance|Resonance analysis|Examples 5–8|
+|choose R, L or C to get a given $\omega_0$, $B$ or $Q$|Resonance design|Example 13|
+|find the resonant frequency of a circuit that isn't plain series or parallel|General resonance|Example 14|
+|say what kind of filter a circuit is and find its cutoff or band|Filter|Examples 9–12|
+
+### Transfer function
+
+1. Redraw the circuit with $R$, $sL$ and $\frac{1}{sC}$.
+2. Solve for the output. Try a voltage or current divider first; use nodal analysis if the output isn't a simple share of the input.
+3. Divide by the input and clear the fractions-inside-fractions (multiply top and bottom by $s$, or by $sC$), so you end up with one polynomial over another.
+4. Factor. Zeros are the roots of the top, poles the roots of the bottom.
+5. **Check both ends** with the short/open table: $H(0)$ and $H(\infty)$ from your formula must match what the redrawn circuit gives by inspection.
+
+### Bode plot
+
+1. Rewrite every factor so it starts at 1: $(s + z) \to z\left(1 + \frac{s}{z}\right)$. Collect all the constants into $K$.
+2. Factor any quadratic. If $\zeta \geq 1$ it splits into two simple poles. Only keep it as a quadratic if $\zeta < 1$.
+3. Start at the far left. The starting line is $20\log|K|$ plus $\pm 20$ dB/decade for each factor at the origin, passing through $20\log|K|$ at $\omega = 1$.
+4. Walk right. At each corner, change the slope: $+20$ for a zero, $-20$ for a pole, doubled for squares and quadratics.
+5. Phase: start at $\angle K$ ($0^\circ$ or $180^\circ$) plus $\pm 90^\circ$ per factor at the origin. Each simple factor ramps by $\pm 90^\circ$ from a tenth of its corner to ten times it.
+6. Check the low and high slopes with the counting rule from [[#Procedure]].
+
+### Bode plot in reverse
+
+You're given the straight-line magnitude plot and asked for $H$. Run the procedure backwards:
+
+1. **Low-frequency slope** tells you what's at the origin: $+20$ dB/decade is one zero there, $-20$ is one pole, flat is nothing.
+2. **Every place the slope changes is a corner.** The size of the change says what it is: $+20$ is a simple zero, $-20$ a simple pole, $\pm 40$ a double factor or quadratic.
+3. **Find $K$ from one point you can read.** Below the first corner only $K$ and the origin factors are active, so match the line there. If it's flat at $G$ dB, $K = 10^{G/20}$. If it's sloped, use the value at $\omega = 1$ (extend the line if it has to).
+4. Write $H$ in standard form, then multiply out if the question wants it in terms of $s$.
+
+### Resonance analysis
+
+1. **Decide series or parallel.** Look at what R shares with L and C: the same current means series, the same voltage means parallel.
+2. $\omega_0 = \frac{1}{\sqrt{LC}}$ for both.
+3. Pick the matching pair: series $B = \frac{R}{L}$, $Q = \frac{\omega_0 L}{R}$; parallel $B = \frac{1}{RC}$, $Q = \omega_0 RC$. Then check $Q = \frac{\omega_0}{B}$.
+4. Half-power frequencies: if $Q \geq 10$, use $\omega_0 \mp \frac{B}{2}$. Otherwise use the exact Eq. (14.11) or (14.16).
+5. **At $\omega_0$ only R is left.** Series: $I = \frac{V}{R}$. Parallel: $V = IR$. Each L and C voltage (series) or current (parallel) is $Q$ times the source.
+6. At $\omega_1$ and $\omega_2$ the current (series) or voltage (parallel) is 0.707 of its peak, and the power is half.
+7. Watch the units (rad/s or Hz) and whether the source is peak or rms.
+
+### Resonance design
+
+The same formulas, solved for a component instead.
+
+1. Write down what's given and what's fixed. Usually one component is chosen for you.
+2. Use the bandwidth formula first, because it has only two components in it: series $L = \frac{R}{B}$, parallel $C = \frac{1}{RB}$.
+3. Then $\omega_0$ gives the last one: $C = \frac{1}{\omega_0^2 L}$ or $L = \frac{1}{\omega_0^2 C}$.
+4. If you're given $Q$ instead of $B$, convert: $B = \frac{\omega_0}{Q}$.
+5. Check by computing $\omega_0$ and $Q$ from your answer.
+
+### General resonance
+
+When the circuit isn't a plain series or parallel RLC (a coil with its own resistance, or an extra resistor somewhere), $\frac{1}{\sqrt{LC}}$ is **not** the answer.
+
+1. Write the input impedance $Z$, or the admittance $Y$ if the main branches are in parallel.
+2. Split it into real and imaginary parts (multiply by the conjugate to get $j$ out of any denominator).
+3. Resonance is where the circuit looks purely resistive, so set the **imaginary part to zero** and solve for $\omega$.
+4. Put that $\omega$ back into the real part to get the impedance at resonance.
+
+### Filter
+
+1. Redraw at $\omega \to 0$ and $\omega \to \infty$ with the short/open table and read $H(0)$ and $H(\infty)$. The table in [[#Passive Filters]] names the type.
+2. Find $H(s)$ (usually a voltage divider).
+3. **Cutoff** (low- or high-pass): set $|H(\omega_c)| = 0.707\,|H|_{\max}$ and solve. For one R and one C it's $\frac{1}{RC}$; for one R and one L it's $\frac{R}{L}$. It's where the reactance equals R.
+4. **Band-pass or band-stop:** these are series resonance in disguise. The centre is $\omega_0$, the band edges are $\omega_1$ and $\omega_2$, and the width is $B$.
+
 ## Examples
 
 Each example starts by predicting the answer from the circuit (shorts and opens, which factor wins where), then confirms it with the math. That habit catches most mistakes before they happen.
@@ -839,6 +926,93 @@ For the band-stop filter in Figure 14.11 with $R = 100\ \Omega$, $L = 0.1$ H and
 ![[ele-302-freq-ex12-bode.svg]]
 *Figure 14.21: Exact Bode plot for Example 12. The gain drops to zero ($-\infty$ dB) at $\omega_0 = 1000$ rad/s.*
 
+### Example 13: Design a resonant circuit
+
+(a) Design a series RLC with $\omega_0 = 1000$ rad/s and $B = 50$ rad/s, using $R = 10\ \Omega$. (b) Design a parallel RLC with the same $\omega_0$ and $B$, using $R = 10$ kΩ.
+
+**(a) Series.** The bandwidth formula has only R and L in it, so start there:
+
+$$
+B = \frac{R}{L} \quad\Rightarrow\quad L = \frac{R}{B} = \frac{10}{50} = 0.2\ \text{H}
+$$
+
+Then $\omega_0$ gives C:
+
+$$
+C = \frac{1}{\omega_0^2 L} = \frac{1}{(10^6)(0.2)} = 5\ \mu\text{F}
+$$
+
+Check: $Q = \frac{\omega_0 L}{R} = \frac{(1000)(0.2)}{10} = 20$, and $\frac{\omega_0}{B} = \frac{1000}{50} = 20$ ✓.
+
+**(b) Parallel.** Now the bandwidth formula has R and C in it:
+
+$$
+B = \frac{1}{RC} \quad\Rightarrow\quad C = \frac{1}{RB} = \frac{1}{(10^4)(50)} = 2\ \mu\text{F}, \qquad L = \frac{1}{\omega_0^2 C} = \frac{1}{(10^6)(2 \times 10^{-6})} = 0.5\ \text{H}
+$$
+
+Check: $Q = \omega_0 RC = (1000)(10^4)(2 \times 10^{-6}) = 20$ ✓.
+
+Notice that the parallel design needed a big R and the series one a small R, for the same $Q$. That's the "where does R sit" rule from [[#Parallel resonance]]: series R is in the circulating current's path, so it has to be small; parallel R is a leak, so it has to be large.
+
+### Example 14: A coil with resistance (tank circuit)
+
+A real inductor has resistance in its wire. Model a coil as $R = 100\ \Omega$ in series with $L = 20$ mH, and connect it in parallel with $C = 1\ \mu$F. Find the resonant frequency and the impedance at resonance.
+
+**Predict.** It looks like a parallel LC, so it's tempting to say $\frac{1}{\sqrt{LC}} = 7071$ rad/s. But the R is in series with L, inside one of the parallel branches, so this isn't a plain parallel RLC and that formula doesn't apply.
+
+**Admittance.** The two branches are in parallel, so add their admittances. Multiply the coil's by its conjugate to get the $j$ out of the denominator:
+
+$$
+Y = j\omega C + \frac{1}{R + j\omega L} = j\omega C + \frac{R - j\omega L}{R^2 + \omega^2 L^2}
+$$
+
+**Set the imaginary part to zero:**
+
+$$
+\omega C = \frac{\omega L}{R^2 + \omega^2 L^2} \quad\Rightarrow\quad R^2 + \omega^2 L^2 = \frac{L}{C} \quad\Rightarrow\quad \omega_0 = \sqrt{\frac{1}{LC} - \frac{R^2}{L^2}}
+$$
+
+With the numbers, $\frac{1}{LC} = 5 \times 10^7$ and $\frac{R^2}{L^2} = \frac{10^4}{4 \times 10^{-4}} = 2.5 \times 10^7$:
+
+$$
+\omega_0 = \sqrt{2.5 \times 10^7} = 5000\ \text{rad/s}
+$$
+
+That's 30% below the 7071 rad/s you'd get by ignoring the coil's resistance.
+
+**Impedance at resonance.** Only the real part of $Y$ is left. Since $R^2 + \omega_0^2L^2 = \frac{L}{C}$ there:
+
+$$
+Z = \frac{1}{\text{Re}(Y)} = \frac{R^2 + \omega_0^2 L^2}{R} = \frac{L}{RC} = \frac{0.02}{(100)(10^{-6})} = 200\ \Omega
+$$
+
+> [!note] As $R \to 0$, the $\frac{R^2}{L^2}$ term disappears and $\omega_0 \to \frac{1}{\sqrt{LC}}$. The ideal formula is fine when the coil's resistance is small, which means when $\frac{R}{L} \ll \frac{1}{\sqrt{LC}}$. If the term under the square root goes negative, the circuit never looks purely resistive and has no resonance at all.
+
+### Example 15: Find H from a Bode plot
+
+A straight-line Bode magnitude plot:
+
+|Range|What the plot does|
+|---|---|
+|$\omega < 10$|rises at $+20$ dB/decade, through 0 dB at $\omega = 1$|
+|$10 < \omega < 1000$|flat at 20 dB|
+|$\omega > 1000$|falls at $-20$ dB/decade|
+
+Find $H(s)$.
+
+1. **Low-frequency slope** $+20$ dB/decade: one zero at the origin, $j\omega$.
+2. **Corner at 10:** the slope changes by $-20$ (from $+20$ to 0), so a simple pole, $\left(1 + \frac{j\omega}{10}\right)^{-1}$.
+3. **Corner at 1000:** the slope changes by $-20$ again (from 0 to $-20$), another simple pole, $\left(1 + \frac{j\omega}{1000}\right)^{-1}$.
+4. **Find $K$.** Below 10 only $K$ and $j\omega$ are active, and $20\log|K\,j\omega| = 20\log K$ at $\omega = 1$. The plot is 0 dB there, so $K = 1$. (Check: at $\omega = 10$ the rising line is at $20\log 10 = 20$ dB, matching the flat part ✓.)
+
+$$
+H(j\omega) = \frac{j\omega}{\left(1 + \frac{j\omega}{10}\right)\left(1 + \frac{j\omega}{1000}\right)} \quad\Rightarrow\quad H(s) = \frac{10^4\,s}{(s + 10)(s + 1000)}
+$$
+
+Going back to $s$, the constants come back out: $\left(1 + \frac{s}{10}\right)\left(1 + \frac{s}{1000}\right) = \frac{(s + 10)(s + 1000)}{10^4}$. It's a band-pass from 10 to 1000 rad/s with a passband gain of 10, the same shape as Example 1.
+
+> [!warning] The magnitude plot alone can't tell you the sign of $K$. If the question also gives the phase plot and it starts at $+90^\circ \pm 180^\circ$ instead of $+90^\circ$, then $K$ is negative.
+
 ## Common mistakes
 
 - Plotting $(s + z)$ as if it were $(1 + s/z)$. The factor $z$ belongs in $K$
@@ -849,6 +1023,7 @@ For the band-stop filter in Figure 14.11 with $R = 100\ \Omega$, $L = 0.1$ H and
 - Using the series $B = R/L$ and $Q = \omega_0 L/R$ for a **parallel** circuit. Think about where R sits: in parallel it's $B = \frac{1}{RC}$ and $Q = \frac{R}{\omega_0 L}$
 - Using $\omega_0 \mp \frac{B}{2}$ when $Q$ is low. It's only accurate for $Q \geq 10$
 - Taking $\omega_0$ as the average of $\omega_1$ and $\omega_2$. It's the geometric mean
+- Using $\omega_0 = 1/\sqrt{LC}$ for a circuit that isn't plain series or parallel, such as a coil with resistance. Set $\text{Im}(Z) = 0$ or $\text{Im}(Y) = 0$ instead
 - Mixing rad/s and Hz. $1/\sqrt{LC}$ is in rad/s
 - Mixing peak and rms in power: $\frac{1}{2}I_m^2R$ vs. $I_{\text{rms}}^2R$
 - Trusting the straight lines near a lightly damped quadratic or a notch. That's exactly where they're furthest off
