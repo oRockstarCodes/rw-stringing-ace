@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 290" width="780" height="290" font-family="DM Sans, system-ui, sans-serif" font-size="13">
+<g>
+<text x="135" y="22" text-anchor="middle" fill="#8a8a93" font-weight="600">Unbiased (V_D = 0)</text>
+<path d="M20 60 H105 C135 60 135 120 165 120 H250" fill="none" stroke="#8a8a93" stroke-width="3"/>
+<path d="M20 150 H105 C135 150 135 210 165 210 H250" fill="none" stroke="#8a8a93" stroke-width="3"/>
+<line x1="20" y1="135" x2="250" y2="135" stroke="#2a9d8f" stroke-width="2.5"/>
+<text x="26" y="52" fill="#8a8a93" font-size="12">E_c</text><text x="26" y="172" fill="#8a8a93" font-size="12">E_v</text>
+<text x="30" y="128" fill="#2a9d8f" font-weight="600" font-size="12">E_F</text>
+<text x="60" y="250" text-anchor="middle" fill="#8a8a93" font-size="12">p</text><text x="210" y="250" text-anchor="middle" fill="#8a8a93" font-size="12">n</text>
+<text x="135" y="272" text-anchor="middle" fill="#8a8a93" font-size="12">barrier eV_bi</text>
+</g>
+<g>
+<text x="395" y="22" text-anchor="middle" fill="#8a8a93" font-weight="600">Forward (V_D &gt; 0)</text>
+<path d="M280 60 H365 C395 60 395 90 425 90 H510" fill="none" stroke="#8a8a93" stroke-width="3"/>
+<path d="M280 150 H365 C395 150 395 180 425 180 H510" fill="none" stroke="#8a8a93" stroke-width="3"/>
+<line x1="280" y1="135" x2="395" y2="135" stroke="#2a9d8f" stroke-width="2.5"/>
+<line x1="395" y1="105" x2="510" y2="105" stroke="#2a9d8f" stroke-width="2.5"/>
+<text x="286" y="52" fill="#8a8a93" font-size="12">E_c</text><text x="286" y="172" fill="#8a8a93" font-size="12">E_v</text>
+<text x="290" y="128" fill="#2a9d8f" font-weight="600" font-size="12">E_Fp</text>
+<text x="466" y="98" fill="#2a9d8f" font-weight="600" font-size="12">E_Fn</text>
+<text x="320" y="250" text-anchor="middle" fill="#8a8a93" font-size="12">p</text><text x="470" y="250" text-anchor="middle" fill="#8a8a93" font-size="12">n</text>
+<text x="395" y="272" text-anchor="middle" fill="#8a8a93" font-size="12">barrier e(V_bi − V_D) is lower</text>
+</g>
+<g>
+<text x="655" y="22" text-anchor="middle" fill="#8a8a93" font-weight="600">Reverse (V_D &lt; 0)</text>
+<path d="M540 60 H625 C655 60 655 150 685 150 H770" fill="none" stroke="#8a8a93" stroke-width="3"/>
+<path d="M540 150 H625 C655 150 655 240 685 240 H770" fill="none" stroke="#8a8a93" stroke-width="3"/>
+<line x1="540" y1="135" x2="655" y2="135" stroke="#2a9d8f" stroke-width="2.5"/>
+<line x1="655" y1="165" x2="770" y2="165" stroke="#2a9d8f" stroke-width="2.5"/>
+<text x="546" y="52" fill="#8a8a93" font-size="12">E_c</text><text x="546" y="172" fill="#8a8a93" font-size="12">E_v</text>
+<text x="550" y="128" fill="#2a9d8f" font-weight="600" font-size="12">E_Fp</text>
+<text x="726" y="158" fill="#2a9d8f" font-weight="600" font-size="12">E_Fn</text>
+<text x="580" y="250" text-anchor="middle" fill="#8a8a93" font-size="12">p</text><text x="730" y="256" text-anchor="middle" fill="#8a8a93" font-size="12">n</text>
+<text x="655" y="282" text-anchor="middle" fill="#8a8a93" font-size="12">barrier e(V_bi + V_R) is higher</text>
+</g>
+</svg>
