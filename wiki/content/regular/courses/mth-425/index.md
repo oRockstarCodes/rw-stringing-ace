@@ -12,7 +12,7 @@ tags:
 
 ## Summary
 
-Methods for solving differential equations: first-order techniques (separable, linear, exact, homogeneous, Bernoulli), higher-order linear equations (homogeneous, nonhomogeneous, variation of parameters, Cauchy-Euler), and the start of the Laplace transform.
+Methods for solving differential equations: first-order techniques (separable, linear, exact, homogeneous, Bernoulli), higher-order linear equations (homogeneous, nonhomogeneous, variation of parameters, Cauchy-Euler), and the Laplace transform (the table, inverse transforms, solving equations and systems, and translations with the unit step function).
 
 ## Schedule
 
