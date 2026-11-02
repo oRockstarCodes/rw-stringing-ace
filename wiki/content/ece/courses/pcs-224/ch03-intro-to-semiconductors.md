@@ -60,7 +60,7 @@ $n_i$ is the **intrinsic carrier concentration**. It depends only on the materia
 Adding small, controlled amounts of impurity atoms is **doping**, and a doped semiconductor is called **extrinsic**.
 
 ![[pcs-224-bond-picture.svg]]
-*Figure 3.1: Silicon bonds. Left: heat breaks a bond and makes an electron–hole pair. Middle: a phosphorus atom brings a spare electron. Right: a boron atom leaves a hole.*
+*Figure 3.1: Silicon bonds, two shared electrons per bond. Left: heat breaks a bond and makes an electron–hole pair. Middle: phosphorus has a 5th electron that isn't needed for bonding, so it breaks free and leaves a fixed P⁺ ion. Right: boron is one electron short, so it takes an electron from a neighbouring bond, becoming a fixed B⁻ ion, and the hole it leaves behind moves on.*
 
 **n-type.** Swap a few silicon atoms for a **Group V** atom such as phosphorus, which has 5 valence electrons. Four of them fill the bonds. The fifth has nowhere to go and is easily freed. Each of these atoms is a **donor**, with concentration $N_D$. If $N_D \gg n_i$, nearly every donor supplies one free electron:
 
