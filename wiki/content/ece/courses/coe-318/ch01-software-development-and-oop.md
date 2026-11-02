@@ -5,7 +5,7 @@ tags:
 ---
 ## Overview
 
-> [!info] Readings Lecture 1 · week 2 · no textbook chapter (Head First Java ch. 1–2 covers the same ground)
+> [!info] Readings no textbook chapter (Head First Java ch. 1–2 covers the same ground) · week 2
 
 Small programs can be written however you like. Big ones can't. Once a program has thousands of lines and several people working on it, the hard part stops being "how do I make the computer do this?" and becomes "how do we keep this from turning into a mess nobody understands?" This chapter is about the two big answers to that question:
 
@@ -215,7 +215,7 @@ What's happening:
 
 Code is read far more often than it's written, by other people and by you three weeks later. So:
 
-- Start with a program that works, change one thing, and see what happens. If it breaks, work out *why* before fixing it. That's how you learn what each piece does.
+- My advice: start with a program that works, change one thing, and see what happens. If it breaks, work out *why* before fixing it. That's how you learn what each piece does.
 - Indent everything between `{` and `}`. Then the structure (what's inside what) is visible at a glance, and a missing brace stands out.
 - Use meaningful names, like `averageGrade` instead of `dfiefjek`. A good name explains the code so a comment doesn't have to.
 
@@ -264,8 +264,6 @@ obj.method();                           // call a method on that object
 
 ### Example 1: `print` vs `println`
 
-> Lecture 1, console output
-
 What does this print?
 
 ```java
@@ -284,8 +282,6 @@ Hope it will be fun!
 
 ### Example 2: String concatenation in output
 
-> Lecture 1, StatementExample.java
-
 ```java
 int age;
 float weight;
@@ -301,8 +297,6 @@ System.out.println("My dog weighs " + weight + " pounds.");
 > [!tip] Whatever spaces are inside the string literals are exactly what get printed. Java won't add any for you.
 
 ### Example 3: Spot the bugs
-
-> Lecture 1, method slide
 
 ```java
 float sum(float numberOne, float numberTwo, float numberThree) {

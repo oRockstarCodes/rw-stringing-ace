@@ -5,7 +5,7 @@ tags:
 ---
 ## Overview
 
-> [!info] Readings Brown & Vranesic **§7.1–7.3, 7.4.2, 7.5, 7.8** · Lecture 8 · weeks 7–8
+> [!info] Readings Brown & Vranesic **§7.1–7.3, 7.4.2, 7.5, 7.8** · weeks 7–8
 
 Everything up to now has been **combinational**, meaning the output only depends on the inputs right now. A **sequential** circuit also depends on what happened before, because it **stores** a bit. This chapter covers the two basic storage elements, **latches** (level-sensitive) and **flip-flops** (edge-triggered), in the S-R, D, J-K and T varieties, plus the asynchronous preset and clear inputs. It ends with **registers**, which are just several flip-flops sharing one clock, and the **shift register**.
 
@@ -15,7 +15,7 @@ Everything up to now has been **combinational**, meaning the output only depends
 
 Both are **bistable**, meaning they have two stable states (storing a 0 or a 1) and stay in one until told to change. Both get this from **feedback**, where each gate's output is wired back into the input of the other gate.
 
-The difference is **when** they're allowed to change:
+The difference is **when** they're allowed to change. This is the one distinction I'd make sure you have down before anything else in this chapter:
 
 |Device|Changes state…|Sensitive to|
 |---|---|---|
@@ -241,11 +241,9 @@ $$
 
 ## Examples
 
-These are based on the Lecture 8 examples, with different input sequences written as tables (each column is one time interval).
+Try each one on paper before reading the solution.
 
 ### Example 1: S-R latch
-
-> Like the S-R latch slides
 
 An active-HIGH S-R latch starts RESET ($Q = 0$). Find $Q$ for this input sequence.
 
@@ -259,8 +257,6 @@ An active-HIGH S-R latch starts RESET ($Q = 0$). Find $Q$ for this input sequenc
 
 ### Example 2: Active-LOW latch
 
-> Like the NAND latch slide
-
 A NAND $\overline{S}$-$\overline{R}$ latch starts SET ($Q = 1$). Find $Q$ for $\overline{S}\,\overline{R} = 11, 10, 11, 01, 11$.
 
 |$\overline{S}$|1|1|1|0|1|
@@ -271,8 +267,6 @@ A NAND $\overline{S}$-$\overline{R}$ latch starts SET ($Q = 1$). Find $Q$ for $\
 - $11$: hold. $10$: $\overline{R}$ is LOW, so reset. $11$: hold. $01$: $\overline{S}$ is LOW, so set. $11$: hold.
 
 ### Example 3: Gated S-R latch
-
-> Like Lecture 8, Example 1
 
 A gated S-R latch starts RESET. Find $Q$.
 
@@ -290,8 +284,6 @@ A gated S-R latch starts RESET. Find $Q$.
 
 ### Example 4: Gated D latch
 
-> Like Lecture 8, Example 2
-
 A gated D latch starts RESET. Find $Q$.
 
 |Interval|1|2|3|4|5|6|7|8|
@@ -304,8 +296,6 @@ While $EN = 1$, $Q$ copies $D$ (intervals 1–2 and 5–6). While $EN = 0$, $Q$ 
 
 ### Example 5: D flip-flop
 
-> Like Lecture 8, "D Flip-Flop" example
-
 A positive edge-triggered D flip-flop starts RESET. The value of $D$ at each of five rising clock edges is $1, 1, 0, 1, 0$. Find $Q$ after each edge.
 
 |Rising edge|1|2|3|4|5|
@@ -316,8 +306,6 @@ A positive edge-triggered D flip-flop starts RESET. The value of $D$ at each of 
 $\overline{Q}$ is always the opposite: $0, 0, 1, 0, 1$. Changes in $D$ **between** edges have no effect.
 
 ### Example 6: J-K flip-flop
-
-> Like Lecture 8, Example 4
 
 A positive edge-triggered J-K flip-flop starts RESET. Find $Q$ after each edge.
 
@@ -346,8 +334,6 @@ $D$ and a control signal are fed to both a gated D latch (control = $EN$) and a 
 
 ### Example 8: Asynchronous preset and clear
 
-> Like Lecture 8, Example 5
-
 A positive edge-triggered D flip-flop with active-LOW $\overline{PRE}$ and $\overline{CLR}$ starts with $Q = 0$, and $D = 1$ the whole time. Find $Q$.
 
 |Interval|1|2|3|4|5|6|
@@ -364,8 +350,6 @@ A positive edge-triggered D flip-flop with active-LOW $\overline{PRE}$ and $\ove
 
 ### Example 9: Master-slave D flip-flop
 
-> Like Figure 7.10
-
 A master-slave D flip-flop starts with $Q = 0$. Each clock cycle is split into a HIGH half and a LOW half, and $D$ is given at the start and end of each HIGH half. Find $Q_m$ and $Q$.
 
 |Clock cycle|1|2|3|
@@ -379,8 +363,6 @@ A master-slave D flip-flop starts with $Q = 0$. Each clock cycle is split into a
 
 ### Example 10: T flip-flop
 
-> Like Figure 7.16
-
 A positive edge-triggered T flip-flop starts RESET. The value of $T$ at six rising edges is $1, 0, 1, 1, 0, 1$. Find $Q$ after each edge.
 
 |Rising edge|1|2|3|4|5|6|
@@ -389,11 +371,9 @@ A positive edge-triggered T flip-flop starts RESET. The value of $T$ at six risi
 |Mode|toggle|hold|toggle|toggle|hold|toggle|
 |$Q$ after|**1**|**1**|**0**|**1**|**1**|**0**|
 
-With $T$ held at 1, the output would toggle on every edge, giving a square wave at **half** the clock frequency. That's the basic idea behind counters (Ch 8).
+With $T$ held at 1, the output would toggle on every edge, giving a square wave at **half** the clock frequency. That's the basic idea behind counters.
 
 ### Example 11: Shift register
-
-> Like Figure 7.18
 
 A 4-bit right-shift register starts at $Q_1Q_2Q_3Q_4 = 0000$. The bits on $In$ before six rising edges are $1, 1, 0, 1, 0, 0$. Find the contents after each edge.
 

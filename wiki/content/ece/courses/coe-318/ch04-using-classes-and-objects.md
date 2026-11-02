@@ -5,7 +5,7 @@ tags:
 ---
 ## Overview
 
-> [!info] Readings Lecture 4 · week 4 · Reference ch. 4, 10
+> [!info] Readings Reference ch. 4, 10 · week 4
 
 A single object isn't very useful. Real programs are made of many objects that hold references to each other and pass information back and forth. This chapter is about the questions that come up as soon as objects start interacting:
 
@@ -16,7 +16,7 @@ A single object isn't very useful. Real programs are made of many objects that h
 
 It starts with Java's built-in `String` class, which is the first object most programs use and a good illustration of all of these.
 
-> [!tip] Nearly every surprise in this chapter is the reference idea from [[ch03-variables|Ch 3]] again: an object variable holds an address, not the object. When something behaves strangely, draw the boxes and arrows.
+> [!tip] Nearly every surprise in this chapter is the reference idea from [[ch03-variables|Ch 3]] again: an object variable holds an address, not the object. When something behaves strangely, I draw the boxes and arrows.
 
 ## Notes
 
@@ -68,7 +68,7 @@ What "equal" means depends on what you're comparing:
 
 |Type|How to compare|Why|
 |---|---|---|
-|`int`, `long`, `char`|`==`|Whole numbers are stored exactly|
+|`byte`, `short`, `int`, `long`|`==`|Whole numbers are stored exactly|
 |`float`, `double`|`Math.abs(a - b) < TOLERANCE`|Decimals are only stored approximately, so `0.1 + 0.2 == 0.3` is `false`|
 |`char`|`==`, `<`, `>`|Compares Unicode numbers: `'0' < 'L'` is `true`|
 |`String` / objects|`.equals()`|`==` compares addresses, not contents|
@@ -215,8 +215,6 @@ $$
 
 ### Example 1: String methods
 
-> Lecture 4, String slides
-
 Given `String licensePlate = new String("ABC 41");`, what is each value?
 
 ```java
@@ -240,8 +238,6 @@ Indices: `A`=0, `B`=1, `C`=2, space=3, `4`=4, `1`=5.
 7. `sub3` throws `StringIndexOutOfBoundsException`: index 8 is past the end of a 6-character string
 
 ### Example 2: Pass by value vs reference
-
-> Lecture 4, parameter passing
 
 What does this print?
 
@@ -271,8 +267,6 @@ static void update(int n, Car c) {
 Prints `5 80.0`.
 
 ### Example 3: Tracing an array of linked objects
-
-> Lecture 4, challenging quiz (Act 1)
 
 ```java
 class Coord {
@@ -324,8 +318,6 @@ System.out.println(alias[3].x + "," + alias[3].y);
 
 ### Example 4: Design an `Airport` class from its output
 
-> Lecture 4, design question
-
 Write the `Airport` class so this `main` gives the output below.
 
 ```java
@@ -367,8 +359,6 @@ public class Airport {
 ```
 
 ### Example 5: Library system design
-
-> Lecture 4, design case study
 
 A Book has a title, author and ISBN. A Member has a name and can borrow multiple books. A Library manages its books and members. John borrows *Anne of Green Gables*.
 

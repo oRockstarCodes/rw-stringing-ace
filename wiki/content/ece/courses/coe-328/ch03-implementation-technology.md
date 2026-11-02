@@ -5,7 +5,7 @@ tags:
 ---
 ## Overview
 
-> [!info] Readings Brown & Vranesic **§3.1–3.3, 3.5–3.6, 3.8.8, 3.9** · Lecture 5 · week 5
+> [!info] Readings Brown & Vranesic **§3.1–3.3, 3.5–3.6, 3.8.8, 3.9** · week 5
 
 This chapter is about how logic gates are actually built. Transistors work as **voltage-controlled switches**, where NMOS pulls an output **down** to ground and PMOS pulls it **up** to $V_{DD}$. Wiring them in series and parallel gives you NAND, NOR and more complex gates, and **CMOS** uses both types together so no current flows when the gate is idle. The second half is about how gates get packaged and sold: **7400-series chips**, then programmable devices (**PLAs, CPLDs, FPGAs**), along with fan-out and transmission gates.
 
@@ -198,7 +198,7 @@ The recipe is to describe *when the output is 1* for the PUN and *when it's 0* f
 
 That uses fewer transistors than building each AND and OR as its own gate.
 
-> [!tip] To sanity check a design, pick one input combination and trace it. Does exactly one network conduct? If both do, you've made a short from $V_{DD}$ to GND, and if neither does, the output floats.
+> [!tip] To sanity check a design, I pick one input combination and trace it. Does exactly one network conduct? If both do, you've made a short from $V_{DD}$ to GND, and if neither does, the output floats.
 
 ### Speed of logic gates
 
@@ -210,7 +210,7 @@ The ideal-switch model tells you **what** a gate does, but not **how fast**. In 
 
 Back to the bucket picture. Opening the fill valve doesn't make the level jump to the top, because the water has to flow in through a narrow pipe (the resistance), and a bigger bucket (more capacitance) takes longer to fill. It's also why a gate output is never a perfect square edge. See [[propagation-delay|Propagation Delay]] for the picture and how it limits clock speed.
 
-Detailed timing analysis isn't covered in this course, but remember the idea: more load (more capacitance) means a slower gate.
+We don't do detailed timing analysis in this course, but remember the idea: more load (more capacitance) means a slower gate.
 
 **Fan-in and fan-out (§3.8.8)**
 
@@ -344,11 +344,9 @@ $$
 
 ## Examples
 
-These are based on the lecture's examples and check-your-understanding questions, with different functions.
+Try each one on paper before reading the solution.
 
 ### Example 1: Reading an NMOS circuit
-
-> Like the lecture's NMOS NAND/NOR slides
 
 An NMOS gate has a pull-up resistor to $V_{DD}$. Its pull-down network is NMOS $A$ in series with NMOS $B$, and that pair is in parallel with NMOS $C$. Find $f$.
 
@@ -357,8 +355,6 @@ An NMOS gate has a pull-up resistor to $V_{DD}$. Its pull-down network is NMOS $
    $$f = \overline{AB + C}$$
 
 ### Example 2: Designing a complex CMOS gate
-
-> Like textbook Examples 3.1–3.2
 
 Design a CMOS circuit for $f = \overline{AB + C}$ and count its transistors.
 
@@ -373,8 +369,6 @@ Design a CMOS circuit for $f = \overline{AB + C}$ and count its transistors.
 
 ### Example 3: CMOS gate from an expression with complemented inputs
 
-> Like the lecture's "Derive a CMOS Network" worked example
-
 Design the CMOS networks for $f = \overline{A}\,\overline{B} + \overline{C}$.
 
 1. **PUN** from $f = 1$: ($A = 0$ AND $B = 0$) OR $C = 0$ → PMOS $A$ **series** $B$, that pair **parallel** with PMOS $C$.
@@ -383,8 +377,6 @@ Design the CMOS networks for $f = \overline{A}\,\overline{B} + \overline{C}$.
 
 ### Example 4: Transistor states in a CMOS NOR
 
-> Like the CMOS NAND truth-table slide
-
 For a 2-input CMOS NOR with $A = 0$, $B = 1$: which transistors are ON, and what is $f$?
 
 1. **PUN** (two PMOS in **series**): PMOS $A$ is ON (gate 0), PMOS $B$ is OFF (gate 1). Series needs both, so the PUN is **off**.
@@ -392,8 +384,6 @@ For a 2-input CMOS NOR with $A = 0$, $B = 1$: which transistors are ON, and what
 3. The output is connected to GND, so $f = 0$. Check: $\overline{0 + 1} = 0$ ✓
 
 ### Example 5: Implementing a function with 7400-series chips
-
-> Like the lecture's chip-level implementation of $f = x_1 x_2 + \overline{x_2} x_3$
 
 Implement $f = \overline{x_1}\,x_3 + x_2 x_3$ with 7400-series chips. Which chips are needed, and how many gates are left over?
 
@@ -405,8 +395,6 @@ Implement $f = \overline{x_1}\,x_3 + x_2 x_3$ with 7400-series chips. Which chip
 
 ### Example 6: XOR transistor count
 
-> Like the §3.9.1 discussion
-
 How many transistors does a CMOS XOR take when built from AND, OR, and NOT gates, versus with transmission gates?
 
 1. **Gates:** $x_1\overline{x_2} + \overline{x_1}x_2$ needs 2 NOTs (2 transistors each), 2 ANDs (6 each), and 1 OR (6):
@@ -414,8 +402,6 @@ How many transistors does a CMOS XOR take when built from AND, OR, and NOT gates
 2. **Transmission gates:** 2 inverters (2 each) + 2 transmission gates (2 each) = **8**.
 
 ### Example 7: PLA product terms
-
-> Like the lecture's PLA slide
 
 A PLA must implement $f_1 = x_1x_2 + \overline{x_1}\,x_3$ and $f_2 = x_1x_2 + x_3$. How many product terms does the AND plane need?
 
@@ -425,8 +411,6 @@ A PLA must implement $f_1 = x_1x_2 + \overline{x_1}\,x_3$ and $f_2 = x_1x_2 + x_
 **3 product terms**, since $P_1$ is shared by both outputs.
 
 ### Example 8: Programming a LUT
-
-> Like the LUT description (Figure 3.36)
 
 What bits are stored in a 2-input LUT to make it an XNOR gate? What would change to make it a NAND?
 

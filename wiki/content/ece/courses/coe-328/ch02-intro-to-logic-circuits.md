@@ -5,7 +5,7 @@ tags:
 ---
 ## Overview
 
-> [!info] Readings Brown & Vranesic **§2.1–2.10** · Lectures 2–4 (*Logic Gates*, *Boolean Algebra*, *NAND and NOR Logic Networks*) · weeks 2–4
+> [!info] Readings Brown & Vranesic **§2.1–2.10** · weeks 2–4
 
 **Logic gates** are what every digital circuit is built from, and **Boolean algebra** is the math that describes them. This chapter goes through each gate, how to read a circuit as a Boolean expression (and the other way around), the rules for simplifying expressions, the two standard forms (**SOP** and **POS**), how to build anything out of only NAND or only NOR gates, and the basic design process: specification → truth table → expression → circuit.
 
@@ -170,7 +170,7 @@ A simpler expression means **fewer gates** for the same function, so fewer chips
 - **Remove a complemented literal** with Rule 11: $A + \overline{A}B = A + B$
 - **Duplicate a term** you need twice (Rule 5: $X = X + X$)
 
-> [!example] Lecture example: $AB + A(B + C) + B(B + C)$
+> [!example] Example: $AB + A(B + C) + B(B + C)$
 > $$
 > \begin{aligned}
 > &= AB + AB + AC + BB + BC &&\text{distribute} \\
@@ -230,7 +230,7 @@ So from any truth table:
 
 The two lists are complements of each other, so every row number shows up in exactly one of them.
 
-> [!note] The lecture slides (Floyd) call this the "binary value" of a term. $A\overline{B}C\overline{D}$ has binary value 1010 because that's the one input that makes it 1, and $A + \overline{B} + C + \overline{D}$ has binary value 0101 because that's the one input that makes it 0. It's the same idea as $m_{10}$ and $M_5$.
+> [!note] Floyd calls this the "binary value" of a term. $A\overline{B}C\overline{D}$ has binary value 1010 because that's the one input that makes it 1, and $A + \overline{B} + C + \overline{D}$ has binary value 0101 because that's the one input that makes it 0. It's the same idea as $m_{10}$ and $M_5$.
 
 ### NAND and NOR logic
 
@@ -354,11 +354,9 @@ $$
 
 ## Examples
 
-These are based on the lecture examples, with the numbers and circuits changed.
+Try each one on paper before reading the solution.
 
 ### Example 1: Truth table for a multi-input gate
-
-> Like Lecture 2, Example 2
 
 (a) Write the truth table for a 3-input NOR gate. (b) How many input combinations does a 5-input NAND gate have?
 
@@ -372,8 +370,6 @@ These are based on the lecture examples, with the numbers and circuits changed.
 
 ### Example 2: Choosing a gate from active-LOW sensors
 
-> Like Lecture 2, Examples 10–11 and 14–15
-
 A press has two safety guards. Each guard's sensor outputs **LOW when the guard is closed** and HIGH when it's open. (a) Pick one gate whose output is HIGH (enabling the press) only when **both guards are closed**. (b) Pick one gate whose output is HIGH (a warning light) when **at least one guard is open**.
 
 **(a)** "Both inputs LOW → output HIGH" is a **negative-AND**, which is a **NOR** gate: $X = \overline{A + B} = \overline{A}\,\overline{B}$.
@@ -383,8 +379,6 @@ A press has two safety guards. Each guard's sensor outputs **LOW when the guard 
 > [!tip] When a question has active-LOW inputs, think negative-OR (NAND) and negative-AND (NOR).
 
 ### Example 3: DeMorgan with several variables
-
-> Like Lecture 3, Examples 3–5
 
 Apply DeMorgan's theorems to (a) $\overline{(A + \overline{B})C}$ and (b) $\overline{A\overline{B}C + \overline{D}E}$.
 
@@ -398,8 +392,6 @@ $$\overline{A\overline{B}C + \overline{D}E} = (\overline{A\overline{B}C})(\overl
 
 ### Example 4: Expression with nested bars
 
-> Like Lecture 3, "Applying DeMorgan's Theorems"
-
 Simplify $\overline{(\overline{A} + B)\,\overline{CD}}$ so that bars only sit over single variables.
 
 1. **Longest bar first.** It covers a product of two terms, so it turns into a sum:
@@ -410,8 +402,6 @@ Simplify $\overline{(\overline{A} + B)\,\overline{CD}}$ so that bars only sit ov
 $$\Rightarrow\quad A\overline{B} + CD$$
 
 ### Example 5: From a circuit to a truth table
-
-> Like Lecture 3, "Boolean Expression for a Logic Circuit"
 
 Find the expression and the truth table for the circuit in Figure 2.2.
 
@@ -427,8 +417,6 @@ Find the expression and the truth table for the circuit in Figure 2.2.
 |$X$|0|0|1|0|1|0|1|0|
 
 ### Example 6: Simplifying with Boolean algebra
-
-> Like Lecture 3, Examples 7–8
 
 Simplify (a) $AB + A\overline{B} + \overline{A}B$ and (b) $ABC + A\overline{B}(\overline{A} + C)$.
 
@@ -452,8 +440,6 @@ $$
 
 ### Example 7: Nonstandard SOP to standard SOP
 
-> Like Lecture 3, Examples 10–11 and 14
-
 Convert $X = A\overline{B} + B\overline{C}$ (domain $A, B, C$) to standard SOP, then write its truth table.
 
 1. **Each term is missing one variable,** so multiply by $(\text{missing} + \overline{\text{missing}})$:
@@ -467,8 +453,6 @@ Convert $X = A\overline{B} + B\overline{C}$ (domain $A, B, C$) to standard SOP, 
 |$X$|0|0|1|0|1|1|1|0|
 
 ### Example 8: Nonstandard POS to standard POS
-
-> Like Lecture 3, Examples 12–13 and 15
 
 Convert $X = (A + \overline{B})(B + C)$ to standard POS and find the rows where it's 0.
 
@@ -485,8 +469,6 @@ Convert $X = (A + \overline{B})(B + C)$ to standard POS and find the rows where 
 So $X = 0$ on rows 0, 2, 3, 4 and $X = 1$ on rows 1, 5, 6, 7.
 
 ### Example 9: Truth table to SOP and POS
-
-> Like Lecture 3, Example 16
 
 Write the standard SOP and POS for this truth table.
 
@@ -506,8 +488,6 @@ $$X = (A + B + C)(A + \overline{B} + C)(\overline{A} + B + C)(\overline{A} + B +
 
 ### Example 10: NAND logic with dual symbols
 
-> Like Lecture 4, Examples 7–8
-
 Implement $X = A\overline{B} + CD$ using only NAND gates, drawn with dual symbols.
 
 1. **Start from AND-OR:** two ANDs ($A\overline{B}$ and $CD$) feeding an OR.
@@ -522,8 +502,6 @@ $$X = \overline{\overline{A\overline{B}}\;\overline{CD}} = \overline{\overline{A
 
 ### Example 11: NOR logic
 
-> Like Lecture 4, Examples 9–10
-
 Implement $X = (A + B)(\overline{C} + D)$ using only NOR gates.
 
 1. **Start from OR-AND:** ORs for $A + B$ and $\overline{C} + D$, then an AND.
@@ -534,8 +512,6 @@ Implement $X = (A + B)(\overline{C} + D)$ using only NOR gates.
 $$X = \overline{\overline{A + B} + \overline{\overline{C} + D}} = \overline{\overline{A + B}}\;\overline{\overline{\overline{C} + D}} = (A + B)(\overline{C} + D) \;✓$$
 
 ### Example 12: Output waveform of a circuit
-
-> Like Lecture 4, "Pulse Waveform Operation" and Examples 11–12
 
 The circuit $X = \overline{A(B + C)}$ is an OR gate ($Y = B + C$) feeding a NAND with $A$. The inputs over eight equal time intervals are below. Find $Y$ and $X$.
 
@@ -548,11 +524,9 @@ The circuit $X = \overline{A(B + C)}$ is an OR gate ($Y = B + C$) feeding a NAND
 |$AY$|0|0|1|1|0|0|1|0|
 |$X = \overline{AY}$|**1**|**1**|**0**|**0**|**1**|**1**|**0**|**1**|
 
-> [!tip] Work out the in-between waveforms first (here $Y$), one gate at a time. Jumping straight to $X$ is where mistakes happen.
+> [!tip] I always work out the in-between waveforms first (here $Y$), one gate at a time. Jumping straight to $X$ is where mistakes happen.
 
 ### Example 13: Design a majority circuit
-
-> Like the §2.8 design examples
 
 Design a circuit for three judges ($A$, $B$, $C$) that outputs $f = 1$ when **at least two** judges vote yes (1). Simplify it.
 

@@ -137,7 +137,7 @@ An ideal op amp is a lot easier to work with. You assume $A \to \infty$, $R_i \t
 1. **No current into the inputs:** $i_+ = i_- = 0$
 2. **The inputs are at the same voltage** (virtual short): $v_+ = v_-$ (only valid with negative feedback)
 
-> [!tip] Solving method Use the two ideal rules, then do **KCL at the inverting node**. Don't write KCL at the output node, since the op amp supplies some unknown current there.
+> [!tip] My solving method: use the two ideal rules, then do **KCL at the inverting node**. Don't write KCL at the output node, since the op amp supplies some unknown current there.
 
 
 ### Real Op Amp Model
@@ -240,11 +240,9 @@ $$
 
 ## Examples
 
-These are based on the assigned textbook problems for Chapter 5, with the numbers changed. Tutorial problems are marked **(T)**, and the quiz problems will be similar to those.
+Problems marked **(T)** are tutorial problems. Try each one on paper before reading the solution.
 
 ### Example 1: Op amp equivalent model
-
-> Like Prob. 5.1
 
 The equivalent model of an op amp is shown in Figure 5.5. Determine (a) the input resistance, (b) the output resistance, and (c) the voltage gain in dB.
 
@@ -259,8 +257,6 @@ Everything can be read right off the diagram:
   $$A_{dB} = 20\log_{10}A = 20\log_{10}(2 \times 10^5) = 106.02\ \text{dB}$$
 
 ### Example 2: Non-ideal voltage follower
-
-> Like Prob. 5.5
 
 The op amp in Figure 5.6 has an open-loop gain of 50,000, an input resistance of 20 kΩ, and an output resistance of 50 Ω. Find the voltage gain $v_o/v_i$ using the non-ideal model.
 
@@ -277,8 +273,6 @@ The op amp in Figure 5.6 has an open-loop gain of 50,000, an input resistance of
 > [!note] The ideal answer is exactly 1. The non-ideal model is only worth the algebra when the question asks for it, like this one does.
 
 ### Example 3: Non-ideal inverting amplifier (T)
-
-> Like Prob. 5.7 (T)
 
 The op amp in Figure 5.7 has $R_i = 200\ \text{k}\Omega$, $R_o = 50\ \Omega$, and $A = 200{,}000$. Find the differential voltage $v_d$ and the output voltage $v_o$.
 
@@ -302,8 +296,6 @@ Call the inverting-input node $v_1$. Since $v_+ = 0$, $v_d = v_+ - v_- = -v_1$, 
 
 ### Example 4: Sources connected directly to the inputs
 
-> Like Prob. 5.9
-
 Determine $v_o$ in the op amp circuit of Figure 5.8.
 
 ![[ele-302-opamp-ex04-sources-on-inputs.svg]]
@@ -314,8 +306,6 @@ Determine $v_o$ in the op amp circuit of Figure 5.8.
    $$\frac{v_- - v_o}{5\text{k}} = 2\text{m} \quad\Rightarrow\quad 3 - v_o = 10 \quad\Rightarrow\quad v_o = -7\ \text{V}$$
 
 ### Example 5: Find $v_o$ and $i_o$
-
-> Like Probs. 5.13 and 5.29
 
 Find $v_o$ and $i_o$ in the circuit of Figure 5.9.
 
@@ -332,8 +322,6 @@ Find $v_o$ and $i_o$ in the circuit of Figure 5.9.
 > [!tip] The feedback path counts as a load too. Forgetting that is the most common mistake on $i_o$ questions.
 
 ### Example 6: T-network in the feedback (T)
-
-> Like Prob. 5.15 (T)
 
 (a) Determine the ratio $v_o/i_s$ for the circuit in Figure 5.10. (b) Evaluate it for $R_1 = 10\ \text{k}\Omega$, $R_2 = 5\ \text{k}\Omega$, $R_3 = 20\ \text{k}\Omega$.
 
@@ -356,8 +344,6 @@ $$\frac{v_o}{i_s} = -\left(10\text{k} + 20\text{k} + \frac{(10\text{k})(20\text{
 
 ### Example 7: Find $i_o$ with a resistor network on the input
 
-> Like Prob. 5.19
-
 Determine $i_o$ in the circuit of Figure 5.11.
 
 ![[ele-302-opamp-ex07-input-network.svg]]
@@ -376,8 +362,6 @@ So 0.5 mA actually flows *up* through the load, into the op amp's output.
 
 ### Example 8: Current source on the input, and power
 
-> Like Prob. 5.33
-
 Refer to the op amp circuit in Figure 5.12. Calculate $i_x$ and the power absorbed by the 6 kΩ load.
 
 ![[ele-302-opamp-ex08-current-source.svg]]
@@ -392,8 +376,6 @@ Refer to the op amp circuit in Figure 5.12. Calculate $i_x$ and the power absorb
 
 ### Example 9: Summing amplifier, find an unknown input
 
-> Like Prob. 5.39
-
 For the circuit in Figure 5.13, determine the value of $v_2$ that makes $v_o = -9\ \text{V}$.
 
 ![[ele-302-opamp-ex09-summing.svg]]
@@ -405,8 +387,6 @@ For the circuit in Figure 5.13, determine the value of $v_2$ that makes $v_o = -
    $$-2\,v_2 = -9 \quad\Rightarrow\quad v_2 = 4.5\ \text{V}$$
 
 ### Example 10: Design problem
-
-> Like Prob. 5.45
 
 Design an op amp circuit to perform $v_o = 2v_1 - 3v_2$. All resistances must be ≤ 100 kΩ.
 
@@ -424,8 +404,6 @@ Design an op amp circuit to perform $v_o = 2v_1 - 3v_2$. All resistances must be
 
 ### Example 11: Difference amplifier with mismatched resistors
 
-> Like Prob. 5.47
-
 The circuit in Figure 5.15 is a difference amplifier. Find $v_o$ given $v_1 = 2\ \text{V}$ and $v_2 = 3\ \text{V}$.
 
 ![[ele-302-opamp-ex11-difference.svg]]
@@ -441,8 +419,6 @@ The circuit in Figure 5.15 is a difference amplifier. Find $v_o$ given $v_1 = 2\
 > [!warning] The shortcut would give $\frac{20}{5}(3 - 2) = 4\ \text{V}$ here, which is wrong. Always check the ratios first.
 
 ### Example 12: Cascaded stages (T)
-
-> Like Prob. 5.59 (T)
 
 In the circuit of Figure 5.16, determine the voltage gain $v_o/v_s$. Take $R = 10\ \text{k}\Omega$.
 

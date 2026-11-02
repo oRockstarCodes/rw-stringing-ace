@@ -5,7 +5,7 @@ tags:
 ---
 ## Overview
 
-> [!info] Readings Brown & Vranesic **§4.2** · Lecture 3 (second half: *Karnaugh Map*) · week 4
+> [!info] Readings Brown & Vranesic **§4.2** · week 4
 
 A **Karnaugh map (K-map)** is a truth table rearranged so the terms that can be combined sit next to each other. Grouping the 1s gives you the **minimum SOP** expression and grouping the 0s gives you the **minimum POS**. This chapter covers 3- and 4-variable maps, the grouping rules, "don't care" conditions, and switching between SOP and POS on the map.
 
@@ -63,7 +63,7 @@ $$\overline{A} \to 000, 001, 010, 011 \qquad A\overline{B} \to 100, 101 \qquad A
 
 ### Grouping the 1s (SOP)
 
-The goal is **the biggest groups you can make, using as few groups as possible**.
+The goal is **the biggest groups you can make, using as few groups as possible**. I always start with the biggest group I can find and work down from there.
 
 1. A group has to contain **1, 2, 4, 8, or 16** cells (a power of 2).
 2. A group has to be a **rectangle** of adjacent cells (wrap-around counts).
@@ -191,11 +191,9 @@ $$
 
 ## Examples
 
-These are based on the lecture's K-map examples, with different functions. Each map is live, so click cells to play around with it.
+Each map is live, so click cells to play around with it.
 
 ### Example 1: Minimize a standard SOP
-
-> Like Lecture 3, Example 21
 
 Minimize $X = \overline{A}\,\overline{B}\,\overline{C} + \overline{A}\,\overline{B}C + A\overline{B}\,\overline{C} + A\overline{B}C + AB\overline{C}$.
 
@@ -208,8 +206,6 @@ $$X = \overline{B} + A\overline{C}$$
 <div class="melon-logic" data-view="kmap" data-vars="3" data-ones="0,1,4,5,6">Karnaugh map for Example 1 (open this page on the site to use it).</div>
 
 ### Example 2: Map a nonstandard SOP
-
-> Like Lecture 3, "Mapping a Nonstandard SOP Expression" and Example 17
 
 Map and minimize $X = \overline{B}\,\overline{C} + AB + A\overline{B}C$ (domain $A, B, C$).
 
@@ -226,8 +222,6 @@ $$X = A + \overline{B}\,\overline{C}$$
 
 ### Example 3: Wrap-around and corners
 
-> Like Lecture 3, Example 22
-
 Minimize $X = \sum m(0, 2, 5, 7, 8, 10, 13, 15)$.
 
 1. **The four corners** (0, 2, 8, 10) are all adjacent by wrap-around. $B = 0$, $D = 0$ in all of them → $\overline{B}\,\overline{D}$.
@@ -241,8 +235,6 @@ This is the map loaded in the interactive above. It's also $\overline{B \oplus D
 
 ### Example 4: Overlapping groups
 
-> Like Lecture 3, Examples 19–20
-
 Minimize $X = \sum m(0, 1, 2, 3, 4, 6, 8, 9, 10, 11)$.
 
 1. **Group of 8:** rows $00$ and $10$ (cells 0–3 and 8–11) are adjacent by wrap-around. Only $B = 0$ stays fixed → $\overline{B}$.
@@ -255,8 +247,6 @@ $$X = \overline{B} + \overline{A}\,\overline{D}$$
 <div class="melon-logic" data-view="kmap" data-vars="4" data-ones="0,1,2,3,4,6,8,9,10,11">Karnaugh map for Example 4 (open this page on the site to use it).</div>
 
 ### Example 5: Don't cares with BCD inputs
-
-> Like Lecture 3, Example 23 (7-segment display)
 
 A circuit reads a BCD digit $ABCD$ and outputs $X = 1$ when the digit is **5 or more**. Minimize it, using don't cares for the invalid codes.
 
@@ -274,8 +264,6 @@ $$X = A + BD + BC$$
 
 ### Example 6: POS minimization
 
-> Like Lecture 3, Example 25
-
 Minimize $X = \prod M(0, 2, 4, 5)$ as a POS expression.
 
 1. **0s** go in cells 0, 2, 4, 5.
@@ -290,8 +278,6 @@ This is the same function as Example 9 in [[ch02-intro-to-logic-circuits|Ch 2]].
 
 ### Example 7: 4-variable POS
 
-> Like Lecture 3, Examples 24 and 26
-
 Minimize $X = \prod M(0, 2, 3, 8, 10, 11)$.
 
 1. **The four corners** (0, 2, 8, 10): $B = 0$, $D = 0$ → $(B + D)$.
@@ -302,8 +288,6 @@ $$X = (B + D)(B + \overline{C})$$
 <div class="melon-logic" data-view="kmap" data-vars="4" data-ones="1,4,5,6,7,9,12,13,14,15" data-mode="pos">Karnaugh map for Example 7 (open this page on the site to use it).</div>
 
 ### Example 8: SOP and POS from the same map
-
-> Like Lecture 3, Example 27
 
 For the function in Example 7, find the standard SOP and the minimum SOP. Which form is cheaper?
 
@@ -317,7 +301,7 @@ For the function in Example 7, find the standard SOP and the minimum SOP. Which 
 
 <div class="melon-logic" data-view="kmap" data-vars="4" data-ones="1,4,5,6,7,9,12,13,14,15">Karnaugh map for Example 8 (open this page on the site to use it).</div>
 
-The SOP needs one AND and one OR (plus an inverter for $\overline{C}$), while the POS from Example 7 needs two ORs and an AND. They're equal, since by Rule 12, $(B + D)(B + \overline{C}) = B + \overline{C}D$.
+The SOP is cheaper. It needs one AND and one OR (plus an inverter for $\overline{C}$), while the POS from Example 7 needs two ORs and an AND (plus the same inverter). Both are the same function, since the distributive law gives $(B + D)(B + \overline{C}) = B + \overline{C}D$.
 
 ## Common mistakes
 

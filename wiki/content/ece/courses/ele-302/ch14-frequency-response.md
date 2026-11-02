@@ -604,7 +604,7 @@ When the circuit isn't a plain series or parallel RLC (a coil with its own resis
 
 ## Examples
 
-Each example starts by predicting the answer from the circuit (shorts and opens, which factor wins where), then confirms it with the math. That habit catches most mistakes before they happen.
+I start every example by predicting the answer from the circuit (shorts and opens, which factor wins where), then confirm it with the math. That habit catches most mistakes before they happen.
 
 ### Example 1: Transfer function from a circuit, then its Bode plot
 

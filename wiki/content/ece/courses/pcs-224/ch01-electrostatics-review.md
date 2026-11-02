@@ -7,109 +7,114 @@ tags:
 
 > [!info] Readings Serway & Jewett **22.4, 24.1, 24.2, 24.4, 25.1, 25.2** · week 1
 
-Every semiconductor device in this course, from the p-n junction to the MOSFET, works by **moving charge through electric fields and potential differences**. This chapter is a quick refresher of the electrostatics you'll need, plus the habits (units, dimensional analysis, problem-solving order) that the rest of the course relies on.
+Every device in this course works by pushing charge around with electric fields. Before we get to diodes and transistors, I want the electrostatics to feel easy, because everything later is built on it.
 
-The whole chapter comes down to four ideas:
+Four ideas cover almost the whole chapter:
 
-1. A charge $q$ in a field $\vec{E}$ feels a force $\vec{F} = q\vec{E}$.
+1. A charge $q$ in an electric field $\vec{E}$ feels a force $\vec{F} = q\vec{E}$.
 2. Potential $V$ is **energy per unit charge**, so a charge's potential energy is $U = qV$.
-3. Potential **falls along the field** and rises against it, and $E$ is the (negative) slope of $V$.
-4. With only the electric force acting, $\Delta K + \Delta U = 0$. Almost every problem here is this one equation.
+3. Potential **drops** as you move along the field and **rises** as you move against it. The field is how steep that drop is: $E = -dV/dx$.
+4. If the electric force is the only thing acting, then $\Delta K + \Delta U = 0$. Almost every problem here is just this equation.
 
-> [!note] Why a semiconductor course starts here
-> An integrated circuit is just a huge number of transistors, diodes, resistors and capacitors made out of one piece of semiconductor. A diode is a region with a built-in electric field, and a MOSFET is a capacitor whose electric field switches a channel on and off. If you can read a field and a potential, you can read a device.
+> [!note] Why start here
+> A chip is a huge number of diodes, transistors, resistors and capacitors built on one piece of semiconductor. A diode is a region with a built-in electric field. A MOSFET is a capacitor whose field switches a channel on and off. If you can read a field and a potential, you can read a device.
 
 ## Notes
 
 ### Electric fields and forces
 
-Charged objects change the space around them, and we say they create an **electric field** $\vec{E}$. Any other charge that sits in that field feels a force.
+A charged object changes the space around it. We call that change an **electric field** $\vec{E}$. Any other charge placed in the field feels a force:
 
 $$
 \vec{F} = q\vec{E} \tag{1.1}
 $$
 
-- If $q > 0$, $\vec{F}$ points the **same way** as $\vec{E}$.
-- If $q < 0$, $\vec{F}$ points the **opposite way**.
+- If $q > 0$, the force points the **same way** as $\vec{E}$.
+- If $q < 0$, the force points the **opposite way**.
 - $\vec{E}$ points **away** from positive charge and **toward** negative charge.
-- In Eq. (1.1), $\vec{E}$ is made by *other* (source) charges, never by the test charge $q$ itself.
+- The field in (1.1) comes from *other* charges, never from the charge $q$ that feels the force.
 - Fields from several sources **add as vectors**.
 
-**Field of a large charged plate.** Far from its edges (the distance to the plate $d$ is much smaller than its size), a flat sheet of charge makes a **uniform** field. The depletion region in a diode has exactly this kind of geometry. It's easier to describe the sheet by its charge per area, $\sigma = Q/A$:
+**A large charged plate.** If you're close to a big flat plate (the distance is much smaller than the plate's size), the field is the same everywhere. A diode's depletion region looks like this, so we'll use it a lot. It's easiest to describe the plate by its charge per area, $\sigma = Q/A$:
 
 $$
-E = \frac{\sigma}{2\varepsilon_0} \quad \text{(one sheet)} \tag{1.2}
+E = \frac{\sigma}{2\varepsilon_0} \quad \text{(one plate)} \tag{1.2}
 $$
 
-Two large plates carrying $+Q$ and $-Q$ add inside the gap and cancel outside:
+Put a $+Q$ plate and a $-Q$ plate facing each other. Their fields add in the gap and cancel outside:
 
 $$
 E = \frac{\sigma}{\varepsilon_0} = \frac{Q}{\varepsilon_0 A} \quad \text{(between the plates)}, \qquad E = 0 \quad \text{(outside)} \tag{1.3}
 $$
 
-Between the plates the field points from the $+$ plate to the $-$ plate and has the same value everywhere in the gap.
+Between the plates the field points from $+$ to $-$ and is the same size everywhere in the gap.
 
-> [!tip] A quick check on direction: at a point between the plates, the $+$ plate pushes a positive test charge away from itself and the $-$ plate pulls it in, so both contributions point the same way. That's why they add in the gap instead of cancelling.
+![[pcs-224-charged-plates.svg]]
+*Figure 1.1: The field of one large plate points away from it on both sides. Two opposite plates add inside the gap and cancel outside.*
 
-### Electric potential energy and electric potential
+> [!tip] Why the fields add in the gap: the $+$ plate pushes a positive test charge away, and the $-$ plate pulls it in. Both push the same way, so they add. Outside the plates they push opposite ways and cancel.
 
-The electric force is **conservative**, so work done by it is stored as **electric potential energy** $U$, just like with gravity. The **potential** $V$ is the potential energy *per unit charge*. It belongs to the point in space, not to any particular charge you put there:
+### Potential energy and potential
+
+The electric force is **conservative**. That means the work it does is stored as **potential energy** $U$, exactly like lifting a ball stores gravitational energy.
+
+**Potential** $V$ is potential energy *per unit charge*. Think of it as the "height" of a spot in the field. It belongs to the spot, not to the charge you put there:
 
 $$
 \Delta U = q\,\Delta V \tag{1.4}
 $$
 
-Energy conservation for a charge that only feels the electric force:
+If the electric force is the only force doing work, energy is conserved:
 
 $$
 \Delta K + \Delta U = 0 \tag{1.5}
 $$
 
-Here $\Delta K$ is the change in kinetic energy. If $U$ goes up, $K$ goes down by the same amount.
+$K$ is kinetic energy. If $U$ goes up, $K$ goes down by the same amount, just like a ball slowing as it climbs.
 
-**Uniform field.** For a charge that moves a distance $\Delta y$ along a uniform field $E$, the potential changes by
+**Uniform field.** Move a distance $\Delta y$ along a uniform field $E$, and the potential changes by
 
 $$
 \Delta V = V_B - V_A = -E\,\Delta y \tag{1.6}
 $$
 
-where $\Delta y$ is **positive when you move in the direction of $\vec{E}$**. So:
+Here $\Delta y$ is **positive when you move in the direction of $\vec{E}$**. In words:
 
-- Moving **along** $\vec{E}$: $V$ **decreases**. Field lines point "downhill".
-- Moving **against** $\vec{E}$: $V$ **increases**. Moving toward a positive charge raises the potential.
-- Moving **perpendicular** to $\vec{E}$: $V$ doesn't change.
+- Move **along** $\vec{E}$ and $V$ **drops**. Field lines point "downhill".
+- Move **against** $\vec{E}$ and $V$ **rises**. Moving toward a positive charge raises the potential.
+- Move **sideways** to $\vec{E}$ and $V$ doesn't change.
 
 ![[pcs-224-uniform-field-potential.svg]]
-*Figure 1.1: Between two large oppositely charged plates the field is uniform and the potential falls linearly from the $+$ plate to the $-$ plate.*
+*Figure 1.2: Between two large, oppositely charged plates the field is uniform, and the potential falls in a straight line from the $+$ plate to the $-$ plate.*
 
-**Field from potential.** Eq. (1.6) is a special case of the general relation between the two:
+**Getting the field from the potential.** Equation (1.6) is a special case of a more general rule:
 
 $$
 E = -\frac{dV}{dx} \tag{1.7}
 $$
 
-$E$ measures how **steep** the potential is. A strong field is a steep slope on the potential "map" and a weak field is a gentle slope. $V$ is a number but $E$ is a vector, which is why in 3D the derivative becomes a gradient, $\vec{E} = -\nabla V$. In this course the field is almost always one-dimensional, so Eq. (1.7) is enough.
+The field is the **steepness** of the potential. Picture a hill: a steep slope means a strong field, a gentle slope means a weak one. (In 3D the derivative becomes a gradient, $\vec{E} = -\nabla V$, but in this course the field is almost always one-dimensional.)
 
-**The electron-volt.** The joule is huge compared to the energy of one electron, so we use
+**The electron-volt.** A joule is enormous compared to the energy of one electron, so we use a smaller unit:
 
 $$
 1\ \text{eV} = 1.602\times10^{-19}\ \text{J} \tag{1.8}
 $$
 
-One electron-volt is the energy a charge $e$ gains or loses moving through a potential difference of **1 V**. Because $\Delta U = q\Delta V$, a charge $\pm e$ moving through $\Delta V$ volts changes its energy by exactly $\Delta V$ electron-volts, so you don't need any conversion.
+One electron-volt is the energy a charge $e$ gains or loses when it moves through **1 V**. Since $\Delta U = q\Delta V$, a charge of $\pm e$ moving through $\Delta V$ volts changes its energy by exactly $\Delta V$ eV. No conversion needed.
 
-> [!tip] Doing the energy accounting in eV is the fastest way through every problem in this chapter. A $+e$ charge that climbs a $+6$ V potential rise gains $+6$ eV of potential energy and loses $6$ eV of kinetic energy. An electron ($-e$) does the opposite and gains $K$ when it moves to *higher* potential.
+> [!tip] I do all the energy bookkeeping in eV. A $+e$ charge that climbs a $6$ V rise gains $6$ eV of potential energy and loses $6$ eV of kinetic energy. An electron ($-e$) does the opposite: it speeds up when it moves to *higher* potential.
 
-### Working with units
+### Units
 
-Physics deals with real quantities, not pure numbers, so every quantity has a unit and the units have to make sense. The course expects you to follow these rules:
+Every quantity in physics has a unit, and the units have to make sense. My rules:
 
-- The dimensions on both sides of an equation have to match.
-- You can only add or subtract quantities with the same dimensions.
-- Every final answer needs units.
-- Units follow ordinary algebra ($\text{s}\times\text{s} = \text{s}^2$), so checking the units of a formula you derived catches algebra mistakes.
+- Both sides of an equation must have the same units.
+- You can only add or subtract quantities with the same units.
+- Every final answer needs a unit.
+- Units multiply and cancel like ordinary algebra ($\text{s}\times\text{s} = \text{s}^2$). Checking the units of a formula you derived is the fastest way to catch a mistake.
 
-The SI units you'll use all term:
+These are the SI units we'll use all term:
 
 | Quantity | Symbol | Unit |
 | --- | --- | --- |
@@ -122,18 +127,18 @@ The SI units you'll use all term:
 | Magnetic field | $B$ | T = V·s/m² |
 | Capacitance | $C$ | F = C/V |
 
-The only temperature unit in this course is the kelvin, $T(\text{K}) = T(^\circ\text{C}) + 273$. Metric prefixes ($\text{n}=10^{-9}$, $\mu=10^{-6}$, $\text{m}=10^{-3}$, $\text{k}=10^{3}$) show up constantly. Carriers per **cm³** is the usual unit for concentration in devices, so you'll be converting between m and cm a lot.
+Temperature is always in kelvin: $T(\text{K}) = T(^\circ\text{C}) + 273$. You'll also see metric prefixes constantly: $\text{n}=10^{-9}$, $\mu=10^{-6}$, $\text{m}=10^{-3}$, $\text{k}=10^{3}$. Device concentrations are usually in **cm⁻³**, so you'll be switching between m and cm a lot.
 
-> [!warning] Semiconductor problems mix SI and "device" units, with lengths in cm, concentrations in cm⁻³, mobility in cm²/(V·s), but $B$ in tesla (which is built from **metres**). Pick one system for the whole calculation and convert the odd one out first.
+> [!warning] Semiconductor problems mix unit systems: lengths in cm, concentrations in cm⁻³, mobility in cm²/(V·s), but $B$ in tesla, which is built from **metres**. Pick one system for the whole problem and convert the odd one out first.
 
-**Problem-solving order** the course asks for:
+**How I solve every problem:**
 
-1. Get an equation for the quantity you want, and don't plug in numbers until the last step.
-2. When you do, write the units next to every number.
-3. Check that the units of your answer are right.
-4. Ask whether the answer is reasonable.
+1. Write an equation for what you want, and don't plug in numbers until the last step.
+2. When you do, write the unit next to every number.
+3. Check that the answer has the right units.
+4. Ask whether the answer makes sense.
 
-Those four steps catch both algebra mistakes and unit-conversion mistakes.
+Those four steps catch both algebra mistakes and unit mistakes.
 
 ## Key formulas
 
@@ -176,11 +181,9 @@ $$
 
 ## Examples
 
-These are in the style of the lecture's clicker questions, with different numbers.
+Try each one on paper before reading the solution.
 
 ### Example 1: Electron crossing a gap
-
-> Like the plate/KE clicker questions
 
 Two large parallel plates are $8.0$ mm apart with a potential difference of $300$ V. An electron is released from rest at the negative plate. Find (a) the field between the plates, (b) the electron's kinetic energy at the positive plate, and (c) its speed there.
 
@@ -206,8 +209,6 @@ That's about 3% of the speed of light, so the non-relativistic $K = \frac{1}{2}m
 
 ### Example 2: Potential difference from a field
 
-> Like the "$E = 1000$ V/cm, A to B" questions
-
 A uniform field of $E = 800$ V/cm points to the right. Point B is $0.35$ cm to the right of point A. (a) Find $V_B - V_A$. (b) Find $V_B - V_A$ if instead B is $0.35$ cm to the **left** of A.
 
 **(a)** B is **along** the field from A, so potential falls. By Eq. (1.6):
@@ -225,8 +226,6 @@ $$
 > [!note] The same distance gives equal and opposite answers. The sign just tells you whether you went with the field (downhill) or against it (uphill).
 
 ### Example 3: How far before it turns around?
-
-> Like the "KE 12 eV / 4 eV, how far?" clicker questions
 
 A proton ($+e$) with $10$ eV of kinetic energy moves **against** a uniform field of $3.0$ V/cm. (a) What's its kinetic energy after $2.0$ cm? (b) How far does it travel before turning around?
 
@@ -246,8 +245,6 @@ $$
 
 ### Example 4: Reading a potential energy
 
-> Like the "$U$ = 5 eV at A, 6 eV at B" clicker questions
-
 A positive charge $q = +e$ has $U_A = 5$ eV and $U_B = 6$ eV near a large charged plate. (a) What is $V_B - V_A$? (b) Which point has the larger speed? (c) Which way does the field point, A to B or B to A?
 
 **(a)** $\Delta U = q\Delta V$ with $q = +e$ means $\Delta V$ in volts equals $\Delta U$ in eV:
@@ -263,8 +260,6 @@ $$
 > [!tip] For a **negative** charge the sign flips. $\Delta V = \Delta U / (-e)$, so the same $U_A = 5$ eV, $U_B = 6$ eV would mean $V_B - V_A = -1$ V.
 
 ### Example 5: Units check
-
-> Like the "magnetic field in T" exercise
 
 Show that the tesla can be written as V·s/m².
 

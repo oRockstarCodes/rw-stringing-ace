@@ -188,7 +188,7 @@ $$
 
 So the junction conducts easily in one direction and hardly at all in the other. That's what a diode is.
 
-**The diode equation** (from the review lecture; details in Neamen 8.5.1) summarises this:
+**The diode equation** (details in Neamen 8.5.1) summarises this:
 
 $$
 I_D = I_S\left(e^{V_D/V_t} - 1\right), \qquad V_t = \frac{k_BT}{e} \tag{7.10}
@@ -298,8 +298,6 @@ $$
 
 ### Example 1: Built-in potential
 
-> Like the lecture's built-in potential clicker
-
 A silicon p-n junction at $300$ K has $N_d = 6\times10^{16}$ cm⁻³ and $N_a = 1\times10^{16}$ cm⁻³ on the n side, and $N_a = 2\times10^{17}$ cm⁻³ on the p side. Find $V_{bi}$. Use $n_i = 1.5\times10^{10}$ cm⁻³.
 
 The n side has both kinds of doping, so use the **net** donor concentration:
@@ -314,21 +312,17 @@ $$
 V_{bi} = (0.02586)\ln\frac{(2\times10^{17})(5\times10^{16})}{(1.5\times10^{10})^2} = (0.02586)\ln(4.44\times10^{13}) = (0.02586)(31.4) = 0.81\ \text{V}
 $$
 
-That matches the lecture's answer choice of $0.814$ V (the tiny difference is rounding in $k_BT$ and $n_i$).
+This agrees with $0.814$ V; the tiny difference is rounding in $k_BT$ and $n_i$.
 
 > [!warning] Using the *total* $N_d = 6\times10^{16}$ instead of the net $5\times10^{16}$ gives $0.82$ V. The difference is small here only because of the logarithm, but net doping is what the formula needs.
 
 ### Example 2: Does $V_{bi}$ double if $T$ doubles?
-
-> Like the temperature clicker
 
 For a given device, the temperature doubles. What happens to the potential barrier?
 
 It **changes, but doesn't exactly double, because $n_i$ depends on temperature too**. In $V_{bi} = \dfrac{k_BT}{e}\ln\dfrac{N_aN_d}{n_i^2}$, the prefactor does double, but $n_i$ grows rapidly with $T$ ([[ch06-carrier-concentrations|Chapter 6]]), which shrinks the logarithm. The doping $N_a$ and $N_d$ are fixed by the crystal and don't change with $T$.
 
 ### Example 3: The total barrier under bias
-
-> Like the three bias clicker questions
 
 A diode has $V_{bi} = 0.65$ V. Find the total barrier (a) with a $0.2$ V reverse bias, (b) when the p side is connected to the positive terminal of a $0.2$ V source.
 
@@ -347,8 +341,6 @@ $$
 **Fermi levels in each case.** In forward bias $E_{Fn}$ is $0.2$ eV *above* $E_{Fp}$, so the p-side Fermi level is the **lower** one. (In reverse bias it's the opposite.) The Fermi levels are aligned only at zero bias.
 
 ### Example 4: Depletion widths under reverse bias
-
-> Like the lecture's "$N_a = 2\times10^{16}$, $N_d = 5\times10^{15}$, 2.1 V" example
 
 A silicon p-n junction at $300$ K has $N_a = 2\times10^{16}$ cm⁻³ and $N_d = 5\times10^{15}$ cm⁻³. Find $x_n$, $x_p$, $w$ and $E_{\max}$ at a reverse bias of $2.1$ V.
 
@@ -394,8 +386,6 @@ Check with the triangle: $\tfrac{1}{2}w|E_{\max}| = \tfrac{1}{2}(0.95\times10^{-
 
 ### Example 5: Scaling with bias
 
-> Like the $x_n = 0.12\ \mu$m clicker
-
 A silicon junction has $x_n = 0.12\ \mu$m with no bias and $V_{bi} = 0.5$ V. Find $x_n$ with a $1.5$ V reverse bias, and say what happens to $x_p$ if $x_n$ rises by 50%.
 
 Since $x_n \propto \sqrt{V_{total}}$ and the doping doesn't change, take a ratio:
@@ -413,8 +403,6 @@ For the second part, $x_p = (N_d/N_a)\,x_n$ with a *fixed* ratio, so if $x_n$ in
 > [!tip] Without the doping values you can still compare widths by taking ratios. Both $x_n$ and $x_p$ scale with the same $\sqrt{V_{total}}$ factor, so everything except $V_{total}$ drops out.
 
 ### Example 6: Which way does the field point?
-
-> Like the electric field clicker
 
 A silicon p-n junction at $300$ K has $N_a$ on the p side and $N_d$ on the n side. In the depletion region, which way does the electric field point?
 

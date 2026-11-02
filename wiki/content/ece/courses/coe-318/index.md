@@ -23,7 +23,7 @@ The software development cycle (requirements, implementation, testing, debugging
 
 | Week | Topic | Readings |
 | --- | --- | --- |
-| 2 | [[ch01-software-development-and-oop\|1. Software Development Cycle & OOP]] | Lecture notes (no textbook chapter) |
+| 2 | [[ch01-software-development-and-oop\|1. Software Development Cycle & OOP]] | No textbook chapter (Head First Java ch. 1–2) |
 | 2 | [[ch02-classes-and-objects\|2. Classes and Objects]] | Reference ch. 1–2 |
 | 2–4 | [[ch03-variables\|3. Variables]] | Reference ch. 3 |
 | 4 | [[ch04-using-classes-and-objects\|4. Using Classes and Objects]] | Reference ch. 4, 10 |
@@ -64,4 +64,4 @@ Theory and lab must each be passed (≥ 50%) separately. Labs are due 11:59 PM t
 
 ## Resources
 
-- Course outline, slides, and lab materials: on D2L / Brightspace (not reposted here)
+- Course outline and lab materials: on D2L / Brightspace (not reposted here)

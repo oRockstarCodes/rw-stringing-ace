@@ -5,7 +5,7 @@ tags:
 ---
 ## Overview
 
-> [!info] Readings Lecture 6 · week 6 · Reference ch. 6
+> [!info] Readings Reference ch. 6 · week 6
 
 This chapter covers more of what Java lets you do with classes and arrays. **Typecasting** moves an object reference up and down a class hierarchy. **`ArrayList`** is an array that grows and shrinks. **Command-line arguments** and **variable-length parameter lists** change how a method gets its data. The big topic is **`static`**: members that belong to the *class* rather than to each object. It ends with **`final`**, which stops a value from changing.
 
@@ -179,7 +179,7 @@ public static double average(double... numbers) {
 
 average(10, 20, 30);        // 20.0
 average(5, 15);             // 10.0
-average(4.5, 3.5, 2.0, 6.0) // 4.0
+average(4.5, 3.5, 2.0, 6.0); // 4.0
 ```
 
 Inside the method, `numbers` is just a `double[]`.
@@ -382,7 +382,7 @@ private static final double c
 
 ### Reading a stacked declaration
 
-Week 6 questions often pile several modifiers onto one line. Don't read `private static final int ID = 10;` as one rule. Split it up and ask one question per word:
+Questions often pile several modifiers onto one line. Don't read `private static final int ID = 10;` as one rule. Split it up and ask one question per word:
 
 |Part|Question|
 |---|---|
@@ -391,7 +391,7 @@ Week 6 questions often pile several modifiers onto one line. Don't read `private
 |`final`|Can it be reassigned?|
 |`int`|What type of value does it hold?|
 
-Do this for every field **before** you trace any code (it's how Example 2 is solved). For a `static` method, also ask whether it touches instance state directly, and if so, which object would supply it. For `ArrayList` traces, write out the index and value rows after every `add` or `remove` instead of tracking the shifts in your head.
+I do this for every field **before** I trace any code (it's how Example 2 is solved). For a `static` method, also ask whether it touches instance state directly, and if so, which object would supply it. For `ArrayList` traces, write out the index and value rows after every `add` or `remove` instead of tracking the shifts in your head.
 
 ## Key syntax
 
@@ -438,8 +438,6 @@ private static final double SPEED_LIMIT = 120;
 
 ### Example 1: `Foo` and the static counter
 
-> Lecture 6, static variables and methods
-
 `f()` is now `static`. What does this print?
 
 ```java
@@ -473,8 +471,6 @@ Prints `Foo.i: 5`, `Foo.i: 6`, `g.i: 7`.
 
 ### Example 2: Which `Lottery` lines don't compile?
 
-> Lecture 6, in-class activity
-
 ```java
  1  public class Lottery {
  2      private static int numTickets;
@@ -505,8 +501,6 @@ Prints `Foo.i: 5`, `Foo.i: 6`, `g.i: 7`.
 27  }
 ```
 
-(The slide numbers its lines 1–21 with the closing braces tacked onto the last statement of each method. They're written out here so each statement gets its own line.)
-
 Go through the class one member at a time:
 
 1. **Second constructor (lines 10–13):** `ID` is `final`, and **every** constructor has to set it. This one never does. **Error.**
@@ -521,8 +515,6 @@ Go through the class one member at a time:
 **Compile errors:** the second constructor (lines 10–13), line 15, line 23 and line 25. Everything else compiles.
 
 ### Example 3: Fill in the `Badge` blanks
-
-> Lecture 6, in-class activity
 
 Replace the placeholders (no spaces or semicolons inside one) so the program prints the expected output.
 
@@ -578,8 +570,6 @@ Expected output, one block per `i`:
 
 ### Example 4: Which lines compile with `final`?
 
-> Lecture 6, in-class activity
-
 ```java
 class Box {
     int value;
@@ -611,8 +601,6 @@ class Test {
 
 ### Example 5: Variable-length average
 
-> Lecture 6, `MathUtils` and `VarargsTest`
-
 What does this print?
 
 ```java
@@ -639,8 +627,6 @@ public class MathUtils {
 Prints `20.0`, `10.0`, `4.0`. One method handles all three because `numbers` is a `double[]` of whatever length was passed.
 
 ### Example 6: Insert into an `ArrayList`
-
-> Lecture 6, `Beatles` code
 
 Trace the list from the `Beatles` program in the Notes:
 

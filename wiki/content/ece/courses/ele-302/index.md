@@ -20,7 +20,7 @@ Continues circuit analysis from ELE 202: op amps, second-order transients, frequ
 
 ## Schedule
 
-| Week | Lecture | Lab / tutorial · assessments |
+| Week | Chapter | Lab / tutorial · assessments |
 | --- | --- | --- |
 | 1 (Sep 8) | [[ch05-operational-amplifiers\|Ch 5]] | — |
 | 2 (Sep 15) | [[ch05-operational-amplifiers\|Ch 5]] | Tutorial 1: op amps |
@@ -53,4 +53,4 @@ Theory and lab must each be passed (≥ 50%) separately.
 
 ## Resources
 
-- Course outline, slides, and lab materials: on D2L / Brightspace (not reposted here)
+- Course outline and lab materials: on D2L / Brightspace (not reposted here)

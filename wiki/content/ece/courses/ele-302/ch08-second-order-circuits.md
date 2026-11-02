@@ -9,7 +9,7 @@ tags:
 
 A **second-order circuit** has two energy-storage elements, usually an [[capacitors-and-inductors|inductor and a capacitor]], that can't be combined into one. They can't be merged because they relate voltage and current in opposite ways. An inductor's voltage depends on the **derivative** of its current, while a capacitor's voltage depends on the **integral** of its current. Having both in one circuit means it follows a second-order differential equation, so the response needs **two** initial conditions instead of one. Depending on how much resistance there is, the response either dies away smoothly or rings (oscillates) as energy sloshes back and forth between the L and the C.
 
-Pretty much every problem in this chapter is solved with the same four steps:
+I solve pretty much every problem in this chapter with the same four steps:
 
 1. **Write the differential equation** for the circuit after the switch moves, using KVL and/or KCL.
 2. **Find the natural solution** from the homogeneous equation and its characteristic equation.
@@ -353,11 +353,9 @@ $$
 
 ## Examples
 
-These are based on the assigned textbook problems for Chapter 8, with the numbers changed. Tutorial problems are marked **(T)**, and the quiz problems will be similar to those.
+Problems marked **(T)** are tutorial problems. Try each one on paper before reading the solution.
 
 ### Example 1: Initial and final values
-
-> Like Prob. 8.1
 
 The switch in Figure 8.5 has been closed for a long time and opens at $t = 0$. Find (a) $i(0^+)$ and $v(0^+)$, (b) $\frac{di}{dt}(0^+)$ and $\frac{dv}{dt}(0^+)$, (c) $i(\infty)$ and $v(\infty)$.
 
@@ -395,8 +393,6 @@ i(\infty) = 0, \qquad v(\infty) = 0
 $$
 
 ### Example 2: Initial values with a step source
-
-> Like Prob. 8.3
 
 For the circuit in Figure 8.8, find (a) $i_L(0^+)$, $v_C(0^+)$ and $v_R(0^+)$, (b) $\frac{di_L}{dt}(0^+)$, $\frac{dv_C}{dt}(0^+)$ and $\frac{dv_R}{dt}(0^+)$, (c) $i_L(\infty)$, $v_C(\infty)$ and $v_R(\infty)$.
 
@@ -443,8 +439,6 @@ $$
 
 ### Example 3: Type of damping
 
-> Like Prob. 8.7
-
 A series RLC circuit has $R = 50\ \Omega$, $L = 10\ \text{mH}$ and $C = 1\ \mu\text{F}$. What type of damping does it have? What value of $R$ would make it critically damped?
 
 The type of damping only depends on how $\alpha$ compares with $\omega_0$ (Step 2), so find both.
@@ -459,8 +453,6 @@ The type of damping only depends on how $\alpha$ compares with $\omega_0$ (Step 
    Any $R$ above 200 Ω makes it overdamped.
 
 ### Example 4: Source-free series RLC (T)
-
-> Like Prob. 8.16 (T)
 
 The switch in Figure 8.11 has been closed for a long time and opens at $t = 0$. Find $i(t)$ for $t > 0$.
 
@@ -542,8 +534,6 @@ Since $\cos(x + \frac{\pi}{2}) = -\sin x$, this is the same as $-1.5\,e^{-6t}\si
 
 ### Example 5: Switch from A to B, overdamped
 
-> Like Prob. 8.17
-
 In Figure 8.14, the switch has been at A for a long time and moves to B at $t = 0$ (a make-before-break switch, so the inductor current is never interrupted). Find $v(t)$ for $t \geq 0$.
 
 ![[ele-302-rlc-ex05-series-overdamped.svg]]
@@ -608,8 +598,6 @@ v(t) = \begin{cases} 18\ \text{V}, & t < 0 \\ 24e^{-t} - 6e^{-4t}\ \text{V}, & t
 $$
 
 ### Example 6: Source-free parallel RLC (T)
-
-> Like Prob. 8.18 (T)
 
 The switch in Figure 8.17 has been closed for a long time and opens at $t = 0$. Find $v(t)$ for $t > 0$.
 
@@ -678,8 +666,6 @@ $$
 
 ### Example 7: Choose C for a given $\alpha$
 
-> Like Prob. 8.23
-
 For the network in Figure 8.20, what value of $C$ makes the response underdamped with $\alpha = 2\ \text{Np/s}$?
 
 ![[ele-302-rlc-ex07-find-c.svg]]
@@ -692,8 +678,6 @@ For the network in Figure 8.20, what value of $C$ makes the response underdamped
 3. **Check it's underdamped.** That needs $\alpha < \omega_0$. By Eq. (8.9), $\omega_0 = \frac{1}{\sqrt{(0.1)(0.05)}} = 14.14\ \text{rad/s}$, which is bigger than $\alpha = 2$ ✓. It oscillates at $\omega_d = \sqrt{200 - 4} = 14\ \text{rad/s}$.
 
 ### Example 8: Solving a step-response equation
-
-> Like Prob. 8.27
 
 A branch voltage in an RLC circuit is described by
 $$\frac{d^2 v}{dt^2} + 6\frac{dv}{dt} + 25v = 50$$
@@ -739,8 +723,6 @@ v(t) = 2 + 2.5\,e^{-3t}\cos(4t + 2.498)\ \text{V}
 $$
 
 ### Example 9: General circuit with two sources
-
-> Like Prob. 8.41
 
 For the circuit in Figure 8.21, find $i(t)$ and $v(t)$ for $t > 0$.
 
@@ -836,8 +818,6 @@ $$
 
 ### Example 10: Choose R and C for a given $\alpha$ and $\omega_d$
 
-> Like Prob. 8.43
-
 The switch in Figure 8.24 is opened at $t = 0$ after the circuit has reached steady state. (a) Choose $R$ and $C$ so that $\alpha = 10\ \text{Np/s}$ and $\omega_d = 20\ \text{rad/s}$. (b) With those values, find $i(t)$ for $t > 0$.
 
 ![[ele-302-rlc-ex10-choose-rc.svg]]
@@ -909,8 +889,6 @@ $$
 
 ### Example 11: Step response with L in parallel with C (T)
 
-> Like Prob. 8.46 (T)
-
 In Figure 8.27, no energy is stored at $t = 0^-$. Find $i(t)$ for $t > 0$.
 
 ![[ele-302-rlc-ex11-lc-step.svg]]
@@ -970,8 +948,6 @@ $$
 > [!note] $i(0^+) = 6\ \text{A}$ even though $i(0^-) = 0$. That's fine, because $i$ isn't an inductor current. At the first instant the uncharged capacitor acts like a short across the inductor, so the source only sees the 2 Ω.
 
 ### Example 12: Step response of a parallel RLC
-
-> Like Prob. 8.47
 
 The switch in Figure 8.28 has been closed for a long time and opens at $t = 0$. Find $v_o(t)$ for $t > 0$.
 

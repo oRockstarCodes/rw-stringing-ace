@@ -34,8 +34,8 @@ To make an AND gate, store $0, 0, 0, 1$. To make an OR gate, store $0, 1, 1, 1$.
 
 The selection is done with a tree of **multiplexers** (see [[ch06-combinational-building-blocks|Ch 6]]):
 
-1. The first multiplexer pair, controlled by $x_1$ (or $x_2$), narrows four cells down to two.
-2. The last multiplexer, controlled by the other input, picks one of the two.
+1. Two multiplexers, both controlled by $x_2$, each narrow a pair of cells ($b_0, b_1$ and $b_2, b_3$) down to one.
+2. The last multiplexer, controlled by $x_1$, picks one of those two.
 
 Each input cuts the number of candidates in half, so $k$ inputs pick one of $2^k$ cells.
 

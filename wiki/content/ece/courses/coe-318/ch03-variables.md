@@ -5,7 +5,7 @@ tags:
 ---
 ## Overview
 
-> [!info] Readings Lecture 3 · weeks 2–4 · Reference ch. 3
+> [!info] Readings Reference ch. 3 · weeks 2–4
 
 [[ch02-classes-and-objects|Ch 2]] showed how to write a class and make objects from it. This chapter opens the hood and looks at what Java is **actually doing** while the program runs: how it decides which method or constructor to call, where each variable lives in memory and for how long, and what really happens when you copy a variable that refers to an object.
 
@@ -53,7 +53,7 @@ public class Person {           // immutable
 
 **Why make something immutable?** Because then you never have to wonder whether it changed. Once a `Person` is created, any code anywhere can hold a reference to it and rely on the name staying put. With a mutable object, some other piece of code holding the same reference could change it under you (see aliasing, below). Immutability protects data that genuinely shouldn't change, like a licence plate or a voter registration, from both bugs and deliberate tampering. Java's own `String` is immutable for exactly this reason ([[ch04-using-classes-and-objects|Ch 4]]).
 
-> [!tip] To check whether a class is immutable, ask two things: is every field `private` (so nobody outside can change it directly), and is there **no method that changes a field** after construction (so nobody inside does either)?
+> [!tip] To check whether a class is immutable, I ask two things: is every field `private` (so nobody outside can change it directly), and is there **no method that changes a field** after construction (so nobody inside does either)?
 
 ### Constructors
 
@@ -267,8 +267,6 @@ for (int i = 0; i < a.length; i++) { a[i] ... }
 
 ### Example 1: Which constructor runs?
 
-> Lecture 3, "Find output"
-
 ```java
 public class Cube {
     int length, breadth, height;
@@ -297,8 +295,6 @@ Volume of Cube2 is: 6000
 
 ### Example 2: Will it compile?
 
-> Lecture 3, constructor questions
-
 ```java
 public class DefaultConstructorOnly { int size = 5; }
 
@@ -320,8 +316,6 @@ public class TwoConstructors {
 |`new Car("ABC", 50)` (Car has 0-arg and 3-arg)|**No**|No constructor takes `(String, double)`|
 
 ### Example 3: Casting and the GPA
-
-> Lecture 3, Student exercise
 
 Complete the constructor so it computes `GPA = totalGradePoints / totalHours`, write `getGPA()`, and create a student `"Sanders, Bruce"` with 35 hours and 92 grade points.
 
@@ -354,8 +348,6 @@ class Student {
 
 ### Example 4: Two names for one array
 
-> Lecture 3, arrays in memory
-
 ```java
 int[] integerArray = new int[5];
 for (int i = 0; i < integerArray.length; i++)
@@ -377,8 +369,6 @@ System.out.println(alias[3]);          // (c)
 *Figure 3.3: Two names for one array, then integerArray is reassigned to a new array while alias still points at the old one.*
 
 ### Example 5: Heap quiz
-
-> Lecture 3, "Find output"
 
 ```java
 class HeapQuiz { int id = 0; }

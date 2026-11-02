@@ -5,7 +5,7 @@ tags:
 ---
 ## Overview
 
-> [!info] Readings Lectures 4–5 · week 5 · Reference ch. 5
+> [!info] Readings Reference ch. 5 · week 5
 
 So far any code could reach into any object and change anything. That's fine for a ten-line program and a disaster for a big one: if a car's speed is somehow negative, every line in the program is a suspect. This chapter is about **control**: deciding who's allowed to see and change what.
 
@@ -254,8 +254,6 @@ $$
 
 ### Example 1: Default vs private access
 
-> Lecture 4–5, visibility slides
-
 `CarTest` is a different class from `Car`, in the same package. Which lines compile?
 
 ```java
@@ -277,11 +275,9 @@ miniVan.speed = 100;
 |`miniVan.licensePlate = "GHI";`|OK (same package)|**Error** (`private`)|
 |`miniVan.speed = 100;`|OK|OK (`public`)|
 
-> [!note] The slide has `miniVan.speed = "100";` (a String into a `double`). That's a type error no matter what the access is.
+> [!note] Watch out for `miniVan.speed = "100";` (with quotes). A String into a `double` is a type error no matter what the access is.
 
 ### Example 2: Shadowing and `this`
-
-> Lecture 4–5, Point code sample
 
 What prints for each object?
 
@@ -323,8 +319,6 @@ Point p3 = new Point(2, 3, false);
 
 ### Example 3: Recursive object chain
 
-> Lecture 4–5, "Find output" (Act 2)
-
 ```java
 public class A {
     private A next;
@@ -361,8 +355,6 @@ Prints `3`, `4`, `6`.
 
 ### Example 4: Fill in the blanks for the chain
 
-> Lecture 4–5, in-class activity
-
 Using the same class `A`, fill in the blanks so the output is `5`, `8`, `6`.
 
 ```java
@@ -384,11 +376,9 @@ A c = new A(a, 1);
 A b = new A(c, 2);
 ```
 
-> [!tip] The variables don't have to be declared in alphabetical order. Work backwards from the totals.
+> [!tip] The variables don't have to be declared in alphabetical order. I work backwards from the totals.
 
 ### Example 5: Arrays and elements as arguments
-
-> Lecture 4–5, arrays as parameters
 
 What does each `aProc` print?
 
@@ -407,8 +397,6 @@ void theProc(int[] mno) {          void theProc(int mno) {
 2. **Right:** `xyz[3]` is an `int`, so only its value (0) is copied. It prints `0`.
 
 ### Example 6: Fill in `fiddle`
-
-> Lecture 4–5, in-class activity
 
 Fill in the blanks so the program prints the four lines `10,5` · `15,19,12` · `20,21` · `19,15`.
 
@@ -456,8 +444,6 @@ static void fiddle(int[] test, int element) {
 
 ### Example 7: Filling a 2D table
 
-> Lecture 4–5, 2D array practice
-
 ```java
 int[][] table = new int[5][10];
 for (int row = 0; row < table.length; row++)
@@ -470,8 +456,6 @@ for (int row = 0; row < table.length; row++)
 3. Printing with the same nested loops lists `0` through `49`, one per line
 
 ### Example 8: Scanner with validation
-
-> Lecture 5, Age program
 
 Read a first name and a birth year, then print the age. It shouldn't crash if the year isn't a number.
 
@@ -499,8 +483,6 @@ Input `Rocky 2006` prints `Hello Rocky, you are 20 years old!`, and input `Rocky
 > [!note] `(2026 - yob)` needs the parentheses. Without them, `"... are " + 2026 - yob` tries to subtract from a String and won't compile.
 
 ### Example 9: `Triangle` with a tester class
-
-> Lecture 5, Triangle exercise
 
 Write `Triangle` with three private sides, getters, one mutator that sets all three, and `getPerimeter()`. Then write a tester that reads the sides from the user.
 
@@ -546,7 +528,7 @@ class TriangleTest {
 
 Input `3 4 5` prints the sides and `Perimeter: 12.0`.
 
-> [!note] The slides call the getters `GetSide1()`. That works, but by convention methods start lowercase, so `getSide1()`.
+> [!note] By convention method names start lowercase, so it's `getSide1()` and not `GetSide1()`.
 
 ## Common mistakes
 

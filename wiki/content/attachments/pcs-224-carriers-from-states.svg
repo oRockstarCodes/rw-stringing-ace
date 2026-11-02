@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 320" width="780" height="320" font-family="DM Sans, system-ui, sans-serif" font-size="13">
+<text x="90" y="16" text-anchor="middle" fill="#8a8a93" font-weight="600">Bands</text>
+<line x1="30" y1="90" x2="150" y2="90" stroke="#8a8a93" stroke-width="3"/><line x1="30" y1="190" x2="150" y2="190" stroke="#8a8a93" stroke-width="3"/>
+<line x1="30" y1="140" x2="150" y2="140" stroke="#2a9d8f" stroke-width="2" stroke-dasharray="5 4"/>
+<text x="155" y="94" fill="#8a8a93" font-size="12">E_c</text><text x="155" y="194" fill="#8a8a93" font-size="12">E_v</text><text x="155" y="144" fill="#2a9d8f" font-size="12" font-weight="600">E_F</text>
+<text x="90" y="300" text-anchor="middle" fill="#8a8a93" font-size="12">energy ↑</text>
+
+<text x="270" y="16" text-anchor="middle" fill="#8a8a93" font-weight="600">States available g(E)</text>
+<polyline points="200,90 216,80 228,60 236,40 242,20" fill="none" stroke="#8a8a93" stroke-width="2.5"/>
+<polyline points="200,190 216,200 228,220 236,240 242,260" fill="none" stroke="#8a8a93" stroke-width="2.5"/>
+<line x1="200" y1="15" x2="200" y2="270" stroke="#8a8a93" stroke-width="1"/>
+<text x="270" y="140" text-anchor="middle" fill="#8a8a93" font-size="12">none in the gap</text>
+<text x="270" y="300" text-anchor="middle" fill="#8a8a93" font-size="12">more states higher up →</text>
+
+<text x="460" y="16" text-anchor="middle" fill="#8a8a93" font-weight="600">Chance a state is filled f(E)</text>
+<path d="M380 20 C380 110 400 125 460 140 S540 170 540 260" fill="none" stroke="#2a9d8f" stroke-width="2.5"/>
+<line x1="380" y1="15" x2="380" y2="270" stroke="#8a8a93" stroke-width="1"/><line x1="540" y1="15" x2="540" y2="270" stroke="#8a8a93" stroke-width="1" stroke-dasharray="3 4"/>
+<text x="380" y="285" text-anchor="middle" fill="#8a8a93" font-size="12">0</text><text x="540" y="285" text-anchor="middle" fill="#8a8a93" font-size="12">1</text>
+<text x="470" y="300" text-anchor="middle" fill="#8a8a93" font-size="12">½ exactly at E_F</text>
+
+<text x="660" y="16" text-anchor="middle" fill="#8a8a93" font-weight="600">Carriers n(E) = g(E) f(E)</text>
+<line x1="600" y1="15" x2="600" y2="270" stroke="#8a8a93" stroke-width="1"/>
+<path d="M600 90 C630 80 640 64 635 50 C630 36 612 28 600 26 Z" fill="#2a9d8f" fill-opacity="0.45" stroke="#2a9d8f" stroke-width="2"/>
+<path d="M600 190 C630 200 640 216 635 230 C630 244 612 252 600 254 Z" fill="#e76f51" fill-opacity="0.45" stroke="#e76f51" stroke-width="2"/>
+<text x="650" y="62" fill="#2a9d8f" font-size="12" font-weight="600">electrons</text>
+<text x="650" y="222" fill="#e76f51" font-size="12" font-weight="600">holes</text>
+<text x="690" y="140" text-anchor="middle" fill="#8a8a93" font-size="12">nothing in the gap</text>
+</svg>

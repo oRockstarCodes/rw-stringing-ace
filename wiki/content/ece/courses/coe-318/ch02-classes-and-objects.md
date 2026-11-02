@@ -5,7 +5,7 @@ tags:
 ---
 ## Overview
 
-> [!info] Readings Lecture 2 · week 2 · Reference ch. 1–2
+> [!info] Readings Reference ch. 1–2 · week 2
 
 Every program, however big, is built from three abilities:
 
@@ -15,7 +15,7 @@ Every program, however big, is built from three abilities:
 
 Most of this chapter is about how Java does each of those, and the surprises that come from the way computers store numbers (why `7 / 2` is 3, why `"1" + 2 + 3` is `"123"`). The last part puts them together into classes, the blueprints from [[ch01-software-development-and-oop|Ch 1]], and looks at what's really going on when you create an object.
 
-> [!tip] Trace code the way the computer would. Don't guess what a program does from how it looks. Go one statement at a time and write down every variable's value as it changes. Every surprise in this chapter shows up the moment you trace it.
+> [!tip] The habit I'd build first is to trace code the way the computer would. Don't guess what a program does from how it looks. Go one statement at a time and write down every variable's value as it changes. Every surprise in this chapter shows up the moment you trace it.
 
 ## Notes
 
@@ -296,8 +296,6 @@ result = condition ? valueIfTrue : valueIfFalse;
 
 ### Example 1: Loop counts
 
-> Lecture 2, in-class questions
-
 How many times does each loop run (or what's `x` at the end)?
 
 |Code|Answer|Why|
@@ -312,8 +310,6 @@ How many times does each loop run (or what's `x` at the end)?
 
 ### Example 2: The `+` operator
 
-> Lecture 2
-
 What does each line print?
 
 ```java
@@ -327,8 +323,6 @@ System.out.println("1" + (2 + 3));
 3. The parentheses go first: `2 + 3 = 5`, then `"1" + 5` is `15`
 
 ### Example 3: Switch without `break`
-
-> Like the Lecture 2 switch question
 
 What prints if `x = 2`?
 
@@ -349,8 +343,6 @@ switch (x) {
 Output: `two`, then `three`.
 
 ### Example 4: Extending the `Car` class
-
-> Lecture 2, step-by-step exercise
 
 Add to `Car`: (1) a `fuel` variable, (2) a getter and setter for it, (3) `refuel(amount)` that adds fuel, (4) `drive(speed)` that uses 0.5 fuel per unit of speed. Then trace the test.
 

@@ -5,7 +5,7 @@ tags:
 ---
 ## Overview
 
-> [!info] Readings Lectures: *Introduction to Digital Waveform* and *Lecture 1: Binary Numbering System* · weeks 1–2 · Floyd, *Digital Fundamentals* ch. 1–2
+> [!info] Readings Floyd, *Digital Fundamentals* ch. 1–2 · weeks 1–2
 
 Why do computers work in binary? Because it's the most reliable way to store and move information through a noisy, imperfect physical world. A wire can easily be "clearly high" or "clearly low" even when its voltage wobbles a bit. Distinguishing ten different voltage levels for the ten decimal digits would be far more fragile.
 
@@ -265,11 +265,9 @@ $$
 
 ## Examples
 
-These are based on the lecture examples, with the numbers changed.
+Try each one on paper before reading the solution.
 
 ### Example 1: Reading a scope screen
-
-> Like the waveform lecture's scope examples
 
 A square wave on a scope is 4 divisions tall and one cycle spans 5 divisions, of which the HIGH part takes 2. The scope is set to 0.5 V/div and 20 µs/div. Find $V_{pp}$, $T$, $f$, $t_W$, and the duty cycle.
 
@@ -283,8 +281,6 @@ A square wave on a scope is 4 divisions tall and one cycle spans 5 divisions, of
 
 ### Example 2: Sketching a waveform on a scope
 
-> Like the waveform lecture's sketching examples
-
 Sketch a pulse waveform with $f = 25\ \text{MHz}$, $V_{pp} = 2\ \text{V}$, and a 60% duty cycle, on a scope set to 500 mV/div and 10 ns/div. How many divisions does each part take?
 
 1. **Period:** $T = \frac{1}{25\ \text{MHz}} = 40\ \text{ns}$, so one cycle spans $\frac{40\ \text{ns}}{10\ \text{ns/div}} = 4$ divisions.
@@ -295,16 +291,12 @@ Check it with the oscilloscope above: set 25 MHz, 60%, 2 V, 500 mV/div, 10 ns/di
 
 ### Example 3: Range of an $n$-bit number
 
-> Like Lecture 1, counting examples
-
 What range of numbers can 7 bits count? How many bits are needed to count up to 300?
 
 1. **7 bits:** $2^7 - 1 = 127$, so 0 to 127 (128 different values).
 2. **Up to 300:** 8 bits only get to $2^8 - 1 = 255$, which isn't enough. 9 bits get to $2^9 - 1 = 511$, so you need **9 bits**.
 
 ### Example 4: Binary to decimal
-
-> Like Lecture 1, Exercises 4–5
 
 Convert $1011011_2$ and $110.101_2$ to decimal.
 
@@ -314,8 +306,6 @@ Convert $1011011_2$ and $110.101_2$ to decimal.
    $$6 + 0.5 + 0.125 = 6.625$$
 
 ### Example 5: Decimal to binary
-
-> Like Lecture 1, Exercises 6–7
 
 Convert 74 using sum of weights, and 173 using repeated division by 2.
 
@@ -338,8 +328,6 @@ $$74 = 64 + 8 + 2 = 2^6 + 2^3 + 2^1 \quad\Rightarrow\quad 1001010_2$$
 Reading bottom to top: $173 = 10101101_2$. Check: $128 + 32 + 8 + 4 + 1 = 173$ ✓
 
 ### Example 6: Binary addition and subtraction
-
-> Like Lecture 1, Example 11
 
 Find (a) $1011 + 0110$ and (b) $1100 - 0101$.
 
@@ -373,8 +361,6 @@ Check: $12 - 5 = 7$ ✓
 
 ### Example 7: 1's and 2's complements
 
-> Like Lecture 1, Examples 12–15
-
 Find the 1's and 2's complements of $10110100$.
 
 1. **1's complement:** flip every bit: $01001011$
@@ -383,16 +369,12 @@ Find the 1's and 2's complements of $10110100$.
 
 ### Example 8: Binary and hexadecimal
 
-> Like Lecture 1, Examples 16–17
-
 Convert $1101011100101_2$ to hex, and $3A7_{16}$ to binary.
 
 1. **Group by 4 from the right**, padding the left group: $0001\ 1010\ 1110\ 0101 = 1AE5_{16}$
 2. **Replace each hex digit:** $3A7_{16} = 0011\ 1010\ 0111_2$
 
 ### Example 9: Hex and decimal
-
-> Like Lecture 1, Examples 18–19
 
 Convert $2C7_{16}$ to decimal and $500_{10}$ to hex.
 
@@ -406,8 +388,6 @@ Convert $2C7_{16}$ to decimal and $500_{10}$ to hex.
    Reading the remainders last to first: $500_{10} = 1F4_{16}$. Check: $256 + 240 + 4 = 500$ ✓
 
 ### Example 10: BCD
-
-> Like Lecture 1, Examples 20–22
 
 (a) Write 4073 in BCD. (b) Convert the BCD code $011010010010$ to decimal. (c) Is $0101\ 1011$ a valid BCD number?
 

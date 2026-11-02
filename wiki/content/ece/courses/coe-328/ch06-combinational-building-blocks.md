@@ -5,7 +5,7 @@ tags:
 ---
 ## Overview
 
-> [!info] Readings Brown & Vranesic **§6.1–6.5** · Lecture 7 · week 6
+> [!info] Readings Brown & Vranesic **§6.1–6.5** · week 6
 
 Some combinational circuits show up so often that they're sold as ready-made chips (or used as blocks in CAD tools) so you don't have to build them from gates every time. This chapter covers **comparators**, **decoders** (including the BCD-to-7-segment decoder), **encoders**, **multiplexers**, **demultiplexers**, and **parity** generators/checkers.
 
@@ -26,7 +26,7 @@ A comparator tells you how two binary numbers relate.
 - $A_3 = 0$ and $B_3 = 1$ → $A < B$.
 - $A_3 = B_3$ → no decision yet, so move to the next bit down and repeat.
 
-The first bit position where the numbers differ decides the answer. If no position differs, $A = B$.
+The first bit position where the numbers differ decides the answer. If no position differs, $A = B$. It's the same way you'd compare 4,821 and 4,793 by eye: scan from the left and stop at the first digit that differs.
 
 ### Decoders
 
@@ -165,11 +165,9 @@ $$
 
 ## Examples
 
-These are based on the lecture examples, with the numbers changed.
+Try each one on paper before reading the solution.
 
 ### Example 1: Comparing two numbers
-
-> Like Lecture 7, Example 2 and the magnitude-comparator slides
 
 (a) Is $A = 10$ equal to $B = 10$ using a 2-bit equality comparator? (b) Compare $A = 1011$ and $B = 1001$ with a magnitude comparator.
 
@@ -184,8 +182,6 @@ These are based on the lecture examples, with the numbers changed.
 Check: $11 > 9$ ✓
 
 ### Example 2: Decoding one code
-
-> Like the lecture's "decode 1001" slide
 
 Write the decoding expression for the code $1011$ ($A_3$ is the MSB), with an active-HIGH output and with an active-LOW output.
 
@@ -202,16 +198,12 @@ The output is 1 (or 0 for active-LOW) only for $1011$.
 
 ### Example 3: Decimal-to-BCD encoder
 
-> Like the decimal-to-BCD encoder slide
-
 Input line 6 of a decimal-to-BCD encoder is HIGH (all others LOW). What are the outputs?
 
 1. **Check which output expressions include input 6.** $A_2 = 4 + 5 + 6 + 7$ and $A_1 = 2 + 3 + 6 + 7$ do, and $A_3$ and $A_0$ don't.
 2. **Outputs:** $A_3A_2A_1A_0 = 0110$, which is 6 in BCD ✓
 
 ### Example 4: Multiplexer output waveform
-
-> Like Lecture 7, Example 1
 
 A 4-to-1 MUX has $D_0 = 1$, $D_1 = 0$, $D_2 = 1$, $D_3 = 0$ held constant. The select lines step through $S_1S_0 = 00, 01, 10, 11, 10, 00$. What is $Y$ in each interval?
 
@@ -221,8 +213,6 @@ A 4-to-1 MUX has $D_0 = 1$, $D_1 = 0$, $D_2 = 1$, $D_3 = 0$ held constant. The s
 |$Y$|1|0|1|0|1|1|
 
 ### Example 5: A MUX as a function generator
-
-> Like Lecture 7, Example 2
 
 Implement $Y = \sum m(0, 3, 5, 6)$ (variables $A$, $B$, $C$; $A$ is the MSB) using (a) an 8-to-1 MUX and (b) a 4-to-1 MUX.
 
@@ -241,8 +231,6 @@ That's one 4-to-1 MUX and one inverter. (This function is $\overline{A \oplus B 
 
 ### Example 6: Demultiplexer
 
-> Like Lecture 7, Example 3
-
 Serial data $1, 0, 1, 1$ arrives on the data input of a 1-to-4 DEMUX, one bit per interval, while the select lines go $S_1S_0 = 00, 01, 10, 11$. Where does each bit end up?
 
 |Interval|1|2|3|4|
@@ -258,8 +246,6 @@ Each bit only shows up on the selected output during its interval, and the other
 
 ### Example 7: Parity
 
-> Like the parity-checker slide
-
 (a) Find the even and odd parity bits for the data $1011001$. (b) The byte $1101\,0110$ (7 data bits + even parity bit) is received. Is there an error?
 
 **(a)** The data has four 1s (even), so $X = 1 \oplus 0 \oplus 1 \oplus 1 \oplus 0 \oplus 0 \oplus 1 = 0$.
@@ -270,8 +256,6 @@ Each bit only shows up on the selected output during its interval, and the other
 **(b)** The received byte has five 1s, so the checker outputs $X = 1$. With even parity that means **there's an error** (at least one bit flipped).
 
 ### Example 8: A 7-segment segment equation
-
-> Like Lecture 3, Example 23
 
 Check that $a = A + C + BD + \overline{B}\,\overline{D}$ lights segment $a$ for digit 5 but not for digit 4.
 
