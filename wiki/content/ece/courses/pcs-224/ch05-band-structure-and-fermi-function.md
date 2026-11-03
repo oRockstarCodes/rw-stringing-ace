@@ -97,10 +97,8 @@ $$
 f(E) = \frac{1}{1 + e^{(E - E_F)/k_BT}} \tag{5.1}
 $$
 
-![[pcs-224-fermi-function.svg]]
-*Figure 5.3: The Fermi function at three temperatures. At $T = 0$ it's a step. Warming smooths the step over a few $k_BT$, but the curve always passes through $\frac{1}{2}$ at $E = E_F$.*
-
 <div class="melon-semi" data-view="fermi">Interactive Fermi function diagram (open this page on the site to use it).</div>
+*Figure 5.3: The Fermi function. At $T = 0$ it's a step. Warming smooths the step over a few $k_BT$, but the curve always passes through $\frac{1}{2}$ at $E = E_F$.*
 
 **Things to know about it:**
 

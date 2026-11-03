@@ -110,8 +110,8 @@ $$
 
 This is the same as the area of the field triangle: $V_{total} = \tfrac{1}{2}\,w\,|E_{\max}|$ (Eq. 7.12).
 
-![[pcs-224-pn-depletion-profiles.svg]]
-*Figure 7.1: The three profiles of a p-n junction with $N_a > N_d$. The charge density is two blocks of equal area, the field is a triangle peaked at the junction, and the potential rises from the p side to the n side by $V_{total}$. The more heavily doped p side is thinner.*
+<div class="melon-semi" data-view="pn">Interactive p-n junction diagram (open this page on the site to use it).</div>
+*Figure 7.1: A p-n junction (shown with $N_a > N_d$). Left, the three profiles: the charge density is two blocks of equal area, the field is a triangle peaked at the junction, and the potential rises from the p side to the n side by $V_{total}$. The more heavily doped p side is thinner. Right, the band diagram (electron energy increases upward): unbiased there is one flat $E_F$, forward bias lowers the barrier and splits the Fermi levels by $eV_D$, and reverse bias raises the barrier and splits them the other way. Drag the bias and the doping to see all of it change.*
 
 > [!tip] Reading the plots is a 3-step habit. Charge density is the slope of $E$. Field is minus the slope of $\varphi$. So a *flat* $\rho$ gives a *straight-line* $E$ and a *parabolic* $\varphi$. A steep $E$ line means high doping.
 
@@ -129,10 +129,7 @@ $$
 
 **Why does uphill point to the left?** In Chapter 1 the potential rose toward the positive side. Here the band diagram looks like it climbs toward the p side. The band diagram shows the **energy of an electron**, $U = -e\varphi$, and electrons have negative charge. So high potential on the n side is *low* electron energy on the n side. Electrons "roll uphill" in potential, because that lowers their energy.
 
-![[pcs-224-pn-band-diagrams.svg]]
-*Figure 7.2: Band diagrams of a p-n junction (electron energy increases upward). Unbiased: one flat $E_F$. Forward bias lowers the barrier and splits the Fermi levels by $eV_D$. Reverse bias raises the barrier and splits them the other way.*
-
-<div class="melon-semi" data-view="pn">Interactive p-n junction diagram (open this page on the site to use it).</div>
+The band diagram is the right-hand side of Figure 7.1 above.
 
 **Formula for $V_{bi}$.** We want the Fermi level difference in terms of the doping. From Chapter 6 (strong doping):
 
@@ -175,14 +172,14 @@ $$
 E_{Fn} - E_{Fp} = eV_D \tag{7.9b}
 $$
 
-**Reverse bias** ($V_D < 0$, Figure 7.2 right):
+**Reverse bias** ($V_D < 0$, Figure 7.1, band diagram with the bias set negative):
 
 - $V_{total}$ is **larger** than $V_{bi}$, so the barrier is higher.
 - More ions get uncovered, so the depletion region **widens**.
 - Majority carriers (holes on p, electrons on n) are blocked by the taller barrier.
 - Minority carriers (electrons on the p side, holes on the n side) are *swept* down the barrier. This current is **small**, because it's limited by the tiny number of minority carriers, and it hardly depends on the voltage.
 
-**Forward bias** ($V_D > 0$, Figure 7.2 middle):
+**Forward bias** ($V_D > 0$, Figure 7.1, band diagram with the bias set positive):
 
 - $V_{total}$ is **smaller** than $V_{bi}$, so the barrier is lower.
 - Fewer ions stay uncovered, so the depletion region **narrows**.

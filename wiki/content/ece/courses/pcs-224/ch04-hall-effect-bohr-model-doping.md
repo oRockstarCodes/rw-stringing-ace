@@ -75,10 +75,8 @@ Notice the width $W$ cancelled. Only the **thickness along $B$** matters.
 
 **Finding the carrier sign.** Which edge ends up positive tells you who the carriers are.
 
-![[pcs-224-hall-carrier-sign.svg]]
-*Figure 4.2: In both samples the force points the same way, so both carrier types pile up on the top edge. In p-type that edge is positive, and in n-type it's negative.*
-
 <div class="melon-semi" data-view="hall">Interactive Hall effect diagram (open this page on the site to use it).</div>
+*Figure 4.2: In both samples the force points the same way, so both carrier types pile up on the same edge. In p-type that edge is positive, and in n-type it's negative. Switch between the two and flip B to see it.*
 
 - **p-type:** holes pile up on the deflected edge, so it's at a higher potential and $V_H > 0$ in the standard setup.
 - **n-type:** electrons pile up there, so it's at a lower potential and $V_H < 0$.
