@@ -31,6 +31,8 @@ Put p-type material (lots of holes, few electrons) against n-type material (lots
    - On the n side, each electron that left uncovers a **positive donor ion** (charge $+eN_d$).
    - On the p side, each hole that left uncovers a **negative acceptor ion** (charge $-eN_a$).
 
+A note on symbols: $N_a$ and $N_d$ are the same acceptor and donor concentrations that [[ch03-intro-to-semiconductors|Chapter 3]] wrote as $N_A$ and $N_D$ (lower case is just the usual convention for junctions). $e = 1.602\times10^{-19}$ C is the elementary charge, so $eN_d$ is the charge per cm³ of the exposed donor ions. $x$ is position measured across the junction, with $x = 0$ at the boundary, and $x_n$ and $x_p$ are how far the depletion region reaches into the n and p sides.
+
 That region is the **depletion region** (also called the **space charge region** or **charge depletion region**). It has almost no free carriers, only fixed ions, which is the whole reason it's called "depleted". Its total width is $w = x_n + x_p$.
 
 > [!tip] The pure-water analogy from [[ch03-intro-to-semiconductors|Chapter 3]] doesn't apply here. The region is not a neutral mixture, it's a layer of *uncovered* charge. A good picture is two walls of fixed ions facing each other across a gap that carriers have been swept out of.
@@ -66,7 +68,7 @@ $$
 \frac{dE}{dx} = \frac{\rho}{\varepsilon_s}, \qquad \frac{d^2\varphi}{dx^2} = -\frac{\rho}{\varepsilon_s} \tag{7.2}
 $$
 
-where $\varepsilon_s = \varepsilon_r\varepsilon_0$ is the permittivity of the semiconductor. For silicon $\varepsilon_r = 11.7$, and the number most convenient for our units is
+where $E(x)$ is the electric field at position $x$, $\varphi(x)$ is the electrostatic potential (V), and $\rho$ is the **charge density** (C/cm³). This $\rho$ is not the resistivity from [[ch03-intro-to-semiconductors|Chapter 3]]; the chapter uses it only for charge density. $\varepsilon_s = \varepsilon_r\varepsilon_0$ is the permittivity of the semiconductor. For silicon $\varepsilon_r = 11.7$, and the number most convenient for our units is
 
 $$
 \varepsilon_0 = 8.85\times10^{-14}\ \text{F/cm} = 5.52\times10^{5}\ \frac{e}{\text{V}\cdot\text{cm}}
@@ -127,11 +129,15 @@ $$
 eV_{bi} = E_{Fn} - E_{Fp} \quad \text{(before contact)} \tag{7.7}
 $$
 
+Here $E_{Fn}$ and $E_{Fp}$ are the Fermi levels of the n-type and p-type pieces, and $V_{bi}$ is the **built-in potential**, the potential step across the junction in volts (multiplying by $e$ turns it into an energy).
+
 **Why does uphill point to the left?** In Chapter 1 the potential rose toward the positive side. Here the band diagram looks like it climbs toward the p side. The band diagram shows the **energy of an electron**, $U = -e\varphi$, and electrons have negative charge. So high potential on the n side is *low* electron energy on the n side. Electrons "roll uphill" in potential, because that lowers their energy.
 
 The band diagram is the right-hand side of Figure 7.1 above.
 
 **Formula for $V_{bi}$.** We want the Fermi level difference in terms of the doping. From Chapter 6 (strong doping):
+
+Here $E_i$ is the intrinsic Fermi level (about mid-gap) and $n_i$ the intrinsic concentration, both from Chapters 3 and 6.
 
 - On the n side, $n_0 = N_d$, so $E_{Fn} - E_i = k_BT\ln\dfrac{N_d}{n_i}$.
 - On the p side, $p_0 = N_a$, so $E_i - E_{Fp} = k_BT\ln\dfrac{N_a}{n_i}$.
@@ -160,7 +166,7 @@ The **bias** $V_D$ is the voltage applied across the diode, defined as the poten
 | Reverse | n side to the positive terminal | $V_D < 0$, written $V_R = -V_D$ |
 | Zero | short-circuited or unconnected | $V_D = 0$ |
 
-Almost all of the applied voltage drops across the depletion region, because that's the high-resistance part (it has no free carriers). So the voltage that the depletion region sees is
+Almost all of the applied voltage drops across the depletion region, because that's the high-resistance part (it has no free carriers). So the voltage that the depletion region sees, $V_{total}$ (the total potential step across it, in volts), is
 
 $$
 V_{total} = V_{bi} - V_D \quad (= V_{bi} + V_R \text{ in reverse bias}) \tag{7.9a}
@@ -193,7 +199,8 @@ $$
 I_D = I_S\left(e^{V_D/V_t} - 1\right), \qquad V_t = \frac{k_BT}{e} \tag{7.10}
 $$
 
-- $V_t = 0.02586$ V at 300 K is the *thermal voltage*.
+- $I_D$ is the diode current (A) and $V_D$ the applied bias (V).
+- $V_t = k_BT/e = 0.02586$ V at 300 K is the *thermal voltage*.
 - $I_S$ is the reverse saturation current. For Si junctions it's typically $10^{-14}$ to $10^{-12}$ A. It depends on temperature but not on $V_D$.
 - $I_D$ is positive when the current flows from p to n.
 - Forward ($V_D \gg V_t$): $I_D \approx I_Se^{V_D/V_t}$, an exponential rise.
@@ -259,6 +266,7 @@ $$
 $$
 
 - $\varepsilon_s = \varepsilon_r\varepsilon_0$; for Si $\varepsilon_r = 11.7$, $\varepsilon_0 = 8.85\times10^{-14}$ F/cm
+- $\rho$: charge density (C/cm³), not resistivity; $E_{\max}$: peak field at $x = 0$; $x_n$, $x_p$: depletion depth on the n and p sides; $w = x_n + x_p$; $e = 1.602\times10^{-19}$ C
 - The field points from n to p
 
 **Built-in potential**

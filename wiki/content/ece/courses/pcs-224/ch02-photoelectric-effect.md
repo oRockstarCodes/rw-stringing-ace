@@ -45,7 +45,7 @@ $$
 K_{\max} = e|V_s| \tag{2.1}
 $$
 
-So a stopping potential of $2.0$ V means $K_{\max} = 2.0$ eV. This is just energy conservation from [[ch01-electrostatics-review|Chapter 1]].
+where $K_{\max}$ is the kinetic energy of the fastest electrons and $e = 1.602\times10^{-19}$ C is the elementary charge. So a stopping potential of $2.0$ V means $K_{\max} = 2.0$ eV. This is just energy conservation from [[ch01-electrostatics-review|Chapter 1]].
 
 ### What the experiment shows
 
@@ -72,7 +72,7 @@ $$
 E = hf = \frac{hc}{\lambda} \tag{2.2}
 $$
 
-where $h = 6.626\times10^{-34}$ J·s is Planck's constant. Here's a shortcut I use constantly:
+where $E$ is the energy of one photon (not an electric field, even though the symbol is the same), $f$ is the light's frequency (Hz), $\lambda$ is its wavelength (m), $c = 3.00\times10^{8}$ m/s is the speed of light, and $h = 6.626\times10^{-34}$ J·s is Planck's constant. The two forms agree because $c = f\lambda$. Here's a shortcut I use constantly:
 
 $$
 E\ (\text{eV}) = \frac{1240}{\lambda\ (\text{nm})} \tag{2.3}
@@ -84,7 +84,7 @@ $$
 hf = \phi + K_{\max} \quad\Rightarrow\quad K_{\max} = hf - \phi = e|V_s| \tag{2.4}
 $$
 
-That explains all four results:
+Here $\phi$ is the work function and $K_{\max}$ the kinetic energy of the fastest electron, both in the same units (eV or J). That explains all four results:
 
 - **Intensity** is the number of photons per second. More photons means more electrons and more current, but each photon is just as energetic, so $K_{\max}$ stays put.
 - **Frequency** sets the energy of each photon, so $K_{\max}$ rises in a straight line with $f$, and the slope is $h$.
@@ -154,6 +154,8 @@ $$
 $$
 \frac{N}{t} = \frac{P}{hf} = \frac{P}{E_{\text{photon}}} \tag{2.6}
 $$
+
+- $N/t$: number of photons per second; $P$: the beam's power (W = J/s); $E_{\text{photon}} = hf$: energy of one photon, in joules here (power is in J/s, so convert from eV)
 
 ## Examples
 

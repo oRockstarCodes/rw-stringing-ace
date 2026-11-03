@@ -25,10 +25,10 @@ The key ideas:
 
 Classical physics works for everyday objects. For electrons we need **quantum mechanics**, and its central idea is **wave–particle duality**.
 
-- **Light** acts like particles (photons) when it's absorbed, emitted or scattered, with $E = hf$ and momentum $p = h/\lambda$ ([[ch02-photoelectric-effect|Chapter 2]]).
+- **Light** acts like particles (photons) when it's absorbed, emitted or scattered, with energy $E = hf$ and momentum $p = h/\lambda$ ([[ch02-photoelectric-effect|Chapter 2]]). (Here $p$ is momentum, not the hole concentration $p_0$. $h$ is Planck's constant, $f$ the frequency and $\lambda$ the wavelength.)
 - **Particles** like electrons have a definite mass and charge, but they aren't pinned to one point. A **wave function** gives the *probability* of finding the particle in a given place.
 
-In an isolated atom, each electron state is labelled by quantum numbers $(n, l, m)$ plus a spin ($\pm\tfrac{1}{2}$). With many electrons, two rules decide who goes where:
+In an isolated atom, each electron state is labelled by quantum numbers $(n, l, m)$ plus a spin ($\pm\tfrac{1}{2}$). Here $n$ is the principal quantum number from [[ch04-hall-effect-bohr-model-doping|Chapter 4]] (it sets the energy), $l$ describes the shape of the orbit (its angular momentum), and $m$ describes its orientation. You don't need to calculate with them. The point is just that each *combination* is one distinct state. With many electrons, two rules decide who goes where:
 
 1. **Pauli exclusion principle.** No two electrons can be in the same quantum state.
 2. **Lowest energy first.** At $T = 0$ K (the ground state), electrons fill the lowest available states.
@@ -97,6 +97,8 @@ $$
 f(E) = \frac{1}{1 + e^{(E - E_F)/k_BT}} \tag{5.1}
 $$
 
+where $E$ is the energy of the state you're asking about, $E_F$ is the Fermi energy, $T$ is the temperature in kelvin, and $k_BT$ is the thermal energy from [[ch03-intro-to-semiconductors|Chapter 3]]. The combination $(E - E_F)/k_BT$ is just "how many thermal-energy units above the Fermi level this state is".
+
 <div class="melon-semi" data-view="fermi">Interactive Fermi function diagram (open this page on the site to use it).</div>
 *Figure 5.3: The Fermi function. At $T = 0$ it's a step. Warming smooths the step over a few $k_BT$, but the curve always passes through $\frac{1}{2}$ at $E = E_F$.*
 
@@ -108,7 +110,7 @@ $$
 - $E_F - E \gg k_BT$: $f \approx 1$.
 - Higher $T$ means more smearing: more probability above $E_F$, less below.
 
-**Two things set how many electrons are at an energy.** One is the probability $f(E)$ that a state is occupied. The other is **how many states** exist at that energy. $E_F$ only deals with the first. I think of it as the energy where the occupation probability would be $\frac{1}{2}$ *if* there were states everywhere.
+**Two things set how many electrons are at an energy.** One is the probability $f(E)$ that a state is occupied. The other is **how many states** exist at that energy, called the **density of states** $g(E)$ (states per cm³ per unit energy). Multiplying the two gives the number of electrons at that energy, $n(E) = g(E)\,f(E)$ (Eq. 5.4; the examples below just use $g$ as the count of states at a level). $E_F$ only deals with the first. I think of it as the energy where the occupation probability would be $\frac{1}{2}$ *if* there were states everywhere.
 
 > [!warning] **$E_F$ can sit in the gap.** In an intrinsic semiconductor there are **no** states at $E_F$, so there are no electrons *at* $E_F$ even though $f(E_F) = \frac{1}{2}$. In a metal, $E_F$ is inside a band. In a semiconductor or insulator, it's in the gap.
 
@@ -144,7 +146,8 @@ f(E) = \frac{1}{1 + e^{(E - E_F)/k_BT}}, \qquad f(E_F) = \frac{1}{2} \tag{5.1}
 $$
 
 - $f(E)$: probability a state at $E$ is occupied
-- $E_F$: Fermi energy (eV); $k_BT = 0.02586$ eV at 300 K
+- $E$: energy of the state (eV); $E_F$: Fermi energy (eV); $k_BT = 0.02586$ eV at 300 K
+- $f_h(E)$ (below): probability that the state is *empty*, i.e. holds a hole
 
 **Hole probability**
 
@@ -170,13 +173,16 @@ $$
 n(E) = g(E)\,f(E) \tag{5.4}
 $$
 
-- $g(E)$: number of available states (per cm³) at that energy
+- $g(E)$: number of available states (per cm³) at that energy; $f(E)$: occupation probability (Eq. 5.1); $n(E)$: electrons per cm³ at that energy
 
 **Photon needed to cross the gap**
 
 $$
 \lambda_{\max}\ (\text{nm}) = \frac{1240}{E_g\ (\text{eV})}
 $$
+
+- $\lambda_{\max}$: the longest wavelength whose photons still have energy $\ge E_g$ (from $E = hc/\lambda$, [[ch02-photoelectric-effect|Chapter 2]])
+- $E_g = E_c - E_v$: band gap; $E_c$: bottom of the conduction band; $E_v$: top of the valence band
 
 ## Examples
 
@@ -264,7 +270,7 @@ $$
 
 That's an increase of about **99%**, so a $10$ K rise **doubles** the probability. The Fermi function is exponentially sensitive to temperature, and this is the reason $n_i$ roughly doubles per 10 K in Chapter 6.
 
-**What else changes?** The number of available states $N_c \propto T^{3/2}$ also grows, but only by about 5%, so the exponential is what dominates.
+**What else changes?** The number of available states near the band edge, $N_c$ (the effective density of states, defined in [[ch06-carrier-concentrations|Chapter 6]]), is proportional to $T^{3/2}$ and also grows, but only by about 5%, so the exponential is what dominates.
 
 ## Common mistakes
 

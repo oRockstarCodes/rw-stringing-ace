@@ -28,7 +28,7 @@ $$
 k_BT = 0.02586\ \text{eV} \quad \text{at } T = 300\ \text{K} \tag{3.1}
 $$
 
-with $k_B = 8.617\times10^{-5}$ eV/K and $T(\text{K}) = T(^\circ\text{C}) + 273$. That's tiny next to $1.12$ eV. But there are so many bonds that a small fraction of them still break at room temperature.
+where $k_B = 8.617\times10^{-5}$ eV/K is **Boltzmann's constant** (it converts a temperature into an energy), $T$ is the absolute temperature in kelvin, and $T(\text{K}) = T(^\circ\text{C}) + 273$. That's tiny next to $1.12$ eV. But there are so many bonds that a small fraction of them still break at room temperature.
 
 Every broken bond creates two carriers (Figure 3.1, left):
 
@@ -88,8 +88,8 @@ $$
 
 **Why this is true.** In thermal equilibrium, electron–hole pairs are being made and destroyed all the time, and the two rates are equal.
 
-- **Generation.** Heat breaks bonds at a rate $G$ that depends on temperature and material only, **not** on doping. It's the same in n-type, p-type and intrinsic samples of one material.
-- **Recombination.** A free electron falls into a hole and both vanish. The rate is proportional to the number of electrons *times* the number of holes: $R = r\,n_0p_0$.
+- **Generation.** Heat breaks bonds at a rate $G$ (pairs per cm³ per second) that depends on temperature and material only, **not** on doping. It's the same in n-type, p-type and intrinsic samples of one material.
+- **Recombination.** A free electron falls into a hole and both vanish. The rate $R$ (pairs lost per cm³ per second) is proportional to the number of electrons *times* the number of holes: $R = r\,n_0p_0$, where $r$ is a constant that depends on the material and temperature.
 - **Equilibrium.** $R = G$. For the intrinsic sample, $G = r\,n_i^2$. For any other sample of the same material, $G = r\,n_0p_0$. Setting them equal gives Eq. (3.5).
 
 So $n_i$ belongs to the host material at that temperature, and doping can't change it. Add donors and $n_0$ goes up, so $p_0$ must go *down* to keep the product fixed.
@@ -138,7 +138,7 @@ $$
 
 The constant $\mu$ is the **mobility**, in cm²/(V·s). It depends on the material, the temperature and the doping. More dopants means a messier crystal and more collisions, so $\mu$ falls as doping rises. Electrons have a bigger mobility than holes in the same material.
 
-**Current density.** Let $J = I/A$ (A/cm²). If charges $q$ with concentration $n$ move at speed $v_d$, everything within a distance $v_dt$ of a surface crosses it in time $t$. That gives $I = nqv_dA$, so
+**Current density.** Let $I$ be the current (A), $A$ the cross-section it flows through (cm²), and $J = I/A$ the **current density** (A/cm²). In Eq. (3.8), $v_{dn}$ and $v_{dp}$ are the electron and hole drift velocities, $E$ the electric field, and $\mu_n$, $\mu_p$ the electron and hole mobilities. If charges $q$ with concentration $n$ (here a generic carrier concentration) move at drift speed $v_d$, everything within a distance $v_dt$ of a surface crosses it in time $t$. That gives $I = nqv_dA$, so
 
 $$
 J = n\,q\,v_d \tag{3.9}
@@ -153,6 +153,8 @@ $$
 $$
 \sigma = e\,(\mu_n n_0 + \mu_p p_0), \qquad \rho = \frac{1}{\sigma} \tag{3.11}
 $$
+
+where $e = 1.602\times10^{-19}$ C is the elementary charge (the magnitude of an electron's charge).
 
 Equation (3.10) is **Ohm's law** at the microscopic level. $\sigma$ is the **conductivity** (S/cm) and $\rho$ is the **resistivity** (Ω·cm).
 
@@ -248,12 +250,12 @@ $$
 
 ### Example 3: Drift current density
 
-An n-type silicon bar has $N_d = 1.0\times10^{16}$ cm⁻³ at 300 K. Find the drift current density in a field of $E = 20$ V/cm. Use $\mu_n = 1350$ cm²/V·s.
+An n-type silicon bar has $N_D = 1.0\times10^{16}$ cm⁻³ at 300 K. Find the drift current density in a field of $E = 20$ V/cm. Use $\mu_n = 1350$ cm²/V·s.
 
-Strongly n-type, so $\sigma \approx e\mu_nn_0$ with $n_0 = N_d$:
+Strongly n-type, so $\sigma \approx e\mu_nn_0$ with $n_0 = N_D$:
 
 $$
-J = \sigma E = e\,\mu_n N_d\,E = (1.602\times10^{-19})(1350)(1.0\times10^{16})(20) = 43.3\ \text{A/cm}^2
+J = \sigma E = e\,\mu_n N_D\,E = (1.602\times10^{-19})(1350)(1.0\times10^{16})(20) = 43.3\ \text{A/cm}^2
 $$
 
 (Units: C · cm²/(V·s) · cm⁻³ · V/cm = C/(s·cm²) = A/cm² ✓.)
@@ -322,7 +324,7 @@ Electrons carry about $0.01\%$ of the current, which is why in a strongly doped 
 
 **Which carrier contributes more to $\sigma$?** Compare $\mu n$ for electrons against $\mu p$ for holes. If $n = p$ but $\mu_n = 3\mu_p$, electrons carry **three times** as much current. If $n = 2p$ and $\mu_n = 3\mu_p$, then $J_n/J_p = (3)(2) = 6$. Charge sign doesn't matter, since both terms add.
 
-**Which direction gives the biggest current in a bar?** For a fixed applied voltage, $I = V/R$ and $R = \rho L/A$, so the largest current flows along the **shortest** path through the **largest** cross-section. For $L > W > H$ that is the $y$ direction (through the height $H$).
+**Which direction gives the biggest current in a bar?** For a fixed applied voltage, $I = V/R$ and $R = \rho L/A$, so the largest current flows along the **shortest** path through the **largest** cross-section. If the bar has length $L$, width $W$ and height $H$ with $L > W > H$, that is the direction through the height $H$ (the shortest path, through the largest face of area $L \times W$).
 
 ## Common mistakes
 

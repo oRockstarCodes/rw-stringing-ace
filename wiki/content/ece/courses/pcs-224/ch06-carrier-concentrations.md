@@ -31,13 +31,16 @@ $$
 n_0 = N_c\,f(E_c) \approx N_c\,\exp\!\left(-\frac{E_c - E_F}{k_BT}\right) \tag{6.1}
 $$
 
+where $n_0$ is the equilibrium electron concentration (cm⁻³), $E_c$ is the bottom of the conduction band, $E_F$ is the Fermi level, and $f(E_c)$ is the Fermi function evaluated at $E_c$. Every energy is in eV.
+
 It's as if the entire band were squeezed onto the single level $E_c$, with an effective number of states $N_c$ (per cm³). That's the **effective density of states**:
 
 $$
 N_c = 2\left(\frac{2\pi m_n^*k_BT}{h^2}\right)^{3/2} \tag{6.2}
 $$
 
-- $m_n^*$ is the electron's **effective mass**. It bundles up the electron's interaction with the lattice into one modified mass, different from the free-electron mass.
+- $m_n^*$ is the electron's **effective mass**. It bundles up the electron's interaction with the lattice into one modified mass, different from the free-electron mass. ($m_p^*$, used below, is the same idea for holes.)
+- $h$ is Planck's constant and $k_BT$ is the thermal energy ([[ch03-intro-to-semiconductors|Chapter 3]]). The factor $2$ counts the two spin states.
 - Usually $N_c$ is **given**. For silicon at 300 K it's about $2.8\times10^{19}$ cm⁻³ (Neamen, Appendix B).
 - It grows with temperature as $T^{3/2}$:
   $$N_c(T) = N_c(300\,\text{K})\left(\frac{T}{300}\right)^{3/2} \tag{6.3}$$
@@ -47,6 +50,8 @@ $$
 $$
 p_0 = N_v\,\exp\!\left(-\frac{E_F - E_v}{k_BT}\right) \tag{6.4}
 $$
+
+where $p_0$ is the equilibrium hole concentration (cm⁻³), $E_v$ is the top of the valence band, and $N_v$ is the effective density of states of the valence band:
 
 $$
 N_v = 2\left(\frac{2\pi m_p^*k_BT}{h^2}\right)^{3/2} \tag{6.5}
@@ -62,7 +67,7 @@ $$
 n_0\,p_0 = N_cN_v\,\exp\!\left(-\frac{E_g}{k_BT}\right) \tag{6.6}
 $$
 
-This holds for **any** equilibrium semiconductor, doped or not. For an intrinsic one, $n_0 = p_0 = n_i$, so $n_i^2$ equals the right side and
+Here $E_g = E_c - E_v$ is the band gap (the $E_F$ terms cancel because $(E_c - E_F) + (E_F - E_v) = E_g$). This holds for **any** equilibrium semiconductor, doped or not. For an intrinsic one, $n_0 = p_0 = n_i$, so $n_i^2$ equals the right side and
 
 $$
 n_i = \sqrt{N_cN_v}\;\exp\!\left(-\frac{E_g}{2k_BT}\right) \tag{6.7}
@@ -88,7 +93,7 @@ $$
 E_i = \frac{E_c + E_v}{2} + \frac{k_BT}{2}\ln\!\frac{N_v}{N_c} = E_{\text{mid}} + \frac{3}{4}k_BT\ln\frac{m_p^*}{m_n^*} \tag{6.9}
 $$
 
-It's **very close to the middle of the gap**. The correction is a few tens of meV (for silicon, with $N_v/N_c = 1.04/2.8$, it's $-0.013$ eV), so $E_i \approx E_{\text{mid}}$ is a fine approximation.
+Here $E_{\text{mid}} = (E_c + E_v)/2$ is the exact middle of the gap, and $m_n^*$, $m_p^*$ are the electron and hole effective masses (from Eqs. 6.2 and 6.5, since $N_v/N_c = (m_p^*/m_n^*)^{3/2}$). $E_i$ is **very close to the middle of the gap**. The correction is a few tens of meV (for silicon, with $N_v/N_c = 1.04/2.8$, it's $-0.013$ eV), so $E_i \approx E_{\text{mid}}$ is a fine approximation.
 
 **Measured from $E_i$.** Divide Eq. (6.1) by $n_i$ (and do the same for holes) to get a form that's often easier to use:
 
@@ -114,7 +119,7 @@ $$
 
 - **More doping** (bigger $N_D$ or $N_A$) pushes $E_F$ **farther** from mid-gap, toward the band edge of the majority carrier. Lighter doping keeps $E_F$ nearer the middle, and the sample acts more intrinsic.
 - **Higher temperature** creates more thermally made electrons and holes, which eventually outnumber the ones from dopants. $E_F$ slides **back toward mid-gap** and the material turns more intrinsic.
-- $n_0$ and $p_0$ depend **exponentially** on $E_F$. Shifting $E_F$ by $\Delta E_F$ multiplies the concentration by $e^{\Delta E_F/k_BT}$, and a shift of just $0.26$ eV multiplies it by about $2.3\times10^4$ at room temperature.
+- $n_0$ and $p_0$ depend **exponentially** on $E_F$. Shifting $E_F$ by an amount $\Delta E_F$ (in eV, toward the band edge) multiplies the concentration by $e^{\Delta E_F/k_BT}$, and a shift of just $0.26$ eV multiplies it by about $2.3\times10^4$ at room temperature.
 
 ### The Fermi level is flat in equilibrium
 
@@ -129,7 +134,8 @@ n_0 = N_c\,e^{-(E_c-E_F)/k_BT}, \qquad p_0 = N_v\,e^{-(E_F-E_v)/k_BT} \tag{6.1, 
 $$
 
 - $N_c$, $N_v$: effective densities of states (cm⁻³), $\propto T^{3/2}$
-- $E_c$, $E_v$: band edges; $k_BT = 0.02586$ eV at 300 K
+- $E_c$, $E_v$: band edges; $E_F$: Fermi level; $k_BT = 0.02586$ eV at 300 K
+- $n_0$, $p_0$: equilibrium electron and hole concentrations (cm⁻³); $E_g = E_c - E_v$: band gap; $E_i$: intrinsic Fermi level; $m_n^*$, $m_p^*$: effective masses; $h$: Planck's constant
 
 **Effective density of states**
 
@@ -249,7 +255,7 @@ $$
 \frac{p_0'}{p_0} = e^{\Delta E/k_BT} = e^{0.26/0.02586} = e^{10.06} \approx 2.3\times10^{4}
 $$
 
-For p-type, $\sigma \approx q\mu_pp_0$, and the mobility barely changes compared with an exponential, so **the conductivity goes up by about the same factor, $\approx 2.3\times10^4$**.
+For p-type, $\sigma \approx q\mu_pp_0$ ([[ch03-intro-to-semiconductors|Chapter 3]], with $q = e$ the elementary charge and $\mu_p$ the hole mobility), and the mobility barely changes compared with an exponential, so **the conductivity goes up by about the same factor, $\approx 2.3\times10^4$**.
 
 ## Common mistakes
 

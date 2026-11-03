@@ -23,13 +23,13 @@ $$
 \vec{F}_m = q\,\vec{v}\times\vec{B}, \qquad F_m = |q|\,v\,B\sin\theta \tag{4.1}
 $$
 
-$\theta$ is the angle between $\vec{v}$ and $\vec{B}$. The force is at right angles to both, so it bends the path without changing the speed.
+Here $q$ is the charge (C, signed), $\vec{v}$ is its velocity, $\vec{B}$ is the magnetic field (T), and $\theta$ is the angle between $\vec{v}$ and $\vec{B}$. The force is at right angles to both, so it bends the path without changing the speed.
 
 - Magnetic field lines are closed loops. (Electric field lines run from $+$ to $-$.)
 - The **right-hand rule** gives the force on a **positive** charge. Point your fingers along $\vec{v}$, curl them toward $\vec{B}$, and your thumb points along $\vec{F}_m$. For a negative charge, flip the answer.
 - The unit is $[B] = \text{T} = \text{V}\cdot\text{s/m}^2$ (derived in Chapter 1).
 
-**The trick that makes the Hall effect easy.** The current is $I = nqv_dA$, so $q\vec{v}$ points along the conventional current $\vec{I}$ no matter whether the carriers are electrons or holes. That means
+**The trick that makes the Hall effect easy.** The current is $I = nqv_dA$ (from [[ch03-intro-to-semiconductors|Chapter 3]]: $n$ is the carrier concentration, $q$ the carrier charge, $v_d$ the drift velocity and $A$ the cross-sectional area the current flows through), so $q\vec{v}$ points along the conventional current $\vec{I}$ no matter whether the carriers are electrons or holes. That means
 
 $$
 \vec{F}_m \parallel \vec{I}\times\vec{B} \tag{4.2}
@@ -53,7 +53,7 @@ In 1879, Edwin Hall found that a current-carrying conductor in a magnetic field 
 3. That separated charge makes a sideways electric field, the **Hall field** $E_H$, which pushes the carriers back.
 4. Very quickly the electric push balances the magnetic push, the sideways drift stops, and the carriers go straight again.
 
-At balance:
+At balance the electric force $qE_H$ equals the magnetic force $q\,v_d\,B$ (the carriers move at the drift speed $v_d$, perpendicular to $B$, so $\sin\theta = 1$):
 
 $$
 qE_H = q\,v_d\,B \quad\Rightarrow\quad E_H = v_d\,B \tag{4.3}
@@ -71,7 +71,7 @@ $$
 V_H = \frac{I\,B}{q\,n\,d} \tag{4.5}
 $$
 
-Notice the width $W$ cancelled. Only the **thickness along $B$** matters.
+Here $q$ means the magnitude of the carrier charge, $e$. Notice the width $W$ cancelled. Only the **thickness along $B$** matters.
 
 **Finding the carrier sign.** Which edge ends up positive tells you who the carriers are.
 
@@ -123,7 +123,7 @@ $$
 \frac{1}{\lambda} = R_H\left(\frac{1}{2^2} - \frac{1}{n^2}\right), \qquad n = 3, 4, 5, \dots \tag{4.8}
 $$
 
-with $R_H = 1.097\times10^{7}$ m⁻¹.
+where $\lambda$ is the wavelength of the line, $R_H = 1.097\times10^{7}$ m⁻¹ is the **Rydberg constant** for hydrogen, and $n$ is a whole number labelling which line (the same $n$ as the quantum number below, *not* the carrier concentration from Chapter 3).
 
 **Puzzle 2: stability.** If an electron orbits the nucleus, it's constantly accelerating, and an accelerating charge radiates energy. A classical electron would spiral into the nucleus in about $10^{-11}$ s. Atoms obviously don't collapse.
 
@@ -137,7 +137,8 @@ $$
 E_n = -\frac{13.6\ \text{eV}}{n^2}, \qquad n = 1, 2, 3, \dots \tag{4.10}
 $$
 
-- $n$ is the **principal quantum number**. $n = 1$ is the **ground state** and $n > 1$ are **excited states**.
+- $n$ is the **principal quantum number**. $n = 1$ is the **ground state** and $n > 1$ are **excited states**. In this section $n$ always means this whole number, never a carrier concentration.
+- $r_n$ is the radius of the $n$th orbit, and $a_0$ is the **Bohr radius**, the radius of the ground-state orbit. $E_n$ is the energy of the $n$th level (the $13.6$ eV is hydrogen's ionization energy).
 - The energies are **negative** because the electron is bound. $E = 0$ means a free electron at rest, and the ground state sits $13.6$ eV below that.
 
 ![[pcs-224-bohr-levels.svg]]
@@ -149,6 +150,7 @@ $$
 hf = |E_i - E_f| = 13.6\left|\frac{1}{n_f^2} - \frac{1}{n_i^2}\right|\ \text{eV} \tag{4.11}
 $$
 
+- $hf$ is the photon energy ($h$ Planck's constant, $f$ the light's frequency, [[ch02-photoelectric-effect|Chapter 2]]). $E_i$ and $E_f$ are the energies of the initial and final levels, and $n_i$, $n_f$ are their quantum numbers (here $n_i$ means "initial $n$", **not** the intrinsic carrier concentration).
 - **Emission:** the electron drops to a lower level and a photon leaves.
 - **Absorption:** only a photon with **exactly** the right energy $E_{\text{upper}} - E_{\text{lower}}$ lifts the electron up. A photon with the wrong energy passes through. (A photon with *more* than the ionization energy removes the electron completely.)
 - **Ionization** from level $n$ costs $13.6/n^2$ eV. An atom that is already excited is easier to ionize than one in the ground state.
@@ -164,11 +166,13 @@ Why does a Group V dopant let go of its extra electron so easily? Phosphorus's f
 1. The crystal has a **larger permittivity** than vacuum, which weakens the Coulomb attraction.
 2. The electron's **effective mass** in the crystal is smaller than its mass in vacuum.
 
-Both effects shrink the binding energy and enlarge the orbit. For phosphorus in silicon, the **ionization energy** is only
+Both effects shrink the binding energy and enlarge the orbit. (In the hydrogen formula the binding energy scales with the electron's mass and with $1/\varepsilon^2$, where $\varepsilon = \varepsilon_r\varepsilon_0$ is the material's permittivity. Silicon has $\varepsilon_r = 11.7$ and an effective mass well below the free-electron mass, so the $13.6$ eV drops by a factor of a few hundred.) For phosphorus in silicon, the **ionization energy** is only
 
 $$
 E_c - E_d \approx 0.045\ \text{eV} \tag{4.12}
 $$
+
+Here $E_c$ is the energy of the bottom of the conduction band (the lowest energy a free electron can have in the crystal) and $E_d$ is the energy of the donor electron's level.
 
 ![[pcs-224-doping-levels.svg]]
 *Figure 4.4: Dopant levels in the band gap. The donor level $E_d$ sits just below $E_c$ and the acceptor level $E_a$ just above $E_v$. Both are about $0.045$ eV from the nearest band edge in silicon.*
@@ -199,7 +203,8 @@ $$
 
 - $I$: current along the bar; $B$: field along the thickness
 - $d$: thickness (along $B$); $W$: width (across which $V_H$ is measured); $L$: length
-- $V$: supply voltage across $L$; $E_x = V/L$
+- $V$: supply voltage across $L$; $E_x = V/L$ is the field that drives the current; $\mu$: mobility; $v_d$: drift speed
+- $q$: magnitude of the carrier charge ($e = 1.602\times10^{-19}$ C); $n$ (or $p$): carrier concentration; $\theta$: angle between $\vec{v}$ and $\vec{B}$
 - Standard setup: $V_H > 0$ for p-type, $V_H < 0$ for n-type
 
 **Bohr model**

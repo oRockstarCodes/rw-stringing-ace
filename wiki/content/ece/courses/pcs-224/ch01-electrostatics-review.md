@@ -41,6 +41,8 @@ $$
 E = \frac{\sigma}{2\varepsilon_0} \quad \text{(one plate)} \tag{1.2}
 $$
 
+where $Q$ is the total charge on the plate (C), $A$ is the plate's area (m²), so $\sigma = Q/A$ is in C/m². The constant $\varepsilon_0 = 8.85\times10^{-12}$ F/m is the **permittivity of free space**. It sets how strongly a given charge produces a field in vacuum. Later, when the plate sits inside a semiconductor, $\varepsilon_0$ gets replaced by the material's own permittivity.
+
 Put a $+Q$ plate and a $-Q$ plate facing each other. Their fields add in the gap and cancel outside:
 
 $$
@@ -78,7 +80,7 @@ $$
 \Delta V = V_B - V_A = -E\,\Delta y \tag{1.6}
 $$
 
-Here $\Delta y$ is **positive when you move in the direction of $\vec{E}$**. In words:
+Here $V_A$ and $V_B$ are the potentials at the start and end points, and $\Delta y$ is the displacement between them (in metres). It is **positive when you move in the direction of $\vec{E}$**. In words:
 
 - Move **along** $\vec{E}$ and $V$ **drops**. Field lines point "downhill".
 - Move **against** $\vec{E}$ and $V$ **rises**. Moving toward a positive charge raises the potential.
@@ -93,7 +95,7 @@ $$
 E = -\frac{dV}{dx} \tag{1.7}
 $$
 
-The field is the **steepness** of the potential. Picture a hill: a steep slope means a strong field, a gentle slope means a weak one. (In 3D the derivative becomes a gradient, $\vec{E} = -\nabla V$, but in this course the field is almost always one-dimensional.)
+Here $x$ is position along the direction you're measuring, so $dV/dx$ is the slope of the potential graph. The field is the **steepness** of the potential. Picture a hill: a steep slope means a strong field, a gentle slope means a weak one. (In 3D the derivative becomes a gradient, $\vec{E} = -\nabla V$, but in this course the field is almost always one-dimensional.)
 
 **The electron-volt.** A joule is enormous compared to the energy of one electron, so we use a smaller unit:
 
@@ -101,7 +103,7 @@ $$
 1\ \text{eV} = 1.602\times10^{-19}\ \text{J} \tag{1.8}
 $$
 
-One electron-volt is the energy a charge $e$ gains or loses when it moves through **1 V**. Since $\Delta U = q\Delta V$, a charge of $\pm e$ moving through $\Delta V$ volts changes its energy by exactly $\Delta V$ eV. No conversion needed.
+Here $e = 1.602\times10^{-19}$ C is the **elementary charge**, the size of the charge of one electron (an electron has $q = -e$, a proton $q = +e$). One electron-volt is the energy a charge $e$ gains or loses when it moves through **1 V**. Since $\Delta U = q\Delta V$, a charge of $\pm e$ moving through $\Delta V$ volts changes its energy by exactly $\Delta V$ eV. No conversion needed.
 
 > [!tip] I do all the energy bookkeeping in eV. A $+e$ charge that climbs a $6$ V rise gains $6$ eV of potential energy and loses $6$ eV of kinetic energy. An electron ($-e$) does the opposite: it speeds up when it moves to *higher* potential.
 
@@ -205,6 +207,8 @@ $$
 v = \sqrt{\frac{2K}{m}} = \sqrt{\frac{2(4.81\times10^{-17})}{9.11\times10^{-31}}} = 1.03\times10^{7}\ \text{m/s}
 $$
 
+Here $v$ is the electron's speed, and $m = 9.11\times10^{-31}$ kg is the electron's mass (from $K = \tfrac{1}{2}mv^2$).
+
 That's about 3% of the speed of light, so the non-relativistic $K = \frac{1}{2}mv^2$ is still a fine approximation.
 
 ### Example 2: Potential difference from a field
@@ -263,7 +267,7 @@ $$
 
 Show that the tesla can be written as V·s/m².
 
-The magnetic force is $F = qvB$, so $B = \dfrac{F}{qv}$. In units:
+A charge $q$ moving at speed $v$ perpendicular to a magnetic field $B$ feels a force $F = qvB$ (more in [[ch04-hall-effect-bohr-model-doping|Chapter 4]]), so $B = \dfrac{F}{qv}$. In units:
 
 $$
 [B] = \frac{\text{N}}{\text{C}\cdot\text{m/s}} = \frac{\text{N}\cdot\text{s}}{\text{C}\cdot\text{m}}
@@ -275,7 +279,7 @@ $$
 [B] = \frac{(\text{J/m})\,\text{s}}{\text{C}\cdot\text{m}} = \frac{\text{J}}{\text{C}}\cdot\frac{\text{s}}{\text{m}^2} = \frac{\text{V}\cdot\text{s}}{\text{m}^2}\ \checkmark
 $$
 
-You'll use this form of the tesla in the Hall effect, where the voltage is $V_H = v_d B W$ and the units have to come out in volts.
+You'll use this form of the tesla in the Hall effect, where the voltage is $V_H = v_d B W$ ($v_d$ is the carriers' drift speed and $W$ the sample width, both defined in Chapters 3 and 4) and the units have to come out in volts.
 
 ## Common mistakes
 
