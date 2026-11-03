@@ -1,22 +1,39 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 290" width="780" height="290" font-family="DM Sans, system-ui, sans-serif" font-size="13">
-<g stroke="#8a8a93" stroke-width="3">
-<line x1="70" y1="70" x2="130" y2="70"/><line x1="70" y1="200" x2="130" y2="200"/>
-<line x1="250" y1="64" x2="310" y2="64"/><line x1="250" y1="78" x2="310" y2="78"/><line x1="250" y1="194" x2="310" y2="194"/><line x1="250" y1="208" x2="310" y2="208"/>
-<line x1="430" y1="54" x2="490" y2="54"/><line x1="430" y1="64" x2="490" y2="64"/><line x1="430" y1="74" x2="490" y2="74"/><line x1="430" y1="84" x2="490" y2="84"/>
-<line x1="430" y1="184" x2="490" y2="184"/><line x1="430" y1="194" x2="490" y2="194"/><line x1="430" y1="204" x2="490" y2="204"/><line x1="430" y1="214" x2="490" y2="214"/>
-</g>
-<rect x="610" y="45" width="60" height="50" fill="#2a9d8f" fill-opacity="0.35" stroke="#2a9d8f" stroke-width="2"/>
-<rect x="610" y="175" width="60" height="50" fill="#8a8a93" fill-opacity="0.35" stroke="#8a8a93" stroke-width="2"/>
-<text x="640" y="25" text-anchor="middle" fill="#2a9d8f" font-size="12" font-weight="600">conduction band</text>
-<text x="640" y="245" text-anchor="middle" fill="#8a8a93" font-size="12" font-weight="600">valence band</text>
-<text x="640" y="140" text-anchor="middle" fill="#8a8a93" font-size="12">gap E_g</text>
-<line x1="700" y1="95" x2="700" y2="175" stroke="#8a8a93" stroke-width="1.5"/>
-<path d="M700 95 l-4 8 h8 z M700 175 l-4 -8 h8 z" fill="#8a8a93"/>
-<text x="680" y="70" fill="#8a8a93" font-size="12">E_c</text><text x="680" y="205" fill="#8a8a93" font-size="12">E_v</text>
-<g text-anchor="middle" fill="#8a8a93" font-weight="600">
-<text x="100" y="268">1 atom</text><text x="280" y="268">2 atoms</text><text x="460" y="268">4 atoms</text><text x="640" y="268">~10²² atoms/cm³</text></g>
-<text x="100" y="40" text-anchor="middle" fill="#8a8a93" font-size="12">one level</text>
-<text x="280" y="40" text-anchor="middle" fill="#8a8a93" font-size="12">each level splits in 2</text>
-<text x="460" y="40" text-anchor="middle" fill="#8a8a93" font-size="12">each level splits in 4</text>
-<text x="390" y="140" text-anchor="middle" fill="#8a8a93" font-size="12">Pauli exclusion: no two electrons share a state, so the levels spread</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 410" width="780" height="410" font-family="DM Sans, system-ui, sans-serif" font-size="13">
+<defs><marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="context-stroke"/></marker></defs>
+<line x1="60" y1="352" x2="60" y2="40" stroke="#8a8a93" stroke-width="1.5" marker-end="url(#ah)"/>
+<text x="22" y="190" fill="#8a8a93" font-size="12" text-anchor="middle" transform="rotate(-90 22 190)">energy</text>
+<line x1="60" y1="352" x2="500" y2="352" stroke="#8a8a93" stroke-width="1.5" marker-end="url(#ah)"/>
+<text x="280" y="378" fill="#8a8a93" font-size="12" text-anchor="middle">atoms brought closer together</text>
+<rect x="470" y="68" width="120" height="84" fill="#2a9d8f" fill-opacity="0.30" stroke="#2a9d8f" stroke-width="2"/>
+<rect x="470" y="228" width="120" height="84" fill="#8a8a93" fill-opacity="0.30" stroke="#8a8a93" stroke-width="2"/>
+<path d="M110 110 C 260 110, 300 72, 470 72 L 590 72" fill="none" stroke="#8a8a93" stroke-width="1.6"/>
+<path d="M110 110 C 260 110, 300 82.85714285714286, 470 82.85714285714286 L 590 82.85714285714286" fill="none" stroke="#8a8a93" stroke-width="1.6"/>
+<path d="M110 110 C 260 110, 300 93.71428571428572, 470 93.71428571428572 L 590 93.71428571428572" fill="none" stroke="#8a8a93" stroke-width="1.6"/>
+<path d="M110 110 C 260 110, 300 104.57142857142857, 470 104.57142857142857 L 590 104.57142857142857" fill="none" stroke="#8a8a93" stroke-width="1.6"/>
+<path d="M110 110 C 260 110, 300 115.42857142857143, 470 115.42857142857143 L 590 115.42857142857143" fill="none" stroke="#8a8a93" stroke-width="1.6"/>
+<path d="M110 110 C 260 110, 300 126.28571428571428, 470 126.28571428571428 L 590 126.28571428571428" fill="none" stroke="#8a8a93" stroke-width="1.6"/>
+<path d="M110 110 C 260 110, 300 137.14285714285714, 470 137.14285714285714 L 590 137.14285714285714" fill="none" stroke="#8a8a93" stroke-width="1.6"/>
+<path d="M110 110 C 260 110, 300 148, 470 148 L 590 148" fill="none" stroke="#8a8a93" stroke-width="1.6"/>
+<path d="M110 270 C 260 270, 300 232, 470 232 L 590 232" fill="none" stroke="#8a8a93" stroke-width="1.6"/>
+<path d="M110 270 C 260 270, 300 242.85714285714286, 470 242.85714285714286 L 590 242.85714285714286" fill="none" stroke="#8a8a93" stroke-width="1.6"/>
+<path d="M110 270 C 260 270, 300 253.71428571428572, 470 253.71428571428572 L 590 253.71428571428572" fill="none" stroke="#8a8a93" stroke-width="1.6"/>
+<path d="M110 270 C 260 270, 300 264.57142857142856, 470 264.57142857142856 L 590 264.57142857142856" fill="none" stroke="#8a8a93" stroke-width="1.6"/>
+<path d="M110 270 C 260 270, 300 275.42857142857144, 470 275.42857142857144 L 590 275.42857142857144" fill="none" stroke="#8a8a93" stroke-width="1.6"/>
+<path d="M110 270 C 260 270, 300 286.2857142857143, 470 286.2857142857143 L 590 286.2857142857143" fill="none" stroke="#8a8a93" stroke-width="1.6"/>
+<path d="M110 270 C 260 270, 300 297.14285714285717, 470 297.14285714285717 L 590 297.14285714285717" fill="none" stroke="#8a8a93" stroke-width="1.6"/>
+<path d="M110 270 C 260 270, 300 308, 470 308 L 590 308" fill="none" stroke="#8a8a93" stroke-width="1.6"/>
+<line x1="470" y1="30" x2="470" y2="352" stroke="#8a8a93" stroke-width="1" stroke-dasharray="5 4"/>
+<text x="470" y="22" fill="#8a8a93" font-size="12" text-anchor="middle">spacing in the crystal</text>
+<text x="110" y="22" fill="#8a8a93" font-size="12" font-weight="600" text-anchor="middle">1 atom</text>
+<text x="310" y="48" fill="#8a8a93" font-size="12" text-anchor="middle">N atoms: each level splits into N</text>
+<text x="102" y="114" fill="#8a8a93" font-size="12" text-anchor="end">atomic level</text>
+<text x="102" y="274" fill="#8a8a93" font-size="12" text-anchor="end">atomic level</text>
+<text x="530" y="58" fill="#2a9d8f" font-size="12" font-weight="600" text-anchor="middle">conduction band</text>
+<text x="530" y="330" fill="#8a8a93" font-size="12" font-weight="600" text-anchor="middle">valence band</text>
+<text x="530" y="194" fill="#8a8a93" font-size="12" text-anchor="middle">gap: no allowed levels</text>
+<text x="600" y="156" fill="#8a8a93" font-size="12">E_c</text>
+<text x="600" y="232" fill="#8a8a93" font-size="12">E_v</text>
+<line x1="650" y1="152" x2="650" y2="228" stroke="#8a8a93" stroke-width="1.5" marker-start="url(#ah)" marker-end="url(#ah)"/>
+<text x="660" y="194" fill="#8a8a93" font-size="12">E_g</text>
+<text x="530" y="378" fill="#8a8a93" font-size="12" text-anchor="middle">N ≈ 10²² per cm³: each band is nearly continuous</text>
 </svg>

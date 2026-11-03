@@ -37,10 +37,17 @@ Together these mean electrons stack up from the bottom like water filling a glas
 
 ### From atomic levels to energy bands
 
-Bring two identical atoms close together, and each level splits into two slightly different levels. The wave functions overlap, and Pauli exclusion won't let both electrons keep the same energy. Bring in $N$ atoms and each level splits into $N$ closely spaced levels. A crystal has $N \sim 10^{22}$ atoms per cm³, so the levels are packed so tightly that they form a nearly continuous **energy band** (Figure 5.1).
+An isolated atom has sharp allowed levels, each at one exact energy. A crystal is a huge number of atoms packed close together, and that changes things. Follow one level as the atoms approach (Figure 5.1):
+
+1. **One atom, or atoms far apart.** The level sits at one energy. Atoms that are far apart don't affect each other, so $N$ separate atoms just give $N$ copies of the same level.
+2. **Two atoms close together.** Their wave functions now overlap, and Pauli exclusion says two electrons can't be in the same quantum state. So the two copies of the level can't stay at the same energy. They get pushed slightly apart, one a little lower and one a little higher.
+3. **$N$ atoms.** Each atomic level splits into $N$ levels, all slightly different in energy.
+4. **A real crystal.** $N \sim 10^{22}$ atoms per cm³, so there are $\sim 10^{22}$ levels packed into a window a few eV wide. The spacing is so tiny that the levels are effectively continuous. We call that stretch of energies an **energy band**.
+
+A band is *not* one level that got wider. It's an enormous number of separate levels that sit too close together to tell apart. Each atomic level (the 1s, the 2s, and so on) turns into its own band, and the space *between* two bands is the **gap**. No levels land there.
 
 ![[pcs-224-band-formation.svg]]
-*Figure 5.1: As atoms are brought together, each atomic level splits into more and more levels. In a crystal they merge into bands, with a forbidden gap between them.*
+*Figure 5.1: Follow the lines from left to right as the atoms are brought closer together. Each atomic level fans out into $N$ levels (eight are drawn here, but in a crystal there are $\sim 10^{22}$). At the spacing found in the crystal (dashed line) they form a band, and the space between the two bands is the forbidden gap.*
 
 - **Energy band:** a range of energies where electron states exist.
 - **Energy gap** (forbidden band): a range of energies with **no** allowed states. Electrons can't be found there.
