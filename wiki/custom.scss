@@ -2089,7 +2089,8 @@ article > * {
 
 .melon-opamp,
 .melon-capind,
-.melon-optics {
+.melon-optics,
+.melon-semi {
   margin: 1.5rem 0;
   padding: 1rem 1.1rem 1.1rem;
   border: 1px solid var(--lightgray);
@@ -2549,6 +2550,204 @@ article > * {
     .ci-lever {
       transition: none;
     }
+  }
+}
+
+// ---------- PCS 224 semiconductor diagrams: the parts that are theirs ----------
+// (Hall effect, Fermi function, p-n junction; components/MelonSemi.tsx.) Positive charge and
+// holes are teal and negative charge and electrons are orange, as in the static figures.
+
+.melon-semi {
+  --sm-pos: #2a9d8f;
+  --sm-neg: #e76f51;
+
+  .oa-svg {
+    max-width: 640px;
+  }
+  .oa-svg + .oa-chips,
+  .oa-chips + .oa-chips,
+  .oa-chips + .oa-info,
+  .oa-info + .oa-controls {
+    margin-top: 0.75rem;
+  }
+
+  .sm-hole {
+    fill: var(--sm-pos);
+  }
+  .sm-elec {
+    fill: var(--sm-neg);
+  }
+  .sm-dot,
+  .sm-fbd {
+    stroke: var(--light);
+    stroke-width: 1.5;
+  }
+
+  .sm-zero,
+  .sm-axis {
+    stroke: var(--gray);
+    stroke-width: 1;
+    opacity: 0.6;
+  }
+  .sm-guide {
+    stroke: var(--lightgray);
+    stroke-width: 1;
+    stroke-dasharray: 3 4;
+  }
+  // Panel titles that hold Greek letters, which oa-caption's capitals would change
+  text.sm-ptitle {
+    fill: var(--gray);
+    font-size: 12px;
+    letter-spacing: 0.03em;
+  }
+
+  // Hall strip
+  .sm-strip {
+    fill: color-mix(in srgb, var(--gray) 8%, transparent);
+    stroke: var(--gray);
+    stroke-width: 1.5;
+  }
+  .sm-edge {
+    opacity: 0;
+  }
+  text.sm-b {
+    fill: var(--gray);
+    font-size: 18px;
+  }
+  text.sm-sym {
+    font-size: 13px;
+    font-weight: 700;
+    opacity: 0;
+  }
+  .sm-wire {
+    fill: none;
+    stroke: var(--gray);
+    stroke-width: 2;
+    stroke-linejoin: round;
+  }
+  .sm-probe {
+    fill: var(--secondary);
+  }
+  .sm-meter {
+    fill: var(--light);
+    stroke: var(--gray);
+    stroke-width: 2;
+  }
+  .sm-needle {
+    stroke: var(--dark);
+    stroke-width: 2.5;
+    stroke-linecap: round;
+  }
+  .sm-hub {
+    fill: var(--dark);
+  }
+  .sm-force {
+    stroke-width: 3;
+    stroke-linecap: round;
+  }
+  .sm-force-m {
+    stroke: var(--secondary);
+  }
+  .sm-force-e,
+  .sm-force-eh {
+    stroke: var(--tertiary);
+  }
+  .sm-force-eh {
+    stroke-width: 2.5;
+    opacity: 0;
+  }
+  text.sm-lab-m,
+  .sm-ah-m {
+    fill: var(--secondary);
+  }
+  text.sm-lab-e,
+  .sm-ah-e,
+  text.sm-ehlab {
+    fill: var(--tertiary);
+  }
+  .sm-ah-g {
+    fill: var(--gray);
+  }
+  text.sm-ehlab {
+    opacity: 0;
+  }
+
+  // Fermi function
+  .sm-band {
+    fill: color-mix(in srgb, var(--secondary) 9%, transparent);
+  }
+  .sm-slot {
+    fill: none;
+    stroke: var(--gray);
+    stroke-width: 1;
+    opacity: 0.45;
+    transition: fill 0.25s, opacity 0.25s;
+  }
+  .sm-slot.is-full {
+    fill: var(--sm-neg);
+    stroke: none;
+    opacity: 1;
+  }
+  .sm-ef-line {
+    stroke: var(--secondary);
+    stroke-width: 1.8;
+    stroke-dasharray: 6 4;
+  }
+  text.sm-ef {
+    fill: var(--secondary);
+  }
+  .sm-curve {
+    fill: none;
+    stroke: var(--secondary);
+    stroke-width: 2.5;
+    stroke-linejoin: round;
+  }
+  .sm-mark {
+    fill: var(--light);
+    stroke: var(--secondary);
+    stroke-width: 2;
+  }
+  .sm-mark-c {
+    fill: var(--sm-neg);
+  }
+  .sm-mark-v {
+    fill: var(--sm-pos);
+  }
+
+  // p-n junction
+  .sm-rho-p {
+    fill: var(--sm-neg);
+    opacity: 0.6;
+  }
+  .sm-rho-n {
+    fill: var(--sm-pos);
+    opacity: 0.6;
+  }
+  .sm-prof {
+    fill: none;
+    stroke-width: 2.5;
+    stroke-linejoin: round;
+  }
+  .sm-prof-e {
+    stroke: var(--tertiary);
+  }
+  .sm-prof-v {
+    stroke: var(--secondary);
+  }
+  .sm-bandline {
+    fill: none;
+    stroke: var(--darkgray);
+    stroke-width: 2.5;
+    stroke-linejoin: round;
+  }
+  .sm-evd {
+    stroke: var(--secondary);
+    stroke-width: 2;
+    opacity: 0;
+  }
+  text.sm-evdlab {
+    fill: var(--secondary);
+    opacity: 0;
   }
 }
 

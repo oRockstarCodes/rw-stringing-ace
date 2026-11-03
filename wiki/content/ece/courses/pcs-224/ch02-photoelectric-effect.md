@@ -144,7 +144,7 @@ $$
 **Threshold**
 
 $$
-f_0 = \frac{\phi}{h}, \qquad \lambda_0 = \frac{hc}{\phi} = \frac{1240\ \text{eV·nm}}{\phi} \tag{2.5}
+f_0 = \frac{\phi}{h}, \qquad \lambda_0 = \frac{hc}{\phi} = \frac{1240\ \text{eV}\cdot\text{nm}}{\phi} \tag{2.5}
 $$
 
 - Emission only occurs for $f \ge f_0$ ($\lambda \le \lambda_0$)
@@ -214,7 +214,7 @@ $$
 **(c)** $h$ is the slope of $K_{\max}$ against $f$. The two frequencies are $f_1 = c/400\,\text{nm} = 7.50\times10^{14}$ Hz and $f_2 = c/300\,\text{nm} = 1.00\times10^{15}$ Hz:
 
 $$
-h = \frac{\Delta K}{\Delta f} = \frac{(2.03 - 1.00)(1.602\times10^{-19})}{(1.000 - 0.750)\times10^{15}} = 6.6\times10^{-34}\ \text{J·s}
+h = \frac{\Delta K}{\Delta f} = \frac{(2.03 - 1.00)(1.602\times10^{-19})}{(1.000 - 0.750)\times10^{15}} = 6.6\times10^{-34}\ \text{J}\cdot\text{s}
 $$
 
 ### Example 4: Quick concept checks

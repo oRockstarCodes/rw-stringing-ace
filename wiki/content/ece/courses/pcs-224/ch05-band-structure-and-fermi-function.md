@@ -100,6 +100,8 @@ $$
 ![[pcs-224-fermi-function.svg]]
 *Figure 5.3: The Fermi function at three temperatures. At $T = 0$ it's a step. Warming smooths the step over a few $k_BT$, but the curve always passes through $\frac{1}{2}$ at $E = E_F$.*
 
+<div class="melon-semi" data-view="fermi">Interactive Fermi function diagram (open this page on the site to use it).</div>
+
 **Things to know about it:**
 
 - $T \to 0$: $f = 1$ for $E < E_F$ and $f = 0$ for $E > E_F$ (a step).

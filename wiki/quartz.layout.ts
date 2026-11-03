@@ -10,6 +10,7 @@ import MelonLogic from "./quartz/components/custom/MelonLogic"
 import MelonCapInd from "./quartz/components/custom/MelonCapInd"
 import MelonCourse3D from "./quartz/components/custom/MelonCourse3D"
 import MelonOptics from "./quartz/components/custom/MelonOptics"
+import MelonSemi from "./quartz/components/custom/MelonSemi"
 import MelonPageTitle from "./quartz/components/custom/MelonPageTitle"
 import { hasOwnHeader } from "./quartz/components/custom/MelonFolder"
 import { isEditionHome } from "./quartz/components/custom/MelonEditions"
@@ -116,9 +117,10 @@ export const sharedPageComponents: SharedLayout = {
   header: [],
   // MelonOpAmp, MelonLogic and MelonCapInd fill in the <div class="melon-opamp">,
   // <div class="melon-logic"> and <div class="melon-capind"> diagrams written in notes, and
-  // MelonOptics the <div class="melon-optics"> ray diagrams.
+  // MelonOptics the <div class="melon-optics"> ray diagrams, and MelonSemi the
+  // <div class="melon-semi"> semiconductor diagrams of PCS 224.
   // MelonCourse3D draws the 3D scene behind each course page's title.
-  afterBody: [MelonMotion(), MelonSmoothScroll(),MelonOpAmp(), MelonLogic(), MelonCapInd(), MelonOptics(), MelonCourse3D()],
+  afterBody: [MelonMotion(), MelonSmoothScroll(),MelonOpAmp(), MelonLogic(), MelonCapInd(), MelonOptics(), MelonSemi(), MelonCourse3D()],
   // No footer. Quartz requires the slot, so it gets a component that renders nothing.
   footer: (() => null) as QuartzComponent,
 }

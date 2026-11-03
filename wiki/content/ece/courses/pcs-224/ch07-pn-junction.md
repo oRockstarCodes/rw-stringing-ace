@@ -69,7 +69,7 @@ $$
 where $\varepsilon_s = \varepsilon_r\varepsilon_0$ is the permittivity of the semiconductor. For silicon $\varepsilon_r = 11.7$, and the number most convenient for our units is
 
 $$
-\varepsilon_0 = 8.85\times10^{-14}\ \text{F/cm} = 5.52\times10^{5}\ \frac{e}{\text{V·cm}}
+\varepsilon_0 = 8.85\times10^{-14}\ \text{F/cm} = 5.52\times10^{5}\ \frac{e}{\text{V}\cdot\text{cm}}
 $$
 
 (The second form has the electron charge folded in, so the $e$ in the formulas below cancels.) The relative permittivity $\varepsilon_r$ is how much the material reduces the field compared with vacuum, because its atoms polarize.
@@ -131,6 +131,8 @@ $$
 
 ![[pcs-224-pn-band-diagrams.svg]]
 *Figure 7.2: Band diagrams of a p-n junction (electron energy increases upward). Unbiased: one flat $E_F$. Forward bias lowers the barrier and splits the Fermi levels by $eV_D$. Reverse bias raises the barrier and splits them the other way.*
+
+<div class="melon-semi" data-view="pn">Interactive p-n junction diagram (open this page on the site to use it).</div>
 
 **Formula for $V_{bi}$.** We want the Fermi level difference in terms of the doping. From Chapter 6 (strong doping):
 

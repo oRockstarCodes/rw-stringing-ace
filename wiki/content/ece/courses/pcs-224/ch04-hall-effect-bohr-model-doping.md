@@ -27,7 +27,7 @@ $\theta$ is the angle between $\vec{v}$ and $\vec{B}$. The force is at right ang
 
 - Magnetic field lines are closed loops. (Electric field lines run from $+$ to $-$.)
 - The **right-hand rule** gives the force on a **positive** charge. Point your fingers along $\vec{v}$, curl them toward $\vec{B}$, and your thumb points along $\vec{F}_m$. For a negative charge, flip the answer.
-- The unit is $[B] = \text{T} = \text{V·s/m}^2$ (derived in Chapter 1).
+- The unit is $[B] = \text{T} = \text{V}\cdot\text{s/m}^2$ (derived in Chapter 1).
 
 **The trick that makes the Hall effect easy.** The current is $I = nqv_dA$, so $q\vec{v}$ points along the conventional current $\vec{I}$ no matter whether the carriers are electrons or holes. That means
 
@@ -77,6 +77,8 @@ Notice the width $W$ cancelled. Only the **thickness along $B$** matters.
 
 ![[pcs-224-hall-carrier-sign.svg]]
 *Figure 4.2: In both samples the force points the same way, so both carrier types pile up on the top edge. In p-type that edge is positive, and in n-type it's negative.*
+
+<div class="melon-semi" data-view="hall">Interactive Hall effect diagram (open this page on the site to use it).</div>
 
 - **p-type:** holes pile up on the deflected edge, so it's at a higher potential and $V_H > 0$ in the standard setup.
 - **n-type:** electrons pile up there, so it's at a lower potential and $V_H < 0$.
@@ -255,7 +257,7 @@ v_d = \frac{|V_H|}{BW} = \frac{4.0\times10^{-3}}{(0.10)(2.0\times10^{-4})} = 200
 $$
 
 $$
-\mu = \frac{v_d}{E_x} = \frac{200}{5000} = 0.040\ \text{m}^2/\text{V·s} = 400\ \text{cm}^2/\text{V·s}
+\mu = \frac{v_d}{E_x} = \frac{200}{5000} = 0.040\ \text{m}^2/\text{V}\cdot\text{s} = 400\ \text{cm}^2/\text{V}\cdot\text{s}
 $$
 
 **(c) Resistivity.**
