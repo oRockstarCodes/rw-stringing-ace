@@ -2713,6 +2713,19 @@ article > * {
   .sm-mark-v {
     fill: var(--sm-pos);
   }
+  // Counting carriers: shaded electron and hole distributions and the n0 / p0 bars
+  .sm-area {
+    stroke-width: 1.5;
+    stroke-linejoin: round;
+  }
+  .sm-area-e {
+    fill: color-mix(in srgb, var(--sm-neg) 45%, transparent);
+    stroke: var(--sm-neg);
+  }
+  .sm-area-h {
+    fill: color-mix(in srgb, var(--sm-pos) 45%, transparent);
+    stroke: var(--sm-pos);
+  }
 
   // p-n junction
   .sm-rho-p {

@@ -9,9 +9,9 @@ tags:
 
 This chapter answers three questions left open by [[ch03-intro-to-semiconductors|Chapter 3]]:
 
-1. **The Hall effect:** how do we actually *measure* the sign, concentration and mobility of the carriers? A magnetic field pushes the carriers sideways, and a small voltage appears across the sample. It's one of the most-used measurement techniques in the semiconductor industry, and it's Lab 2.
-2. **The Bohr model:** why are atomic energies *discrete*? This is the first successful quantum model of an atom, and it introduces the idea of **allowed levels** that Chapter 5 turns into bands.
-3. **Doping in energy terms:** why does a dopant atom give up its extra carrier so easily at room temperature? Because the donor electron is only loosely held. It takes just about $0.045$ eV to free it.
+1. **The Hall effect:** how do we actually *measure* the sign, concentration and [[ch03-intro-to-semiconductors#Drift current and mobility|mobility]] of the carriers? A magnetic field pushes the carriers sideways, and a small voltage appears across the sample. It's one of the most-used measurement techniques in the semiconductor industry, and it's Lab 2.
+2. **The Bohr model:** why are atomic energies *discrete*? This is the first successful quantum model of an atom, and it introduces the idea of **allowed levels** that [[ch05-band-structure-and-fermi-function#From atomic levels to energy bands|Chapter 5]] turns into bands.
+3. **Doping in energy terms:** why does a dopant atom give up its extra carrier so easily at room temperature? Because the [[ch03-intro-to-semiconductors#Doping: extrinsic semiconductors|donor]] electron is only loosely held. It takes just about $0.045$ eV to free it.
 
 ## Notes
 
@@ -27,9 +27,9 @@ Here $q$ is the charge (C, signed), $\vec{v}$ is its velocity, $\vec{B}$ is the 
 
 - Magnetic field lines are closed loops. (Electric field lines run from $+$ to $-$.)
 - The **right-hand rule** gives the force on a **positive** charge. Point your fingers along $\vec{v}$, curl them toward $\vec{B}$, and your thumb points along $\vec{F}_m$. For a negative charge, flip the answer.
-- The unit is $[B] = \text{T} = \text{V}\cdot\text{s/m}^2$ (derived in Chapter 1).
+- The unit is $[B] = \text{T} = \text{V}\cdot\text{s/m}^2$ (derived in [[ch01-electrostatics-review#Example 5: Units check|Chapter 1]]).
 
-**The trick that makes the Hall effect easy.** The current is $I = nqv_dA$ (from [[ch03-intro-to-semiconductors|Chapter 3]]: $n$ is the carrier concentration, $q$ the carrier charge, $v_d$ the drift velocity and $A$ the cross-sectional area the current flows through), so $q\vec{v}$ points along the conventional current $\vec{I}$ no matter whether the carriers are electrons or holes. That means
+**The trick that makes the Hall effect easy.** The current is $I = nqv_dA$ (from [[ch03-intro-to-semiconductors#Drift current and mobility|Chapter 3]]: $n$ is the carrier concentration, $q$ the carrier charge, $v_d$ the drift velocity and $A$ the cross-sectional area the current flows through), so $q\vec{v}$ points along the conventional current $\vec{I}$ no matter whether the carriers are electrons or holes. That means
 
 $$
 \vec{F}_m \parallel \vec{I}\times\vec{B} \tag{4.2}
@@ -123,7 +123,7 @@ $$
 \frac{1}{\lambda} = R_H\left(\frac{1}{2^2} - \frac{1}{n^2}\right), \qquad n = 3, 4, 5, \dots \tag{4.8}
 $$
 
-where $\lambda$ is the wavelength of the line, $R_H = 1.097\times10^{7}$ m⁻¹ is the **Rydberg constant** for hydrogen, and $n$ is a whole number labelling which line (the same $n$ as the quantum number below, *not* the carrier concentration from Chapter 3).
+where $\lambda$ is the wavelength of the line, $R_H = 1.097\times10^{7}$ m⁻¹ is the **Rydberg constant** for hydrogen, and $n$ is a whole number labelling which line (the same $n$ as the quantum number below, *not* the carrier concentration from [[ch03-intro-to-semiconductors#Intrinsic semiconductors: electrons and holes|Chapter 3]]).
 
 **Puzzle 2: stability.** If an electron orbits the nucleus, it's constantly accelerating, and an accelerating charge radiates energy. A classical electron would spiral into the nucleus in about $10^{-11}$ s. Atoms obviously don't collapse.
 
@@ -150,7 +150,7 @@ $$
 hf = |E_i - E_f| = 13.6\left|\frac{1}{n_f^2} - \frac{1}{n_i^2}\right|\ \text{eV} \tag{4.11}
 $$
 
-- $hf$ is the photon energy ($h$ Planck's constant, $f$ the light's frequency, [[ch02-photoelectric-effect|Chapter 2]]). $E_i$ and $E_f$ are the energies of the initial and final levels, and $n_i$, $n_f$ are their quantum numbers (here $n_i$ means "initial $n$", **not** the intrinsic carrier concentration).
+- $hf$ is the photon energy ($h$ Planck's constant, $f$ the light's frequency, [[ch02-photoelectric-effect#Einstein's photon picture (1905)|Chapter 2]]). $E_i$ and $E_f$ are the energies of the initial and final levels, and $n_i$, $n_f$ are their quantum numbers (here $n_i$ means "initial $n$", **not** the [[ch03-intro-to-semiconductors#Intrinsic semiconductors: electrons and holes|intrinsic carrier concentration]]).
 - **Emission:** the electron drops to a lower level and a photon leaves.
 - **Absorption:** the reverse of emission. The electron takes in a photon and jumps **up** to a higher level. The electron can only sit in an allowed level, with nothing in between, so it can't take "a bit of energy" and move partway. The photon has to carry **exactly** the gap between two levels, $E_{\text{upper}} - E_{\text{lower}}$. Any other photon passes through. (A photon with *more* than the ionization energy removes the electron completely.)
   - *Example:* for hydrogen going from $n = 1$ to $n = 2$, the photon must carry $13.6\left(1 - \tfrac{1}{4}\right) = 10.2$ eV. A $10.2$ eV photon is absorbed. An $8$ eV photon passes through, because no level sits $8$ eV above $n = 1$. An $11$ eV photon also passes through, because it doesn't match any gap either.
@@ -159,13 +159,13 @@ $$
 
 Equation (4.11) reproduces the observed spectral lines exactly, which is why Bohr's model convinced everyone.
 
-> [!warning] Bohr's formulas are exact only for **one-electron** atoms like hydrogen. Many-electron atoms and real crystals need full quantum mechanics (Chapter 5). The big lesson survives, though: **electron energies are discrete** (quantized), with only certain allowed levels.
+> [!warning] Bohr's formulas are exact only for **one-electron** atoms like hydrogen. Many-electron atoms and real crystals need full quantum mechanics ([[ch05-band-structure-and-fermi-function#Quantum rules for many electrons|Chapter 5]]). The big lesson survives, though: **electron energies are discrete** (quantized), with only certain allowed levels.
 
 ### Doping in the Bohr picture
 
 Why does a Group V dopant let go of its extra electron so easily? Phosphorus's fifth electron sits **outside** the four bonds and orbits the P⁺ ion, like an electron around a proton. It's basically a hydrogen atom sitting inside the silicon crystal. Two things make it far more loosely bound than the $13.6$ eV of real hydrogen:
 
-1. The crystal has a **larger permittivity** than vacuum, which weakens the Coulomb attraction.
+1. The crystal has a **larger [[ch01-electrostatics-review#Electric fields and forces|permittivity]]** than vacuum, which weakens the Coulomb attraction.
 2. The electron's **effective mass** in the crystal is smaller than its mass in vacuum.
 
 Both effects shrink the binding energy and enlarge the orbit. (In the hydrogen formula the binding energy scales with the electron's mass and with $1/\varepsilon^2$, where $\varepsilon = \varepsilon_r\varepsilon_0$ is the material's permittivity. Silicon has $\varepsilon_r = 11.7$ and an effective mass well below the free-electron mass, so the $13.6$ eV drops by a factor of a few hundred.) For phosphorus in silicon, the **ionization energy** is only
@@ -174,7 +174,7 @@ $$
 E_c - E_d \approx 0.045\ \text{eV} \tag{4.12}
 $$
 
-Here $E_c$ is the energy of the bottom of the conduction band (the lowest energy a free electron can have in the crystal) and $E_d$ is the energy of the donor electron's level.
+Here $E_c$ is the energy of the bottom of the [[ch05-band-structure-and-fermi-function#From atomic levels to energy bands|conduction band]] (the lowest energy a free electron can have in the crystal) and $E_d$ is the energy of the donor electron's level.
 
 ![[pcs-224-doping-levels.svg]]
 *Figure 4.4: Dopant levels in the band gap. The donor level $E_d$ sits just below $E_c$ and the acceptor level $E_a$ just above $E_v$. Both are about $0.045$ eV from the nearest band edge in silicon.*
@@ -183,7 +183,7 @@ Here $E_c$ is the energy of the bottom of the conduction band (the lowest energy
 
 **p-type (acceptors).** A Group III atom like boron leaves a bond short, which gives an empty level $E_a$ just above the top of the valence band $E_v$ (again about $0.045$ eV for B in Si). At room temperature, valence electrons hop into it easily. That adds holes without adding electrons.
 
-> [!note] The key words are "just below $E_c$" and "just above $E_v$". A dopant level in the *middle* of the gap would never ionize at room temperature and would be useless. [[ch05-band-structure-and-fermi-function|Chapter 5]] builds up the band language ($E_c$, $E_v$, $E_F$) properly.
+> [!note] The key words are "just below $E_c$" and "just above $E_v$". A dopant level in the *middle* of the gap would never ionize at room temperature and would be useless. [[ch05-band-structure-and-fermi-function#From atomic levels to energy bands|Chapter 5]] builds up the band language ($E_c$, $E_v$, $E_F$) properly.
 
 ## Key formulas
 

@@ -7,7 +7,7 @@ tags:
 
 > [!info] Readings Serway & Jewett **39.2** + lecture notes · week 2
 
-Shine light on a metal and electrons can pop out of its surface. That sounds like something a wave should explain easily, but the experiment disagrees with the wave picture in several ways at once. Einstein's fix was to say light comes in small packets of energy called **photons**. This is the first piece of quantum physics we need, and it leads straight into energy levels and band gaps.
+Shine light on a metal and electrons can pop out of its surface. That sounds like something a wave should explain easily, but the experiment disagrees with the wave picture in several ways at once. Einstein's fix was to say light comes in small packets of energy called **photons**. This is the first piece of quantum physics we need, and it leads straight into [[ch04-hall-effect-bohr-model-doping#Why are energies discrete? The Bohr model|energy levels]] and [[ch05-band-structure-and-fermi-function#From atomic levels to energy bands|band gaps]].
 
 The whole chapter in four lines:
 
@@ -45,7 +45,7 @@ $$
 K_{\max} = e|V_s| \tag{2.1}
 $$
 
-where $K_{\max}$ is the kinetic energy of the fastest electrons and $e = 1.602\times10^{-19}$ C is the elementary charge. So a stopping potential of $2.0$ V means $K_{\max} = 2.0$ eV. This is just energy conservation from [[ch01-electrostatics-review|Chapter 1]].
+where $K_{\max}$ is the kinetic energy of the fastest electrons and $e = 1.602\times10^{-19}$ C is the [[ch01-electrostatics-review#Potential energy and potential|elementary charge]]. So a stopping potential of $2.0$ V means $K_{\max} = 2.0$ eV. This is just energy conservation from [[ch01-electrostatics-review#Potential energy and potential|Chapter 1]].
 
 ### What the experiment shows
 

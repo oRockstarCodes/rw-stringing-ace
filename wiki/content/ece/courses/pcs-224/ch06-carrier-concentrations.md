@@ -7,23 +7,28 @@ tags:
 
 > [!info] Readings Neamen **4.1.1–4.1.4, 4.3.1–4.3.2, 4.5, 4.6** · week 6
 
-[[ch05-band-structure-and-fermi-function|Chapter 5]] told us the *probability* that a state is occupied. This chapter turns that into **numbers**: how many electrons are in the conduction band, how many holes are in the valence band, and where the Fermi level sits for a given doping and temperature.
+[[ch05-band-structure-and-fermi-function#The Fermi function|Chapter 5]] told us the *probability* that a state is occupied. This chapter turns that into **numbers**: how many electrons are in the [[ch05-band-structure-and-fermi-function#From atomic levels to energy bands|conduction band]], how many holes are in the valence band, and where the Fermi level sits for a given doping and temperature.
 
 The logic goes like this:
 
 1. **Electrons** = (states available near $E_c$) × (chance they're filled), which gives $n_0 = N_c\,e^{-(E_c-E_F)/k_BT}$.
 2. **Holes** are the mirror image: $p_0 = N_v\,e^{-(E_F-E_v)/k_BT}$.
-3. Multiply them and $E_F$ drops out. What's left is the equation $n_0p_0 = n_i^2$ from [[ch03-intro-to-semiconductors|Chapter 3]], now with $n_i$ written in terms of $E_g$, $N_c$, $N_v$ and $T$.
+3. Multiply them and $E_F$ drops out. What's left is the equation $n_0p_0 = n_i^2$ from [[ch03-intro-to-semiconductors#The fundamental semiconductor equation|Chapter 3]], now with $n_i$ written in terms of $E_g$, $N_c$, $N_v$ and $T$.
 4. Turn the formulas around to find **where $E_F$ sits** for a given doping.
 
 ## Notes
 
 ### Counting carriers
 
-**Electrons in the conduction band.** Two things decide how many electrons sit at an energy: how many states exist there, $g(E)$, and how likely each one is to be filled, $f(E)$. Their product $g(E)f(E)$ is the number of electrons at that energy (Figure 6.1).
+**Electrons in the conduction band.** Think of the energy levels as seats in a theatre. To count the people in the seats at a given energy, you need two things:
 
-![[pcs-224-carriers-from-states.svg]]
-*Figure 6.1: The number of electrons at each energy is (states available) × (chance each is filled). It's tiny near $E_c$ and falls off quickly, and the same idea gives the holes below $E_v$.*
+1. **How many seats exist there**, $g(E)$. This is the [[ch05-band-structure-and-fermi-function#The Fermi function|density of states]]. There are no seats in the gap, and the number of seats grows as you go higher into a band.
+2. **How likely each seat is to be taken**, $f(E)$. This is the Fermi function from [[ch05-band-structure-and-fermi-function#The Fermi function|Chapter 5]]. It's close to 1 far below $E_F$ and close to 0 far above it.
+
+Multiply them: $g(E)\,f(E)$ is the number of electrons at that energy. Figure 6.1 draws all four steps on one shared energy axis, so you can read straight across at any height. Look at the conduction band. More seats higher up (column 2) are cancelled by a probability that drops very fast (column 3), so the electrons pile up in a thin sliver just above $E_c$ (column 4). The holes in the valence band work the same way, using $g(E)\,[1 - f(E)]$, the chance that a seat is *empty*.
+
+<div class="melon-semi" data-view="carriers">Interactive carrier-counting diagram (open this page on the site to use it).</div>
+*Figure 6.1: Bands, states, Fermi function and carriers on one energy axis (silicon). Move $E_F$ toward $E_c$ and the electron sliver grows while the hole sliver shrinks. Raise $T$ and both grow. The bars at the bottom show $n_0$ and $p_0$ on a log scale, and their product never changes with $E_F$.*
 
 If you add this up over the whole conduction band, you get a surprisingly simple answer, as long as $E_F$ is at least a few $k_BT$ below $E_c$:
 
@@ -40,7 +45,7 @@ N_c = 2\left(\frac{2\pi m_n^*k_BT}{h^2}\right)^{3/2} \tag{6.2}
 $$
 
 - $m_n^*$ is the electron's **effective mass**. It bundles up the electron's interaction with the lattice into one modified mass, different from the free-electron mass. ($m_p^*$, used below, is the same idea for holes.)
-- $h$ is Planck's constant and $k_BT$ is the thermal energy ([[ch03-intro-to-semiconductors|Chapter 3]]). The factor $2$ counts the two spin states.
+- $h$ is [[ch02-photoelectric-effect#Einstein's photon picture (1905)|Planck's constant]] and $k_BT$ is the thermal energy ([[ch03-intro-to-semiconductors#Intrinsic semiconductors: electrons and holes|Chapter 3]]). The factor $2$ counts the two spin states.
 - Usually $N_c$ is **given**. For silicon at 300 K it's about $2.8\times10^{19}$ cm⁻³ (Neamen, Appendix B).
 - It grows with temperature as $T^{3/2}$:
 
@@ -48,7 +53,7 @@ $$
 N_c(T) = N_c(300\,\text{K})\left(\frac{T}{300}\right)^{3/2} \tag{6.3}
 $$
 
-**Holes in the valence band.** A hole is a state *without* an electron, with probability $1 - f(E)$ (Eq. 5.3). The same calculation gives
+**Holes in the valence band.** A hole is a state *without* an electron, with probability $1 - f(E)$ ([[ch05-band-structure-and-fermi-function#Probability of holes|Eq. 5.3]]). The same calculation gives
 
 $$
 p_0 = N_v\,\exp\!\left(-\frac{E_F - E_v}{k_BT}\right) \tag{6.4}
@@ -70,13 +75,13 @@ $$
 n_0\,p_0 = N_cN_v\,\exp\!\left(-\frac{E_g}{k_BT}\right) \tag{6.6}
 $$
 
-Here $E_g = E_c - E_v$ is the band gap (the $E_F$ terms cancel because $(E_c - E_F) + (E_F - E_v) = E_g$). This holds for **any** equilibrium semiconductor, doped or not. For an intrinsic one, $n_0 = p_0 = n_i$, so $n_i^2$ equals the right side and
+Here $E_g = E_c - E_v$ is the [[ch05-band-structure-and-fermi-function#From atomic levels to energy bands|band gap]] (the $E_F$ terms cancel because $(E_c - E_F) + (E_F - E_v) = E_g$). This holds for **any** equilibrium semiconductor, doped or not. For an intrinsic one, $n_0 = p_0 = n_i$, so $n_i^2$ equals the right side and
 
 $$
 n_i = \sqrt{N_cN_v}\;\exp\!\left(-\frac{E_g}{2k_BT}\right) \tag{6.7}
 $$
 
-So $n_0p_0 = n_i^2$ shows up again, this time derived from the Fermi function and not from generation and recombination.
+So $n_0p_0 = n_i^2$ shows up again, this time derived from the Fermi function and not from [[ch03-intro-to-semiconductors#The fundamental semiconductor equation|generation and recombination]].
 
 **How $n_i$ depends on temperature.** Two factors compete: a slow power law ($\propto T^{3/2}$ from $\sqrt{N_cN_v}$) and the exponential $e^{-E_g/2k_BT}$. The exponential wins by far. A bigger gap means a much smaller $n_i$ at the same temperature.
 
@@ -112,7 +117,7 @@ $$
 
 **Doped material.**
 
-- **n-type:** $n_0 \approx N_D \gg n_i$, so $E_F$ is **above** $E_i$, closer to $E_c$.
+- **[[ch03-intro-to-semiconductors#Doping: extrinsic semiconductors|n-type]]:** $n_0 \approx N_D \gg n_i$, so $E_F$ is **above** $E_i$, closer to $E_c$.
 - **p-type:** $p_0 \approx N_A \gg n_i$, so $E_F$ is **below** $E_i$, closer to $E_v$.
 
 ![[pcs-224-fermi-level-positions.svg]]
@@ -126,7 +131,7 @@ $$
 
 ### The Fermi level is flat in equilibrium
 
-In thermal equilibrium, one $E_F$ applies to the whole system. If two materials with different Fermi levels touch, electrons flow from the side with the higher $E_F$ to the lower one until the levels line up. That charge transfer creates a potential difference between the two sides, the **built-in potential**, which is the heart of the p-n junction in [[ch07-pn-junction|Chapter 7]].
+In thermal equilibrium, one $E_F$ applies to the whole system. If two materials with different Fermi levels touch, electrons flow from the side with the higher $E_F$ to the lower one until the levels line up. That charge transfer creates a potential difference between the two sides, the **built-in potential**, which is the heart of the p-n junction in [[ch07-pn-junction#Fermi levels and the built-in potential|Chapter 7]].
 
 ## Key formulas
 
@@ -258,7 +263,7 @@ $$
 \frac{p_0'}{p_0} = e^{\Delta E/k_BT} = e^{0.26/0.02586} = e^{10.06} \approx 2.3\times10^{4}
 $$
 
-For p-type, $\sigma \approx q\mu_pp_0$ ([[ch03-intro-to-semiconductors|Chapter 3]], with $q = e$ the elementary charge and $\mu_p$ the hole mobility), and the mobility barely changes compared with an exponential, so **the conductivity goes up by about the same factor, $\approx 2.3\times10^4$**.
+For p-type, $\sigma \approx q\mu_pp_0$ ([[ch03-intro-to-semiconductors#Drift current and mobility|Chapter 3]], with $q = e$ the [[ch01-electrostatics-review#Potential energy and potential|elementary charge]] and $\mu_p$ the hole mobility), and the mobility barely changes compared with an exponential, so **the conductivity goes up by about the same factor, $\approx 2.3\times10^4$**.
 
 ## Common mistakes
 

@@ -9,10 +9,10 @@ tags:
 
 A semiconductor is a material whose ability to carry current you can **tune**, using temperature, light, and most of all by adding tiny amounts of impurity atoms (doping). That tunability is why semiconductors run the world's electronics.
 
-In this chapter I treat semiconductors the "classical" way, as atoms joined by bonds. The quantum band picture comes in [[ch05-band-structure-and-fermi-function|Chapter 5]]. Two questions drive everything:
+In this chapter I treat semiconductors the "classical" way, as atoms joined by bonds. The quantum band picture comes in [[ch05-band-structure-and-fermi-function#From atomic levels to energy bands|Chapter 5]]. Two questions drive everything:
 
 1. **How many carriers are there?** The free electrons and holes in pure and doped material are tied together by one equation, $n_0p_0 = n_i^2$.
-2. **How much current do they carry?** Carriers drift in an electric field, and the **mobility** $\mu$ tells us how fast. That gives $J = \sigma E$, which is Ohm's law.
+2. **How much current do they carry?** Carriers drift in an [[ch01-electrostatics-review#Electric fields and forces|electric field]], and the **mobility** $\mu$ tells us how fast. That gives $J = \sigma E$, which is Ohm's law.
 
 ## Notes
 
@@ -20,7 +20,7 @@ In this chapter I treat semiconductors the "classical" way, as atoms joined by b
 
 **The bond picture.** Each silicon atom has 4 valence electrons and shares them with its 4 neighbours, forming **four covalent bonds**. At $T = 0$ K every electron is locked in a bond. Nothing is free to move, so a semiconductor is an **insulator at absolute zero**.
 
-Breaking a bond takes $E_g = 1.12$ eV in silicon. That energy is the **band gap**, which becomes an energy-band picture in Chapter 5.
+Breaking a bond takes $E_g = 1.12$ eV in silicon. That energy is the **[[ch05-band-structure-and-fermi-function#From atomic levels to energy bands|band gap]]**, which becomes an energy-band picture in Chapter 5.
 
 **Heat supplies the energy.** Temperature measures the random jiggling of the atoms. A typical particle carries an extra energy of about $\tfrac{3}{2}k_BT$. The number to remember is
 
@@ -28,7 +28,7 @@ $$
 k_BT = 0.02586\ \text{eV} \quad \text{at } T = 300\ \text{K} \tag{3.1}
 $$
 
-where $k_B = 8.617\times10^{-5}$ eV/K is **Boltzmann's constant** (it converts a temperature into an energy), $T$ is the absolute temperature in kelvin, and $T(\text{K}) = T(^\circ\text{C}) + 273$. That's tiny next to $1.12$ eV. But there are so many bonds that a small fraction of them still break at room temperature.
+where $k_B = 8.617\times10^{-5}$ eV/K is **Boltzmann's constant** (it converts a temperature into an energy), $T$ is the absolute temperature in [[ch01-electrostatics-review#Units|kelvin]], and $T(\text{K}) = T(^\circ\text{C}) + 273$. That's tiny next to $1.12$ eV. But there are so many bonds that a small fraction of them still break at room temperature.
 
 Every broken bond creates two carriers (Figure 3.1, left):
 
@@ -76,7 +76,7 @@ $$
 
 In n-type material, electrons are the **majority** carriers and holes are the **minority** carriers. In p-type it's the other way around.
 
-> [!note] Doped material is still electrically neutral. Each donor that gave up an electron is now a fixed positive ion, which cancels the electron's charge. [[ch04-hall-effect-bohr-model-doping|Chapter 4]] explains why that fifth electron is so loosely held.
+> [!note] Doped material is still electrically neutral. Each donor that gave up an electron is now a fixed positive ion, which cancels the electron's charge. [[ch04-hall-effect-bohr-model-doping#Doping in the Bohr picture|Chapter 4]] explains why that fifth electron is so loosely held.
 
 ### The fundamental semiconductor equation
 
@@ -118,7 +118,7 @@ $$
 N_D + p_0 = N_A + n_0 \tag{3.7}
 $$
 
-If neutrality were broken, huge fields and currents would appear and push it right back, so it holds even with current flowing. The one exception is the **boundary between two different materials**, which is where junctions get their built-in field.
+If neutrality were broken, huge fields and currents would appear and push it right back, so it holds even with current flowing. The one exception is the **boundary between two different materials**, which is where [[ch07-pn-junction#How a junction forms|junctions]] get their built-in field.
 
 ### Drift current and mobility
 
@@ -154,7 +154,7 @@ $$
 \sigma = e\,(\mu_n n_0 + \mu_p p_0), \qquad \rho = \frac{1}{\sigma} \tag{3.11}
 $$
 
-where $e = 1.602\times10^{-19}$ C is the elementary charge (the magnitude of an electron's charge).
+where $e = 1.602\times10^{-19}$ C is the [[ch01-electrostatics-review#Potential energy and potential|elementary charge]] (the magnitude of an electron's charge).
 
 Equation (3.10) is **Ohm's law** at the microscopic level. $\sigma$ is the **conductivity** (S/cm) and $\rho$ is the **resistivity** (Ω·cm).
 

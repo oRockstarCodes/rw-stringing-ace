@@ -12,8 +12,8 @@ Everything so far was about a *single* piece of semiconductor. This chapter join
 The chapter comes down to five ideas:
 
 1. Holes and electrons **diffuse** across the boundary and **recombine**, which leaves a thin **depletion region** of exposed (fixed) donor and acceptor ions.
-2. Those exposed ions create an electric field and a potential step, the **built-in potential** $V_{bi}$, which stops the diffusion.
-3. $V_{bi}$ is set by the doping: $eV_{bi} = k_BT\ln\dfrac{N_aN_d}{n_i^2}$. It is the amount the two Fermi levels had to shift to line up.
+2. Those exposed ions create an [[ch01-electrostatics-review#Electric fields and forces|electric field]] and a potential step, the **built-in potential** $V_{bi}$, which stops the diffusion.
+3. $V_{bi}$ is set by the doping: $eV_{bi} = k_BT\ln\dfrac{N_aN_d}{n_i^2}$. It is the amount the two [[ch05-band-structure-and-fermi-function#The Fermi function|Fermi levels]] had to shift to line up.
 4. An applied voltage $V_D$ changes the barrier to $V_{total} = V_{bi} - V_D$. **Reverse** bias widens the depletion region and **forward** bias narrows it.
 5. The depletion width follows from Poisson's equation: $w \propto \sqrt{V_{total}}$, and the lighter-doped side takes most of the width.
 
@@ -23,7 +23,7 @@ The chapter comes down to five ideas:
 
 ### How a junction forms
 
-Put p-type material (lots of holes, few electrons) against n-type material (lots of electrons, few holes). Think of two gases separated by a porous wall with a different concentration on each side. When the wall is removed, particles **diffuse** from high concentration to low concentration, no electric force needed.
+Put [[ch03-intro-to-semiconductors#Doping: extrinsic semiconductors|p-type]] material (lots of holes, few electrons) against n-type material (lots of electrons, few holes). Think of two gases separated by a porous wall with a different concentration on each side. When the wall is removed, particles **diffuse** from high concentration to low concentration, no electric force needed.
 
 1. **Diffusion.** Holes diffuse from the p side into the n side. Electrons diffuse from the n side into the p side.
 2. **Recombination.** A diffusing electron meets a hole on the other side and they annihilate, since the electron falls back into the empty bond and the energy leaves as heat or a photon. One electron and one hole disappear.
@@ -31,11 +31,11 @@ Put p-type material (lots of holes, few electrons) against n-type material (lots
    - On the n side, each electron that left uncovers a **positive donor ion** (charge $+eN_d$).
    - On the p side, each hole that left uncovers a **negative acceptor ion** (charge $-eN_a$).
 
-A note on symbols: $N_a$ and $N_d$ are the same acceptor and donor concentrations that [[ch03-intro-to-semiconductors|Chapter 3]] wrote as $N_A$ and $N_D$ (lower case is just the usual convention for junctions). $e = 1.602\times10^{-19}$ C is the elementary charge, so $eN_d$ is the charge per cm³ of the exposed donor ions. $x$ is position measured across the junction, with $x = 0$ at the boundary, and $x_n$ and $x_p$ are how far the depletion region reaches into the n and p sides.
+A note on symbols: $N_a$ and $N_d$ are the same acceptor and donor concentrations that [[ch03-intro-to-semiconductors#Doping: extrinsic semiconductors|Chapter 3]] wrote as $N_A$ and $N_D$ (lower case is just the usual convention for junctions). $e = 1.602\times10^{-19}$ C is the [[ch01-electrostatics-review#Potential energy and potential|elementary charge]], so $eN_d$ is the charge per cm³ of the exposed donor ions. $x$ is position measured across the junction, with $x = 0$ at the boundary, and $x_n$ and $x_p$ are how far the depletion region reaches into the n and p sides.
 
 That region is the **depletion region** (also called the **space charge region** or **charge depletion region**). It has almost no free carriers, only fixed ions, which is the whole reason it's called "depleted". Its total width is $w = x_n + x_p$.
 
-> [!tip] The pure-water analogy from [[ch03-intro-to-semiconductors|Chapter 3]] doesn't apply here. The region is not a neutral mixture, it's a layer of *uncovered* charge. A good picture is two walls of fixed ions facing each other across a gap that carriers have been swept out of.
+> [!tip] The pure-water analogy from [[ch03-intro-to-semiconductors#Intrinsic semiconductors: electrons and holes|Chapter 3]] doesn't apply here. The region is not a neutral mixture, it's a layer of *uncovered* charge. A good picture is two walls of fixed ions facing each other across a gap that carriers have been swept out of.
 
 **The diffusion doesn't go on forever.** The uncovered charge builds an electric field that pushes carriers *back* the way they came, opposing the diffusion. The depletion region grows until the field-driven flow exactly cancels the diffusion flow, and then the junction is in equilibrium with no net current.
 
@@ -47,7 +47,7 @@ $$
 
 This tells you something useful right away: **the more heavily doped side has the thinner depletion layer**. If $N_a > N_d$, then $x_p < x_n$, and the depletion region reaches mostly into the lightly doped n side. The same total charge needs fewer layers where the charge density is higher.
 
-> [!note] Neutrality fails at the interface between two different materials, which is exactly where a junction forms. That's why a field can exist there without violating the rule from Chapter 3.
+> [!note] Neutrality fails at the interface between two different materials, which is exactly where a junction forms. That's why a field can exist there without violating the rule from [[ch03-intro-to-semiconductors#Compensation and neutrality|Chapter 3]].
 
 ### Electric field and potential in the junction
 
@@ -68,7 +68,7 @@ $$
 \frac{dE}{dx} = \frac{\rho}{\varepsilon_s}, \qquad \frac{d^2\varphi}{dx^2} = -\frac{\rho}{\varepsilon_s} \tag{7.2}
 $$
 
-where $E(x)$ is the electric field at position $x$, $\varphi(x)$ is the electrostatic potential (V), and $\rho$ is the **charge density** (C/cm³). This $\rho$ is not the resistivity from [[ch03-intro-to-semiconductors|Chapter 3]]; the chapter uses it only for charge density. $\varepsilon_s = \varepsilon_r\varepsilon_0$ is the permittivity of the semiconductor. For silicon $\varepsilon_r = 11.7$, and the number most convenient for our units is
+where $E(x)$ is the electric field at position $x$, $\varphi(x)$ is the electrostatic potential (V), and $\rho$ is the **charge density** (C/cm³). This $\rho$ is not the resistivity from [[ch03-intro-to-semiconductors#Drift current and mobility|Chapter 3]]; the chapter uses it only for charge density. $\varepsilon_s = \varepsilon_r\varepsilon_0$ is the [[ch01-electrostatics-review#Electric fields and forces|permittivity]] of the semiconductor. For silicon $\varepsilon_r = 11.7$, and the number most convenient for our units is
 
 $$
 \varepsilon_0 = 8.85\times10^{-14}\ \text{F/cm} = 5.52\times10^{5}\ \frac{e}{\text{V}\cdot\text{cm}}
@@ -119,11 +119,11 @@ This is the same as the area of the field triangle: $V_{total} = \tfrac{1}{2}\,w
 
 ### Fermi levels and the built-in potential
 
-[[ch06-carrier-concentrations|Chapter 6]] showed that in equilibrium a single Fermi level $E_F$ applies to the whole system. Before the p and n pieces touch, they have *different* Fermi levels: $E_F$ sits near $E_v$ in the p-type piece and near $E_c$ in the n-type piece. Once they touch, electrons flow from the higher-$E_F$ side (n) to the lower-$E_F$ side (p) until the levels line up. That's the same diffusion described above.
+[[ch06-carrier-concentrations#The Fermi level is flat in equilibrium|Chapter 6]] showed that in equilibrium a single Fermi level $E_F$ applies to the whole system. Before the p and n pieces touch, they have *different* Fermi levels: $E_F$ sits near $E_v$ in the p-type piece and near $E_c$ in the n-type piece. Once they touch, electrons flow from the higher-$E_F$ side (n) to the lower-$E_F$ side (p) until the levels line up. That's the same diffusion described above.
 
 A useful analogy is two water tanks at different heights joined by a pipe. Water flows until both surfaces are at the same level, and $E_F$ plays the role of the water level.
 
-The energy bands themselves can't stay put while $E_F$ moves, so they **bend**. In the depletion region the bands shift vertically so that $E_F$ is flat all the way across. The amount of the shift is the original difference between the two Fermi levels:
+The [[ch05-band-structure-and-fermi-function#From atomic levels to energy bands|energy bands]] themselves can't stay put while $E_F$ moves, so they **bend**. In the depletion region the bands shift vertically so that $E_F$ is flat all the way across. The amount of the shift is the original difference between the two Fermi levels:
 
 $$
 eV_{bi} = E_{Fn} - E_{Fp} \quad \text{(before contact)} \tag{7.7}
@@ -131,13 +131,13 @@ $$
 
 Here $E_{Fn}$ and $E_{Fp}$ are the Fermi levels of the n-type and p-type pieces, and $V_{bi}$ is the **built-in potential**, the potential step across the junction in volts (multiplying by $e$ turns it into an energy).
 
-**Why does uphill point to the left?** In Chapter 1 the potential rose toward the positive side. Here the band diagram looks like it climbs toward the p side. The band diagram shows the **energy of an electron**, $U = -e\varphi$, and electrons have negative charge. So high potential on the n side is *low* electron energy on the n side. Electrons "roll uphill" in potential, because that lowers their energy.
+**Why does uphill point to the left?** In [[ch01-electrostatics-review#Potential energy and potential|Chapter 1]] the potential rose toward the positive side. Here the band diagram looks like it climbs toward the p side. The band diagram shows the **energy of an electron**, $U = -e\varphi$, and electrons have negative charge. So high potential on the n side is *low* electron energy on the n side. Electrons "roll uphill" in potential, because that lowers their energy.
 
 The band diagram is the right-hand side of Figure 7.1 above.
 
-**Formula for $V_{bi}$.** We want the Fermi level difference in terms of the doping. From Chapter 6 (strong doping):
+**Formula for $V_{bi}$.** We want the Fermi level difference in terms of the doping. From [[ch06-carrier-concentrations#Where is the Fermi level?|Chapter 6]] (strong doping):
 
-Here $E_i$ is the intrinsic Fermi level (about mid-gap) and $n_i$ the intrinsic concentration, both from Chapters 3 and 6.
+Here $E_i$ is the [[ch06-carrier-concentrations#Where is the Fermi level?|intrinsic Fermi level]] (about mid-gap) and $n_i$ the [[ch03-intro-to-semiconductors#Intrinsic semiconductors: electrons and holes|intrinsic concentration]], both from Chapters 3 and 6.
 
 - On the n side, $n_0 = N_d$, so $E_{Fn} - E_i = k_BT\ln\dfrac{N_d}{n_i}$.
 - On the p side, $p_0 = N_a$, so $E_i - E_{Fp} = k_BT\ln\dfrac{N_a}{n_i}$.
@@ -182,7 +182,7 @@ $$
 
 - $V_{total}$ is **larger** than $V_{bi}$, so the barrier is higher.
 - More ions get uncovered, so the depletion region **widens**.
-- Majority carriers (holes on p, electrons on n) are blocked by the taller barrier.
+- [[ch03-intro-to-semiconductors#Doping: extrinsic semiconductors|Majority carriers]] (holes on p, electrons on n) are blocked by the taller barrier.
 - Minority carriers (electrons on the p side, holes on the n side) are *swept* down the barrier. This current is **small**, because it's limited by the tiny number of minority carriers, and it hardly depends on the voltage.
 
 **Forward bias** ($V_D > 0$, Figure 7.1, band diagram with the bias set positive):
@@ -327,7 +327,7 @@ This agrees with $0.814$ V; the tiny difference is rounding in $k_BT$ and $n_i$.
 
 For a given device, the temperature doubles. What happens to the potential barrier?
 
-It **changes, but doesn't exactly double, because $n_i$ depends on temperature too**. In $V_{bi} = \dfrac{k_BT}{e}\ln\dfrac{N_aN_d}{n_i^2}$, the prefactor does double, but $n_i$ grows rapidly with $T$ ([[ch06-carrier-concentrations|Chapter 6]]), which shrinks the logarithm. The doping $N_a$ and $N_d$ are fixed by the crystal and don't change with $T$.
+It **changes, but doesn't exactly double, because $n_i$ depends on temperature too**. In $V_{bi} = \dfrac{k_BT}{e}\ln\dfrac{N_aN_d}{n_i^2}$, the prefactor does double, but $n_i$ grows rapidly with $T$ ([[ch06-carrier-concentrations#Counting carriers|Chapter 6]]), which shrinks the logarithm. The doping $N_a$ and $N_d$ are fixed by the crystal and don't change with $T$.
 
 ### Example 3: The total barrier under bias
 

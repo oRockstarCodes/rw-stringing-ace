@@ -13,6 +13,11 @@ import { QuartzComponent, QuartzComponentConstructor } from "../types"
 //     The Fermi function (Figure 5.3). Slide the temperature and the position of E_F and see
 //     states in the bands fill and empty at random with probability f(E), next to the curve.
 //
+//   <div class="melon-semi" data-view="carriers"></div>
+//     Counting carriers (Figure 6.1). Bands, states g(E), the Fermi function f(E) and the
+//     resulting electron and hole distributions share one energy axis. Slide E_F and T and watch
+//     n_0 and p_0 trade places while n_0 p_0 stays pinned at n_i^2.
+//
 //   <div class="melon-semi" data-view="pn"></div>
 //     The p-n junction (Figures 7.1 and 7.2). Slide the bias and the doping: the charge, field
 //     and potential profiles and the band diagram all follow, and carriers cross the barrier
@@ -673,11 +678,205 @@ MelonSemi.afterDOMLoaded = `
     })
   }
 
+  // =====================================================================================
+  // Counting carriers
+  // =====================================================================================
+
+  function buildCarriers(root) {
+    const KB = 8.617e-5
+    const EG = 1.12, NC0 = 2.8e19, NV0 = 1.04e19 // silicon at 300 K
+    const EC = EG / 2, EV = -EG / 2 // energies in eV from mid-gap
+    const yE = (E) => 180 - E * 125
+    const X_G = 250, W_G = 110, X_F = 400, W_F = 110, X_N = 550, W_N = 150
+    const EMAX = 1.2, DMAX = EMAX - EC // how far above E_c (below E_v) the panels reach
+    const xBar = (v) => 100 + (clamp(Math.log10(Math.max(v, 1)), 0, 20) / 20) * 560
+    const P = { ef: 0, T: 300 }
+    const view = { ef: 0, T: 300 }
+    const cm3 = "cm\\u207b\\u00b3"
+
+    root.innerHTML =
+      '<svg class="oa-svg sm-svg" viewBox="0 0 760 430" role="img" aria-label="Bands, states available, Fermi function and the resulting electron and hole counts on one shared energy axis">' +
+      '<rect class="sm-band" data-val="cb" x="60" width="130"/>' +
+      '<rect class="sm-band" data-val="vb" x="60" width="130"/>' +
+      '<line class="sm-guide" data-val="gc" x1="60" x2="710"/><line class="sm-guide" data-val="gv" x1="60" x2="710"/>' +
+      '<line class="sm-ef-line" data-val="gef" x1="60" x2="710"/>' +
+      '<text class="oa-label" data-val="lc" x="54" text-anchor="end">' + sub("E", "c") + '</text>' +
+      '<text class="oa-label" data-val="lv" x="54" text-anchor="end">' + sub("E", "v") + '</text>' +
+      '<text class="oa-label sm-ef" data-val="lef" x="196">' + sub("E", "F") + '</text>' +
+      '<text class="oa-caption" x="125" y="18" text-anchor="middle">1 &middot; bands</text>' +
+      '<text class="oa-caption" x="' + (X_G + 55) + '" y="18" text-anchor="middle">2 &middot; states, g(E)</text>' +
+      '<text class="oa-caption" x="' + (X_F + 55) + '" y="18" text-anchor="middle">3 &middot; chance filled, f(E)</text>' +
+      '<text class="oa-caption" x="' + (X_N + 70) + '" y="18" text-anchor="middle">4 &middot; carriers</text>' +
+      '<line class="sm-axis" x1="' + X_G + '" y1="30" x2="' + X_G + '" y2="330"/>' +
+      '<line class="sm-axis" x1="' + X_F + '" y1="30" x2="' + X_F + '" y2="330"/>' +
+      '<line class="sm-guide" x1="' + (X_F + W_F) + '" y1="30" x2="' + (X_F + W_F) + '" y2="330"/>' +
+      '<line class="sm-axis" x1="' + X_N + '" y1="30" x2="' + X_N + '" y2="330"/>' +
+      '<text class="oa-small" x="' + X_G + '" y="344" text-anchor="middle">0</text>' +
+      '<text class="oa-small" x="' + (X_G + W_G / 2) + '" y="344" text-anchor="middle">more states &rarr;</text>' +
+      '<text class="oa-small" x="' + X_F + '" y="344" text-anchor="middle">0</text>' +
+      '<text class="oa-small" x="' + (X_F + W_F) + '" y="344" text-anchor="middle">1</text>' +
+      '<text class="oa-small" x="' + (X_N + W_N / 2) + '" y="344" text-anchor="middle">more carriers &rarr;</text>' +
+      '<path class="sm-prof sm-prof-e" data-val="gcurve"/>' +
+      '<path class="sm-curve" data-val="fcurve"/>' +
+      '<circle class="sm-mark" data-val="mhalf" r="5"/>' +
+      '<path class="sm-area sm-area-e" data-val="an"/><path class="sm-area sm-area-h" data-val="ap"/>' +
+      '<text class="oa-small" x="' + (X_N + 6) + '" y="44">electrons = g &times; f</text>' +
+      '<text class="oa-small" x="' + (X_N + 6) + '" y="322">holes = g &times; (1 &minus; f)</text>' +
+      '<text class="oa-caption" x="100" y="368">how many carriers, per ' + cm3 + ' (log scale, 1 to 10<tspan class="oa-sub" dy="-5">20</tspan><tspan dy="5">)</tspan></text>' +
+      '<text class="oa-label" x="92" y="387" text-anchor="end">n<tspan class="oa-sub" dy="4">0</tspan></text>' +
+      '<text class="oa-label" x="92" y="411" text-anchor="end">p<tspan class="oa-sub" dy="4">0</tspan></text>' +
+      '<rect class="sm-area sm-area-e" data-val="rn" x="100" y="376" height="14"/>' +
+      '<rect class="sm-area sm-area-h" data-val="rp" x="100" y="400" height="14"/>' +
+      '<text class="oa-val" data-val="tn" y="387"></text><text class="oa-val" data-val="tp" y="411"></text>' +
+      '<line class="sm-evd" data-val="ni" y1="372" y2="418" style="opacity:1;stroke-dasharray:4 3"/>' +
+      '<text class="oa-label" data-val="nilab" y="427" text-anchor="middle">' + sub("n", "i") + '</text>' +
+      '</svg>' +
+      chipRow([["i", "Intrinsic"], ["n", "n-type"], ["p", "p-type"]], "Preset position of the Fermi level", "pre") +
+      infoPanel +
+      '<div class="oa-controls">' +
+      slider("t", "T", 100, 600, 10, 300) +
+      slider("ef", "E<sub>F</sub>", -0.5, 0.5, 0.01, 0) +
+      "</div>" +
+      '<p class="oa-readout"></p>'
+
+    const $ = (k) => root.querySelector('[data-val="' + k + '"]')
+    const tIn = root.querySelector('input[data-k="t"]')
+    const efIn = root.querySelector('input[data-k="ef"]')
+    const outs = root.querySelectorAll("output")
+    const infoTitle = root.querySelector(".oa-info-title")
+    const infoText = root.querySelector(".oa-info-text")
+    const readout = root.querySelector(".oa-readout")
+
+    const fOf = (E, T, ef) => {
+      const z = (E - ef) / (KB * T)
+      return z > 700 ? 0 : z < -700 ? 1 : 1 / (1 + Math.exp(z))
+    }
+    const calc = (T, ef) => {
+      const kT = KB * T, s = Math.pow(T / 300, 1.5)
+      const Nc = NC0 * s, Nv = NV0 * s
+      return {
+        kT, Nc, Nv,
+        n: Nc * Math.exp(-(EC - ef) / kT),
+        p: Nv * Math.exp(-(ef - EV) / kT),
+        ni: Math.sqrt(Nc * Nv) * Math.exp(-EG / (2 * kT)),
+        ei: (kT / 2) * Math.log(Nv / Nc),
+      }
+    }
+
+    // Start at the true intrinsic level (a little below mid-gap), so n0 and p0 match at first
+    P.ef = view.ef = calc(300, 0).ei
+    efIn.value = P.ef
+
+    // g(E) never changes, so draw it once
+    let gd = ""
+    for (let k = 0; k <= 60; k++) { const d = (DMAX * k) / 60; gd += (k ? "L" : "M") + (X_G + (Math.sqrt(d / DMAX)) * W_G).toFixed(1) + " " + yE(EC + d).toFixed(1) }
+    for (let k = 0; k <= 60; k++) { const d = (DMAX * k) / 60; gd += (k ? "L" : "M") + (X_G + (Math.sqrt(d / DMAX)) * W_G).toFixed(1) + " " + yE(EV - d).toFixed(1) }
+    $("gcurve").setAttribute("d", gd)
+
+    // Area under g(E)f(E) above E_c (hole = true: g(E)(1-f(E)) below E_v), scaled so the
+    // tallest point is W_N wide. Samples bunch up near the band edge, where everything happens.
+    const area = (T, ef, hole) => {
+      const N = 140, pts = []
+      let peak = 0
+      for (let k = 0; k <= N; k++) {
+        const d = DMAX * Math.pow(k / N, 2)
+        const E = hole ? EV - d : EC + d
+        const f = fOf(E, T, ef)
+        const v = Math.sqrt(d) * (hole ? 1 - f : f)
+        pts.push([E, v]); if (v > peak) peak = v
+      }
+      if (!(peak > 1e-30)) return ""
+      let d = "M" + X_N + " " + yE(hole ? EV : EC).toFixed(1)
+      pts.forEach(([E, v]) => { d += "L" + (X_N + (v / peak) * W_N).toFixed(1) + " " + yE(E).toFixed(1) })
+      return d + "L" + X_N + " " + yE(pts[N][0]).toFixed(1) + "Z"
+    }
+
+    const draw = () => {
+      const { ef, T } = view
+      const c = calc(T, ef)
+      const yc = yE(EC), yv = yE(EV)
+      put($("cb"), "y", 30); put($("cb"), "height", Math.max(0, yc - 30).toFixed(1))
+      put($("vb"), "y", yv.toFixed(1)); put($("vb"), "height", Math.max(0, 330 - yv).toFixed(1))
+      ;[["gc", yc], ["gv", yv]].forEach(([k, y]) => { put($(k), "y1", y.toFixed(1)); put($(k), "y2", y.toFixed(1)) })
+      put($("lc"), "y", (yc + 4).toFixed(1)); put($("lv"), "y", (yv + 4).toFixed(1))
+      put($("gef"), "y1", yE(ef).toFixed(1)); put($("gef"), "y2", yE(ef).toFixed(1))
+      put($("lef"), "y", (yE(ef) - 6).toFixed(1))
+      let d = ""
+      for (let k = 0; k <= 90; k++) {
+        const E = -EMAX + ((2 * EMAX) * k) / 90
+        d += (k ? "L" : "M") + (X_F + fOf(E, T, ef) * W_F).toFixed(1) + " " + yE(E).toFixed(1)
+      }
+      put($("fcurve"), "d", d)
+      put($("mhalf"), "cx", (X_F + W_F / 2).toFixed(1)); put($("mhalf"), "cy", yE(ef).toFixed(1))
+      put($("an"), "d", area(T, ef, false)); put($("ap"), "d", area(T, ef, true))
+      const wn = xBar(c.n) - 100, wp = xBar(c.p) - 100
+      put($("rn"), "width", Math.max(1, wn).toFixed(1)); put($("rp"), "width", Math.max(1, wp).toFixed(1))
+      put($("tn"), "x", (xBar(c.n) + 8).toFixed(1)); put($("tn"), "html", sci(c.n))
+      put($("tp"), "x", (xBar(c.p) + 8).toFixed(1)); put($("tp"), "html", sci(c.p))
+      const xi = xBar(c.ni)
+      put($("ni"), "x1", xi.toFixed(1)); put($("ni"), "x2", xi.toFixed(1)); put($("nilab"), "x", xi.toFixed(1))
+    }
+
+    const info = () => {
+      const { ef, T } = P
+      const c = calc(T, ef)
+      const dn = EC - ef, dp = ef - EV
+      const edge = dn < 3 * c.kT || dp < 3 * c.kT
+      let t, x
+      if (Math.abs(ef - c.ei) < 0.03) {
+        t = "Intrinsic: E<sub>F</sub> sits about mid-gap"
+        x = "Both carrier types have to be thermally generated in pairs, so they match: n<sub>0</sub> &asymp; p<sub>0</sub> &asymp; n<sub>i</sub> = " + sci(c.ni) + " " + cm3 + ". The two bars are the same length."
+      } else if (ef > c.ei) {
+        t = "n-type: E<sub>F</sub> is closer to E<sub>c</sub>"
+        x = "Column 3 is higher at E<sub>c</sub> (a state there is more likely to be filled), so column 4 shows plenty of electrons. At E<sub>v</sub>, E<sub>F</sub> is far away, so the states there are almost all filled and only a few holes appear. The n<sub>0</sub> bar grows by the same factor that the p<sub>0</sub> bar shrinks."
+      } else {
+        t = "p-type: E<sub>F</sub> is closer to E<sub>v</sub>"
+        x = "Now f(E) is lower at E<sub>v</sub>, so more states in the valence band are empty: those empty states are the holes in column 4. Far up at E<sub>c</sub> almost nothing is filled, so electrons are rare. The p<sub>0</sub> bar grows by the same factor that the n<sub>0</sub> bar shrinks."
+      }
+      if (edge) x += " <em>E<sub>F</sub> is within 3k<sub>B</sub>T of a band edge here, where the simple exponential formulas for n<sub>0</sub> and p<sub>0</sub> start to fail. The curves above still use the full Fermi function.</em>"
+      return [t, x]
+    }
+
+    const refresh = () => {
+      outs[0].textContent = Math.round(P.T) + " K"
+      outs[1].textContent = (P.ef >= 0 ? "+" : "\\u2212") + Math.abs(P.ef).toFixed(2) + " eV"
+      const d = info()
+      infoTitle.innerHTML = d[0]
+      infoText.innerHTML = d[1]
+      const c = calc(P.T, P.ef)
+      readout.innerHTML = "n<sub>0</sub> = " + sci(c.n) + " &nbsp;&middot;&nbsp; p<sub>0</sub> = " + sci(c.p) + " &nbsp;&middot;&nbsp; n<sub>0</sub>p<sub>0</sub> = " + sci(c.n * c.p) + " = n<sub>i</sub><sup>2</sup> &nbsp;&middot;&nbsp; n<sub>i</sub> = " + sci(c.ni) + " " + cm3 + " &nbsp;&middot;&nbsp; E<sub>F</sub> is measured from mid-gap (silicon, E<sub>g</sub> = 1.12 eV)"
+    }
+
+    const markPre = chipGroup(root, "pre", (k, mark) => {
+      const c = calc(P.T, 0)
+      P.ef = k === "n" ? 0.35 : k === "p" ? -0.38 : clamp(c.ei, -0.5, 0.5)
+      efIn.value = P.ef
+      mark(k)
+      refresh()
+    })
+    ;[tIn, efIn].forEach((s) => s.addEventListener("input", () => {
+      P.T = +tIn.value; P.ef = +efIn.value
+      markPre("")
+      refresh()
+    }))
+
+    markPre("")
+    refresh()
+    draw()
+    animate(root, (dt) => {
+      const k = calm ? 1 : 1 - Math.exp(-dt * 8)
+      view.ef += (P.ef - view.ef) * k
+      view.T += (P.T - view.T) * k
+      draw()
+    })
+  }
+
   document.addEventListener("nav", () => {
     document.querySelectorAll(".melon-semi:not([data-ready])").forEach((root) => {
       root.dataset.ready = "true"
       const v = root.dataset.view
-      if (v === "fermi") buildFermi(root)
+      if (v === "carriers") buildCarriers(root)
+      else if (v === "fermi") buildFermi(root)
       else if (v === "pn") buildPN(root)
       else buildHall(root)
     })

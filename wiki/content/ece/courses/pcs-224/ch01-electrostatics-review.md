@@ -35,13 +35,13 @@ $$
 - The field in (1.1) comes from *other* charges, never from the charge $q$ that feels the force.
 - Fields from several sources **add as vectors**.
 
-**A large charged plate.** If you're close to a big flat plate (the distance is much smaller than the plate's size), the field is the same everywhere. A diode's depletion region looks like this, so we'll use it a lot. It's easiest to describe the plate by its charge per area, $\sigma = Q/A$:
+**A large charged plate.** If you're close to a big flat plate (the distance is much smaller than the plate's size), the field is the same everywhere. A diode's [[ch07-pn-junction#How a junction forms|depletion region]] looks like this, so we'll use it a lot. It's easiest to describe the plate by its charge per area, $\sigma = Q/A$:
 
 $$
 E = \frac{\sigma}{2\varepsilon_0} \quad \text{(one plate)} \tag{1.2}
 $$
 
-where $Q$ is the total charge on the plate (C), $A$ is the plate's area (m²), so $\sigma = Q/A$ is in C/m². The constant $\varepsilon_0 = 8.85\times10^{-12}$ F/m is the **permittivity of free space**. It sets how strongly a given charge produces a field in vacuum. Later, when the plate sits inside a semiconductor, $\varepsilon_0$ gets replaced by the material's own permittivity.
+where $Q$ is the total charge on the plate (C), $A$ is the plate's area (m²), so $\sigma = Q/A$ is in C/m². The constant $\varepsilon_0 = 8.85\times10^{-12}$ F/m is the **permittivity of free space**. It sets how strongly a given charge produces a field in vacuum. Later, when the plate sits inside a semiconductor, $\varepsilon_0$ gets replaced by the material's own [[ch07-pn-junction#Electric field and potential in the junction|permittivity]].
 
 Put a $+Q$ plate and a $-Q$ plate facing each other. Their fields add in the gap and cancel outside:
 
@@ -131,7 +131,7 @@ These are the SI units we'll use all term:
 
 Temperature is always in kelvin: $T(\text{K}) = T(^\circ\text{C}) + 273$. You'll also see metric prefixes constantly: $\text{n}=10^{-9}$, $\mu=10^{-6}$, $\text{m}=10^{-3}$, $\text{k}=10^{3}$. Device concentrations are usually in **cm⁻³**, so you'll be switching between m and cm a lot.
 
-> [!warning] Semiconductor problems mix unit systems: lengths in cm, concentrations in cm⁻³, mobility in cm²/(V·s), but $B$ in tesla, which is built from **metres**. Pick one system for the whole problem and convert the odd one out first.
+> [!warning] Semiconductor problems mix unit systems: lengths in cm, concentrations in cm⁻³, [[ch03-intro-to-semiconductors#Drift current and mobility|mobility]] in cm²/(V·s), but $B$ in tesla, which is built from **metres**. Pick one system for the whole problem and convert the odd one out first.
 
 **How I solve every problem:**
 
@@ -267,7 +267,7 @@ $$
 
 Show that the tesla can be written as V·s/m².
 
-A charge $q$ moving at speed $v$ perpendicular to a magnetic field $B$ feels a force $F = qvB$ (more in [[ch04-hall-effect-bohr-model-doping|Chapter 4]]), so $B = \dfrac{F}{qv}$. In units:
+A charge $q$ moving at speed $v$ perpendicular to a magnetic field $B$ feels a force $F = qvB$ (more in [[ch04-hall-effect-bohr-model-doping#Magnetic force on a moving charge|Chapter 4]]), so $B = \dfrac{F}{qv}$. In units:
 
 $$
 [B] = \frac{\text{N}}{\text{C}\cdot\text{m/s}} = \frac{\text{N}\cdot\text{s}}{\text{C}\cdot\text{m}}
@@ -279,7 +279,7 @@ $$
 [B] = \frac{(\text{J/m})\,\text{s}}{\text{C}\cdot\text{m}} = \frac{\text{J}}{\text{C}}\cdot\frac{\text{s}}{\text{m}^2} = \frac{\text{V}\cdot\text{s}}{\text{m}^2}\ \checkmark
 $$
 
-You'll use this form of the tesla in the Hall effect, where the voltage is $V_H = v_d B W$ ($v_d$ is the carriers' drift speed and $W$ the sample width, both defined in Chapters 3 and 4) and the units have to come out in volts.
+You'll use this form of the tesla in the [[ch04-hall-effect-bohr-model-doping#The Hall effect|Hall effect]], where the voltage is $V_H = v_d B W$ ($v_d$ is the carriers' [[ch03-intro-to-semiconductors#Drift current and mobility|drift speed]] and $W$ the sample width, both defined in Chapters 3 and 4) and the units have to come out in volts.
 
 ## Common mistakes
 

@@ -7,7 +7,7 @@ tags:
 
 > [!info] Readings Serway & Jewett **41.7, 42.4–42.6** · Neamen **3.1.1, 3.2.1, 3.2.5, 3.5** · week 5
 
-[[ch03-intro-to-semiconductors|Chapter 3]] used bonds to describe semiconductors, and [[ch04-hall-effect-bohr-model-doping|Chapter 4]] showed that electrons in atoms have discrete energies. This chapter combines the two. When atoms pack into a crystal, the allowed levels spread out into **energy bands** with **gaps** between them. Whether a material is a metal, a semiconductor or an insulator depends on how those bands are filled.
+[[ch03-intro-to-semiconductors#Intrinsic semiconductors: electrons and holes|Chapter 3]] used bonds to describe semiconductors, and [[ch04-hall-effect-bohr-model-doping#Why are energies discrete? The Bohr model|Chapter 4]] showed that electrons in atoms have discrete energies. This chapter combines the two. When atoms pack into a crystal, the allowed levels spread out into **energy bands** with **gaps** between them. Whether a material is a metal, a semiconductor or an insulator depends on how those bands are filled.
 
 Then we need a way to count *how many* electrons sit at a given energy at temperature $T$. That's the **Fermi function**, and one number, the **Fermi level** $E_F$, controls it.
 
@@ -16,7 +16,7 @@ The key ideas:
 1. Two electrons can't share a quantum state (**Pauli exclusion**), so electrons fill energy states from the bottom up.
 2. A **band** is a huge number of closely spaced allowed levels, and a **gap** is a range of energies with no allowed levels.
 3. Only a **partly filled** band can carry current. A metal has one. An insulator or semiconductor has a **full valence band** and an **empty conduction band** at 0 K.
-4. A semiconductor's gap is small (about 1 eV), so heat can lift some electrons across, which creates **electrons and holes**.
+4. A semiconductor's gap is small (about 1 eV), so heat can lift some electrons across, which creates **[[ch03-intro-to-semiconductors#Intrinsic semiconductors: electrons and holes|electrons and holes]]**.
 5. The chance that a state at energy $E$ is occupied is $f(E) = \dfrac{1}{1 + e^{(E-E_F)/k_BT}}$.
 
 ## Notes
@@ -25,10 +25,10 @@ The key ideas:
 
 Classical physics works for everyday objects. For electrons we need **quantum mechanics**, and its central idea is **wave–particle duality**.
 
-- **Light** acts like particles (photons) when it's absorbed, emitted or scattered, with energy $E = hf$ and momentum $p = h/\lambda$ ([[ch02-photoelectric-effect|Chapter 2]]). (Here $p$ is momentum, not the hole concentration $p_0$. $h$ is Planck's constant, $f$ the frequency and $\lambda$ the wavelength.)
+- **Light** acts like particles (photons) when it's absorbed, emitted or scattered, with energy $E = hf$ and momentum $p = h/\lambda$ ([[ch02-photoelectric-effect#Einstein's photon picture (1905)|Chapter 2]]). (Here $p$ is momentum, not the [[ch03-intro-to-semiconductors#Intrinsic semiconductors: electrons and holes|hole concentration]] $p_0$. $h$ is Planck's constant, $f$ the frequency and $\lambda$ the wavelength.)
 - **Particles** like electrons have a definite mass and charge, but they aren't pinned to one point. A **wave function** gives the *probability* of finding the particle in a given place.
 
-In an isolated atom, each electron state is labelled by quantum numbers $(n, l, m)$ plus a spin ($\pm\tfrac{1}{2}$). Here $n$ is the principal quantum number from [[ch04-hall-effect-bohr-model-doping|Chapter 4]] (it sets the energy), $l$ describes the shape of the orbit (its angular momentum), and $m$ describes its orientation. You don't need to calculate with them. The point is just that each *combination* is one distinct state. With many electrons, two rules decide who goes where:
+In an isolated atom, each electron state is labelled by quantum numbers $(n, l, m)$ plus a spin ($\pm\tfrac{1}{2}$). Here $n$ is the principal quantum number from [[ch04-hall-effect-bohr-model-doping#Why are energies discrete? The Bohr model|Chapter 4]] (it sets the energy), $l$ describes the shape of the orbit (its angular momentum), and $m$ describes its orientation. You don't need to calculate with them. The point is just that each *combination* is one distinct state. With many electrons, two rules decide who goes where:
 
 1. **Pauli exclusion principle.** No two electrons can be in the same quantum state.
 2. **Lowest energy first.** At $T = 0$ K (the ground state), electrons fill the lowest available states.
@@ -88,11 +88,11 @@ Typical band gaps:
 When an electron jumps from the valence band to the conduction band, **two** carriers appear:
 
 - The electron in the conduction band is free to move under a field (against $\vec{E}$). These are the **n-carriers**.
-- It leaves an empty state, a **hole**, in the valence band. Neighbouring valence electrons can move into it, so the hole moves the opposite way, **along** $\vec{E}$. These are the **p-carriers**. The Hall effect confirmed that holes act like positive charges ([[ch04-hall-effect-bohr-model-doping|Chapter 4]]).
+- It leaves an empty state, a **hole**, in the valence band. Neighbouring valence electrons can move into it, so the hole moves the opposite way, **along** $\vec{E}$. These are the **p-carriers**. The Hall effect confirmed that holes act like positive charges ([[ch04-hall-effect-bohr-model-doping#The Hall effect|Chapter 4]]).
 
 So heat makes electron–hole pairs, and in a pure semiconductor the number of holes in the valence band equals the number of electrons in the conduction band.
 
-**Doping** adds levels *inside* the gap, close to the band edges (donors near $E_c$, acceptors near $E_v$), like in Figure 4.4. At room temperature they ionize and supply carriers of one type.
+**[[ch03-intro-to-semiconductors#Doping: extrinsic semiconductors|Doping]]** adds levels *inside* the gap, close to the band edges (donors near $E_c$, acceptors near $E_v$), like in [[ch04-hall-effect-bohr-model-doping#Doping in the Bohr picture|Figure 4.4]]. At room temperature they ionize and supply carriers of one type.
 
 ### The Fermi function
 
@@ -104,7 +104,7 @@ $$
 f(E) = \frac{1}{1 + e^{(E - E_F)/k_BT}} \tag{5.1}
 $$
 
-where $E$ is the energy of the state you're asking about, $E_F$ is the Fermi energy, $T$ is the temperature in kelvin, and $k_BT$ is the thermal energy from [[ch03-intro-to-semiconductors|Chapter 3]]. The combination $(E - E_F)/k_BT$ is just "how many thermal-energy units above the Fermi level this state is".
+where $E$ is the energy of the state you're asking about, $E_F$ is the Fermi energy, $T$ is the temperature in kelvin, and $k_BT$ is the thermal energy from [[ch03-intro-to-semiconductors#Intrinsic semiconductors: electrons and holes|Chapter 3]]. The combination $(E - E_F)/k_BT$ is just "how many thermal-energy units above the Fermi level this state is".
 
 <div class="melon-semi" data-view="fermi">Interactive Fermi function diagram (open this page on the site to use it).</div>
 *Figure 5.3: The Fermi function. At $T = 0$ it's a step. Warming smooths the step over a few $k_BT$, but the curve always passes through $\frac{1}{2}$ at $E = E_F$.*
@@ -126,8 +126,6 @@ where $E$ is the energy of the state you're asking about, $E_F$ is the Fermi ene
 $$
 E_c - E_F \approx E_F - E_v \approx \frac{E_g}{2} \tag{5.2}
 $$
-
-(Chapter 6 gives the small correction.)
 
 ### Probability of holes
 
@@ -188,7 +186,7 @@ $$
 \lambda_{\max}\ (\text{nm}) = \frac{1240}{E_g\ (\text{eV})}
 $$
 
-- $\lambda_{\max}$: the longest wavelength whose photons still have energy $\ge E_g$ (from $E = hc/\lambda$, [[ch02-photoelectric-effect|Chapter 2]])
+- $\lambda_{\max}$: the longest wavelength whose photons still have energy $\ge E_g$ (from $E = hc/\lambda$, [[ch02-photoelectric-effect#Einstein's photon picture (1905)|Chapter 2]])
 - $E_g = E_c - E_v$: band gap; $E_c$: bottom of the conduction band; $E_v$: top of the valence band
 
 ## Examples
@@ -209,7 +207,7 @@ $$
 n = g\,f = (1\times10^{19})(3.9\times10^{-10}) = 3.9\times10^{9}\ \text{cm}^{-3}
 $$
 
-> [!note] That's already close to the order of magnitude of silicon's intrinsic carrier density ($\sim10^{10}$ cm⁻³). The Fermi function really is what produces $n_i$ (see Chapter 6).
+> [!note] That's already close to the order of magnitude of silicon's [[ch03-intro-to-semiconductors#Intrinsic semiconductors: electrons and holes|intrinsic carrier density]] ($\sim10^{10}$ cm⁻³). The Fermi function really is what produces $n_i$ (see [[ch06-carrier-concentrations#Counting carriers|Chapter 6]]).
 
 ### Example 2: A wider gap
 
@@ -275,9 +273,9 @@ $$
 \frac{f(310)}{f(300)} = \exp\!\left[\frac{E_g}{2k_B}\left(\frac{1}{300} - \frac{1}{310}\right)\right] = \exp\!\left[\frac{0.5535}{8.617\times10^{-5}}\,(1.075\times10^{-4})\right] = e^{0.69} \approx 2.0
 $$
 
-That's an increase of about **99%**, so a $10$ K rise **doubles** the probability. The Fermi function is exponentially sensitive to temperature, and this is the reason $n_i$ roughly doubles per 10 K in Chapter 6.
+That's an increase of about **99%**, so a $10$ K rise **doubles** the probability. The Fermi function is exponentially sensitive to temperature, and this is the reason $n_i$ roughly doubles per 10 K in [[ch06-carrier-concentrations#Counting carriers|Chapter 6]].
 
-**What else changes?** The number of available states near the band edge, $N_c$ (the effective density of states, defined in [[ch06-carrier-concentrations|Chapter 6]]), is proportional to $T^{3/2}$ and also grows, but only by about 5%, so the exponential is what dominates.
+**What else changes?** The number of available states near the band edge, $N_c$ (the effective density of states, defined in [[ch06-carrier-concentrations#Counting carriers|Chapter 6]]), is proportional to $T^{3/2}$ and also grows, but only by about 5%, so the exponential is what dominates.
 
 ## Common mistakes
 
