@@ -152,8 +152,10 @@ $$
 
 - $hf$ is the photon energy ($h$ Planck's constant, $f$ the light's frequency, [[ch02-photoelectric-effect|Chapter 2]]). $E_i$ and $E_f$ are the energies of the initial and final levels, and $n_i$, $n_f$ are their quantum numbers (here $n_i$ means "initial $n$", **not** the intrinsic carrier concentration).
 - **Emission:** the electron drops to a lower level and a photon leaves.
-- **Absorption:** only a photon with **exactly** the right energy $E_{\text{upper}} - E_{\text{lower}}$ lifts the electron up. A photon with the wrong energy passes through. (A photon with *more* than the ionization energy removes the electron completely.)
-- **Ionization** from level $n$ costs $13.6/n^2$ eV. An atom that is already excited is easier to ionize than one in the ground state.
+- **Absorption:** the reverse of emission. The electron takes in a photon and jumps **up** to a higher level. The electron can only sit in an allowed level, with nothing in between, so it can't take "a bit of energy" and move partway. The photon has to carry **exactly** the gap between two levels, $E_{\text{upper}} - E_{\text{lower}}$. Any other photon passes through. (A photon with *more* than the ionization energy removes the electron completely.)
+  - *Example:* for hydrogen going from $n = 1$ to $n = 2$, the photon must carry $13.6\left(1 - \tfrac{1}{4}\right) = 10.2$ eV. A $10.2$ eV photon is absorbed. An $8$ eV photon passes through, because no level sits $8$ eV above $n = 1$. An $11$ eV photon also passes through, because it doesn't match any gap either.
+  - *Above the ionization energy:* once the photon carries at least $13.6$ eV (from the ground state), the electron is pulled free. A free electron has no allowed-energy restriction, so any extra energy just becomes its kinetic energy. Past that threshold, any photon works, not only exact matches.
+- **Ionization** means removing the electron completely, so the atom is left as a positive ion. In energy terms, the electron is lifted from its level up to $E = 0$ (a free electron at rest). The energy that costs is $0 - E_n$, so ionization from level $n$ costs $13.6/n^2$ eV. An atom that is already excited is easier to ionize than one in the ground state, because it starts closer to $E = 0$. The donor electron in the next section is the same idea with a much smaller energy: ionizing it means lifting it from $E_d$ up to $E_c$.
 
 Equation (4.11) reproduces the observed spectral lines exactly, which is why Bohr's model convinced everyone.
 
