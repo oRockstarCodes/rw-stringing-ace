@@ -43,7 +43,10 @@ $$
 - $h$ is Planck's constant and $k_BT$ is the thermal energy ([[ch03-intro-to-semiconductors|Chapter 3]]). The factor $2$ counts the two spin states.
 - Usually $N_c$ is **given**. For silicon at 300 K it's about $2.8\times10^{19}$ cm⁻³ (Neamen, Appendix B).
 - It grows with temperature as $T^{3/2}$:
-  $$N_c(T) = N_c(300\,\text{K})\left(\frac{T}{300}\right)^{3/2} \tag{6.3}$$
+
+$$
+N_c(T) = N_c(300\,\text{K})\left(\frac{T}{300}\right)^{3/2} \tag{6.3}
+$$
 
 **Holes in the valence band.** A hole is a state *without* an electron, with probability $1 - f(E)$ (Eq. 5.3). The same calculation gives
 
