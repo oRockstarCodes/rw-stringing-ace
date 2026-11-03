@@ -10,7 +10,7 @@ tags:
 This chapter answers three questions left open by [[ch03-intro-to-semiconductors|Chapter 3]]:
 
 1. **The Hall effect:** how do we actually *measure* the sign, concentration and mobility of the carriers? A magnetic field pushes the carriers sideways, and a small voltage appears across the sample. It's one of the most-used measurement techniques in the semiconductor industry, and it's Lab 2.
-2. **The Bohr model:** why are atomic energies *discrete*? This is the first successful quantum model of an atom, and it introduces the idea of **allowed energies** that Chapter 5 turns into bands.
+2. **The Bohr model:** why are atomic energies *discrete*? This is the first successful quantum model of an atom, and it introduces the idea of **allowed levels** that Chapter 5 turns into bands.
 3. **Doping in energy terms:** why does a dopant atom give up its extra carrier so easily at room temperature? Because the donor electron is only loosely held. It takes just about $0.045$ eV to free it.
 
 ## Notes
@@ -127,7 +127,7 @@ where $\lambda$ is the wavelength of the line, $R_H = 1.097\times10^{7}$ m⁻¹ 
 
 **Puzzle 2: stability.** If an electron orbits the nucleus, it's constantly accelerating, and an accelerating charge radiates energy. A classical electron would spiral into the nucleus in about $10^{-11}$ s. Atoms obviously don't collapse.
 
-**Bohr's idea (1913).** Only **certain orbits are allowed**, and an electron in one of them does **not** radiate:
+**Bohr's idea (1913).** Only **certain orbits are allowed**, and an electron in one of them does **not** radiate. Each allowed orbit has one specific energy, called an **allowed level**. We say the energies are **discrete** (also called **quantized**): the electron can have the energy of one level or another, but never a value in between.
 
 $$
 r_n = n^2 a_0, \qquad a_0 = 5.29\times10^{-11}\ \text{m} \tag{4.9}
@@ -159,7 +159,7 @@ $$
 
 Equation (4.11) reproduces the observed spectral lines exactly, which is why Bohr's model convinced everyone.
 
-> [!warning] Bohr's formulas are exact only for **one-electron** atoms like hydrogen. Many-electron atoms and real crystals need full quantum mechanics (Chapter 5). The big lesson survives, though: **electron energies are quantized**.
+> [!warning] Bohr's formulas are exact only for **one-electron** atoms like hydrogen. Many-electron atoms and real crystals need full quantum mechanics (Chapter 5). The big lesson survives, though: **electron energies are discrete** (quantized), with only certain allowed levels.
 
 ### Doping in the Bohr picture
 

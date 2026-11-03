@@ -7,7 +7,7 @@ tags:
 
 > [!info] Readings Serway & Jewett **41.7, 42.4–42.6** · Neamen **3.1.1, 3.2.1, 3.2.5, 3.5** · week 5
 
-[[ch03-intro-to-semiconductors|Chapter 3]] used bonds to describe semiconductors, and [[ch04-hall-effect-bohr-model-doping|Chapter 4]] showed that electrons in atoms have discrete energies. This chapter combines the two. When atoms pack into a crystal, the discrete levels spread out into **energy bands** with **gaps** between them. Whether a material is a metal, a semiconductor or an insulator depends on how those bands are filled.
+[[ch03-intro-to-semiconductors|Chapter 3]] used bonds to describe semiconductors, and [[ch04-hall-effect-bohr-model-doping|Chapter 4]] showed that electrons in atoms have discrete energies. This chapter combines the two. When atoms pack into a crystal, the allowed levels spread out into **energy bands** with **gaps** between them. Whether a material is a metal, a semiconductor or an insulator depends on how those bands are filled.
 
 Then we need a way to count *how many* electrons sit at a given energy at temperature $T$. That's the **Fermi function**, and one number, the **Fermi level** $E_F$, controls it.
 
