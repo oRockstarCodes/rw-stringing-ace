@@ -263,6 +263,33 @@ A photon must have $E \ge E_g$, so $\lambda \le 1240/E_g$:
 
 Photons with a longer $\lambda$ than this pass through without exciting electrons. The same idea comes back with the LED and photodiode in [[ch08-junction-capacitance-and-optoelectronics|Chapter 8]].
 
+> [!example] Lab 4 runs this table backwards. An LED doesn't absorb a photon to lift an electron across the gap. It emits one when an electron drops back across it. The photon carries about $E_g$, so $E_g = hf = hc/\lambda$. Under forward bias, the current only becomes noticeable once each electron has been given roughly that much energy by the supply, so
+>
+> $$
+> eV_t \approx E_g = \frac{hc}{\lambda} \quad\Rightarrow\quad V_t = \frac{h}{e}\,f
+> $$
+>
+> where $V_t$ is the **turn-on voltage**. This is the stopping-potential line from [[ch02-photoelectric-effect#What Lab 1 looked like|Lab 1]] again, with the same slope $h/e$.
+>
+> We swept the voltage across seven LEDs with an Arduino and read the voltage where the current reached about $1$ mA on a log axis (steps of $0.025$ V, so $V_t$ is good to $\pm0.025$ V):
+>
+> | LED | $\lambda$ (nm) | $1240/\lambda$ (eV) | Measured $V_t$ (V) | Difference (V) |
+> | --- | --- | --- | --- | --- |
+> | UV | 395 | 3.14 | 2.94 | 0.20 |
+> | Blue | 461 | 2.69 | 2.60 | 0.09 |
+> | Green | 580 | 2.14 | 1.90 | 0.24 |
+> | Yellow | 591 | 2.10 | 1.91 | 0.19 |
+> | Red | 658 | 1.88 | 1.79 | 0.09 |
+> | IR | 940 | 1.32 | 1.04 | 0.28 |
+> | White | 450 | 2.76 | 2.91 | $-0.15$ |
+>
+> - **Shorter wavelength, bigger gap, higher turn-on voltage.** $V_t$ climbs from $1.04$ V for the IR LED to $2.94$ V for the UV one. It's a straight line against $f$.
+> - **The fitted slope gives $h$.** All seven points give $4.59\times10^{-15}$ V·s, so $h = 7.35\times10^{-34}$ J·s, which is $10.9\%$ high. The expected slope is $h/e = 4.136\times10^{-15}$ V·s.
+> - **The white LED is the odd one out.** It isn't a single-gap device. It's a blue or UV chip coated in yellow phosphor, so its turn-on is set by the chip, at $2.91$ V, not by the listed $450$ nm. Dropping it gives a slope of $4.32\times10^{-15}$ V·s and $h = 6.92\times10^{-34}$ J·s, only $4.4\%$ high. We report both, because the white LED was excluded for a physical reason and not because it improved the fit.
+> - **Every other LED turns on $0.1$ to $0.3$ V *below* $hc/(e\lambda)$.** That's why both fitted lines have a negative intercept ($-0.385$ V with all seven, $-0.283$ V without white) when the equation predicts a line through the origin. Current rises exponentially with voltage, so $1$ mA is already flowing slightly below $E_g/e$. The relation $eV_t = E_g$ is only approximate when $V_t$ is read at a fixed current. [[ch07-pn-junction#Lab 3: checking the diode equation|Chapter 7]] shows where that exponential comes from.
+>
+> LEDs are built from direct-gap III–V compounds like GaAs alloys. In Si and Ge, recombination also needs a lattice vibration, so most of the energy ends up as heat and very few photons come out.
+
 ### Example 6: Warming from 27 °C to 37 °C
 
 A silicon crystal has $E_g = 1.107$ eV with $E_F$ at mid-gap. How much does the probability of finding an electron at the bottom of the conduction band increase when the temperature goes from $300$ K to $310$ K?

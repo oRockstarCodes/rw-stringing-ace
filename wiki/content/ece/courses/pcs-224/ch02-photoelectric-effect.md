@@ -16,7 +16,7 @@ The whole chapter in four lines:
 3. The fastest escaping electron has $K_{\max} = hf - \phi$.
 4. Brightness only changes **how many** electrons come out, not how energetic they are.
 
-> [!note] Lab 1 is this experiment. You measure the stopping potential at several frequencies and get $h$ from the slope of Figure 2.2.
+> [!note] Lab 1 is this experiment. You measure the stopping potential at several frequencies and get $h$ from the slope of Figure 2.2. [[#What Lab 1 looked like|Our actual numbers]] are further down, and Lab 4 gets $h/e$ as a slope a second way, from LEDs ([[ch05-band-structure-and-fermi-function#Example 5: Light and the gap|Chapter 5]]).
 
 ## Notes
 
@@ -104,6 +104,43 @@ Here $\phi$ is the work function and $K_{\max}$ the kinetic energy of the fastes
 - The **vertical intercept** (extend the line back to $f = 0$) is $-\phi$.
 
 > [!warning] Keep these two apart: intensity changes **photons per second**, and frequency changes **energy per photon**. Doubling the brightness never raises $K_{\max}$, and a faint beam above threshold still ejects electrons instantly.
+
+### What Lab 1 looked like
+
+Lab 1 split a mercury lamp into five spectral lines and shone each one on a photocell, reading the stopping voltage off a multimeter. Every colour shows up **twice**, once as a bright first-order line and once as a dim second-order line. That's the intensity test from the table above, done on the bench.
+
+| Line | $\lambda$ (nm) | $f$ ($10^{14}$ Hz) | $\lvert V_s\rvert$, bright 1st order (V) | $\lvert V_s\rvert$, dim 2nd order (V) |
+| --- | --- | --- | --- | --- |
+| Yellow | 578.0 | 5.19 | 0.68 | 0.61 |
+| Green | 546.1 | 5.49 | 0.79 | 0.71 |
+| Blue | 435.8 | 6.88 | 1.41 | 1.37 |
+| Blue/violet | 404.7 | 7.41 | 1.60 | 1.54 |
+| Dark violet | 365.5 | 8.20 | 1.82 | 1.72 |
+
+Each voltage is good to $\pm0.05$ V. Three things came out of it.
+
+**1. Intensity didn't matter.** The bright and dim line of one colour gave stopping voltages within $0.04$ to $0.10$ V of each other, which is about the size of the reading uncertainty. The dim line was always a little lower, and we put that down to dim lines taking longer to settle. The brightness changed a lot and $|V_s|$ barely moved, which is exactly what the photon picture predicts and the wave picture can't.
+
+**2. Frequency gave a straight line.** Rearranging Eq. (2.4) for the plotted quantity gives
+
+$$
+|V_s| = \frac{h}{e}\,f - \frac{\phi}{e}
+$$
+
+so the slope is $h/e$ and the vertical intercept is $-\phi/e$. Fitting each set of five points:
+
+| | Slope (V·s) | Intercept (V) | $h = \text{slope}\times e$ (J·s) | $\phi$ (eV) |
+| --- | --- | --- | --- | --- |
+| 1st order | $3.92\times10^{-15}$ | $-1.34$ | $6.28\times10^{-34}$ | $1.34$ |
+| 2nd order | $3.89\times10^{-15}$ | $-1.39$ | $6.23\times10^{-34}$ | $1.39$ |
+
+Averaging the two, with half the difference as the uncertainty, gives $h = (6.26 \pm 0.03)\times10^{-34}$ J·s and $\phi = 1.37 \pm 0.03$ eV. The accepted $h = 6.626\times10^{-34}$ J·s is about $5.6\%$ higher and sits outside that range, so some systematic error was left over. Our suspects were stray light reaching the detector and lines sitting slightly off-centre on the slit. Notice the slope really is $h/e$ ($3.9\times10^{-15}$ V·s), not $h$.
+
+> [!tip] The intercept is a longer reach than the slope. Every data point sits at $f > 5\times10^{14}$ Hz, and $-\phi/e$ is where the line hits $f = 0$. A small slope error moves that intercept a lot, so trust $h$ more than $\phi$.
+
+**3. The threshold was extrapolated, not observed.** With $\phi = 1.37$ eV and our fitted $h$, Eq. (2.5) gives $f_0 = \phi/h = 3.51\times10^{14}$ Hz and $\lambda_0 = 854$ nm, which is infrared. Every mercury line we used is above that frequency, so we never saw the "nothing comes out" case. We only know where it would be from where the fitted line crosses zero.
+
+> [!warning] The $1240/\lambda$ shortcut uses the **accepted** $h$, but the lab number above used our **fitted** $h$. Using the shortcut on the same $\phi$ gives $1240/1.37 = 905$ nm instead of $854$ nm. That $6\%$ gap is just the $5.6\%$ error in $h$ showing up a second time. In a lab report, stay with one value of $h$ all the way through.
 
 ### Technology connection: EUV lithography
 
@@ -236,4 +273,5 @@ Light with $\lambda = 400$ nm hits a metal with $\phi = 2.0$ eV.
 - Using nm in $E = hc/\lambda$ with SI values of $h$ and $c$ without converting to metres
 - Reading $|V_s|$ as the energy in joules. $e|V_s|$ is $K_{\max}$, and the number of volts equals the number of eV
 - Thinking the work function is the kinetic energy of every emitted electron. It's only the *minimum* escape cost, so the electrons have a spread of energies
-- Expecting a plot of $|V_s|$ against $f$ to have slope $h$. The slope is $h/e$
+- Expecting a plot of $|V_s|$ against $f$ to have slope $h$. The slope is $h/e$ (Lab 1: $3.9\times10^{-15}$ V·s, and multiplying by $e$ gives $h$)
+- Mixing a fitted $h$ with the $1240/\lambda$ shortcut. The shortcut has the accepted $h$ built in, so the two answers differ by the error in your $h$

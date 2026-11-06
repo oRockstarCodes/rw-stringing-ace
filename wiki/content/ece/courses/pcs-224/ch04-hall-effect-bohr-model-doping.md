@@ -9,7 +9,7 @@ tags:
 
 This chapter answers three questions left open by [[ch03-intro-to-semiconductors|Chapter 3]]:
 
-1. **The Hall effect:** how do we actually *measure* the sign, concentration and [[ch03-intro-to-semiconductors#Drift current and mobility|mobility]] of the carriers? A magnetic field pushes the carriers sideways, and a small voltage appears across the sample. It's one of the most-used measurement techniques in the semiconductor industry, and it's Lab 2.
+1. **The Hall effect:** how do we actually *measure* the sign, concentration and [[ch03-intro-to-semiconductors#Drift current and mobility|mobility]] of the carriers? A magnetic field pushes the carriers sideways, and a small voltage appears across the sample. It's one of the most-used measurement techniques in the semiconductor industry, and it's Lab 2 ([[#What Lab 2 looked like|our data is below]]).
 2. **The Bohr model:** why are atomic energies *discrete*? This is the first successful quantum model of an atom, and it introduces the idea of **allowed levels** that [[ch05-band-structure-and-fermi-function#From atomic levels to energy bands|Chapter 5]] turns into bands.
 3. **Doping in energy terms:** why does a dopant atom give up its extra carrier so easily at room temperature? Because the [[ch03-intro-to-semiconductors#Doping: extrinsic semiconductors|donor]] electron is only loosely held. It takes just about $0.045$ eV to free it.
 
@@ -112,6 +112,47 @@ $$
 These are tied together by $\sigma = q\,n\,\mu$ (or $q\,p\,\mu$), which makes a good check on your numbers.
 
 > [!note] A Hall problem has **two** electric fields and **two** voltages. One drives the current along $L$, and one is the Hall field across $W$. Use the first for mobility and resistance, and the second for the carrier sign and concentration. Mixing them up is the most common mistake.
+
+### What Lab 2 looked like
+
+Lab 2 ran this whole section on a real sample: a **germanium wafer** with $L = 10.0$ mm, $W = 5.0$ mm and thickness $d = 1.0$ mm, sitting between two permanent magnets. The field was measured with a Gauss meter at five spots on the magnet face. The readings ran from $0.215$ T to $0.226$ T, so we used their average, $B = 0.2198$ T, and the spread across the face is the biggest field uncertainty (about $\pm2.5\%$).
+
+We stepped the supply current down from $50$ mA to $1.4$ mA and recorded two voltages at each step. The two voltages came from two different pairs of terminals on the board: the Hall voltage $V_H$ across the width (terminals near the centre), and the longitudinal voltage $V_L$ along the length (the supply ports). That's the "two fields, two voltages" warning above, as physical wires.
+
+| $I$ (mA) | $V_H$ (mV) | $V_L$ (V) |
+| --- | --- | --- |
+| 50.0 | $-122.7$ | 4.83 |
+| 30.0 | $-74.2$ | 2.87 |
+| 10.0 | $-24.5$ | 0.94 |
+| 1.4 | $-3.6$ | 0.12 |
+
+(The full run had eleven currents. $V_H$ is good to $\pm0.05$ mV, $V_L$ to $\pm0.005$ V.)
+
+**Sign.** $V_H$ was negative at every current. The deflection direction from $\vec{I}\times\vec{B}$ put the carriers at the front edge, where the multimeter's $+$ lead was attached, so that edge held negative charge. The carriers are **electrons**, which makes the wafer **n-type**. That's the three-step recipe from earlier, run on real polarity.
+
+**Concentration.** Eq. (4.5) says $V_H = \dfrac{B}{q\,n\,d}\,I$, so $V_H$ against $I$ is a straight line through the origin with slope $\dfrac{B}{qnd}$. The fit gave a slope of $-2.46$ mV/mA (which is $-2.46\ \Omega$) and an intercept of only $-0.1$ mV, close to zero as the equation says. Solving for $n$:
+
+$$
+n = \frac{B}{q\,d\,|\text{slope}|} = \frac{0.2198}{(1.602\times10^{-19})(1.0\times10^{-3})(2.46)} = 5.6\times10^{20}\ \text{m}^{-3} = 5.6\times10^{14}\ \text{cm}^{-3}
+$$
+
+That's about $23\times$ the intrinsic concentration of germanium ($n_i = 2.4\times10^{13}$ cm⁻³, the value used in [[ch03-intro-to-semiconductors#Example 5: Which carrier carries the current?|Chapter 3's germanium example]]), which is what a lightly n-doped sample should look like. Using the thickness $d$ is the point: the width $W$ never appears in this formula. A single point from Eq. (4.6) agrees ($5.59\times10^{20}$ m⁻³ at $50$ mA), but the fit uses all eleven points and averages out the noise.
+
+**Mobility.** Eq. (4.7) says $\mu = \dfrac{V_H/(BW)}{V_L/L}$, so $V_H$ against $V_L$ is also a straight line, with slope $\dfrac{\mu W B}{L}$. We measured $-25.4$ mV/V, so
+
+$$
+\mu = \frac{|\text{slope}|\,L}{W\,B} = \frac{(0.0254)(10.0\times10^{-3})}{(5.0\times10^{-3})(0.2198)} = 0.231\ \frac{\text{m}^2}{\text{V}\cdot\text{s}} = 2311\ \frac{\text{cm}^2}{\text{V}\cdot\text{s}}
+$$
+
+At $50$ mA this is $v_d = V_H/(BW) = 112$ m/s in a driving field of $E_x = V_L/L = 483$ V/m, and $112/483 = 0.231$ ✓.
+
+**How good was it?** The mobility came out $41\%$ below the accepted $\mu_n = 3900$ cm²/V·s for germanium, even though the statistical error in the fitted slope was only about $0.3\%$. A gap that size is systematic, not noise. The likely causes:
+
+- **Contact and lead resistance.** $V_L$ was read across the whole wafer, contacts included, so it overstates the field $E_x$ actually driving the carriers. A too-big $E_x$ in $\mu = v_d/E_x$ makes $\mu$ too small.
+- **Heating.** At $50$ mA and $4.83$ V the wafer dissipates about $0.24$ W. A warmer lattice scatters carriers more, and [[ch03-intro-to-semiconductors#Drift current and mobility|mobility drops with temperature]].
+- **A non-uniform field.** The $\pm2.5\%$ spread in $B$ feeds into both $n$ and $\mu$.
+
+> [!note] The resistivity from this data is $R = V_L/I = 96.6\ \Omega$, so $\rho = RWd/L = 4.8\ \Omega\cdot\text{cm}$ and $\sigma = 0.207$ S/cm. That matches $q\,n\,\mu = 0.207$ S/cm exactly. Don't take that as a verdict on the data, though. Because $n$ comes from $V_H/I$ and $\mu$ from $V_H/V_L$, the product $qn\mu$ is algebraically $I L/(W d V_L) = 1/\rho$ whatever $V_H$ is. So the check catches arithmetic and unit slips (it caught none here) but says nothing about a bad $V_L$.
 
 ### Why are energies discrete? The Bohr model
 
@@ -339,6 +380,8 @@ $$
 - Mixing cm and m when $B$ is in tesla. Convert $d$ to metres for Eq. (4.6) or convert $B$ to cm-based units
 - Getting the Hall voltage sign from $\vec{F} = q\vec{E}$ reasoning without checking $\vec{I}\times\vec{B}$ first. The deflection direction is the same for electrons and holes, but the **polarity** of the pile-up isn't
 - Using $d$ as the width, when $V_H = IB/(qnd)$ uses the **thickness along $B$**, not $W$
+- Reading $V_L$ across the whole sample, contacts and leads included, and treating it as the field in the bar. It overstates $E_x$ and understates $\mu$ (Lab 2 came out $41\%$ low)
+- Trusting $\sigma = qn\mu$ as an independent check. With $n$ and $\mu$ both from the Hall data it holds automatically, so it only catches arithmetic mistakes
 - Using positive energies in the Bohr model. $E_n$ is negative, so the photon energy is a **difference** of levels
 - Thinking any photon with enough energy gets absorbed in a bound transition. A photon has to match the gap $E_{\text{upper}} - E_{\text{lower}}$ exactly (only above the ionization energy does a continuum of energies work)
 - Applying the $13.6/n^2$ formula to atoms with more than one electron

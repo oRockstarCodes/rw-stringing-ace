@@ -138,6 +138,8 @@ $$
 
 The constant $\mu$ is the **mobility**, in cm²/(V·s). It depends on the material, the temperature and the doping. More dopants means a messier crystal and more collisions, so $\mu$ falls as doping rises. Electrons have a bigger mobility than holes in the same material.
 
+> [!example] Lab 2 measured this directly. On an n-type germanium wafer, the drift speed was $v_d = 112$ m/s in a driving field of $483$ V/m, which is $\mu_n = 2311$ cm²/V·s. That's well below the $3900$ cm²/V·s used in Example 5 below. Contact resistance and self-heating from the $50$ mA current both push the measured mobility down. The full analysis is in [[ch04-hall-effect-bohr-model-doping#What Lab 2 looked like|Chapter 4]].
+
 **Current density.** Let $I$ be the current (A), $A$ the cross-section it flows through (cm²), and $J = I/A$ the **current density** (A/cm²). In Eq. (3.8), $v_{dn}$ and $v_{dp}$ are the electron and hole drift velocities, $E$ the electric field, and $\mu_n$, $\mu_p$ the electron and hole mobilities. If charges $q$ with concentration $n$ (here a generic carrier concentration) move at drift speed $v_d$, everything within a distance $v_dt$ of a surface crosses it in time $t$. That gives $I = nqv_dA$, so
 
 $$

@@ -26,7 +26,7 @@ The chapter comes down to five ideas:
 Put [[ch03-intro-to-semiconductors#Doping: extrinsic semiconductors|p-type]] material (lots of holes, few electrons) against n-type material (lots of electrons, few holes). Think of two gases separated by a porous wall with a different concentration on each side. When the wall is removed, particles **diffuse** from high concentration to low concentration, no electric force needed.
 
 1. **Diffusion.** Holes diffuse from the p side into the n side. Electrons diffuse from the n side into the p side.
-2. **Recombination.** A diffusing electron meets a hole on the other side and they annihilate, since the electron falls back into the empty bond and the energy leaves as heat or a photon. One electron and one hole disappear.
+2. **Recombination.** A diffusing electron meets a hole on the other side and they annihilate, since the electron falls back into the empty bond and the energy leaves as heat or a photon (the photon case is the LED, [[ch05-band-structure-and-fermi-function#Example 5: Light and the gap|Lab 4]]). One electron and one hole disappear.
 3. **Exposed ions.** The dopant atoms don't move, because they're locked in the crystal. Near the boundary, the mobile carriers that used to cancel them are gone, so the fixed ions are *uncovered*:
    - On the n side, each electron that left uncovers a **positive donor ion** (charge $+eN_d$).
    - On the p side, each hole that left uncovers a **negative acceptor ion** (charge $-eN_a$).
@@ -205,6 +205,46 @@ $$
 - $I_D$ is positive when the current flows from p to n.
 - Forward ($V_D \gg V_t$): $I_D \approx I_Se^{V_D/V_t}$, an exponential rise.
 - Reverse ($V_D < 0$, $|V_D| \gg V_t$): $I_D \approx -I_S$, tiny and flat.
+
+### Lab 3: checking the diode equation
+
+Lab 3 tested Eq. (7.10) head-on. The "diode" was a silicon n-p-n transistor with its base tied to its collector, so one p-n junction acted as the diode. Eq. (7.10) there is $I_D = I_S(e^{V_D/V_t} - 1)$, which the lab report writes with $I_0$ in place of $I_S$.
+
+**One-way valve.** The multimeter's diode test read about $0.49$ V forward across both junctions ($489$ mV base-emitter, $484$ mV base-collector) and **overload** in reverse. Nothing flowed. That's forward and reverse bias from above, on two junctions in one package.
+
+**Straightening the exponential.** For $V_D \gg V_t$, Eq. (7.10) becomes $I \approx I_Se^{V_D/V_t}$. Taking the natural log of both sides gives
+
+$$
+\ln I = \frac{e}{k_BT}\,V_D + \ln I_S
+$$
+
+so $\ln I$ against $V_D$ is a straight line. The slope is $e/(k_BT) = 1/V_t$ and the intercept is $\ln I_S$. We doubled the current from $1.4$ mA up to $179.2$ mA (eight points) in ice water, at room temperature and in hot water:
+
+| Bath | $T_{avg}$ (K) | Ideal slope $e/(k_BT)$ (V⁻¹) | Measured slope (V⁻¹) | $I_S$ from the intercept (A) |
+| --- | --- | --- | --- | --- |
+| Ice water | 282.15 | 41.1 | 32.1 | $5.5\times10^{-11}$ |
+| Room | 294.75 | 39.4 | 31.5 | $2.1\times10^{-10}$ |
+| Hot water | 349.65 | 33.2 | 24.0 | $3.0\times10^{-7}$ |
+
+Two things stand out.
+
+- **The slope falls as $T$ rises**, in the order $1/T$ predicts. That's $V_t = k_BT/e$ growing with temperature, so the same voltage buys less of an exponential.
+- **$I_S$ rises enormously**, by a factor of about $5500$ over this $67$ K span. In the ideal-diode theory behind Eq. (7.10), $I_S$ scales with $n_i^2$, and $n_i$ roughly doubles every $10$ K ([[ch05-band-structure-and-fermi-function#Example 6: Warming from 27 °C to 37 °C|Chapter 5]]), so $n_i^2$ should grow by around $10^4$ over $67$ K. That's the same ballpark. Each $I_S$ is only good to about $\pm50\%$, because the intercept is found by extending a fit made at $0.36$ to $0.69$ V back to $V = 0$. Small slope errors become big intercept errors, so trust the trend and not the digits.
+
+**The slope is a little too shallow.** Solving $m = e/(k_BT)$ for $k_B$ gave $(1.80 \pm 0.10)\times10^{-23}$ J/K, which is $30\%$ above the accepted $1.381\times10^{-23}$ J/K. Equivalently, the real diode follows
+
+$$
+I = I_S\,e^{V_D/(\,n\,V_t)}
+$$
+
+with an **ideality factor** $n \approx 1.3$. Eq. (7.10) is the $n = 1$ case. Real junctions fall between $n = 1$ (current carried by diffusion across the neutral regions) and $n = 2$ (recombination inside the depletion region matters). Our data points to two culprits:
+
+- **Series resistance and heating at high current.** On the room-temperature run, the lowest four currents give a slope of $35.9$ V⁻¹ ($n \approx 1.10$), but the highest four give only $27.3$ V⁻¹ ($n \approx 1.44$). The line bends over as part of $V$ drops across the leads and bulk silicon instead of the junction, and as $\sim180$ mA heats the junction above the bath.
+- **A drifting bath.** The hot water cooled by $3.8$ K during the run, which is why it gave the worst $k_B$ ($1.91\times10^{-23}$ J/K).
+
+**What it means in practice.** For an ideal diode at room temperature each doubling of current costs $V_t\ln2 \approx 18$ mV, and each factor of $10$ costs $V_t\ln10 \approx 60$ mV (the "$0.06$ V multiplies the current by $10$" in Example 7). Our lowest-current doublings cost about $19$ mV ($0.503 \to 0.522$ V), close to ideal. By the top of the range the steps had grown to about $28$ mV ($0.630 \to 0.658$ V), which is the series resistance. With the overall slope of $31.5$ V⁻¹, a decade of current took about $\ln10/31.5 = 73$ mV, not $60$.
+
+> [!note] Lab 4 uses this same equation on LEDs. Past about $1$ mA the current is climbing exponentially, so the LED "turns on" at a voltage that depends on $I_S$, and $I_S$ is smaller for a wider gap ([[ch05-band-structure-and-fermi-function#Example 5: Light and the gap|Chapter 5]]). The recombination in the junction is the same process described above, except that in a direct-gap material each event releases a photon.
 
 ### Width of the space charge region
 
@@ -445,3 +485,5 @@ The forward current is about $10^{10}$ times bigger than the reverse current, an
 - Using the wrong $x$: $E_{\max} = eN_dx_n/\varepsilon_s$ pairs $N_d$ with $x_n$ (and $N_a$ with $x_p$), never $N_d$ with $x_p$
 - Thinking the field is zero inside the depletion region because there are no free carriers. The *fixed* charge is exactly what makes the field
 - Believing a doubled temperature doubles $V_{bi}$ (it doesn't, because $n_i$ also changes)
+- Expecting a real diode to follow $n = 1$ exactly. Lab 3's silicon junction gave $n \approx 1.3$, which is about $73$ mV per decade of current at room temperature instead of $60$ mV
+- Reading $I_S$ off the intercept of a $\ln I$ against $V$ fit and trusting the digits. The intercept is an extrapolation to $V = 0$ from data at $0.4$ to $0.7$ V, so it carries $\pm50\%$ or worse. The trend with temperature is the reliable part
