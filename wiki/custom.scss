@@ -2762,6 +2762,72 @@ article > * {
     fill: var(--secondary);
     opacity: 0;
   }
+
+  // p-n junction formation: fixed ions, the depletion region, recombination flashes,
+  // the Fermi level mismatch and the diffusion / drift bars
+  .sm-zn {
+    opacity: 0.2;
+  }
+  .sm-zn-p {
+    fill: var(--sm-neg);
+  }
+  .sm-zn-n {
+    fill: var(--sm-pos);
+  }
+  .sm-ion {
+    fill: none;
+    stroke-width: 1.4;
+  }
+  .sm-ion-p {
+    stroke: var(--sm-neg);
+  }
+  .sm-ion-n {
+    stroke: var(--sm-pos);
+  }
+  .sm-ion-p.is-on {
+    fill: var(--sm-neg);
+  }
+  .sm-ion-n.is-on {
+    fill: var(--sm-pos);
+  }
+  text.sm-ion-sign {
+    fill: var(--gray);
+    font-size: 12px;
+    font-weight: 700;
+    text-anchor: middle;
+    pointer-events: none;
+  }
+  text.sm-ion-sign.is-on {
+    fill: #fff;
+  }
+  .sm-flash {
+    fill: none;
+    stroke: var(--tertiary);
+    stroke-width: 2;
+    opacity: 0;
+  }
+  .sm-mis {
+    stroke: var(--tertiary);
+    stroke-width: 2;
+    stroke-dasharray: 3 3;
+    opacity: 0;
+  }
+  text.sm-mislab {
+    fill: var(--tertiary);
+    opacity: 0;
+  }
+  .sm-bar {
+    rx: 2;
+  }
+  .sm-bar-d {
+    fill: var(--secondary);
+  }
+  .sm-bar-r {
+    fill: var(--tertiary);
+  }
+  .sm-bar-n {
+    fill: var(--gray);
+  }
 }
 
 // ---------- Mirror and lens ray diagram: the parts that are its own ----------

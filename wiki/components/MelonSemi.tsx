@@ -18,8 +18,14 @@ import { QuartzComponent, QuartzComponentConstructor } from "../types"
 //     resulting electron and hole distributions share one energy axis. Slide E_F and T and watch
 //     n_0 and p_0 trade places while n_0 p_0 stays pinned at n_i^2.
 //
+//   <div class="melon-semi" data-view="pnform"></div>
+//     How a p-n junction forms (Figure 7.1). The physical cross-section and the band diagram
+//     share one x-axis. Press play: carriers diffuse across and recombine, fixed ions are
+//     exposed, a field builds and pushes back, and the bands bend until E_F is flat. Pick equal
+//     or unequal doping, or scrub the time slider.
+//
 //   <div class="melon-semi" data-view="pn"></div>
-//     The p-n junction (Figures 7.1 and 7.2). Slide the bias and the doping: the charge, field
+//     The p-n junction (Figure 7.2). Slide the bias and the doping: the charge, field
 //     and potential profiles and the band diagram all follow, and carriers cross the barrier
 //     in forward bias.
 //
@@ -679,6 +685,311 @@ MelonSemi.afterDOMLoaded = `
   }
 
   // =====================================================================================
+  // How a p-n junction forms
+  // =====================================================================================
+
+  function buildPNForm(root) {
+    const id = "sm" + ++uid
+    const X0 = 60, X1 = 580, JX = 320, SY0 = 30, SY1 = 130 // the slab, in pixels
+    const YCN = 262, GAP = 80, BARRIER = 48 // band diagram: n-side E_c, the gap, and eV_bi
+    const WMAX = 124 // the final depletion width
+    const TOTAL = 10 // seconds for the whole build-up
+    const NCAR = 22 // mobile carriers drawn on each side
+    const BAR_X = 190, BAR_W = 230
+    const RATIO = { eq: 1, p: 4, n: 0.25 } // N_a / N_d
+    const RTXT = { eq: "1 : 1", p: "4 : 1", n: "1 : 4" }
+    const st = { u: calm ? 1 : 0, play: false, dop: "eq" }
+    const view = { s: calm ? 1 : 0, r: 1 }
+    // s is how far the junction is toward equilibrium (0 = just touching, 1 = done). Time
+    // runs fast at first, when the gradient is steep, and slows as the barrier builds.
+    const ease = (u) => 1 - (1 - u) * (1 - u)
+
+    root.innerHTML =
+      '<svg class="oa-svg sm-svg" viewBox="0 0 640 442" role="img" aria-label="A p-n junction forming: the physical cross-section with carriers and fixed ions above, and the matching band diagram below">' +
+      '<defs><marker id="' + id + 'f" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path class="sm-ah sm-ah-e" d="M0 0 L10 5 L0 10 z"/></marker></defs>' +
+      '<text class="oa-caption" x="' + X0 + '" y="16">physical picture</text>' +
+      '<circle class="sm-dot sm-hole" cx="372" cy="12" r="4.5"/><text class="oa-small" x="381" y="16">hole</text>' +
+      '<circle class="sm-dot sm-elec" cx="424" cy="12" r="4.5"/><text class="oa-small" x="433" y="16">electron</text>' +
+      '<rect class="sm-ion sm-ion-n is-on" x="492" y="7" width="10" height="10" rx="2"/><text class="oa-small" x="508" y="16">fixed ion</text>' +
+      '<rect class="sm-strip" x="' + X0 + '" y="' + SY0 + '" width="' + (X1 - X0) + '" height="' + (SY1 - SY0) + '"/>' +
+      '<rect class="sm-zn sm-zn-p" data-val="zp" y="' + SY0 + '" height="' + (SY1 - SY0) + '"/>' +
+      '<rect class="sm-zn sm-zn-n" data-val="zn" y="' + SY0 + '" height="' + (SY1 - SY0) + '"/>' +
+      '<g class="sm-ions"></g>' +
+      '<line class="sm-guide" data-val="gj" y1="' + SY0 + '" y2="' + SY1 + '"/>' +
+      '<line class="sm-guide" data-val="gl" y1="' + SY1 + '" y2="364"/><line class="sm-guide" data-val="gr" y1="' + SY1 + '" y2="364"/>' +
+      '<g class="sm-carriers"></g><g class="sm-flashes"></g>' +
+      '<text class="oa-label" x="170" y="150" text-anchor="middle">p-type</text><text class="oa-label" x="470" y="150" text-anchor="middle">n-type</text>' +
+      '<line class="sm-force sm-force-e" data-val="fe" y1="142" y2="142" marker-end="url(#' + id + 'f)"/>' +
+      '<text class="oa-small" data-val="felab" x="' + JX + '" y="166" text-anchor="middle">depletion region, field E</text>' +
+      // the band diagram
+      '<text class="oa-caption" x="' + X0 + '" y="192">energy picture</text><text class="oa-small" x="' + X1 + '" y="192" text-anchor="end">electron energy increases upward</text>' +
+      '<path class="sm-band" data-val="cb"/><path class="sm-band" data-val="vb"/>' +
+      '<path class="sm-bandline" data-val="ec"/><path class="sm-bandline" data-val="ev"/>' +
+      '<line class="sm-ef-line" data-val="efp" x1="' + X0 + '" x2="' + JX + '"/><line class="sm-ef-line" data-val="efn" x1="' + JX + '" x2="' + X1 + '"/>' +
+      '<line class="sm-mis" data-val="mis" x1="' + JX + '" x2="' + JX + '"/>' +
+      '<text class="oa-small sm-mislab" data-val="mislab" x="' + (JX + 8) + '">' + sub("E", "F") + ' differ</text>' +
+      '<text class="oa-label" x="54" text-anchor="end" data-val="lc">' + sub("E", "c") + '</text>' +
+      '<text class="oa-label" x="54" text-anchor="end" data-val="lv">' + sub("E", "v") + '</text>' +
+      '<text class="oa-label sm-ef" x="66" data-val="lefp">' + sub("E", "F") + '</text>' +
+      '<text class="oa-label sm-ef" x="574" text-anchor="end" data-val="lefn">' + sub("E", "F") + '</text>' +
+      '<line class="sm-evd" data-val="bk" x1="592" x2="592"/><line class="sm-evd" data-val="bk1" x1="586" x2="598"/><line class="sm-evd" data-val="bk2" x1="586" x2="598" y1="' + YCN + '" y2="' + YCN + '"/>' +
+      '<text class="oa-label sm-evdlab" data-val="bklab" x="600"></text>' +
+      '<g class="sm-bcars"></g><g class="sm-bflashes"></g>' +
+      // who is winning: diffusion or drift
+      '<text class="oa-small" x="' + X0 + '" y="392">diffusion (p &rarr; n)</text><rect class="sm-bar sm-bar-d" data-val="bd" x="' + BAR_X + '" y="384" height="8"/>' +
+      '<text class="oa-small" x="' + X0 + '" y="410">drift (n &rarr; p)</text><rect class="sm-bar sm-bar-r" data-val="br" x="' + BAR_X + '" y="402" height="8"/>' +
+      '<text class="oa-small" x="' + X0 + '" y="428">net current</text><rect class="sm-bar sm-bar-n" data-val="bn" x="' + BAR_X + '" y="420" height="8"/>' +
+      '</svg>' +
+      (calm ? "" : chipRow([["play", "Play"], ["replay", "Replay"]], "Animation", "go")) +
+      chipRow([["eq", "Equal doping"], ["p", "Heavier p side"], ["n", "Heavier n side"]], "Doping", "dop") +
+      infoPanel +
+      '<div class="oa-controls">' + slider("u", "Time", 0, 1, 0.005, st.u) + "</div>" +
+      '<p class="oa-readout"></p>'
+
+    const el = {}
+    root.querySelectorAll("[data-val]").forEach((n) => { el[n.dataset.val] = n })
+    const $ = (k) => el[k]
+    const uIn = root.querySelector('input[data-k="u"]')
+    const out = root.querySelector("output")
+    const infoTitle = root.querySelector(".oa-info-title")
+    const infoText = root.querySelector(".oa-info-text")
+    const readout = root.querySelector(".oa-readout")
+    const playChip = root.querySelector('.oa-chip[data-key="play"]')
+
+    // Fixed dopant ions: acceptors (-) on the p side, donors (+) on the n side. They are
+    // outlined while a carrier covers them and filled once the carrier is gone.
+    const ionsG = root.querySelector(".sm-ions")
+    const ions = []
+    ;[[0, 48], [13, 80], [0, 112]].forEach(([off, y]) => {
+      for (let k = 0; k < (off ? 9 : 10); k++) for (const side of [-1, 1]) {
+        const x = (side < 0 ? 74 : 332) + off + 26 * k
+        const rect = mk("rect", { class: "sm-ion " + (side < 0 ? "sm-ion-p" : "sm-ion-n"), x: x - 6, y: y - 6, width: 12, height: 12, rx: 2 }, ionsG)
+        const sign = mk("text", { class: "sm-ion-sign", x, y: y + 4.5 }, ionsG)
+        sign.textContent = side < 0 ? "\\u2212" : "+"
+        ions.push({ x, side, rect, sign })
+      }
+    })
+
+    // Mobile carriers, each drawn twice: as a dot in the slab and as a dot riding its band
+    const carG = root.querySelector(".sm-carriers"), bcarG = root.querySelector(".sm-bcars")
+    const cars = []
+    for (let k = 0; k < NCAR * 2; k++) {
+      const hole = k < NCAR
+      const cls = "sm-dot " + (hole ? "sm-hole" : "sm-elec")
+      cars.push({
+        hole, x: 0, y: 0, vx: 0, vy: 0, q: 0, fade: 1, cross: false, depth: 0,
+        el: mk("circle", { class: cls, r: 4.5 }, carG), bel: mk("circle", { class: cls, r: 3.8 }, bcarG),
+      })
+    }
+    // Recombination flashes, in both pictures at once
+    const flG = root.querySelector(".sm-flashes"), bflG = root.querySelector(".sm-bflashes")
+    const flashes = []
+    for (let k = 0; k < 12; k++)
+      flashes.push({ el: mk("circle", { class: "sm-flash", r: 4 }, flG), bel: mk("circle", { class: "sm-flash", r: 4 }, bflG), t: -1, x: 0, y: 0, by: 0 })
+
+    // Depletion approximation: how far the region reaches into each side (pixels), and the
+    // shape of the potential step across it (0 on the p side, 1 on the n side)
+    const geom = (s, r) => {
+      const w = WMAX * Math.sqrt(s) // w goes as the square root of V_total, which grows as s
+      return { xp: w / (1 + r), xn: (w * r) / (1 + r) }
+    }
+    const phi = (x, g) => {
+      const w = g.xp + g.xn
+      if (w < 0.5) return x < JX ? 0 : 1
+      if (x <= JX - g.xp) return 0
+      if (x >= JX + g.xn) return 1
+      if (x < JX) return (g.xp / w) * Math.pow((x - (JX - g.xp)) / g.xp, 2)
+      return 1 - (g.xn / w) * Math.pow((JX + g.xn - x) / g.xn, 2)
+    }
+    const ecAt = (x, s, g) => YCN - BARRIER * s * (1 - phi(x, g))
+    const bandY = (c, s, g) => { const ec = ecAt(c.x, s, g); return c.hole ? ec + GAP + 5 + c.q * 13 : ec - 5 - c.q * 13 }
+
+    // Put a carrier on its own side: anywhere, or (when it replaces one that recombined)
+    // in the far part, and fade it in
+    const place = (c, anywhere) => {
+      const g = geom(view.s, view.r)
+      const lo = c.hole ? X0 + 10 : JX + g.xn + 6
+      const hi = c.hole ? JX - g.xp - 6 : X1 - 10
+      const span = Math.max(4, hi - lo)
+      const f = anywhere ? Math.random() : Math.random() * 0.6
+      c.x = c.hole ? lo + f * span : hi - f * span
+      c.y = SY0 + 9 + Math.random() * (SY1 - SY0 - 18)
+      c.vx = 0; c.vy = 0; c.q = Math.random(); c.cross = false; c.fade = anywhere ? 1 : 0
+    }
+    const flash = (x, y, by) => {
+      const f = flashes.find((q) => q.t < 0)
+      if (f) { f.t = 0; f.x = x; f.y = y; f.by = by }
+    }
+    const die = (c, s, g) => { flash(c.x, c.y, bandY(c, s, g)); place(c, false) }
+    const scatter = () => { cars.forEach((c) => place(c, true)); flashes.forEach((f) => { f.t = -1 }) }
+
+    // One time step of the carriers: thermal jostling, a pull toward the junction while the
+    // concentration gradient is steep, and a barrier at the edge of the depletion region
+    // that fewer and fewer get over
+    const step = (dt) => {
+      const s = view.s, g = geom(s, view.r)
+      const ZL = JX - g.xp, ZR = JX + g.xn
+      const sq = Math.sqrt(dt)
+      cars.forEach((c) => {
+        if (c.fade < 1) c.fade = Math.min(1, c.fade + dt * 2.5)
+        const dir = c.hole ? 1 : -1 // toward the junction
+        c.vx += -3 * c.vx * dt + 260 * (Math.random() - 0.5) * sq
+        c.vy += -3 * c.vy * dt + 260 * (Math.random() - 0.5) * sq
+        if (c.cross) c.vx = dir * 90
+        else c.vx += dir * 120 * (1 - s) * dt
+        c.x += c.vx * dt
+        c.y += c.vy * dt
+        if (c.y < SY0 + 9) { c.y = SY0 + 9; c.vy = Math.abs(c.vy) }
+        else if (c.y > SY1 - 9) { c.y = SY1 - 9; c.vy = -Math.abs(c.vy) }
+        if (c.hole && c.x < X0 + 9) { c.x = X0 + 9; c.vx = Math.abs(c.vx) }
+        else if (!c.hole && c.x > X1 - 9) { c.x = X1 - 9; c.vx = -Math.abs(c.vx) }
+        if (c.cross) {
+          // it made it across: it meets a carrier of the other kind and they recombine
+          if (c.hole ? c.x >= JX + c.depth : c.x <= JX - c.depth) die(c, s, g)
+          return
+        }
+        const over = c.hole ? c.x - ZL : ZR - c.x // how far into the depletion region
+        if (over > 5) { die(c, s, g); return } // the region grew over it
+        if (over > 0) {
+          if (Math.random() < Math.exp(-4 * s)) { c.cross = true; c.depth = Math.random() * 14 }
+          else { c.x = c.hole ? ZL - 1 : ZR + 1; c.vx = -dir * (30 + Math.random() * 30) } // turned back by the field
+        }
+      })
+      flashes.forEach((f) => { if (f.t >= 0) { f.t += dt; if (f.t > 0.6) f.t = -1 } })
+    }
+
+    let lastKey = ""
+    const draw = () => {
+      const s = view.s, g = geom(s, view.r)
+      const ZL = JX - g.xp, ZR = JX + g.xn
+      put($("zp"), "x", ZL.toFixed(1)); put($("zp"), "width", g.xp.toFixed(1))
+      put($("zn"), "x", JX); put($("zn"), "width", g.xn.toFixed(1))
+      ;[["gj", JX], ["gl", ZL], ["gr", ZR]].forEach(([k, x]) => { put($(k), "x1", x.toFixed(1)); put($(k), "x2", x.toFixed(1)) })
+      put($("gl"), "style.opacity", s > 0.02 ? 1 : 0); put($("gr"), "style.opacity", s > 0.02 ? 1 : 0)
+      ions.forEach((i) => {
+        const a = clamp(((i.side < 0 ? i.x - ZL : ZR - i.x) / 12) + 0.5, 0, 1)
+        const on = a > 0.5 ? " is-on" : ""
+        put(i.rect, "class", "sm-ion " + (i.side < 0 ? "sm-ion-p" : "sm-ion-n") + on)
+        put(i.sign, "class", "sm-ion-sign" + on)
+        put(i.rect, "style.opacity", (0.4 + 0.6 * a).toFixed(2))
+        put(i.sign, "style.opacity", (0.4 + 0.6 * a).toFixed(2))
+      })
+      // the field the exposed ions make, pointing n -> p
+      const fo = clamp((s - 0.06) * 4, 0, 1)
+      put($("fe"), "x1", (ZR - 4).toFixed(1)); put($("fe"), "x2", (ZL + 4).toFixed(1)); put($("fe"), "style.opacity", fo.toFixed(2))
+      put($("felab"), "style.opacity", fo.toFixed(2))
+      // carriers
+      cars.forEach((c) => {
+        put(c.el, "cx", c.x.toFixed(1)); put(c.el, "cy", c.y.toFixed(1)); put(c.el, "style.opacity", c.fade.toFixed(2))
+        put(c.bel, "cx", c.x.toFixed(1)); put(c.bel, "cy", bandY(c, s, g).toFixed(1)); put(c.bel, "style.opacity", c.fade.toFixed(2))
+      })
+      flashes.forEach((f) => {
+        const on = f.t >= 0
+        const k = on ? f.t / 0.6 : 0
+        put(f.el, "cx", f.x.toFixed(1)); put(f.el, "cy", f.y.toFixed(1)); put(f.el, "r", (4 + 16 * k).toFixed(1)); put(f.el, "style.opacity", on ? (1 - k).toFixed(2) : 0)
+        put(f.bel, "cx", f.x.toFixed(1)); put(f.bel, "cy", f.by.toFixed(1)); put(f.bel, "r", (4 + 16 * k).toFixed(1)); put(f.bel, "style.opacity", on ? (1 - k).toFixed(2) : 0)
+      })
+      // bands: the p side rises by s * eV_bi, and the edges bend across the depletion region
+      const key = s.toFixed(4) + "|" + view.r.toFixed(3)
+      if (key !== lastKey) {
+        lastKey = key
+        const xs = []
+        for (let x = X0; x <= X1; x += 10) xs.push(x)
+        xs.push(ZL, JX, ZR)
+        xs.sort((a, b) => a - b)
+        const line = (off) => xs.map((x, i) => (i ? "L" : "M") + x.toFixed(1) + " " + (ecAt(x, s, g) + off).toFixed(1)).join("")
+        const ec = line(0), ev = line(GAP)
+        put($("ec"), "d", ec); put($("ev"), "d", ev)
+        put($("cb"), "d", ec + "L" + X1 + " 204L" + X0 + " 204Z")
+        put($("vb"), "d", ev + "L" + X1 + " 364L" + X0 + " 364Z")
+      }
+      const ecp = YCN - BARRIER * s
+      put($("lc"), "y", (ecp + 4).toFixed(1)); put($("lv"), "y", (ecp + GAP + 4).toFixed(1))
+      // Fermi levels: they differ until the bands have shifted by eV_bi
+      const yEFn = YCN + 16, yEFp = YCN + GAP - 16 - BARRIER * s
+      put($("efp"), "y1", yEFp.toFixed(1)); put($("efp"), "y2", yEFp.toFixed(1))
+      put($("efn"), "y1", yEFn); put($("efn"), "y2", yEFn)
+      put($("lefp"), "y", (yEFp - 5).toFixed(1)); put($("lefn"), "y", yEFn - 5)
+      const mo = clamp((yEFp - yEFn) / 6, 0, 1).toFixed(2)
+      put($("mis"), "y1", yEFp.toFixed(1)); put($("mis"), "y2", yEFn); put($("mis"), "style.opacity", mo)
+      put($("mislab"), "y", ((yEFp + yEFn) / 2 + 4).toFixed(1)); put($("mislab"), "style.opacity", mo)
+      // the barrier, eV
+      const bo = BARRIER * s > 5 ? 1 : 0
+      put($("bk"), "y1", ecp.toFixed(1)); put($("bk"), "y2", YCN); put($("bk"), "style.opacity", bo)
+      put($("bk1"), "y1", ecp.toFixed(1)); put($("bk1"), "y2", ecp.toFixed(1)); put($("bk1"), "style.opacity", bo)
+      put($("bk2"), "style.opacity", bo)
+      put($("bklab"), "y", ((ecp + YCN) / 2 + 4).toFixed(1)); put($("bklab"), "html", "eV" + (s > 0.97 ? '<tspan class="oa-sub" dy="4">bi</tspan>' : "")); put($("bklab"), "style.opacity", bo)
+      // diffusion falls to meet drift, and the net current goes to zero (schematic scale)
+      const dv = 1 - 0.8 * s, dr = 0.2 * s
+      put($("bd"), "width", (BAR_W * dv).toFixed(1)); put($("br"), "width", (BAR_W * dr).toFixed(1)); put($("bn"), "width", (BAR_W * Math.max(0, dv - dr)).toFixed(1))
+      // words
+      const d = info(s)
+      put(infoTitle, "html", d[0]); put(infoText, "html", d[1])
+      out.textContent = Math.round(s * 100) + "% of the way to equilibrium"
+      put(readout, "html", "Barrier so far: " + Math.round(s * 100) + "% of eV<sub>bi</sub> &nbsp;&middot;&nbsp; depletion width: " + Math.round(Math.sqrt(s) * 100) + "% of its final size (w &prop; &radic;V<sub>total</sub>) &nbsp;&middot;&nbsp; x<sub>n</sub> : x<sub>p</sub> = N<sub>a</sub> : N<sub>d</sub> = " + RTXT[st.dop])
+    }
+
+    function info(s) {
+      if (s < 0.02)
+        return ["Two pieces, just touching", "The p side is full of holes and the n side is full of electrons. Every mobile carrier is matched by a fixed dopant ion of the opposite charge, so both sides are neutral. The two pieces start with their Fermi levels at different heights (low in p, high in n) and with the bands level with each other. Press play."]
+      if (s < 0.55)
+        return ["1&ndash;2. Diffusion and recombination", "Holes diffuse right and electrons diffuse left, down their concentration gradients. A carrier that gets across meets one of the other kind and the pair recombine (the flashes). Every carrier that goes leaves its fixed ion <b>uncovered</b>: a &minus; acceptor on the p side and a + donor on the n side. The depletion region starts to grow, and as electrons leave n the bands shift so that the Fermi levels can line up."]
+      if (s < 0.97)
+        return ["3. The exposed ions build a field", "The uncovered ions make an electric field pointing from n to p. It pushes holes back toward p and electrons back toward n. In the band picture a carrier now has to climb the barrier, so fewer make it across: watch more of them turn back at the edge. The Fermi levels are almost level."]
+      const note = st.dop === "eq" ? "" : st.dop === "p" ? " With N<sub>a</sub> &gt; N<sub>d</sub>, the n side gives up more width: N<sub>a</sub>x<sub>p</sub> = N<sub>d</sub>x<sub>n</sub>, so x<sub>n</sub> is the larger one." : " With N<sub>d</sub> &gt; N<sub>a</sub>, the p side gives up more width: N<sub>a</sub>x<sub>p</sub> = N<sub>d</sub>x<sub>n</sub>, so x<sub>p</sub> is the larger one."
+      return ["4. Equilibrium", "Diffusion (down the gradient) and drift (the field pushing back) now cancel, so there is no net current. Both are still there: the occasional carrier still makes it over the top, and the same number is pushed back. The depletion region has stopped growing, E<sub>F</sub> is one flat line and the bands are bent by eV<sub>bi</sub>." + note]
+    }
+
+    const setPlay = (on) => {
+      st.play = on
+      if (playChip) { playChip.setAttribute("aria-pressed", String(on)); playChip.textContent = on ? "Pause" : "Play \\u25b6\\ufe0e" }
+    }
+    const reset = () => { st.u = 0; uIn.value = 0; view.s = 0; scatter() }
+    const replay = () => { reset(); setPlay(true) }
+
+    chipGroup(root, "go", (k) => {
+      if (k === "replay") { replay(); return }
+      if (!st.play && st.u >= 1) reset()
+      setPlay(!st.play)
+    })
+    const markDop = chipGroup(root, "dop", (k, mark) => {
+      st.dop = k
+      mark(k)
+      if (calm) { view.r = RATIO[k]; scatter() }
+    })
+    uIn.addEventListener("input", () => {
+      const before = view.s
+      st.u = +uIn.value
+      setPlay(false)
+      view.s = ease(st.u)
+      if (calm || view.s < before - 0.02) scatter()
+      draw()
+    })
+    markDop("eq")
+    if (playChip) playChip.setAttribute("aria-pressed", "false")
+    if (!calm) {
+      root.addEventListener("sm-visible", replay)
+      if (typeof IntersectionObserver === "undefined") setPlay(true)
+    }
+
+    scatter()
+    draw()
+    animate(root, (dt) => {
+      if (st.play) {
+        st.u = Math.min(1, st.u + dt / TOTAL)
+        uIn.value = st.u
+        if (st.u >= 1) setPlay(false)
+      }
+      const k = calm ? 1 : 1 - Math.exp(-dt * 9)
+      const sT = ease(st.u), rT = RATIO[st.dop]
+      view.s = Math.abs(sT - view.s) < 1e-4 ? sT : view.s + (sT - view.s) * k
+      view.r = Math.abs(rT - view.r) < 1e-3 ? rT : view.r + (rT - view.r) * k
+      if (!calm) step(dt)
+      draw()
+    })
+  }
+
+  // =====================================================================================
   // Counting carriers
   // =====================================================================================
 
@@ -878,6 +1189,7 @@ MelonSemi.afterDOMLoaded = `
       if (v === "carriers") buildCarriers(root)
       else if (v === "fermi") buildFermi(root)
       else if (v === "pn") buildPN(root)
+      else if (v === "pnform") buildPNForm(root)
       else buildHall(root)
     })
   })

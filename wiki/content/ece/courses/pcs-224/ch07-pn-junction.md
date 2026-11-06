@@ -35,6 +35,9 @@ A note on symbols: $N_a$ and $N_d$ are the same acceptor and donor concentration
 
 That region is the **depletion region** (also called the **space charge region** or **charge depletion region**). It has almost no free carriers, only fixed ions, which is the whole reason it's called "depleted". Its total width is $w = x_n + x_p$.
 
+<div class="melon-semi" data-view="pnform">Animated p-n junction formation, physical picture and band diagram (open this page on the site to use it).</div>
+*Figure 7.1: How a p-n junction forms, shown twice on one x-axis. Top, the physical picture: mobile holes and electrons diffuse across, recombine (the flashes), and uncover fixed ions, which makes the depletion region. Bottom, the energy picture: the p side's bands rise by $eV_{bi}$ until the two Fermi levels line up. The bars at the bottom show diffusion falling to meet drift. Press play, scrub the time slider, or change the doping. The drawing is schematic: it is not to scale, and a carrier fading in far from the junction just keeps the neutral regions at their doping density.*
+
 > [!tip] The pure-water analogy from [[ch03-intro-to-semiconductors#Intrinsic semiconductors: electrons and holes|Chapter 3]] doesn't apply here. The region is not a neutral mixture, it's a layer of *uncovered* charge. A good picture is two walls of fixed ions facing each other across a gap that carriers have been swept out of.
 
 **The diffusion doesn't go on forever.** The uncovered charge builds an electric field that pushes carriers *back* the way they came, opposing the diffusion. The depletion region grows until the field-driven flow exactly cancels the diffusion flow, and then the junction is in equilibrium with no net current.
@@ -92,7 +95,7 @@ $$
 |E_{\max}| = \frac{eN_a x_p}{\varepsilon_s} = \frac{eN_d x_n}{\varepsilon_s} \tag{7.4}
 $$
 
-(They agree because of Eq. 7.1.) The graph of $E(x)$ is a **triangle**, as in Figure 7.1.
+(They agree because of Eq. 7.1.) The graph of $E(x)$ is a **triangle**, as in Figure 7.2.
 
 **Potential.** Because $E = -d\varphi/dx$, the potential is the (negative) area under the field graph. Taking $\varphi = 0$ at the far p edge $x = -x_p$ and integrating up to the n edge:
 
@@ -113,7 +116,7 @@ $$
 This is the same as the area of the field triangle: $V_{total} = \tfrac{1}{2}\,w\,|E_{\max}|$ (Eq. 7.12).
 
 <div class="melon-semi" data-view="pn">Interactive p-n junction diagram (open this page on the site to use it).</div>
-*Figure 7.1: A p-n junction (shown with $N_a > N_d$). Left, the three profiles: the charge density is two blocks of equal area, the field is a triangle peaked at the junction, and the potential rises from the p side to the n side by $V_{total}$. The more heavily doped p side is thinner. Right, the band diagram (electron energy increases upward): unbiased there is one flat $E_F$, forward bias lowers the barrier and splits the Fermi levels by $eV_D$, and reverse bias raises the barrier and splits them the other way. Drag the bias and the doping to see all of it change.*
+*Figure 7.2: A p-n junction (shown with $N_a > N_d$). Left, the three profiles: the charge density is two blocks of equal area, the field is a triangle peaked at the junction, and the potential rises from the p side to the n side by $V_{total}$. The more heavily doped p side is thinner. Right, the band diagram (electron energy increases upward): unbiased there is one flat $E_F$, forward bias lowers the barrier and splits the Fermi levels by $eV_D$, and reverse bias raises the barrier and splits them the other way. Drag the bias and the doping to see all of it change.*
 
 > [!tip] Reading the plots is a 3-step habit. Charge density is the slope of $E$. Field is minus the slope of $\varphi$. So a *flat* $\rho$ gives a *straight-line* $E$ and a *parabolic* $\varphi$. A steep $E$ line means high doping.
 
@@ -133,7 +136,7 @@ Here $E_{Fn}$ and $E_{Fp}$ are the Fermi levels of the n-type and p-type pieces,
 
 **Why does uphill point to the left?** In [[ch01-electrostatics-review#Potential energy and potential|Chapter 1]] the potential rose toward the positive side. Here the band diagram looks like it climbs toward the p side. The band diagram shows the **energy of an electron**, $U = -e\varphi$, and electrons have negative charge. So high potential on the n side is *low* electron energy on the n side. Electrons "roll uphill" in potential, because that lowers their energy.
 
-The band diagram is the right-hand side of Figure 7.1 above.
+The band diagram is the right-hand side of Figure 7.2 above.
 
 **Formula for $V_{bi}$.** We want the Fermi level difference in terms of the doping. From [[ch06-carrier-concentrations#Where is the Fermi level?|Chapter 6]] (strong doping):
 
@@ -178,14 +181,14 @@ $$
 E_{Fn} - E_{Fp} = eV_D \tag{7.9b}
 $$
 
-**Reverse bias** ($V_D < 0$, Figure 7.1, band diagram with the bias set negative):
+**Reverse bias** ($V_D < 0$, Figure 7.2, band diagram with the bias set negative):
 
 - $V_{total}$ is **larger** than $V_{bi}$, so the barrier is higher.
 - More ions get uncovered, so the depletion region **widens**.
 - [[ch03-intro-to-semiconductors#Doping: extrinsic semiconductors|Majority carriers]] (holes on p, electrons on n) are blocked by the taller barrier.
 - Minority carriers (electrons on the p side, holes on the n side) are *swept* down the barrier. This current is **small**, because it's limited by the tiny number of minority carriers, and it hardly depends on the voltage.
 
-**Forward bias** ($V_D > 0$, Figure 7.1, band diagram with the bias set positive):
+**Forward bias** ($V_D > 0$, Figure 7.2, band diagram with the bias set positive):
 
 - $V_{total}$ is **smaller** than $V_{bi}$, so the barrier is lower.
 - Fewer ions stay uncovered, so the depletion region **narrows**.
