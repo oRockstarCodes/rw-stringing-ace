@@ -51,6 +51,14 @@ A K-map lays out the cells so that any two **neighboring cells differ in exactly
 
 For example, in the 3-variable map, cell 010 is adjacent to 000, 011 and 110, but not to 001, 111, 100 or 101.
 
+#### Example 4.1: Locating cells and neighbours
+
+On the 4-variable map, (a) which cell holds the minterm $A=1, B=0, C=1, D=1$? (b) Which cells are adjacent to cell 5?
+
+**(a)** Row label $AB = 10$, column label $CD = 11$. That cell is minterm $8A + 4B + 2C + D = 8 + 0 + 2 + 1 = 11$ (bottom row, third column).
+
+**(b)** Cell 5 is at row $01$, column $01$. Its four side neighbours are cell 1 above (row $00$), cell 13 below (row $11$), cell 4 to the left (column $00$) and cell 7 to the right (column $11$). Each differs from $0101$ in exactly one bit ($0001$, $1101$, $0100$, $0111$). Cells such as 2 or 14 only touch it diagonally, or not at all, and are not adjacent.
+
 ### Mapping an expression
 
 **Standard SOP:** put a 1 in the cell for each minterm (the input that makes the term 1).
@@ -60,6 +68,21 @@ For example, in the 3-variable map, cell 010 is adjacent to 000, 011 and 110, bu
 $$\overline{A} \to 000, 001, 010, 011 \qquad A\overline{B} \to 100, 101 \qquad ABC \to 111$$
 
 **Truth table:** put each output value straight into its cell. Watch the Gray-code order when you copy rows 2–3 and 6–7.
+
+#### Example 4.2: Map a nonstandard SOP
+
+Map and minimize $X = \overline{B}\,\overline{C} + AB + A\overline{B}C$ (domain $A, B, C$).
+
+1. **Expand each term:**
+   - $\overline{B}\,\overline{C}$ is missing $A$: cells $000$ and $100$ (0, 4)
+   - $AB$ is missing $C$: cells $110$ and $111$ (6, 7)
+   - $A\overline{B}C$ is standard: cell $101$ (5)
+2. **Group of 4:** cells 4, 5, 6, 7 (the whole $A = 1$ half) → $A$.
+3. **Cell 0** pairs with cell 4 → $\overline{B}\,\overline{C}$.
+
+$$X = A + \overline{B}\,\overline{C}$$
+
+<div class="melon-logic" data-view="kmap" data-vars="3" data-ones="0,4,5,6,7">Karnaugh map for Example 4.2 (open this page on the site to use it).</div>
 
 ### Grouping the 1s (SOP)
 
@@ -88,6 +111,54 @@ Every time the group size doubles, one variable drops out. The **minimum SOP** i
 **Try it:** click cells to cycle 0 → 1 → X (don't care) → 0. The map finds the minimum expression and draws its groups. Switch to POS to group the 0s instead.
 
 <div class="melon-logic" data-view="kmap" data-vars="4" data-ones="0,2,5,7,8,10,13,15">Interactive Karnaugh map (open this page on the site to use it).</div>
+
+#### Example 4.3: Reading a term from a group
+
+On a 4-variable map, write the product term for each group: (a) cells 12, 13, 15, 14, (b) cells 5 and 13, (c) cells 0, 1, 4, 5.
+
+Keep the variables that stay the same across the group, and drop any that take both values.
+
+- **(a)** Row $11$ throughout, all four columns. $A = 1$ and $B = 1$ stay fixed while $C$, $D$ change → $AB$ (2 literals, as Eq. 4.2 says for a group of 4).
+- **(b)** Rows $01$ and $11$ in column $01$. $B = 1$, $C = 0$, $D = 1$ stay fixed while $A$ changes → $B\overline{C}D$ (3 literals for a group of 2).
+- **(c)** Rows $00$ and $01$, columns $00$ and $01$. $A = 0$ and $C = 0$ stay fixed while $B$ and $D$ change → $\overline{A}\,\overline{C}$.
+
+#### Example 4.4: Minimize a standard SOP
+
+Minimize $X = \overline{A}\,\overline{B}\,\overline{C} + \overline{A}\,\overline{B}C + A\overline{B}\,\overline{C} + A\overline{B}C + AB\overline{C}$.
+
+1. **Binary values:** $000, 001, 100, 101, 110$ → cells 0, 1, 4, 5, 6.
+2. **Group of 4:** cells 0, 1, 4, 5 are rows $00$ and $10$, which are adjacent by wrap-around. $B = 0$ throughout, and $A$, $C$ both change → $\overline{B}$.
+3. **Group of 2 for cell 6:** pair it with cell 4 (row $10$, column 0) → $A = 1$, $C = 0$ → $A\overline{C}$.
+
+$$X = \overline{B} + A\overline{C}$$
+
+<div class="melon-logic" data-view="kmap" data-vars="3" data-ones="0,1,4,5,6">Karnaugh map for Example 4.4 (open this page on the site to use it).</div>
+
+#### Example 4.5: Wrap-around and corners
+
+Minimize $X = \sum m(0, 2, 5, 7, 8, 10, 13, 15)$.
+
+1. **The four corners** (0, 2, 8, 10) are all adjacent by wrap-around. $B = 0$, $D = 0$ in all of them → $\overline{B}\,\overline{D}$.
+2. **The middle square** (5, 7, 13, 15): $B = 1$, $D = 1$ → $BD$.
+
+$$X = BD + \overline{B}\,\overline{D}$$
+
+This is the map loaded in the interactive above. It's also $\overline{B \oplus D}$, so the output only depends on whether $B$ and $D$ match.
+
+<div class="melon-logic" data-view="kmap" data-vars="4" data-ones="0,2,5,7,8,10,13,15">Karnaugh map for Example 4.5 (open this page on the site to use it).</div>
+
+#### Example 4.6: Overlapping groups
+
+Minimize $X = \sum m(0, 1, 2, 3, 4, 6, 8, 9, 10, 11)$.
+
+1. **Group of 8:** rows $00$ and $10$ (cells 0–3 and 8–11) are adjacent by wrap-around. Only $B = 0$ stays fixed → $\overline{B}$.
+2. **Cells 4 and 6** are left. Group them with 0 and 2 (they're the left and right columns of the top two rows, adjacent by wrap-around): $A = 0$, $D = 0$ → $\overline{A}\,\overline{D}$.
+
+$$X = \overline{B} + \overline{A}\,\overline{D}$$
+
+> [!tip] Reusing cells 0 and 2 is fine because the new group also covers cells (4 and 6) that nothing else does. A group of 4 beats two separate pairs.
+
+<div class="melon-logic" data-view="kmap" data-vars="4" data-ones="0,1,2,3,4,6,8,9,10,11">Karnaugh map for Example 4.6 (open this page on the site to use it).</div>
 
 ### Textbook terms
 
@@ -122,7 +193,7 @@ The reason the two go with different forms comes down to how each form is built:
 
 So the minimization is the same problem done twice. For SOP you pick the fewest, biggest prime implicants that cover all the 1s. For POS you pick the fewest, biggest prime implicates that cover all the 0s.
 
-**Example:** for $X = \prod M(0, 2, 3, 8, 10, 11)$ from Examples 7 and 8:
+**Example:** for $X = \prod M(0, 2, 3, 8, 10, 11)$ from Examples 4.9 and 4.10:
 
 - Prime implicants (from the 1s): $B$ and $\overline{C}D$. Both are essential, since $B$ is the only one covering cell 6 and $\overline{C}D$ is the only one covering cell 1. $X = B + \overline{C}D$.
 - Prime implicates (from the 0s): $(B + D)$ and $(B + \overline{C})$. Both are essential, since $(B + D)$ is the only one covering cell 0 and $(B + \overline{C})$ is the only one covering cell 3. $X = (B + D)(B + \overline{C})$.
@@ -137,6 +208,22 @@ Sometimes certain input combinations **can never happen**, so it doesn't matter 
 - When grouping, treat an X as a **1 if it makes a group bigger** and as a **0 if it doesn't**.
 - You never *need* to cover an X, and you should never make a group of only Xs.
 
+#### Example 4.7: Don't cares with BCD inputs
+
+A circuit reads a BCD digit $ABCD$ and outputs $X = 1$ when the digit is **5 or more**. Minimize it, using don't cares for the invalid codes.
+
+1. **1s:** digits 5, 6, 7, 8, 9. **Don't cares:** 10–15 (invalid BCD).
+2. **Treat the Xs as 1s where they help:**
+   - Cells 8–15 (bottom two rows) are 8, 9 plus six Xs → group of 8 → $A$
+   - Cells 5, 7, 13, 15 → $BD$
+   - Cells 6, 7, 14, 15 → $BC$
+
+$$X = A + BD + BC$$
+
+**Without** the don't cares, the best you could do is $A\overline{B}\,\overline{C} + \overline{A}BD + \overline{A}BC$. That's three 3-literal terms instead of one literal and two 2-literal terms.
+
+<div class="melon-logic" data-view="kmap" data-vars="4" data-ones="5,6,7,8,9" data-dc="10,11,12,13,14,15">Karnaugh map for Example 4.7 (open this page on the site to use it).</div>
+
 ### POS minimization (grouping the 0s)
 
 It's the same map, used the other way around:
@@ -146,6 +233,31 @@ It's the same map, used the other way around:
 3. Each group gives a **sum term**. Keep the variables that don't change, and write a variable **uncomplemented if it's 0** in the group and **complemented if it's 1**.
 4. The **minimum POS** is the AND of the sum terms.
 
+#### Example 4.8: POS minimization
+
+Minimize $X = \prod M(0, 2, 4, 5)$ as a POS expression.
+
+1. **0s** go in cells 0, 2, 4, 5.
+2. **Group cells 0 and 2** (rows $00$ and $01$, column 0): $A = 0$, $C = 0$. Both are 0, so both stay uncomplemented → $(A + C)$.
+3. **Group cells 4 and 5** (row $10$): $A = 1$, $B = 0$ → $(\overline{A} + B)$.
+
+$$X = (A + C)(\overline{A} + B)$$
+
+This is the same function as Example 2.12 in [[ch02-intro-to-logic-circuits|Ch 2]]. Its minimum SOP, from the 1s, is $\overline{A}C + AB$.
+
+<div class="melon-logic" data-view="kmap" data-vars="3" data-ones="1,3,6,7" data-mode="pos">Karnaugh map for Example 4.8 (open this page on the site to use it).</div>
+
+#### Example 4.9: 4-variable POS
+
+Minimize $X = \prod M(0, 2, 3, 8, 10, 11)$.
+
+1. **The four corners** (0, 2, 8, 10): $B = 0$, $D = 0$ → $(B + D)$.
+2. **Cells 2, 3, 10, 11** (columns $11$ and $10$ of rows $00$ and $10$; the rows are adjacent by wrap-around): $B = 0$, $C = 1$ → $(B + \overline{C})$.
+
+$$X = (B + D)(B + \overline{C})$$
+
+<div class="melon-logic" data-view="kmap" data-vars="4" data-ones="1,4,5,6,7,9,12,13,14,15" data-mode="pos">Karnaugh map for Example 4.9 (open this page on the site to use it).</div>
+
 ### Converting between SOP and POS on the map
 
 Every cell that isn't a 1 is a 0, and the other way around. So once a function is on the map:
@@ -154,6 +266,22 @@ Every cell that isn't a 1 is a 0, and the other way around. So once a function i
 - Group the **0s** for the minimum POS.
 
 Compare the two and build whichever one needs fewer gates.
+
+#### Example 4.10: SOP and POS from the same map
+
+For the function in Example 4.9, find the standard SOP and the minimum SOP. Which form is cheaper?
+
+1. **Standard SOP:** every cell that isn't a 0 is a 1:
+   $$X = \sum m(1, 4, 5, 6, 7, 9, 12, 13, 14, 15)$$
+2. **Group the 1s:**
+   - Rows $01$ and $11$ (cells 4–7 and 12–15) → $B$
+   - Column $01$ (cells 1, 5, 9, 13) → $\overline{C}D$
+3. **Minimum SOP:**
+   $$X = B + \overline{C}D$$
+
+<div class="melon-logic" data-view="kmap" data-vars="4" data-ones="1,4,5,6,7,9,12,13,14,15">Karnaugh map for Example 4.10 (open this page on the site to use it).</div>
+
+The SOP is cheaper. It needs one AND and one OR (plus an inverter for $\overline{C}$), while the POS from Example 4.9 needs two ORs and an AND (plus the same inverter). Both are the same function, since the distributive law gives $(B + D)(B + \overline{C}) = B + \overline{C}D$.
 
 ## Key formulas
 
@@ -188,120 +316,6 @@ $$
 $$
 \text{minterm number} = 8A + 4B + 2C + D \tag{4.4}
 $$
-
-## Examples
-
-Each map is live, so click cells to play around with it.
-
-### Example 1: Minimize a standard SOP
-
-Minimize $X = \overline{A}\,\overline{B}\,\overline{C} + \overline{A}\,\overline{B}C + A\overline{B}\,\overline{C} + A\overline{B}C + AB\overline{C}$.
-
-1. **Binary values:** $000, 001, 100, 101, 110$ → cells 0, 1, 4, 5, 6.
-2. **Group of 4:** cells 0, 1, 4, 5 are rows $00$ and $10$, which are adjacent by wrap-around. $B = 0$ throughout, and $A$, $C$ both change → $\overline{B}$.
-3. **Group of 2 for cell 6:** pair it with cell 4 (row $10$, column 0) → $A = 1$, $C = 0$ → $A\overline{C}$.
-
-$$X = \overline{B} + A\overline{C}$$
-
-<div class="melon-logic" data-view="kmap" data-vars="3" data-ones="0,1,4,5,6">Karnaugh map for Example 1 (open this page on the site to use it).</div>
-
-### Example 2: Map a nonstandard SOP
-
-Map and minimize $X = \overline{B}\,\overline{C} + AB + A\overline{B}C$ (domain $A, B, C$).
-
-1. **Expand each term:**
-   - $\overline{B}\,\overline{C}$ is missing $A$: cells $000$ and $100$ (0, 4)
-   - $AB$ is missing $C$: cells $110$ and $111$ (6, 7)
-   - $A\overline{B}C$ is standard: cell $101$ (5)
-2. **Group of 4:** cells 4, 5, 6, 7 (the whole $A = 1$ half) → $A$.
-3. **Cell 0** pairs with cell 4 → $\overline{B}\,\overline{C}$.
-
-$$X = A + \overline{B}\,\overline{C}$$
-
-<div class="melon-logic" data-view="kmap" data-vars="3" data-ones="0,4,5,6,7">Karnaugh map for Example 2 (open this page on the site to use it).</div>
-
-### Example 3: Wrap-around and corners
-
-Minimize $X = \sum m(0, 2, 5, 7, 8, 10, 13, 15)$.
-
-1. **The four corners** (0, 2, 8, 10) are all adjacent by wrap-around. $B = 0$, $D = 0$ in all of them → $\overline{B}\,\overline{D}$.
-2. **The middle square** (5, 7, 13, 15): $B = 1$, $D = 1$ → $BD$.
-
-$$X = BD + \overline{B}\,\overline{D}$$
-
-This is the map loaded in the interactive above. It's also $\overline{B \oplus D}$, so the output only depends on whether $B$ and $D$ match.
-
-<div class="melon-logic" data-view="kmap" data-vars="4" data-ones="0,2,5,7,8,10,13,15">Karnaugh map for Example 3 (open this page on the site to use it).</div>
-
-### Example 4: Overlapping groups
-
-Minimize $X = \sum m(0, 1, 2, 3, 4, 6, 8, 9, 10, 11)$.
-
-1. **Group of 8:** rows $00$ and $10$ (cells 0–3 and 8–11) are adjacent by wrap-around. Only $B = 0$ stays fixed → $\overline{B}$.
-2. **Cells 4 and 6** are left. Group them with 0 and 2 (they're the left and right columns of the top two rows, adjacent by wrap-around): $A = 0$, $D = 0$ → $\overline{A}\,\overline{D}$.
-
-$$X = \overline{B} + \overline{A}\,\overline{D}$$
-
-> [!tip] Reusing cells 0 and 2 is fine because the new group also covers cells (4 and 6) that nothing else does. A group of 4 beats two separate pairs.
-
-<div class="melon-logic" data-view="kmap" data-vars="4" data-ones="0,1,2,3,4,6,8,9,10,11">Karnaugh map for Example 4 (open this page on the site to use it).</div>
-
-### Example 5: Don't cares with BCD inputs
-
-A circuit reads a BCD digit $ABCD$ and outputs $X = 1$ when the digit is **5 or more**. Minimize it, using don't cares for the invalid codes.
-
-1. **1s:** digits 5, 6, 7, 8, 9. **Don't cares:** 10–15 (invalid BCD).
-2. **Treat the Xs as 1s where they help:**
-   - Cells 8–15 (bottom two rows) are 8, 9 plus six Xs → group of 8 → $A$
-   - Cells 5, 7, 13, 15 → $BD$
-   - Cells 6, 7, 14, 15 → $BC$
-
-$$X = A + BD + BC$$
-
-**Without** the don't cares, the best you could do is $A\overline{B}\,\overline{C} + \overline{A}BD + \overline{A}BC$. That's three 3-literal terms instead of one literal and two 2-literal terms.
-
-<div class="melon-logic" data-view="kmap" data-vars="4" data-ones="5,6,7,8,9" data-dc="10,11,12,13,14,15">Karnaugh map for Example 5 (open this page on the site to use it).</div>
-
-### Example 6: POS minimization
-
-Minimize $X = \prod M(0, 2, 4, 5)$ as a POS expression.
-
-1. **0s** go in cells 0, 2, 4, 5.
-2. **Group cells 0 and 2** (rows $00$ and $01$, column 0): $A = 0$, $C = 0$. Both are 0, so both stay uncomplemented → $(A + C)$.
-3. **Group cells 4 and 5** (row $10$): $A = 1$, $B = 0$ → $(\overline{A} + B)$.
-
-$$X = (A + C)(\overline{A} + B)$$
-
-This is the same function as Example 9 in [[ch02-intro-to-logic-circuits|Ch 2]]. Its minimum SOP, from the 1s, is $\overline{A}C + AB$.
-
-<div class="melon-logic" data-view="kmap" data-vars="3" data-ones="1,3,6,7" data-mode="pos">Karnaugh map for Example 6 (open this page on the site to use it).</div>
-
-### Example 7: 4-variable POS
-
-Minimize $X = \prod M(0, 2, 3, 8, 10, 11)$.
-
-1. **The four corners** (0, 2, 8, 10): $B = 0$, $D = 0$ → $(B + D)$.
-2. **Cells 2, 3, 10, 11** (columns $11$ and $10$ of rows $00$ and $10$; the rows are adjacent by wrap-around): $B = 0$, $C = 1$ → $(B + \overline{C})$.
-
-$$X = (B + D)(B + \overline{C})$$
-
-<div class="melon-logic" data-view="kmap" data-vars="4" data-ones="1,4,5,6,7,9,12,13,14,15" data-mode="pos">Karnaugh map for Example 7 (open this page on the site to use it).</div>
-
-### Example 8: SOP and POS from the same map
-
-For the function in Example 7, find the standard SOP and the minimum SOP. Which form is cheaper?
-
-1. **Standard SOP:** every cell that isn't a 0 is a 1:
-   $$X = \sum m(1, 4, 5, 6, 7, 9, 12, 13, 14, 15)$$
-2. **Group the 1s:**
-   - Rows $01$ and $11$ (cells 4–7 and 12–15) → $B$
-   - Column $01$ (cells 1, 5, 9, 13) → $\overline{C}D$
-3. **Minimum SOP:**
-   $$X = B + \overline{C}D$$
-
-<div class="melon-logic" data-view="kmap" data-vars="4" data-ones="1,4,5,6,7,9,12,13,14,15">Karnaugh map for Example 8 (open this page on the site to use it).</div>
-
-The SOP is cheaper. It needs one AND and one OR (plus an inverter for $\overline{C}$), while the POS from Example 7 needs two ORs and an AND (plus the same inverter). Both are the same function, since the distributive law gives $(B + D)(B + \overline{C}) = B + \overline{C}D$.
 
 ## Common mistakes
 

@@ -32,6 +32,20 @@ public void accelerate(double amount) { // one double
 
 > [!warning] Changing **only the return type** doesn't count. `int f(int x)` and `double f(int x)` won't compile together. The return type isn't part of the call `f(3)`, so the compiler would have no way to tell which one you mean.
 
+#### Example 3.1: Which overloaded method is called?
+
+Using the two `accelerate` methods above on a car whose `speed` starts at `30`, what is `speed` after each call?
+
+```java
+car.accelerate();
+car.accelerate(25);
+```
+
+1. `accelerate()` has no arguments, so the no-parameter version runs: `speed = 30 + 10 = 40`.
+2. `accelerate(25)` has one number, so the `double` version runs and `25` is widened to `25.0`: `speed = 40 + 25 = 65`.
+
+The compiler picks the version from the argument list alone, before the program runs.
+
 ### Mutable vs immutable classes
 
 - **Mutable:** the object's state can change after it's created. `Car` is mutable, which makes sense, since a car's speed and fuel change constantly.
@@ -76,6 +90,56 @@ Car b = new Car();                 // compile error: no Car() exists anymore
 
 Why would Java take it away? Because writing a constructor that requires a plate is you saying "a car without a plate shouldn't exist". If Java still supplied an empty `Car()`, anyone could sidestep your rule. If you do want both, write the no-argument one yourself: constructors can be **overloaded** exactly like methods.
 
+#### Example 3.2: Which constructor runs?
+
+```java
+public class Cube {
+    int length, breadth, height;
+
+    public int getVolume() { return length * breadth * height; }
+
+    Cube() { length = 10; breadth = 10; height = 10; }
+    Cube(int l, int b, int h) { length = l; breadth = b; height = h; }
+
+    public static void main(String[] args) {
+        Cube cubeObj1 = new Cube();
+        Cube cubeObj2 = new Cube(10, 20, 30);
+        System.out.println("Volume of Cube1 is: " + cubeObj1.getVolume());
+        System.out.println("Volume of Cube2 is: " + cubeObj2.getVolume());
+    }
+}
+```
+
+1. `new Cube()` has no arguments, so the no-arg constructor runs: $10 \times 10 \times 10 = 1000$
+2. `new Cube(10, 20, 30)` matches the constructor with three ints: $10 \times 20 \times 30 = 6000$
+
+```
+Volume of Cube1 is: 1000
+Volume of Cube2 is: 6000
+```
+
+#### Example 3.3: Will it compile?
+
+```java
+public class DefaultConstructorOnly { int size = 5; }
+
+public class OneConstructor {
+    OneConstructor(String message) { System.out.println(message); }
+}
+
+public class TwoConstructors {
+    TwoConstructors(String message) { System.out.println(message); }
+    TwoConstructors() { System.out.println("No argument Constructor"); }
+}
+```
+
+|Statement|Compiles?|Why|
+|---|---|---|
+|`new DefaultConstructorOnly()`|Yes|No constructor was written, so Java supplies `DefaultConstructorOnly()`|
+|`new TwoConstructors()`|Yes|A no-arg constructor is written out|
+|`new OneConstructor()`|**No**|Writing `OneConstructor(String)` got rid of the default one|
+|`new Car("ABC", 50)` (Car has 0-arg and 3-arg)|**No**|No constructor takes `(String, double)`|
+
 ### The `this` keyword
 
 Inside a method, `this` means **the object the method was called on**. When you call `miniVan.setSpeed(50)`, `this` is the minivan; for `sedan.setSpeed(50)`, it's the sedan. That's how one method in the class can work on whichever object called it. Writing `speed` inside a method is really shorthand for `this.speed`.
@@ -91,6 +155,26 @@ public Car(String licensePlate, double speed, double maxSpeed) {
 ```
 
 Inside this constructor, the plain name `speed` means the **parameter**, because the nearest declaration wins (this is called **shadowing**, covered more in [[ch05-writing-classes|Ch 5]]). So `speed = speed;` would just copy the parameter onto itself and leave the field unchanged. `this.speed` says "the field belonging to this object", which is unambiguous.
+
+#### Example 3.4: The missing `this`
+
+What does this print, and how do you fix it?
+
+```java
+public class Car {
+    private double speed;
+    public Car(double speed) {
+        speed = speed;          // bug
+    }
+    public double getSpeed() { return speed; }
+}
+// ...
+System.out.println(new Car(60).getSpeed());
+```
+
+It prints **`0.0`**. In the constructor, `speed` means the *parameter* (the nearest declaration), so `speed = speed;` copies the parameter onto itself and never touches the field. The field keeps its default of `0.0`.
+
+Fix it with `this.speed = speed;`, which says "the field of this object gets the parameter's value". Then the print shows `60.0`.
 
 ### Kinds of variables
 
@@ -157,165 +241,7 @@ What makes `result1` wrong is the **order of events**. Java evaluates the right 
 
 > [!warning] The cast has to happen **before** the division. `(float) total / count` converts `total` first, so the division is done in decimals. `(float)(total / count)` does the integer division first and converts the finished 1, which gives `1.0`.
 
-### Initialization
-
-|Variable|Default value if you don't set one|
-|---|---|
-|**Local** variable|**None.** Using it before you assign it is a compile error.|
-|Instance variable (number)|`0` / `0.0`|
-|Instance variable (`char`)|`'\0'`|
-|Instance variable (`boolean`)|`false`|
-|Instance variable (reference)|`null`|
-
-`null` is a keyword meaning "refers to no object".
-
-**Why the difference?** When `new` makes an object, Java clears its memory to zeros first, and all-zero bits read as 0, `false` or `null`. So instance variables always start with *something*. Local variables get no such cleanup (they're made and thrown away constantly, and clearing each one would cost time). Rather than let you read whatever garbage was left there, the compiler checks that every local is assigned before it's used, and refuses to compile if it can't prove it.
-
-### Memory: stack and heap
-
-A running Java program keeps its data in two regions, organized very differently because they serve different purposes:
-
-|Region|What lives there|Lifetime|
-|---|---|---|
-|**Stack**|Local variables and parameters (including reference variables themselves)|Pushed when a method is called, freed automatically when it returns|
-|**Heap**|Every object created with `new` (and its instance variables)|Until nothing refers to it, then garbage collected|
-
-**The stack** works like a stack of plates. Each method call puts a new plate (a **frame**) on top, holding that call's parameters and local variables. When the method returns, its plate comes off and everything on it disappears. That's why locals don't survive between calls. It's fast and automatic, but things on it can only live as long as the method that made them.
-
-**The heap** is for things that need to outlive the method that made them. An object created inside a method might be returned, stored in a field or passed around for the rest of the program, so it can't sit on a plate that's about to be removed. Objects go on the heap, and they stay there as long as something still refers to them.
-
-For `Car car1 = new Car("ABC", 20, 100);` inside `main`:
-
-- `car1` is on the **stack**. It holds only an address (4–8 bytes).
-- The `Car` object with `"ABC"`, `20`, `100` is on the **heap**.
-
-![[coe-318-stack-and-heap.svg]]
-*Figure 3.1: The reference variable car1 lives on the stack, and the object it points to lives on the heap.*
-
-### References, aliasing and garbage collection
-
-Since a reference variable holds an address, assigning one to another **copies the address, not the object**:
-
-```java
-Car miniVan = new Car("ABC", 50, 100);
-Car sedan = new Car();
-sedan = miniVan;     // sedan now points at the SAME object as miniVan
-```
-
-After the last line, `miniVan` and `sedan` are two names for **one** car. This is called **aliasing**. Call `sedan.setSpeed(0)` and `miniVan.getSpeed()` is 0 too, because there's only one speed involved. If you want an independent copy, you have to make a new object and copy the values into it.
-
-**What happens to the other car?** The no-argument `Car` that `sedan` used to point at now has **no references left**. No variable anywhere holds its address, so no code can ever reach it again. It's **eligible for garbage collection**. Every so often the JVM's garbage collector works out which heap objects can still be reached from the program's variables and frees the memory of everything that can't. You never free memory yourself, and you can't accidentally use an object after it's been freed, because by definition nothing can reach it.
-
-![[coe-318-reference-assignment.svg]]
-*Figure 3.2: sedan = miniVan copies the address, not the object. The old default Car has no references left, so it is garbage.*
-
-### Arrays
-
-An **array** holds a fixed number of values of **one type** (primitive or object), side by side, numbered from `0` to `N - 1`.
-
-```java
-int[] scores = new int[10];                     // 10 ints, all 0
-int[] units = {147, 323, 89, 933, 540};         // initializer list
-char[] grades = {'A', 'B', 'C', 'D', 'F'};
-
-scores[0] = 79;                                 // access by index
-System.out.println(units.length);               // 5 (length is a field, no parentheses)
-```
-
-**Why indices start at 0.** The index is really an **offset**: how many elements past the start to go. The first element is 0 steps from the start. So the last one, in an array of $N$, is at $N - 1$.
-
-- An index outside `0 … length - 1` throws an `ArrayIndexOutOfBoundsException` when the program runs. Java checks every access, which turns a silent memory-corruption bug (common in C) into a clear error.
-- An array is an **object**, created with `new` and living on the heap, so the array variable is a **reference**. Everything about aliasing applies: `alias = scores;` makes two names for one array.
-
-> [!warning] C-style `int scores[10];` does **not** compile in Java. In Java the declaration only makes the reference; the size belongs to the object, so it goes with `new`: `int[] scores = new int[10];`
-
-**Arrays of objects hold references**, and like any reference they start out as `null`. Making the array makes a row of empty slots, not the objects to fill them:
-
-```java
-Books[] myBooks = new Books[2];   // two null references, zero Books
-myBooks[0] = new Books();         // now one actual Books object
-myBooks[0].title = "The Grapes of Java";
-```
-
-Using `myBooks[1].title` at this point would throw a `NullPointerException`, because slot 1 still doesn't refer to any book. Picture an array of objects as a row of remote controls, none paired with a TV until you `new` one for each.
-
-## Key syntax
-
-**Constructor and `this`**
-
-```java
-public ClassName(Type field) {   // no return type
-    this.field = field;          // this.field = instance variable
-}
-```
-
-**Cast**
-
-```java
-double avg = (double) sum / n;   // cast one operand BEFORE dividing
-```
-
-**Arrays**
-
-```java
-Type[] a = new Type[N];          // indices 0 … N-1
-a.length                         // number of elements
-for (int i = 0; i < a.length; i++) { a[i] ... }
-```
-
-## Examples
-
-### Example 1: Which constructor runs?
-
-```java
-public class Cube {
-    int length, breadth, height;
-
-    public int getVolume() { return length * breadth * height; }
-
-    Cube() { length = 10; breadth = 10; height = 10; }
-    Cube(int l, int b, int h) { length = l; breadth = b; height = h; }
-
-    public static void main(String[] args) {
-        Cube cubeObj1 = new Cube();
-        Cube cubeObj2 = new Cube(10, 20, 30);
-        System.out.println("Volume of Cube1 is: " + cubeObj1.getVolume());
-        System.out.println("Volume of Cube2 is: " + cubeObj2.getVolume());
-    }
-}
-```
-
-1. `new Cube()` has no arguments, so the no-arg constructor runs: $10 \times 10 \times 10 = 1000$
-2. `new Cube(10, 20, 30)` matches the constructor with three ints: $10 \times 20 \times 30 = 6000$
-
-```
-Volume of Cube1 is: 1000
-Volume of Cube2 is: 6000
-```
-
-### Example 2: Will it compile?
-
-```java
-public class DefaultConstructorOnly { int size = 5; }
-
-public class OneConstructor {
-    OneConstructor(String message) { System.out.println(message); }
-}
-
-public class TwoConstructors {
-    TwoConstructors(String message) { System.out.println(message); }
-    TwoConstructors() { System.out.println("No argument Constructor"); }
-}
-```
-
-|Statement|Compiles?|Why|
-|---|---|---|
-|`new DefaultConstructorOnly()`|Yes|No constructor was written, so Java supplies `DefaultConstructorOnly()`|
-|`new TwoConstructors()`|Yes|A no-arg constructor is written out|
-|`new OneConstructor()`|**No**|Writing `OneConstructor(String)` got rid of the default one|
-|`new Car("ABC", 50)` (Car has 0-arg and 3-arg)|**No**|No constructor takes `(String, double)`|
-
-### Example 3: Casting and the GPA
+#### Example 3.5: Casting and the GPA
 
 Complete the constructor so it computes `GPA = totalGradePoints / totalHours`, write `getGPA()`, and create a student `"Sanders, Bruce"` with 35 hours and 92 grade points.
 
@@ -346,29 +272,97 @@ class Student {
 2. Without the cast, `92 / 35` is integer division = `2`, stored as `2.0`
 3. With the cast: $92 / 35 = 2.628571\ldots$, so it prints `2.6285714285714286`
 
-### Example 4: Two names for one array
+### Initialization
+
+|Variable|Default value if you don't set one|
+|---|---|
+|**Local** variable|**None.** Using it before you assign it is a compile error.|
+|Instance variable (number)|`0` / `0.0`|
+|Instance variable (`char`)|`'\0'`|
+|Instance variable (`boolean`)|`false`|
+|Instance variable (reference)|`null`|
+
+`null` is a keyword meaning "refers to no object".
+
+**Why the difference?** When `new` makes an object, Java clears its memory to zeros first, and all-zero bits read as 0, `false` or `null`. So instance variables always start with *something*. Local variables get no such cleanup (they're made and thrown away constantly, and clearing each one would cost time). Rather than let you read whatever garbage was left there, the compiler checks that every local is assigned before it's used, and refuses to compile if it can't prove it.
+
+#### Example 3.6: Default values
+
+What does this print?
 
 ```java
-int[] integerArray = new int[5];
-for (int i = 0; i < integerArray.length; i++)
-    integerArray[i] = 5;
-int[] alias = integerArray;
-alias[3] = 10;
-System.out.println(integerArray[3]);   // (a)
-integerArray = new int[3];
-System.out.println(integerArray[3]);   // (b)
-System.out.println(alias[3]);          // (c)
+public class Demo {
+    int count;
+    boolean ready;
+    String label;
+
+    public static void main(String[] args) {
+        Demo d = new Demo();
+        System.out.println(d.count + " " + d.ready + " " + d.label);
+        int total;
+        System.out.println(total);
+    }
+}
 ```
 
-1. **(a)** `alias` and `integerArray` point at the same array, so changing `alias[3]` also changes `integerArray[3]`. It prints `10`.
-2. `integerArray` now points at a **new** 3-element array, while `alias` still points at the old one.
-3. **(b)** The new array only has indices 0–2, so this throws an **`ArrayIndexOutOfBoundsException`** and the program stops.
-4. **(c)** never runs. Without (b) it would print `10`, since the old array still exists as long as `alias` refers to it.
+The first `println` prints **`0 false null`**. The three fields are instance variables, so Java gave them defaults: `0`, `false` and `null`. The second `println` **doesn't compile**, because `total` is a local variable with no default, and the compiler refuses to let you read it before it has been assigned.
 
-![[coe-318-array-alias.svg]]
-*Figure 3.3: Two names for one array, then integerArray is reassigned to a new array while alias still points at the old one.*
+### Memory: stack and heap
 
-### Example 5: Heap quiz
+A running Java program keeps its data in two regions, organized very differently because they serve different purposes:
+
+|Region|What lives there|Lifetime|
+|---|---|---|
+|**Stack**|Local variables and parameters (including reference variables themselves)|Pushed when a method is called, freed automatically when it returns|
+|**Heap**|Every object created with `new` (and its instance variables)|Until nothing refers to it, then garbage collected|
+
+**The stack** works like a stack of plates. Each method call puts a new plate (a **frame**) on top, holding that call's parameters and local variables. When the method returns, its plate comes off and everything on it disappears. That's why locals don't survive between calls. It's fast and automatic, but things on it can only live as long as the method that made them.
+
+**The heap** is for things that need to outlive the method that made them. An object created inside a method might be returned, stored in a field or passed around for the rest of the program, so it can't sit on a plate that's about to be removed. Objects go on the heap, and they stay there as long as something still refers to them.
+
+For `Car car1 = new Car("ABC", 20, 100);` inside `main`:
+
+- `car1` is on the **stack**. It holds only an address (4–8 bytes).
+- The `Car` object with `"ABC"`, `20`, `100` is on the **heap**.
+
+![[coe-318-stack-and-heap.svg]]
+*Figure 3.1: The reference variable car1 lives on the stack, and the object it points to lives on the heap.*
+
+#### Example 3.7: Stack or heap?
+
+For this method, say where each item lives.
+
+```java
+void run() {
+    int n = 3;
+    Car c = new Car("ABC", 20, 100);
+}
+```
+
+- `n` is a local primitive, so its value `3` is on the **stack**, in `run`'s frame.
+- `c` is a local variable, so the *reference* itself is on the **stack**. It holds an address.
+- The `Car` object and its fields (`"ABC"`, `20`, `100`) are on the **heap**.
+
+When `run` returns, its frame is popped and `n` and `c` disappear. The `Car` stays on the heap until the garbage collector finds that no reference to it remains, which is now true because `c` was the only one.
+
+### References, aliasing and garbage collection
+
+Since a reference variable holds an address, assigning one to another **copies the address, not the object**:
+
+```java
+Car miniVan = new Car("ABC", 50, 100);
+Car sedan = new Car();
+sedan = miniVan;     // sedan now points at the SAME object as miniVan
+```
+
+After the last line, `miniVan` and `sedan` are two names for **one** car. This is called **aliasing**. Call `sedan.setSpeed(0)` and `miniVan.getSpeed()` is 0 too, because there's only one speed involved. If you want an independent copy, you have to make a new object and copy the values into it.
+
+**What happens to the other car?** The no-argument `Car` that `sedan` used to point at now has **no references left**. No variable anywhere holds its address, so no code can ever reach it again. It's **eligible for garbage collection**. Every so often the JVM's garbage collector works out which heap objects can still be reached from the program's variables and frees the memory of everything that can't. You never free memory yourself, and you can't accidentally use an object after it's been freed, because by definition nothing can reach it.
+
+![[coe-318-reference-assignment.svg]]
+*Figure 3.2: sedan = miniVan copies the address, not the object. The old default Car has no references left, so it is garbage.*
+
+#### Example 3.8: Heap quiz
 
 ```java
 class HeapQuiz { int id = 0; }
@@ -409,6 +403,101 @@ hq[4]:1
 ```
 
 > [!note] Only three objects ever exist. `hq[3]` and `hq[4]` are just extra references to ones that are already there, and nothing gets garbage collected.
+
+### Arrays
+
+An **array** holds a fixed number of values of **one type** (primitive or object), side by side, numbered from `0` to `N - 1`.
+
+```java
+int[] scores = new int[10];                     // 10 ints, all 0
+int[] units = {147, 323, 89, 933, 540};         // initializer list
+char[] grades = {'A', 'B', 'C', 'D', 'F'};
+
+scores[0] = 79;                                 // access by index
+System.out.println(units.length);               // 5 (length is a field, no parentheses)
+```
+
+**Why indices start at 0.** The index is really an **offset**: how many elements past the start to go. The first element is 0 steps from the start. So the last one, in an array of $N$, is at $N - 1$.
+
+#### Example 3.9: Indexing an array
+
+Given `int[] a = {4, 8, 15, 16, 23, 42};`, find `a.length`, `a[0]`, `a[a.length - 1]` and what `a[6]` does. Then write a loop that sums the array.
+
+- `a.length` is **6** (a field, so no parentheses).
+- `a[0]` is **4**, the first element.
+- `a[a.length - 1]` is `a[5]`, which is **42**, the last element.
+- `a[6]` throws an **`ArrayIndexOutOfBoundsException`**. The valid indices are 0 to 5.
+
+```java
+int sum = 0;
+for (int i = 0; i < a.length; i++) {
+    sum = sum + a[i];
+}
+// sum is 4 + 8 + 15 + 16 + 23 + 42 = 108
+```
+
+Using `i < a.length` (not `<=`) stops at index 5, the last valid one.
+
+- An index outside `0 … length - 1` throws an `ArrayIndexOutOfBoundsException` when the program runs. Java checks every access, which turns a silent memory-corruption bug (common in C) into a clear error.
+- An array is an **object**, created with `new` and living on the heap, so the array variable is a **reference**. Everything about aliasing applies: `alias = scores;` makes two names for one array.
+
+> [!warning] C-style `int scores[10];` does **not** compile in Java. In Java the declaration only makes the reference; the size belongs to the object, so it goes with `new`: `int[] scores = new int[10];`
+
+#### Example 3.10: Two names for one array
+
+```java
+int[] integerArray = new int[5];
+for (int i = 0; i < integerArray.length; i++)
+    integerArray[i] = 5;
+int[] alias = integerArray;
+alias[3] = 10;
+System.out.println(integerArray[3]);   // (a)
+integerArray = new int[3];
+System.out.println(integerArray[3]);   // (b)
+System.out.println(alias[3]);          // (c)
+```
+
+1. **(a)** `alias` and `integerArray` point at the same array, so changing `alias[3]` also changes `integerArray[3]`. It prints `10`.
+2. `integerArray` now points at a **new** 3-element array, while `alias` still points at the old one.
+3. **(b)** The new array only has indices 0–2, so this throws an **`ArrayIndexOutOfBoundsException`** and the program stops.
+4. **(c)** never runs. Without (b) it would print `10`, since the old array still exists as long as `alias` refers to it.
+
+![[coe-318-array-alias.svg]]
+*Figure 3.3: Two names for one array, then integerArray is reassigned to a new array while alias still points at the old one.*
+
+**Arrays of objects hold references**, and like any reference they start out as `null`. Making the array makes a row of empty slots, not the objects to fill them:
+
+```java
+Books[] myBooks = new Books[2];   // two null references, zero Books
+myBooks[0] = new Books();         // now one actual Books object
+myBooks[0].title = "The Grapes of Java";
+```
+
+Using `myBooks[1].title` at this point would throw a `NullPointerException`, because slot 1 still doesn't refer to any book. Picture an array of objects as a row of remote controls, none paired with a TV until you `new` one for each.
+
+## Key syntax
+
+**Constructor and `this`**
+
+```java
+public ClassName(Type field) {   // no return type
+    this.field = field;          // this.field = instance variable
+}
+```
+
+**Cast**
+
+```java
+double avg = (double) sum / n;   // cast one operand BEFORE dividing
+```
+
+**Arrays**
+
+```java
+Type[] a = new Type[N];          // indices 0 … N-1
+a.length                         // number of elements
+for (int i = 0; i < a.length; i++) { a[i] ... }
+```
 
 ## Common mistakes
 

@@ -68,6 +68,34 @@ Dog d2 = (Dog) a2;          // compiles, but fails at runtime: the object is jus
 
 Java won't let you write `Dog d = a1;` without the cast, because an `Animal` reference *might* point at some other subclass. For a casting question, draw the hierarchy, decide the direction (up or down), then ask what the actual object is.
 
+#### Example 6.1: Which casts compile, and which fail at runtime?
+
+Using `Animal`, `Dog extends Animal`, and a new `Cat extends Animal`:
+
+```java
+Animal a = new Dog();       // 1
+Dog d = a;                  // 2
+Dog d2 = (Dog) a;           // 3
+Cat c = (Cat) a;            // 4
+a.fetch();                  // 5
+((Dog) a).fetch();          // 6
+Object o = new Cat();       // 7
+Animal a3 = o;              // 8
+```
+
+|Line|Result|Why|
+|---|---|---|
+|1|OK|Upcast `Dog` → `Animal`, no cast needed|
+|2|**Compile error**|`Animal` → `Dog` is a downcast and needs `(Dog)`|
+|3|OK|The object really is a `Dog`|
+|4|Compiles, **`ClassCastException`** at runtime|`Cat` is in the hierarchy, so the compiler allows it, but the object is a `Dog`|
+|5|**Compile error**|`a` is an `Animal` reference, and `Animal` has no `fetch()`|
+|6|OK|Cast first, then call `fetch()`|
+|7|OK|Any object can go in an `Object` variable|
+|8|**Compile error**|`Object` → `Animal` is a downcast and needs `(Animal)`|
+
+The compiler checks the **reference type**. Only the runtime checks the **actual object**.
+
 > [!note] Which `speak()` actually runs (`Animal`'s or `Dog`'s) is covered in [[ch10-polymorphism\|Ch 10]]. The classes here use `extends`, which is [[ch09-inheritance\|Ch 9]].
 
 ### Enhanced `for` loop
@@ -87,6 +115,28 @@ for (int element : arrayOfInts)                    // enhanced: no index
 Read `:` as "in": for each `element` in `arrayOfInts`. It works on arrays and on `ArrayList`s. `element` isn't a keyword: `number` or `x` works just as well.
 
 Use the enhanced loop when you only care about each value. Use the index loop when the index itself matters: assigning `array[i] = ...`, or comparing `array[i]` with `array[i + 1]`.
+
+#### Example 6.2: Does the enhanced `for` change the array?
+
+What does this print?
+
+```java
+int[] a = { 3, 5, 8 };
+int total = 0;
+for (int x : a) {
+    x = x * 2;
+    total += x;
+}
+System.out.println(total + " " + a[0]);
+```
+
+`x` is a **copy** of each element, so doubling it doesn't touch the array.
+
+- Pass 1: `x = 3` → `6`, `total = 6`
+- Pass 2: `x = 5` → `10`, `total = 16`
+- Pass 3: `x = 8` → `16`, `total = 32`
+
+Prints `32 3`. `a[0]` is still `3`. To change the elements themselves, use the index loop and write `a[i] = a[i] * 2;`.
 
 ### `ArrayList`
 
@@ -127,6 +177,19 @@ class Beatles {
 ![[coe-318-arraylist-insert.svg]]
 *Figure 6.2: The Beatles list after each step. remove(2) shifts George down to close the gap, and add(2, "Ringo") shifts him back up to make room.*
 
+#### Example 6.3: Insert into an `ArrayList`
+
+Trace the list from the `Beatles` program in the Notes:
+
+|Step|Code|List|
+|---|---|---|
+|1|four `add(...)` calls|`[Paul, Pete, John, George]`|
+|2|`indexOf("John")`|`location = 2`|
+|3|`remove(location)`|`[Paul, Pete, George]`|
+|4|`add(location, "Ringo")`|`[Paul, Pete, Ringo, George]`|
+
+The `add(index, obj)` in step 4 pushes `George` one place to the right to make room. It prints `Size of the band: 4`, because one name was removed and one added.
+
 **Mixed types.** A plain `ArrayList` stores `Object`s, so it takes anything (primitives get wrapped automatically):
 
 ```java
@@ -165,6 +228,22 @@ public class HelloWorld {
 
 Run with arguments `hi there` and it prints `hi` then `there`. With no arguments, `args.length` is `0`.
 
+#### Example 6.4: Adding two command-line numbers
+
+```java
+public class Add {
+    public static void main(String[] args) {
+        int sum = Integer.parseInt(args[0]) + Integer.parseInt(args[1]);
+        System.out.println(sum);
+    }
+}
+```
+
+What happens when it is run with `3 4`, and with no arguments?
+
+- With `3 4`: `args` is `{"3", "4"}`. They are **Strings**, so `Integer.parseInt` turns them into `3` and `4`, and it prints `7`. Without `parseInt`, `args[0] + args[1]` would join the text and give `"34"`.
+- With no arguments: `args.length` is `0`, so `args[0]` throws an `ArrayIndexOutOfBoundsException`. Checking `if (args.length < 2)` first avoids this.
+
 ### Variable-length parameter lists
 
 Say you want `average(42, 69, 37)` and also `average(35, 43, 93, 23, 40)`. Without help you'd need a separate method for every count. Write the parameter as `type... name` and Java packs the arguments into an **array**:
@@ -183,6 +262,33 @@ average(4.5, 3.5, 2.0, 6.0); // 4.0
 ```
 
 Inside the method, `numbers` is just a `double[]`.
+
+#### Example 6.5: Variable-length average
+
+What does this print?
+
+```java
+public class MathUtils {
+    public static double average(double... numbers) {
+        double total = 0.0;
+        for (double d : numbers)
+            total += d;
+        return total / numbers.length;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(average(10, 20, 30));
+        System.out.println(average(5, 15));
+        System.out.println(average(4.5, 3.5, 2.0, 6.0));
+    }
+}
+```
+
+1. `(10 + 20 + 30) / 3` = 60 / 3 = `20.0`
+2. `(5 + 15) / 2` = 20 / 2 = `10.0`
+3. `(4.5 + 3.5 + 2.0 + 6.0) / 4` = 16 / 4 = `4.0`
+
+Prints `20.0`, `10.0`, `4.0`. One method handles all three because `numbers` is a `double[]` of whatever length was passed.
 
 **Rules**
 
@@ -275,6 +381,39 @@ public class Foo {
 }
 ```
 
+#### Example 6.6: `Foo` and the static counter
+
+`f()` is now `static`. What does this print?
+
+```java
+public class Foo {
+    static int i = 5;
+    int j;
+    public Foo(int k) { j = k; }
+
+    public static void f() { i++; }   // OK: static method changes a static variable
+
+    public static void main(String[] args) {
+        System.out.println("Foo.i: " + Foo.i);
+        Foo.f();
+        System.out.println("Foo.i: " + Foo.i);
+        Foo g = new Foo(2);
+        Foo h = new Foo(3);
+        h.f();
+        System.out.println("g.i: " + g.i);
+    }
+}
+```
+
+1. `Foo.i` starts at 5, so the first line is `Foo.i: 5`.
+2. `Foo.f()` bumps the one shared `i` to 6, so the second line is `Foo.i: 6`.
+3. `h.f()` is a static method called through an object, which is allowed. It makes `i` 7.
+4. `g.i` is the same `i`, since there's only one, so the last line is `g.i: 7`.
+
+Prints `Foo.i: 5`, `Foo.i: 6`, `g.i: 7`.
+
+> [!note] If `f()` were **not** static, `Foo.f();` wouldn't compile. An instance method needs an object. Calling it as `h.f();` would still be fine.
+
 ### When to use `static`
 
 |Use|When|Example|
@@ -352,169 +491,7 @@ class Math {
 }
 ```
 
-### `final` on a reference
-
-`final` freezes the **variable**. For an object variable, that means it can't be pointed at a different object, but the object's own fields can still change.
-
-```java
-final Car miniVan = new Car("ABC", 50);
-miniVan.speed = 80;                 // OK: changing the object's field
-miniVan = new Car("DEF", 60);       // ERROR: can't reassign a final reference
-```
-
-![[coe-318-final-reference.svg]]
-*Figure 6.5: A final reference a can't be pointed at another Box, but the Box it points to can still have its value changed. This is Example 4's lines B and C.*
-
-Whenever you see `final SomeClass x = ...;`, ask two separate questions:
-
-1. **Am I changing the reference?** `x = anotherObject;` is not allowed once `x` is set.
-2. **Am I changing something inside the object?** `x.someField = 20;` can be fine, as long as `someField` itself isn't `final`.
-
-A `final` reference does **not** make the object immutable.
-
-### Order of modifiers
-
-The order doesn't matter to Java: `private static final double c`, `static final private double c` and `final static private double c` are all the same. The recommended order is:
-
-```java
-private static final double c
-```
-
-### Reading a stacked declaration
-
-Questions often pile several modifiers onto one line. Don't read `private static final int ID = 10;` as one rule. Split it up and ask one question per word:
-
-|Part|Question|
-|---|---|
-|`private`|Who can access it?|
-|`static`|Does it belong to the class or to each object?|
-|`final`|Can it be reassigned?|
-|`int`|What type of value does it hold?|
-
-I do this for every field **before** I trace any code (it's how Example 2 is solved). For a `static` method, also ask whether it touches instance state directly, and if so, which object would supply it. For `ArrayList` traces, write out the index and value rows after every `add` or `remove` instead of tracking the shifts in your head.
-
-## Key syntax
-
-**Typecasting**
-
-```java
-Animal a = new Dog();       // upcast: no cast operator
-Dog d = (Dog) a;            // downcast: explicit cast
-```
-
-**Enhanced `for`**
-
-```java
-for (Type item : collectionOrArray) { ... }
-```
-
-**`ArrayList`**
-
-```java
-ArrayList<Type> list = new ArrayList<Type>();
-list.add(x);  list.add(i, x);  list.get(i);
-list.remove(i);  list.indexOf(x);  list.size();
-```
-
-**Variable-length parameter**
-
-```java
-public static double average(double... numbers) { ... }   // last parameter only
-```
-
-**Class constant**
-
-```java
-private static final double SPEED_LIMIT = 120;
-```
-
-|Keyword|Meaning|
-|---|---|
-|`static`|One copy, belongs to the class, usable with no object|
-|`final`|Can't be changed after initialization|
-|`static final`|One shared constant for the class|
-
-## Examples
-
-### Example 1: `Foo` and the static counter
-
-`f()` is now `static`. What does this print?
-
-```java
-public class Foo {
-    static int i = 5;
-    int j;
-    public Foo(int k) { j = k; }
-
-    public static void f() { i++; }   // OK: static method changes a static variable
-
-    public static void main(String[] args) {
-        System.out.println("Foo.i: " + Foo.i);
-        Foo.f();
-        System.out.println("Foo.i: " + Foo.i);
-        Foo g = new Foo(2);
-        Foo h = new Foo(3);
-        h.f();
-        System.out.println("g.i: " + g.i);
-    }
-}
-```
-
-1. `Foo.i` starts at 5, so the first line is `Foo.i: 5`.
-2. `Foo.f()` bumps the one shared `i` to 6, so the second line is `Foo.i: 6`.
-3. `h.f()` is a static method called through an object, which is allowed. It makes `i` 7.
-4. `g.i` is the same `i`, since there's only one, so the last line is `g.i: 7`.
-
-Prints `Foo.i: 5`, `Foo.i: 6`, `g.i: 7`.
-
-> [!note] If `f()` were **not** static, `Foo.f();` wouldn't compile. An instance method needs an object. Calling it as `h.f();` would still be fine.
-
-### Example 2: Which `Lottery` lines don't compile?
-
-```java
- 1  public class Lottery {
- 2      private static int numTickets;
- 3      final double ID;
- 4      private int price;
- 5      public Lottery() {
- 6          numTickets++;
- 7          price = 40;
- 8          ID = numTickets + 2;
- 9      }
-10      public Lottery(int price) {
-11          numTickets++;
-12          this.price = 40;
-13      }
-14      public static void reset(int numTickets) {
-15          ID = 0;
-16          Lottery.numTickets = numTickets;
-17      }
-18  }
-19
-20  class LotteryTest {
-21      public static void main(String[] args) {
-22          Lottery l = new Lottery();
-23          Lottery.numTickets = 0;
-24          l.reset(0);
-25          System.out.println(l.numTickets);
-26      }
-27  }
-```
-
-Go through the class one member at a time:
-
-1. **Second constructor (lines 10–13):** `ID` is `final`, and **every** constructor has to set it. This one never does. **Error.**
-2. **Line 8:** `ID = numTickets + 2;` assigns an `int` into a `double`, which is fine. The first constructor sets `ID`, so it compiles.
-3. **Line 12:** `this.price = 40;` is fine, it just ignores the parameter.
-4. **Line 15:** `ID = 0;` is inside a **static** method, so it can't touch the instance variable `ID`. It is also a `final` variable being reassigned. **Error.**
-5. **Line 16:** `Lottery.numTickets = numTickets;` is fine. The parameter shadows the static field, and `Lottery.` names the field.
-6. **Line 23:** `numTickets` is `private`, and `LotteryTest` is a **different class**. **Error.**
-7. **Line 24:** `l.reset(0);` is a static method called through an object. It compiles.
-8. **Line 25:** `l.numTickets` is `private` again. **Error.**
-
-**Compile errors:** the second constructor (lines 10–13), line 15, line 23 and line 25. Everything else compiles.
-
-### Example 3: Fill in the `Badge` blanks
+#### Example 6.7: Fill in the `Badge` blanks
 
 Replace the placeholders (no spaces or semicolons inside one) so the program prints the expected output.
 
@@ -568,7 +545,27 @@ Expected output, one block per `i`:
 
 > [!tip] Both `static` and `final` work with `private` here only because `main` is inside `Badge`. If it were in another class, `b[i].currentOwner` wouldn't compile.
 
-### Example 4: Which lines compile with `final`?
+### `final` on a reference
+
+`final` freezes the **variable**. For an object variable, that means it can't be pointed at a different object, but the object's own fields can still change.
+
+```java
+final Car miniVan = new Car("ABC", 50);
+miniVan.speed = 80;                 // OK: changing the object's field
+miniVan = new Car("DEF", 60);       // ERROR: can't reassign a final reference
+```
+
+![[coe-318-final-reference.svg]]
+*Figure 6.5: A final reference a can't be pointed at another Box, but the Box it points to can still have its value changed. This is Example 6.8's lines B and C.*
+
+Whenever you see `final SomeClass x = ...;`, ask two separate questions:
+
+1. **Am I changing the reference?** `x = anotherObject;` is not allowed once `x` is set.
+2. **Am I changing something inside the object?** `x.someField = 20;` can be fine, as long as `someField` itself isn't `final`.
+
+A `final` reference does **not** make the object immutable.
+
+#### Example 6.8: Which lines compile with `final`?
 
 ```java
 class Box {
@@ -599,45 +596,112 @@ class Test {
 |D: `b = a;`|Yes|`b` isn't `final`, so it can point at `a`'s object|
 |E: `b.value = 40;`|Yes|`value` isn't `final`|
 
-### Example 5: Variable-length average
+### Order of modifiers
 
-What does this print?
+The order doesn't matter to Java: `private static final double c`, `static final private double c` and `final static private double c` are all the same. The recommended order is:
 
 ```java
-public class MathUtils {
-    public static double average(double... numbers) {
-        double total = 0.0;
-        for (double d : numbers)
-            total += d;
-        return total / numbers.length;
-    }
-
-    public static void main(String[] args) {
-        System.out.println(average(10, 20, 30));
-        System.out.println(average(5, 15));
-        System.out.println(average(4.5, 3.5, 2.0, 6.0));
-    }
-}
+private static final double c
 ```
 
-1. `(10 + 20 + 30) / 3` = 60 / 3 = `20.0`
-2. `(5 + 15) / 2` = 20 / 2 = `10.0`
-3. `(4.5 + 3.5 + 2.0 + 6.0) / 4` = 16 / 4 = `4.0`
+### Reading a stacked declaration
 
-Prints `20.0`, `10.0`, `4.0`. One method handles all three because `numbers` is a `double[]` of whatever length was passed.
+Questions often pile several modifiers onto one line. Don't read `private static final int ID = 10;` as one rule. Split it up and ask one question per word:
 
-### Example 6: Insert into an `ArrayList`
+|Part|Question|
+|---|---|
+|`private`|Who can access it?|
+|`static`|Does it belong to the class or to each object?|
+|`final`|Can it be reassigned?|
+|`int`|What type of value does it hold?|
 
-Trace the list from the `Beatles` program in the Notes:
+I do this for every field **before** I trace any code (it's how Example 6.9 is solved). For a `static` method, also ask whether it touches instance state directly, and if so, which object would supply it. For `ArrayList` traces, write out the index and value rows after every `add` or `remove` instead of tracking the shifts in your head.
 
-|Step|Code|List|
-|---|---|---|
-|1|four `add(...)` calls|`[Paul, Pete, John, George]`|
-|2|`indexOf("John")`|`location = 2`|
-|3|`remove(location)`|`[Paul, Pete, George]`|
-|4|`add(location, "Ringo")`|`[Paul, Pete, Ringo, George]`|
+#### Example 6.9: Which `Lottery` lines don't compile?
 
-The `add(index, obj)` in step 4 pushes `George` one place to the right to make room. It prints `Size of the band: 4`, because one name was removed and one added.
+```java
+ 1  public class Lottery {
+ 2      private static int numTickets;
+ 3      final double ID;
+ 4      private int price;
+ 5      public Lottery() {
+ 6          numTickets++;
+ 7          price = 40;
+ 8          ID = numTickets + 2;
+ 9      }
+10      public Lottery(int price) {
+11          numTickets++;
+12          this.price = 40;
+13      }
+14      public static void reset(int numTickets) {
+15          ID = 0;
+16          Lottery.numTickets = numTickets;
+17      }
+18  }
+19
+20  class LotteryTest {
+21      public static void main(String[] args) {
+22          Lottery l = new Lottery();
+23          Lottery.numTickets = 0;
+24          l.reset(0);
+25          System.out.println(l.numTickets);
+26      }
+27  }
+```
+
+Go through the class one member at a time:
+
+1. **Second constructor (lines 10–13):** `ID` is `final`, and **every** constructor has to set it. This one never does. **Error.**
+2. **Line 8:** `ID = numTickets + 2;` assigns an `int` into a `double`, which is fine. The first constructor sets `ID`, so it compiles.
+3. **Line 12:** `this.price = 40;` is fine, it just ignores the parameter.
+4. **Line 15:** `ID = 0;` is inside a **static** method, so it can't touch the instance variable `ID`. It is also a `final` variable being reassigned. **Error.**
+5. **Line 16:** `Lottery.numTickets = numTickets;` is fine. The parameter shadows the static field, and `Lottery.` names the field.
+6. **Line 23:** `numTickets` is `private`, and `LotteryTest` is a **different class**. **Error.**
+7. **Line 24:** `l.reset(0);` is a static method called through an object. It compiles.
+8. **Line 25:** `l.numTickets` is `private` again. **Error.**
+
+**Compile errors:** the second constructor (lines 10–13), line 15, line 23 and line 25. Everything else compiles.
+
+## Key syntax
+
+**Typecasting**
+
+```java
+Animal a = new Dog();       // upcast: no cast operator
+Dog d = (Dog) a;            // downcast: explicit cast
+```
+
+**Enhanced `for`**
+
+```java
+for (Type item : collectionOrArray) { ... }
+```
+
+**`ArrayList`**
+
+```java
+ArrayList<Type> list = new ArrayList<Type>();
+list.add(x);  list.add(i, x);  list.get(i);
+list.remove(i);  list.indexOf(x);  list.size();
+```
+
+**Variable-length parameter**
+
+```java
+public static double average(double... numbers) { ... }   // last parameter only
+```
+
+**Class constant**
+
+```java
+private static final double SPEED_LIMIT = 120;
+```
+
+|Keyword|Meaning|
+|---|---|
+|`static`|One copy, belongs to the class, usable with no object|
+|`final`|Can't be changed after initialization|
+|`static final`|One shared constant for the class|
 
 ## Common mistakes
 

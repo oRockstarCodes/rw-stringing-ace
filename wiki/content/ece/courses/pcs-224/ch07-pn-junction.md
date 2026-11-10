@@ -26,7 +26,7 @@ The chapter comes down to five ideas:
 Put [[ch03-intro-to-semiconductors#Doping: extrinsic semiconductors|p-type]] material (lots of holes, few electrons) against n-type material (lots of electrons, few holes). Think of two gases separated by a porous wall with a different concentration on each side. When the wall is removed, particles **diffuse** from high concentration to low concentration, no electric force needed.
 
 1. **Diffusion.** Holes diffuse from the p side into the n side. Electrons diffuse from the n side into the p side.
-2. **Recombination.** A diffusing electron meets a hole on the other side and they annihilate, since the electron falls back into the empty bond and the energy leaves as heat or a photon (the photon case is the LED, [[ch05-band-structure-and-fermi-function#Example 5: Light and the gap|Lab 4]]). One electron and one hole disappear.
+2. **Recombination.** A diffusing electron meets a hole on the other side and they annihilate, since the electron falls back into the empty bond and the energy leaves as heat or a photon (the photon case is the LED, [[ch05-band-structure-and-fermi-function#Example 5.3: Light and the gap|Lab 4]]). One electron and one hole disappear.
 3. **Exposed ions.** The dopant atoms don't move, because they're locked in the crystal. Near the boundary, the mobile carriers that used to cancel them are gone, so the fixed ions are *uncovered*:
    - On the n side, each electron that left uncovers a **positive donor ion** (charge $+eN_d$).
    - On the p side, each hole that left uncovers a **negative acceptor ion** (charge $-eN_a$).
@@ -50,11 +50,29 @@ $$
 
 This tells you something useful right away: **the more heavily doped side has the thinner depletion layer**. If $N_a > N_d$, then $x_p < x_n$, and the depletion region reaches mostly into the lightly doped n side. The same total charge needs fewer layers where the charge density is higher.
 
+#### Example 7.1: Splitting the depletion width
+
+A junction has $N_a = 4\times10^{16}$ cm⁻³ on the p side and $N_d = 1\times10^{16}$ cm⁻³ on the n side. The depletion region reaches $x_n = 0.20\ \mu\text{m}$ into the n side. How far does it reach into the p side, and what is the total width?
+
+From the charge balance, Eq. (7.1):
+
+$$
+x_p = \frac{N_d}{N_a}\,x_n = \frac{1\times10^{16}}{4\times10^{16}}(0.20) = 0.05\ \mu\text{m}, \qquad w = x_n + x_p = 0.25\ \mu\text{m}
+$$
+
+The p side has $4\times$ the doping and only $\tfrac{1}{4}$ of the depth. Check the charge: $N_dx_n = (10^{16})(2\times10^{-5}) = 2\times10^{11}$ cm⁻² and $N_ax_p = (4\times10^{16})(5\times10^{-6}) = 2\times10^{11}$ cm⁻² ✓. The two sides hold equal and opposite charge.
+
 > [!note] Neutrality fails at the interface between two different materials, which is exactly where a junction forms. That's why a field can exist there without violating the rule from [[ch03-intro-to-semiconductors#Compensation and neutrality|Chapter 3]].
 
 ### Electric field and potential in the junction
 
 **Direction of the field.** The n side of the depletion region is positively charged and the p side is negatively charged. The field points from positive to negative, so across the junction it points **from the n side to the p side**. A hole at the junction is pushed back toward p and an electron is pushed back toward n, which is the field opposing the diffusion.
+
+#### Example 7.2: Which way does the field point?
+
+A silicon p-n junction at $300$ K has $N_a$ on the p side and $N_d$ on the n side. In the depletion region, which way does the electric field point?
+
+The n side of the depletion region has exposed $+$ donor ions and the p side has exposed $-$ acceptor ions. A field points from positive charge to negative charge, so it points **from the n side to the p side**. That is the direction that pushes electrons back toward n and holes back toward p, opposing diffusion.
 
 **Model: the depletion approximation.** To get numbers we use a simple model. The depletion region has **sharp edges** at $-x_p$ and $+x_n$, with a uniform charge density inside, and the neutral regions outside have no field. Then:
 
@@ -97,6 +115,20 @@ $$
 
 (They agree because of Eq. 7.1.) The graph of $E(x)$ is a **triangle**, as in Figure 7.2.
 
+#### Example 7.3: Peak field in the junction
+
+For the junction above ($N_a = 4\times10^{16}$, $N_d = 1\times10^{16}$ cm⁻³, $x_n = 0.20\ \mu\text{m}$, $x_p = 0.05\ \mu\text{m}$) in silicon, find $|E_{\max}|$ using each side. Use $\varepsilon_s = 1.04\times10^{-12}$ F/cm.
+
+$$
+|E_{\max}| = \frac{eN_dx_n}{\varepsilon_s} = \frac{(1.602\times10^{-19})(1\times10^{16})(2.0\times10^{-5})}{1.04\times10^{-12}} = 3.1\times10^{4}\ \text{V/cm}
+$$
+
+$$
+|E_{\max}| = \frac{eN_ax_p}{\varepsilon_s} = \frac{(1.602\times10^{-19})(4\times10^{16})(5.0\times10^{-6})}{1.04\times10^{-12}} = 3.1\times10^{4}\ \text{V/cm}
+$$
+
+Both sides agree, as Eq. (7.4) says they must. The field is $31$ kV/cm, strong enough to sweep carriers out of the depletion region almost instantly, although the junction itself is only a fraction of a micron wide.
+
 **Potential.** Because $E = -d\varphi/dx$, the potential is the (negative) area under the field graph. Taking $\varphi = 0$ at the far p edge $x = -x_p$ and integrating up to the n edge:
 
 $$
@@ -114,6 +146,20 @@ V_{total} = \varphi(x_n) = \frac{e}{2\varepsilon_s}\left(N_dx_n^2 + N_ax_p^2\rig
 $$
 
 This is the same as the area of the field triangle: $V_{total} = \tfrac{1}{2}\,w\,|E_{\max}|$ (Eq. 7.12).
+
+#### Example 7.4: Potential step from the charge profile
+
+Use Eq. (7.6) on the same junction to find $V_{total}$, then check it against the triangle area $\tfrac{1}{2}w|E_{\max}|$.
+
+$$
+V_{total} = \frac{e}{2\varepsilon_s}\left(N_dx_n^2 + N_ax_p^2\right) = \frac{1.602\times10^{-19}}{2(1.04\times10^{-12})}\left[(10^{16})(2\times10^{-5})^2 + (4\times10^{16})(5\times10^{-6})^2\right]
+$$
+
+$$
+= (7.70\times10^{-8})(4.0\times10^{6} + 1.0\times10^{6}) = 0.385\ \text{V}
+$$
+
+Triangle check: $\tfrac{1}{2}(2.5\times10^{-5}\ \text{cm})(3.1\times10^{4}\ \text{V/cm}) = 0.39$ V ✓. Notice the lightly doped n side contributes $80\%$ of the potential step, because it takes $80\%$ of the width.
 
 <div class="melon-semi" data-view="pn">Interactive p-n junction diagram (open this page on the site to use it).</div>
 *Figure 7.2: A p-n junction (shown with $N_a > N_d$). Left, the three profiles: the charge density is two blocks of equal area, the field is a triangle peaked at the junction, and the potential rises from the p side to the n side by $V_{total}$. The more heavily doped p side is thinner. Right, the band diagram (electron energy increases upward): unbiased there is one flat $E_F$, forward bias lowers the barrier and splits the Fermi levels by $eV_D$, and reverse bias raises the barrier and splits them the other way. Drag the bias and the doping to see all of it change.*
@@ -157,6 +203,32 @@ $$
 - $V_{bi}$ depends on temperature through both $k_BT$ and $n_i(T)$. It does **not** simply double if $T$ doubles, because $n_i$ also changes (and rises sharply).
 - $V_{bi}$ can never exceed $E_g/e$. At extreme doping it approaches the gap (about 1.1 V for Si).
 
+#### Example 7.5: Built-in potential
+
+A silicon p-n junction at $300$ K has $N_d = 6\times10^{16}$ cm⁻³ and $N_a = 1\times10^{16}$ cm⁻³ on the n side, and $N_a = 2\times10^{17}$ cm⁻³ on the p side. Find $V_{bi}$. Use $n_i = 1.5\times10^{10}$ cm⁻³.
+
+The n side has both kinds of doping, so use the **net** donor concentration:
+
+$$
+N_d^{\text{net}} = 6\times10^{16} - 1\times10^{16} = 5\times10^{16}\ \text{cm}^{-3}
+$$
+
+The p side is $N_a = 2\times10^{17}$ cm⁻³ (only acceptors). By Eq. (7.8):
+
+$$
+V_{bi} = (0.02586)\ln\frac{(2\times10^{17})(5\times10^{16})}{(1.5\times10^{10})^2} = (0.02586)\ln(4.44\times10^{13}) = (0.02586)(31.4) = 0.81\ \text{V}
+$$
+
+This agrees with $0.814$ V; the tiny difference is rounding in $k_BT$ and $n_i$.
+
+> [!warning] Using the *total* $N_d = 6\times10^{16}$ instead of the net $5\times10^{16}$ gives $0.82$ V. The difference is small here only because of the logarithm, but net doping is what the formula needs.
+
+#### Example 7.6: Does $V_{bi}$ double if $T$ doubles?
+
+For a given device, the temperature doubles. What happens to the potential barrier?
+
+It **changes, but doesn't exactly double, because $n_i$ depends on temperature too**. In $V_{bi} = \dfrac{k_BT}{e}\ln\dfrac{N_aN_d}{n_i^2}$, the prefactor does double, but $n_i$ grows rapidly with $T$ ([[ch06-carrier-concentrations#Counting carriers|Chapter 6]]), which shrinks the logarithm. The doping $N_a$ and $N_d$ are fixed by the crystal and don't change with $T$.
+
 > [!warning] $V_{bi}$ is *not* a battery. You cannot put a voltmeter across a diode and read it. It is the internal potential step that the contact between two Fermi levels leaves behind, and every other contact in the circuit (metal to semiconductor) has its own potential step that cancels it. A diode at zero bias has zero net voltage and zero current.
 
 ### Applying a voltage: forward and reverse bias
@@ -180,6 +252,24 @@ In the energy diagram, the Fermi levels on the two sides are no longer equal (th
 $$
 E_{Fn} - E_{Fp} = eV_D \tag{7.9b}
 $$
+
+#### Example 7.7: The total barrier under bias
+
+A diode has $V_{bi} = 0.65$ V. Find the total barrier (a) with a $0.2$ V reverse bias, (b) when the p side is connected to the positive terminal of a $0.2$ V source.
+
+**(a)** Reverse: $V_D = -0.2$ V, so by Eq. (7.9)
+
+$$
+V_{total} = V_{bi} - V_D = 0.65 - (-0.2) = 0.85\ \text{V}
+$$
+
+**(b)** The p side is on the positive terminal, so this is **forward** bias, $V_D = +0.2$ V:
+
+$$
+V_{total} = 0.65 - 0.2 = 0.45\ \text{V}
+$$
+
+**Fermi levels in each case.** In forward bias $E_{Fn}$ is $0.2$ eV *above* $E_{Fp}$, so the p-side Fermi level is the **lower** one. (In reverse bias it's the opposite.) The Fermi levels are aligned only at zero bias.
 
 **Reverse bias** ($V_D < 0$, Figure 7.2, band diagram with the bias set negative):
 
@@ -209,6 +299,36 @@ $$
 - Forward ($V_D \gg V_t$): $I_D \approx I_Se^{V_D/V_t}$, an exponential rise.
 - Reverse ($V_D < 0$, $|V_D| \gg V_t$): $I_D \approx -I_S$, tiny and flat.
 
+#### Example 7.8: Forward and reverse diode current
+
+An ideal silicon diode has $I_S = 1.0\times10^{-13}$ A at $300$ K. Find the current at (a) $V_D = +0.60$ V and (b) $V_D = -2.0$ V.
+
+**(a)** Forward:
+
+$$
+I_D = I_S\left(e^{0.60/0.02586} - 1\right) = (10^{-13})(e^{23.2}) = (10^{-13})(1.2\times10^{10}) = 1.2\ \text{mA}
+$$
+
+**(b)** Reverse, with $|V_D| \gg V_t$ so the exponential vanishes:
+
+$$
+I_D \approx -I_S = -1.0\times10^{-13}\ \text{A}
+$$
+
+The forward current is about $10^{10}$ times bigger than the reverse current, and a change of only $0.06$ V in forward bias multiplies the current by $e^{0.06/0.02586} \approx 10$.
+
+#### Example 7.9: Voltage needed for a target current
+
+The diode above ($I_S = 1.0\times10^{-13}$ A) must carry $10$ mA. What forward voltage does that need, and what voltage change multiplies the current by a further $10$?
+
+For $V_D \gg V_t$, invert $I \approx I_Se^{V_D/V_t}$:
+
+$$
+V_D = V_t\ln\frac{I}{I_S} = (0.02586)\ln\frac{10\times10^{-3}}{10^{-13}} = (0.02586)(25.3) = 0.65\ \text{V}
+$$
+
+Each factor of $10$ in current costs $V_t\ln10 = 60$ mV, so $10$ mA to $100$ mA needs about $0.71$ V. Because the voltage depends only on the logarithm of the current, the forward drop of a conducting silicon diode stays between about $0.6$ and $0.8$ V over a huge range of currents.
+
 ### Lab 3: checking the diode equation
 
 Lab 3 tested Eq. (7.10) head-on. The "diode" was a silicon n-p-n transistor with its base tied to its collector, so one p-n junction acted as the diode. Eq. (7.10) there is $I_D = I_S(e^{V_D/V_t} - 1)$, which the lab report writes with $I_0$ in place of $I_S$.
@@ -232,7 +352,7 @@ so $\ln I$ against $V_D$ is a straight line. The slope is $e/(k_BT) = 1/V_t$ and
 Two things stand out.
 
 - **The slope falls as $T$ rises**, in the order $1/T$ predicts. That's $V_t = k_BT/e$ growing with temperature, so the same voltage buys less of an exponential.
-- **$I_S$ rises enormously**, by a factor of about $5500$ over this $67$ K span. In the ideal-diode theory behind Eq. (7.10), $I_S$ scales with $n_i^2$, and $n_i$ roughly doubles every $10$ K ([[ch05-band-structure-and-fermi-function#Example 6: Warming from 27 °C to 37 °C|Chapter 5]]), so $n_i^2$ should grow by around $10^4$ over $67$ K. That's the same ballpark. Each $I_S$ is only good to about $\pm50\%$, because the intercept is found by extending a fit made at $0.36$ to $0.69$ V back to $V = 0$. Small slope errors become big intercept errors, so trust the trend and not the digits.
+- **$I_S$ rises enormously**, by a factor of about $5500$ over this $67$ K span. In the ideal-diode theory behind Eq. (7.10), $I_S$ scales with $n_i^2$, and $n_i$ roughly doubles every $10$ K ([[ch05-band-structure-and-fermi-function#Example 5.6: Warming from 27 °C to 37 °C|Chapter 5]]), so $n_i^2$ should grow by around $10^4$ over $67$ K. That's the same ballpark. Each $I_S$ is only good to about $\pm50\%$, because the intercept is found by extending a fit made at $0.36$ to $0.69$ V back to $V = 0$. Small slope errors become big intercept errors, so trust the trend and not the digits.
 
 **The slope is a little too shallow.** Solving $m = e/(k_BT)$ for $k_B$ gave $(1.80 \pm 0.10)\times10^{-23}$ J/K, which is $30\%$ above the accepted $1.381\times10^{-23}$ J/K. Equivalently, the real diode follows
 
@@ -245,9 +365,9 @@ with an **ideality factor** $n \approx 1.3$. Eq. (7.10) is the $n = 1$ case. Rea
 - **Series resistance and heating at high current.** On the room-temperature run, the lowest four currents give a slope of $35.9$ V⁻¹ ($n \approx 1.10$), but the highest four give only $27.3$ V⁻¹ ($n \approx 1.44$). The line bends over as part of $V$ drops across the leads and bulk silicon instead of the junction, and as $\sim180$ mA heats the junction above the bath.
 - **A drifting bath.** The hot water cooled by $3.8$ K during the run, which is why it gave the worst $k_B$ ($1.91\times10^{-23}$ J/K).
 
-**What it means in practice.** For an ideal diode at room temperature each doubling of current costs $V_t\ln2 \approx 18$ mV, and each factor of $10$ costs $V_t\ln10 \approx 60$ mV (the "$0.06$ V multiplies the current by $10$" in Example 7). Our lowest-current doublings cost about $19$ mV ($0.503 \to 0.522$ V), close to ideal. By the top of the range the steps had grown to about $28$ mV ($0.630 \to 0.658$ V), which is the series resistance. With the overall slope of $31.5$ V⁻¹, a decade of current took about $\ln10/31.5 = 73$ mV, not $60$.
+**What it means in practice.** For an ideal diode at room temperature each doubling of current costs $V_t\ln2 \approx 18$ mV, and each factor of $10$ costs $V_t\ln10 \approx 60$ mV (the "$0.06$ V multiplies the current by $10$" in Example 7.8). Our lowest-current doublings cost about $19$ mV ($0.503 \to 0.522$ V), close to ideal. By the top of the range the steps had grown to about $28$ mV ($0.630 \to 0.658$ V), which is the series resistance. With the overall slope of $31.5$ V⁻¹, a decade of current took about $\ln10/31.5 = 73$ mV, not $60$.
 
-> [!note] Lab 4 uses this same equation on LEDs. Past about $1$ mA the current is climbing exponentially, so the LED "turns on" at a voltage that depends on $I_S$, and $I_S$ is smaller for a wider gap ([[ch05-band-structure-and-fermi-function#Example 5: Light and the gap|Chapter 5]]). The recombination in the junction is the same process described above, except that in a direct-gap material each event releases a photon.
+> [!note] Lab 4 uses this same equation on LEDs. Past about $1$ mA the current is climbing exponentially, so the LED "turns on" at a voltage that depends on $I_S$, and $I_S$ is smaller for a wider gap ([[ch05-band-structure-and-fermi-function#Example 5.3: Light and the gap|Chapter 5]]). The recombination in the junction is the same process described above, except that in a direct-gap material each event releases a photon.
 
 ### Width of the space charge region
 
@@ -283,6 +403,84 @@ with $V_{total} = V_{bi} - V_D$.
 - $x_n/x_p = N_a/N_d$ is fixed by the doping, so **when $x_n$ grows by some factor, $x_p$ grows by the same factor**.
 - If one side is much more heavily doped (say $N_a \gg N_d$), then $w \approx x_n$ and the depletion region lies almost entirely in the lightly doped side. This is called a **one-sided junction**, and $w \approx \sqrt{2\varepsilon_sV_{total}/(eN_d)}$.
 - Reverse bias grows $w$. Forward bias shrinks it.
+
+#### Example 7.10: Depletion widths under reverse bias
+
+A silicon p-n junction at $300$ K has $N_a = 2\times10^{16}$ cm⁻³ and $N_d = 5\times10^{15}$ cm⁻³. Find $x_n$, $x_p$, $w$ and $E_{\max}$ at a reverse bias of $2.1$ V.
+
+**Step 1: $V_{bi}$.**
+
+$$
+V_{bi} = (0.02586)\ln\frac{(2\times10^{16})(5\times10^{15})}{(1.5\times10^{10})^2} = (0.02586)(26.8) = 0.694\ \text{V}
+$$
+
+**Step 2: $V_{total}$.** Reverse bias adds:
+
+$$
+V_{total} = V_{bi} + V_R = 0.694 + 2.1 = 2.79\ \text{V}
+$$
+
+**Step 3: $x_n$.** With $\varepsilon_s = 11.7\times8.85\times10^{-14} = 1.04\times10^{-12}$ F/cm, the combination $2\varepsilon_sV_{total}/e$ is
+
+$$
+\frac{2\varepsilon_sV_{total}}{e} = \frac{2(1.04\times10^{-12})(2.79)}{1.602\times10^{-19}} = 3.61\times10^{7}\ \text{cm}^{-1}
+$$
+
+so, by Eq. (7.11a),
+
+$$
+x_n = \left[(3.61\times10^{7})\cdot\frac{2\times10^{16}}{5\times10^{15}}\cdot\frac{1}{2.5\times10^{16}}\right]^{1/2} = \left[5.77\times10^{-9}\right]^{1/2} = 7.6\times10^{-5}\ \text{cm} = 0.76\ \mu\text{m}
+$$
+
+**Step 4: the rest.**
+
+$$
+x_p = \frac{N_d}{N_a}x_n = \frac{5\times10^{15}}{2\times10^{16}}(0.76) = 0.19\ \mu\text{m}, \qquad w = 0.76 + 0.19 = 0.95\ \mu\text{m}
+$$
+
+The lightly doped n side takes 80% of the width.
+
+**Step 5: the field, with a check.**
+
+$$
+|E_{\max}| = \frac{eN_dx_n}{\varepsilon_s} = \frac{(1.602\times10^{-19})(5\times10^{15})(7.6\times10^{-5})}{1.04\times10^{-12}} = 5.9\times10^{4}\ \text{V/cm}
+$$
+
+Check with the triangle: $\tfrac{1}{2}w|E_{\max}| = \tfrac{1}{2}(0.95\times10^{-4})(5.9\times10^{4}) = 2.8$ V $= V_{total}$ ✓.
+
+#### Example 7.11: Scaling with bias
+
+A silicon junction has $x_n = 0.12\ \mu$m with no bias and $V_{bi} = 0.5$ V. Find $x_n$ with a $1.5$ V reverse bias, and say what happens to $x_p$ if $x_n$ rises by 50%.
+
+Since $x_n \propto \sqrt{V_{total}}$ and the doping doesn't change, take a ratio:
+
+$$
+V_{total}: 0.5\ \text{V} \to 0.5 + 1.5 = 2.0\ \text{V} \qquad \Rightarrow \qquad \frac{x_n'}{x_n} = \sqrt{\frac{2.0}{0.5}} = 2
+$$
+
+$$
+x_n' = 2(0.12) = 0.24\ \mu\text{m}
+$$
+
+For the second part, $x_p = (N_d/N_a)\,x_n$ with a *fixed* ratio, so if $x_n$ increases by 50%, **$x_p$ also increases by exactly 50%**.
+
+> [!tip] Without the doping values you can still compare widths by taking ratios. Both $x_n$ and $x_p$ scale with the same $\sqrt{V_{total}}$ factor, so everything except $V_{total}$ drops out.
+
+#### Example 7.12: A one-sided junction
+
+A silicon junction has $N_a = 1\times10^{18}$ cm⁻³ and $N_d = 1\times10^{15}$ cm⁻³, with $V_{total} = 1.0$ V. Find $w$, $x_n$ and $x_p$.
+
+$N_a \gg N_d$, so the depletion region lies almost entirely in the n side and $w \approx x_n = \sqrt{2\varepsilon_sV_{total}/(eN_d)}$:
+
+$$
+w \approx \left[\frac{2(1.04\times10^{-12})(1.0)}{(1.602\times10^{-19})(10^{15})}\right]^{1/2} = \left[1.30\times10^{-8}\right]^{1/2} = 1.14\times10^{-4}\ \text{cm} = 1.14\ \mu\text{m}
+$$
+
+$$
+x_p = \frac{N_d}{N_a}x_n = 10^{-3}(1.14\ \mu\text{m}) = 0.0011\ \mu\text{m}
+$$
+
+The p side contributes about one thousandth of the width. The exact formula (7.11c) gives the same answer, since $(N_a + N_d)/N_aN_d \approx 1/N_d$. In a one-sided junction, only the lightly doped side matters for width.
 
 **A triangle shortcut.** Since $V_{total}$ is the area of the field triangle (base $w$, height $|E_{\max}|$):
 
@@ -343,138 +541,6 @@ $$
 $$
 I_D = I_S\left(e^{V_D/V_t} - 1\right), \qquad V_t = \frac{k_BT}{e} = 0.02586\ \text{V} \tag{7.10}
 $$
-
-## Examples
-
-### Example 1: Built-in potential
-
-A silicon p-n junction at $300$ K has $N_d = 6\times10^{16}$ cm⁻³ and $N_a = 1\times10^{16}$ cm⁻³ on the n side, and $N_a = 2\times10^{17}$ cm⁻³ on the p side. Find $V_{bi}$. Use $n_i = 1.5\times10^{10}$ cm⁻³.
-
-The n side has both kinds of doping, so use the **net** donor concentration:
-
-$$
-N_d^{\text{net}} = 6\times10^{16} - 1\times10^{16} = 5\times10^{16}\ \text{cm}^{-3}
-$$
-
-The p side is $N_a = 2\times10^{17}$ cm⁻³ (only acceptors). By Eq. (7.8):
-
-$$
-V_{bi} = (0.02586)\ln\frac{(2\times10^{17})(5\times10^{16})}{(1.5\times10^{10})^2} = (0.02586)\ln(4.44\times10^{13}) = (0.02586)(31.4) = 0.81\ \text{V}
-$$
-
-This agrees with $0.814$ V; the tiny difference is rounding in $k_BT$ and $n_i$.
-
-> [!warning] Using the *total* $N_d = 6\times10^{16}$ instead of the net $5\times10^{16}$ gives $0.82$ V. The difference is small here only because of the logarithm, but net doping is what the formula needs.
-
-### Example 2: Does $V_{bi}$ double if $T$ doubles?
-
-For a given device, the temperature doubles. What happens to the potential barrier?
-
-It **changes, but doesn't exactly double, because $n_i$ depends on temperature too**. In $V_{bi} = \dfrac{k_BT}{e}\ln\dfrac{N_aN_d}{n_i^2}$, the prefactor does double, but $n_i$ grows rapidly with $T$ ([[ch06-carrier-concentrations#Counting carriers|Chapter 6]]), which shrinks the logarithm. The doping $N_a$ and $N_d$ are fixed by the crystal and don't change with $T$.
-
-### Example 3: The total barrier under bias
-
-A diode has $V_{bi} = 0.65$ V. Find the total barrier (a) with a $0.2$ V reverse bias, (b) when the p side is connected to the positive terminal of a $0.2$ V source.
-
-**(a)** Reverse: $V_D = -0.2$ V, so by Eq. (7.9)
-
-$$
-V_{total} = V_{bi} - V_D = 0.65 - (-0.2) = 0.85\ \text{V}
-$$
-
-**(b)** The p side is on the positive terminal, so this is **forward** bias, $V_D = +0.2$ V:
-
-$$
-V_{total} = 0.65 - 0.2 = 0.45\ \text{V}
-$$
-
-**Fermi levels in each case.** In forward bias $E_{Fn}$ is $0.2$ eV *above* $E_{Fp}$, so the p-side Fermi level is the **lower** one. (In reverse bias it's the opposite.) The Fermi levels are aligned only at zero bias.
-
-### Example 4: Depletion widths under reverse bias
-
-A silicon p-n junction at $300$ K has $N_a = 2\times10^{16}$ cm⁻³ and $N_d = 5\times10^{15}$ cm⁻³. Find $x_n$, $x_p$, $w$ and $E_{\max}$ at a reverse bias of $2.1$ V.
-
-**Step 1: $V_{bi}$.**
-
-$$
-V_{bi} = (0.02586)\ln\frac{(2\times10^{16})(5\times10^{15})}{(1.5\times10^{10})^2} = (0.02586)(26.8) = 0.694\ \text{V}
-$$
-
-**Step 2: $V_{total}$.** Reverse bias adds:
-
-$$
-V_{total} = V_{bi} + V_R = 0.694 + 2.1 = 2.79\ \text{V}
-$$
-
-**Step 3: $x_n$.** With $\varepsilon_s = 11.7\times8.85\times10^{-14} = 1.04\times10^{-12}$ F/cm, the combination $2\varepsilon_sV_{total}/e$ is
-
-$$
-\frac{2\varepsilon_sV_{total}}{e} = \frac{2(1.04\times10^{-12})(2.79)}{1.602\times10^{-19}} = 3.61\times10^{7}\ \text{cm}^{-1}
-$$
-
-so, by Eq. (7.11a),
-
-$$
-x_n = \left[(3.61\times10^{7})\cdot\frac{2\times10^{16}}{5\times10^{15}}\cdot\frac{1}{2.5\times10^{16}}\right]^{1/2} = \left[5.77\times10^{-9}\right]^{1/2} = 7.6\times10^{-5}\ \text{cm} = 0.76\ \mu\text{m}
-$$
-
-**Step 4: the rest.**
-
-$$
-x_p = \frac{N_d}{N_a}x_n = \frac{5\times10^{15}}{2\times10^{16}}(0.76) = 0.19\ \mu\text{m}, \qquad w = 0.76 + 0.19 = 0.95\ \mu\text{m}
-$$
-
-The lightly doped n side takes 80% of the width.
-
-**Step 5: the field, with a check.**
-
-$$
-|E_{\max}| = \frac{eN_dx_n}{\varepsilon_s} = \frac{(1.602\times10^{-19})(5\times10^{15})(7.6\times10^{-5})}{1.04\times10^{-12}} = 5.9\times10^{4}\ \text{V/cm}
-$$
-
-Check with the triangle: $\tfrac{1}{2}w|E_{\max}| = \tfrac{1}{2}(0.95\times10^{-4})(5.9\times10^{4}) = 2.8$ V $= V_{total}$ ✓.
-
-### Example 5: Scaling with bias
-
-A silicon junction has $x_n = 0.12\ \mu$m with no bias and $V_{bi} = 0.5$ V. Find $x_n$ with a $1.5$ V reverse bias, and say what happens to $x_p$ if $x_n$ rises by 50%.
-
-Since $x_n \propto \sqrt{V_{total}}$ and the doping doesn't change, take a ratio:
-
-$$
-V_{total}: 0.5\ \text{V} \to 0.5 + 1.5 = 2.0\ \text{V} \qquad \Rightarrow \qquad \frac{x_n'}{x_n} = \sqrt{\frac{2.0}{0.5}} = 2
-$$
-
-$$
-x_n' = 2(0.12) = 0.24\ \mu\text{m}
-$$
-
-For the second part, $x_p = (N_d/N_a)\,x_n$ with a *fixed* ratio, so if $x_n$ increases by 50%, **$x_p$ also increases by exactly 50%**.
-
-> [!tip] Without the doping values you can still compare widths by taking ratios. Both $x_n$ and $x_p$ scale with the same $\sqrt{V_{total}}$ factor, so everything except $V_{total}$ drops out.
-
-### Example 6: Which way does the field point?
-
-A silicon p-n junction at $300$ K has $N_a$ on the p side and $N_d$ on the n side. In the depletion region, which way does the electric field point?
-
-The n side of the depletion region has exposed $+$ donor ions and the p side has exposed $-$ acceptor ions. A field points from positive charge to negative charge, so it points **from the n side to the p side**. That is the direction that pushes electrons back toward n and holes back toward p, opposing diffusion.
-
-### Example 7: Forward and reverse diode current
-
-An ideal silicon diode has $I_S = 1.0\times10^{-13}$ A at $300$ K. Find the current at (a) $V_D = +0.60$ V and (b) $V_D = -2.0$ V.
-
-**(a)** Forward:
-
-$$
-I_D = I_S\left(e^{0.60/0.02586} - 1\right) = (10^{-13})(e^{23.2}) = (10^{-13})(1.2\times10^{10}) = 1.2\ \text{mA}
-$$
-
-**(b)** Reverse, with $|V_D| \gg V_t$ so the exponential vanishes:
-
-$$
-I_D \approx -I_S = -1.0\times10^{-13}\ \text{A}
-$$
-
-The forward current is about $10^{10}$ times bigger than the reverse current, and a change of only $0.06$ V in forward bias multiplies the current by $e^{0.06/0.02586} \approx 10$.
 
 ## Common mistakes
 

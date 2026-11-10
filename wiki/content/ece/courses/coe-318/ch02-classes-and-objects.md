@@ -40,6 +40,24 @@ Memory is just a long row of bits. To store a number, Java has to decide **how m
 
 **Why `char` is a number.** A character is stored as its Unicode code number: `'A'` is 65. That's why you can do arithmetic on characters (`'A' + 1` is 66) and compare them with `<`.
 
+#### Example 2.1: Wrap-around and `char` arithmetic
+
+What do these print?
+
+```java
+byte b = 127;
+b++;
+System.out.println(b);
+System.out.println(Integer.MAX_VALUE + 1);
+System.out.println('A' + 1);
+System.out.println((char) ('A' + 1));
+```
+
+1. A `byte` holds −128 to 127. Adding 1 to 127 wraps around to **`-128`**, with no error.
+2. The same thing happens to an `int`. `Integer.MAX_VALUE + 1` wraps to **`-2147483648`**.
+3. `'A'` is the number 65, so `'A' + 1` is the `int` **`66`**.
+4. Casting that `66` back to a `char` gives **`B`**, since 66 is the code for `'B'`.
+
 ### Arithmetic operators
 
 `+`, `-`, `*`, `/`, and `%` (the remainder after division: `8 % 3` is `2`, because $8 = 2 \times 3 + 2$).
@@ -49,6 +67,17 @@ Memory is just a long row of bits. To store a number, Java has to decide **how m
 The rule behind this is that **the result's type comes from the operands' types**, not from what you'd like the answer to be. `double d = 7 / 2;` still gives `3.0`. The division happens first, in integers, and only the finished `3` gets converted to a double.
 
 `%` is handy for anything that repeats in cycles. `n % 2 == 0` means `n` is even, and `n % 10` is the last digit of `n`.
+
+#### Example 2.2: Integer division and remainder
+
+Evaluate each expression in Java: `17 / 5`, `17 % 5`, `-17 / 5`, `-17 % 5`, `17 / 5.0`, and `double d = 17 / 5;`.
+
+- `17 / 5` is **`3`**. Both operands are integers, so the fraction is cut off.
+- `17 % 5` is **`2`**, because $17 = 3 \times 5 + 2$.
+- `-17 / 5` is **`-3`**. The fraction is dropped toward zero, not rounded down.
+- `-17 % 5` is **`-2`**. The remainder takes the sign of the left operand, and it keeps $-17 = (-3)(5) + (-2)$ true.
+- `17 / 5.0` is **`3.4`**. One operand is a `double`, so the division happens in decimals.
+- `double d = 17 / 5;` stores **`3.0`**. The division happens in integers first, and only the finished `3` is converted.
 
 ### The overloaded `+`
 
@@ -64,6 +93,20 @@ When there are several `+`s, Java does them **one at a time, left to right**, an
 |`"1" + 2 + 3`|`"1" + 2` is `"12"`, then `"12" + 3` is `"123"`|`"123"`|
 |`1 + 2 + "3"`|`1 + 2` is `3` (both numbers), then `3 + "3"` is `"33"`|`"33"`|
 |`"1" + (2 + 3)`|parentheses first: `5`, then `"1" + 5` is `"15"`|`"15"`|
+
+#### Example 2.3: The `+` operator
+
+What does each line print?
+
+```java
+System.out.println("1" + 2 + 3);
+System.out.println(1 + 2 + "3");
+System.out.println("1" + (2 + 3));
+```
+
+1. It starts with a String, so everything is concatenation: `123`
+2. `1 + 2` are both numbers, so that's `3` first, and then `3 + "3"` is `33`
+3. The parentheses go first: `2 + 3 = 5`, then `"1" + 5` is `15`
 
 ### Comparison operators
 
@@ -103,6 +146,23 @@ int b = i++;   // b = 6, then i becomes 7
 
 On a line by itself (`i++;`), the produced value is thrown away, so the two forms do exactly the same thing. The difference only shows up when the `++` sits inside a bigger expression.
 
+#### Example 2.4: Tracing prefix and postfix
+
+What are `a` and `i` after this code?
+
+```java
+int i = 5;
+int a = i++ + ++i;
+```
+
+Trace it left to right, one piece at a time:
+
+1. `i++` produces the **old** value `5`, then `i` becomes `6`.
+2. `++i` adds 1 first (`i` becomes `7`), then produces the **new** value `7`.
+3. The sum is `5 + 7`.
+
+Result: `a = 12` and `i = 7`. Code like this is legal but confusing, so in real programs keep `++` on a line of its own.
+
 ### Conditionals
 
 An `if` chain checks its conditions **from the top down** and runs the **first** branch whose condition is true, then skips the rest:
@@ -118,6 +178,25 @@ if (x == 3) {
 ```
 
 Because it stops at the first match, the order matters. If you check `grade >= 50` before `grade >= 80`, an 85 matches the first test and never reaches the second. Put the most specific conditions first. The `else` at the end catches everything nothing else matched, and code after the whole chain runs no matter which branch ran.
+
+#### Example 2.5: Order of conditions
+
+What does each version print when `grade = 85`?
+
+```java
+// Version A
+if (grade >= 50)      System.out.println("pass");
+else if (grade >= 80) System.out.println("distinction");
+
+// Version B
+if (grade >= 80)      System.out.println("distinction");
+else if (grade >= 50) System.out.println("pass");
+```
+
+- **Version A** prints `pass`. The first test (`85 >= 50`) is already true, so the chain stops and never reaches the `>= 80` test. That branch can never run.
+- **Version B** prints `distinction`, which is what we wanted.
+
+Put the narrowest condition first. The same decision as a ternary: `String r = grade >= 80 ? "distinction" : "pass";`.
 
 **Conditional (ternary) operator.** A one-line `if/else` that **produces a value**, so it can go anywhere a value can:
 
@@ -156,6 +235,26 @@ case 'a': case 'e': case 'i': case 'o': case 'u':
 
 `default` is where it jumps if no case matches. It's optional and usually goes last.
 
+#### Example 2.6: Switch without `break`
+
+What prints if `x = 2`?
+
+```java
+switch (x) {
+    case 1: System.out.println("one");
+    case 2: System.out.println("two");
+    case 3: System.out.println("three");
+            break;
+    default: System.out.println("other");
+}
+```
+
+1. It jumps to `case 2:` and prints `two`
+2. There's no `break`, so it falls through into case 3 and prints `three`
+3. `break` ends the switch, so `other` never prints
+
+Output: `two`, then `three`.
+
 ### Loops
 
 All three loops repeat a body while a condition is true. What differs is **where the check happens**:
@@ -179,6 +278,20 @@ A `for` loop is a `while` loop with its three parts collected on one line: the s
 **Counting passes.** `for (x = 1; x < 4; x++)` runs for $x = 1, 2, 3$: three times. In general, `x = a; x < b` runs $b - a$ times, and `x <= b` runs one more. Off-by-one mistakes almost always come from `<` vs `<=`.
 
 > [!warning] **Infinite loops** happen when nothing in the body ever makes the condition false, like forgetting `x = x + 1` in a `while`. Something inside the loop has to move it toward the exit.
+
+#### Example 2.7: Loop counts
+
+How many times does each loop run (or what's `x` at the end)?
+
+|Code|Answer|Why|
+|---|---|---|
+|`int x=0; for (int i=0;i<5;i++) x = x+i;`|`x = 10`|$0+1+2+3+4$|
+|`int x=10; while (x>0) { print; x=x-1; }`|10 times|$x = 10, 9, \ldots, 1$|
+|`for (x=1; x<40; x++)`|39 times|$40 - 1$|
+|`int x=3; while (x<40) { print; x=x+1; }`|37 times|$40 - 3$|
+|`int x=3; while (x<40) { print; }`|**Infinite**|`x` never changes|
+|`int x=50; do { print; } while (x<40);`|**1 time**|do-while runs once before checking|
+|`for (x=1;x<40;x++) for (y=1;y<40;y++) print;`|1521 times|$39 \times 39$|
 
 ### Classes and objects
 
@@ -217,6 +330,25 @@ Car miniVan = new Car();   // both steps at once
 *Figure 2.2: Declaring a reference variable only makes the variable (null). new makes the object, and the assignment stores its address.*
 
 Think of the reference as a remote control and the object as the TV. Declaring the variable gives you a remote that isn't paired with anything. `new` builds a TV and pairs the remote with it. Using a `null` reference is like pressing buttons on an unpaired remote, and it causes a `NullPointerException`.
+
+#### Example 2.8: References, `null` and aliases
+
+What happens in each part?
+
+```java
+Car a;
+a.setSpeed(5);          // part 1
+
+Car p = new Car();
+Car q = p;
+q.setSpeed(80);
+System.out.println(p.getSpeed());   // part 2
+```
+
+1. `Car a;` makes a reference variable but no object, so `a` is `null`. Calling `a.setSpeed(5)` has nothing to follow, which causes a **`NullPointerException`** (and the compiler may refuse to build it because `a` was never assigned).
+2. `Car q = p;` copies the **address**, not the car. There is still only one `Car` object, and both `p` and `q` refer to it. `q.setSpeed(80)` changes that one car, so the print shows **`80.0`**.
+
+Two references to one object are called aliases. Only `new` makes a new object.
 
 **Accessing an object** uses the dot operator, which means "follow the reference to the object, then use this part of it":
 
@@ -265,84 +397,7 @@ ReturnType methodName(parameter-list) {
 
 A method runs **on a particular object**. When you call `miniVan.setSpeed(50)`, the `speed` inside `setSpeed` means the minivan's speed, and the same method called on `sedan` changes the sedan's. Objects get work done by calling each other's methods. In OOP terms they "send each other messages", the way real things interact: a driver doesn't reach into the engine, they press the pedal and let the car handle it.
 
-## Key syntax
-
-**Loops**
-
-```java
-for (int i = 0; i < n; i++) { }      // runs n times (i = 0 … n-1)
-while (condition) { }
-do { } while (condition);            // runs at least once
-```
-
-**Loop iteration counts** for `for (x = a; x < b; x++)`:
-
-$$
-\text{iterations} = b - a \qquad (\text{use } b - a + 1 \text{ for } x \le b)
-$$
-
-- $a$: starting value of the counter
-- $b$: the bound in the condition
-
-Nested loops multiply. An outer loop with $m$ passes around an inner loop with $n$ passes runs the inner body $m \times n$ times.
-
-**Ternary**
-
-```java
-result = condition ? valueIfTrue : valueIfFalse;
-```
-
-## Examples
-
-### Example 1: Loop counts
-
-How many times does each loop run (or what's `x` at the end)?
-
-|Code|Answer|Why|
-|---|---|---|
-|`int x=0; for (int i=0;i<5;i++) x = x+i;`|`x = 10`|$0+1+2+3+4$|
-|`int x=10; while (x>0) { print; x=x-1; }`|10 times|$x = 10, 9, \ldots, 1$|
-|`for (x=1; x<40; x++)`|39 times|$40 - 1$|
-|`int x=3; while (x<40) { print; x=x+1; }`|37 times|$40 - 3$|
-|`int x=3; while (x<40) { print; }`|**Infinite**|`x` never changes|
-|`int x=50; do { print; } while (x<40);`|**1 time**|do-while runs once before checking|
-|`for (x=1;x<40;x++) for (y=1;y<40;y++) print;`|1521 times|$39 \times 39$|
-
-### Example 2: The `+` operator
-
-What does each line print?
-
-```java
-System.out.println("1" + 2 + 3);
-System.out.println(1 + 2 + "3");
-System.out.println("1" + (2 + 3));
-```
-
-1. It starts with a String, so everything is concatenation: `123`
-2. `1 + 2` are both numbers, so that's `3` first, and then `3 + "3"` is `33`
-3. The parentheses go first: `2 + 3 = 5`, then `"1" + 5` is `15`
-
-### Example 3: Switch without `break`
-
-What prints if `x = 2`?
-
-```java
-switch (x) {
-    case 1: System.out.println("one");
-    case 2: System.out.println("two");
-    case 3: System.out.println("three");
-            break;
-    default: System.out.println("other");
-}
-```
-
-1. It jumps to `case 2:` and prints `two`
-2. There's no `break`, so it falls through into case 3 and prints `three`
-3. `break` ends the switch, so `other` never prints
-
-Output: `two`, then `three`.
-
-### Example 4: Extending the `Car` class
+#### Example 2.9: Extending the `Car` class
 
 Add to `Car`: (1) a `fuel` variable, (2) a getter and setter for it, (3) `refuel(amount)` that adds fuel, (4) `drive(speed)` that uses 0.5 fuel per unit of speed. Then trace the test.
 
@@ -385,6 +440,33 @@ System.out.println(miniVan.getFuel());
 |`drive(20)`|$40 - 20(0.5) = 30.0$|`30.0`|
 
 > [!note] Inside `drive`, the parameter `speed` **hides** the instance variable `speed`, so `speed * 0.5` uses the argument (20) and not the car's stored speed. There's more on this in [[ch05-writing-classes|Ch 5]].
+
+## Key syntax
+
+**Loops**
+
+```java
+for (int i = 0; i < n; i++) { }      // runs n times (i = 0 … n-1)
+while (condition) { }
+do { } while (condition);            // runs at least once
+```
+
+**Loop iteration counts** for `for (x = a; x < b; x++)`:
+
+$$
+\text{iterations} = b - a \qquad (\text{use } b - a + 1 \text{ for } x \le b)
+$$
+
+- $a$: starting value of the counter
+- $b$: the bound in the condition
+
+Nested loops multiply. An outer loop with $m$ passes around an inner loop with $n$ passes runs the inner body $m \times n$ times.
+
+**Ternary**
+
+```java
+result = condition ? valueIfTrue : valueIfFalse;
+```
 
 ## Common mistakes
 

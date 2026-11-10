@@ -28,6 +28,20 @@ A comparator tells you how two binary numbers relate.
 
 The first bit position where the numbers differ decides the answer. If no position differs, $A = B$. It's the same way you'd compare 4,821 and 4,793 by eye: scan from the left and stop at the first digit that differs.
 
+#### Example 6.1: Comparing two numbers
+
+(a) Is $A = 10$ equal to $B = 10$ using a 2-bit equality comparator? (b) Compare $A = 1011$ and $B = 1001$ with a magnitude comparator.
+
+**(a)** Bit 1: $\overline{1 \oplus 1} = 1$. Bit 0: $\overline{0 \oplus 0} = 1$. AND: $1 \cdot 1 = 1$, so **$A = B$**.
+
+**(b)** Start at the MSB:
+
+- $A_3 = B_3 = 1$: no decision
+- $A_2 = B_2 = 0$: no decision
+- $A_1 = 1$, $B_1 = 0$: **$A > B$** (bit 0 doesn't matter)
+
+Check: $11 > 9$ ✓
+
 ### Decoders
 
 A **decoder** detects a specific bit combination (code) on its inputs and signals it with an output level. In general it has $n$ inputs and up to $2^n$ outputs.
@@ -38,11 +52,38 @@ $$X = A_3\,\overline{A_2}\,\overline{A_1}\,A_0$$
 
 For an **active-LOW** output, use a NAND gate instead.
 
+#### Example 6.2: Decoding one code
+
+Write the decoding expression for the code $1011$ ($A_3$ is the MSB), with an active-HIGH output and with an active-LOW output.
+
+1. **Invert the inputs that should be 0** (only $A_2$ here):
+   $$
+   X = A_3\,\overline{A_2}\,A_1\,A_0 \quad (\text{AND gate, active-HIGH})
+   $$
+2. **Active-LOW:** use a NAND gate instead:
+   $$
+   \overline{X} = \overline{A_3\,\overline{A_2}\,A_1\,A_0}
+   $$
+
+The output is 1 (or 0 for active-LOW) only for $1011$.
+
 **Decoding every code.** A decoder with one output per input combination is called an **$n$-line-to-$2^n$-line** decoder, or a **1-of-$2^n$** decoder since exactly one output is active at a time.
 
 - **4-line-to-16-line (1-of-16):** 4 inputs, 16 outputs, and one AND (or NAND) gate per output.
 - **BCD-to-decimal (4-line-to-10-line, 1-of-10):** only the 10 valid BCD codes get an output.
 - **2-line-to-4-line:** with inputs $S_1 S_0$, the outputs are $Y_0 = \overline{S_1}\,\overline{S_0}$, $Y_1 = \overline{S_1}S_0$, $Y_2 = S_1\overline{S_0}$, $Y_3 = S_1 S_0$. Each output is one **minterm**.
+
+#### Example 6.3: Which output of a 3-to-8 decoder fires?
+
+A 3-line-to-8-line decoder has inputs $A_2A_1A_0 = 101$. Which output is active, and what gate produces it?
+
+The input $101$ is the binary number $5$, so output $Y_5$ is the active one and the other seven are inactive. Output $Y_5$ is the minterm
+
+$$
+Y_5 = A_2\,\overline{A_1}\,A_0
+$$
+
+which is a 3-input AND with $A_1$ inverted. The whole decoder needs 8 such ANDs (one per minterm), sharing three inverters. Exactly one output is active for every input combination.
 
 **BCD-to-7-segment decoder.** This takes a BCD digit and lights the right segments (a–g) of a 7-segment display to show it. Each segment is its own output function of the 4 BCD inputs, simplified with a K-map using the six invalid codes as **don't cares** ([[ch04-optimization-of-combinational-logic|Ch 4]]). For segment $a$, which is lit for digits 0, 2, 3, 5, 6, 7, 8, 9:
 
@@ -51,6 +92,13 @@ $$a = A + C + BD + \overline{B}\,\overline{D}$$
 **Try it:** set a BCD code and see which segments light up. Each segment's expression is listed underneath.
 
 <div class="melon-logic" data-view="sevenseg">Interactive BCD-to-7-segment decoder (open this page on the site to use it).</div>
+
+#### Example 6.4: A 7-segment segment equation
+
+Check that $a = A + C + BD + \overline{B}\,\overline{D}$ lights segment $a$ for digit 5 but not for digit 4.
+
+1. **Digit 5** $= 0101$: $A = 0$, $C = 0$, $BD = 1 \cdot 1 = 1$ → $a = 1$, lit ✓
+2. **Digit 4** $= 0100$: $A = 0$, $C = 0$, $BD = 1 \cdot 0 = 0$, $\overline{B}\,\overline{D} = 0 \cdot 1 = 0$ → $a = 0$, off ✓ (a "4" has no top bar)
 
 ### Encoders
 
@@ -66,6 +114,13 @@ An **encoder** is the reverse of a decoder. It takes an active level on **one** 
 |$A_0$|1|1, 3, 5, 7, 9|$A_0 = 1 + 3 + 5 + 7 + 9$|
 
 (Here "8 + 9" means the OR of input lines 8 and 9.) Input 0 doesn't need a gate, since all the outputs are 0 when nothing else is active.
+
+#### Example 6.5: Decimal-to-BCD encoder
+
+Input line 6 of a decimal-to-BCD encoder is HIGH (all others LOW). What are the outputs?
+
+1. **Check which output expressions include input 6.** $A_2 = 4 + 5 + 6 + 7$ and $A_1 = 2 + 3 + 6 + 7$ do, and $A_3$ and $A_0$ don't.
+2. **Outputs:** $A_3A_2A_1A_0 = 0110$, which is 6 in BCD ✓
 
 ### Multiplexers (data selectors)
 
@@ -88,9 +143,35 @@ That's four 3-input ANDs, a 4-input OR, and two inverters for $\overline{S_1}$ a
 
 <div class="melon-logic" data-view="mux">Interactive 4-to-1 multiplexer (open this page on the site to use it).</div>
 
+#### Example 6.6: Multiplexer output waveform
+
+A 4-to-1 MUX has $D_0 = 1$, $D_1 = 0$, $D_2 = 1$, $D_3 = 0$ held constant. The select lines step through $S_1S_0 = 00, 01, 10, 11, 10, 00$. What is $Y$ in each interval?
+
+|$S_1S_0$|00|01|10|11|10|00|
+|---|---|---|---|---|---|---|
+|Selected|$D_0$|$D_1$|$D_2$|$D_3$|$D_2$|$D_0$|
+|$Y$|1|0|1|0|1|1|
+
 **A MUX as a logic function generator.** A $2^n$-to-1 MUX can implement **any** function of $n$ variables. Connect the variables to the select lines, and tie each data input to the function's output for that row (HIGH for 1, LOW for 0). The MUX then just looks up the truth table, like an FPGA LUT ([[ch03-implementation-technology|Ch 3]]). This usually replaces several gate chips with one MUX chip.
 
-There's also a smaller trick, where a $2^{n-1}$-to-1 MUX can do an $n$-variable function. Put $n - 1$ variables on the select lines and feed each data input with $0$, $1$, the last variable, or its complement (see Example 5).
+There's also a smaller trick, where a $2^{n-1}$-to-1 MUX can do an $n$-variable function. Put $n - 1$ variables on the select lines and feed each data input with $0$, $1$, the last variable, or its complement (see Example 6.7).
+
+#### Example 6.7: A MUX as a function generator
+
+Implement $Y = \sum m(0, 3, 5, 6)$ (variables $A$, $B$, $C$; $A$ is the MSB) using (a) an 8-to-1 MUX and (b) a 4-to-1 MUX.
+
+**(a)** Connect $A$, $B$, $C$ to the three select lines. Tie $D_0$, $D_3$, $D_5$, $D_6$ **HIGH** and $D_1$, $D_2$, $D_4$, $D_7$ **LOW**.
+
+**(b)** Connect $A$, $B$ to $S_1$, $S_0$. For each pair of rows with the same $AB$, see how $Y$ depends on $C$:
+
+|$AB$|$Y$ when $C = 0$|$Y$ when $C = 1$|Data input|
+|---|---|---|---|
+|00|1|0|$D_0 = \overline{C}$|
+|01|0|1|$D_1 = C$|
+|10|0|1|$D_2 = C$|
+|11|1|0|$D_3 = \overline{C}$|
+
+That's one 4-to-1 MUX and one inverter. (This function is $\overline{A \oplus B \oplus C}$, which would otherwise need two XOR-type gates.)
 
 ### Demultiplexers
 
@@ -101,6 +182,21 @@ A **demultiplexer (DEMUX)** is the reverse of a MUX. It takes data from **one** 
 $$D_0 = \text{Data}\cdot\overline{S_1}\,\overline{S_0}, \quad D_1 = \text{Data}\cdot\overline{S_1}S_0, \quad D_2 = \text{Data}\cdot S_1\overline{S_0}, \quad D_3 = \text{Data}\cdot S_1S_0$$
 
 The unselected outputs stay at 0.
+
+#### Example 6.8: Demultiplexer
+
+Serial data $1, 0, 1, 1$ arrives on the data input of a 1-to-4 DEMUX, one bit per interval, while the select lines go $S_1S_0 = 00, 01, 10, 11$. Where does each bit end up?
+
+|Interval|1|2|3|4|
+|---|---|---|---|---|
+|$S_1S_0$|00|01|10|11|
+|Data in|1|0|1|1|
+|$D_0$|**1**|0|0|0|
+|$D_1$|0|**0**|0|0|
+|$D_2$|0|0|**1**|0|
+|$D_3$|0|0|0|**1**|
+
+Each bit only shows up on the selected output during its interval, and the other outputs stay 0.
 
 **A decoder is a DEMUX.** A decoder with an enable input already has this structure. Use the decoder inputs as the **select** lines and the **enable** as the data input. For example, a 4-line-to-16-line decoder with two active-LOW chip-select inputs works as a 1-to-16 DEMUX, where one chip select carries the data and the other is held LOW to enable the chip.
 
@@ -119,6 +215,17 @@ $$X = b_{n-1} \oplus \cdots \oplus b_1 \oplus b_0$$
 - **Checker:** XOR all the received bits **including the parity bit**. For even parity, $X = 0$ means OK and $X = 1$ means an error (for odd parity it's the other way around).
 
 A single flipped bit always changes the count of 1s by one, so it always gets caught. Two flipped bits cancel out and don't.
+
+#### Example 6.9: Parity
+
+(a) Find the even and odd parity bits for the data $1011001$. (b) The byte $1101\,0110$ (7 data bits + even parity bit) is received. Is there an error?
+
+**(a)** The data has four 1s (even), so $X = 1 \oplus 0 \oplus 1 \oplus 1 \oplus 0 \oplus 0 \oplus 1 = 0$.
+
+- Even parity bit: **0** (the total stays at four 1s)
+- Odd parity bit: **1** (makes five 1s)
+
+**(b)** The received byte has five 1s, so the checker outputs $X = 1$. With even parity that means **there's an error** (at least one bit flipped).
 
 ## Key formulas
 
@@ -162,105 +269,6 @@ X = b_{n-1} \oplus \cdots \oplus b_1 \oplus b_0 \tag{6.5}
 $$
 
 - $X = 1$ when the bits contain an odd number of 1s
-
-## Examples
-
-Try each one on paper before reading the solution.
-
-### Example 1: Comparing two numbers
-
-(a) Is $A = 10$ equal to $B = 10$ using a 2-bit equality comparator? (b) Compare $A = 1011$ and $B = 1001$ with a magnitude comparator.
-
-**(a)** Bit 1: $\overline{1 \oplus 1} = 1$. Bit 0: $\overline{0 \oplus 0} = 1$. AND: $1 \cdot 1 = 1$, so **$A = B$**.
-
-**(b)** Start at the MSB:
-
-- $A_3 = B_3 = 1$: no decision
-- $A_2 = B_2 = 0$: no decision
-- $A_1 = 1$, $B_1 = 0$: **$A > B$** (bit 0 doesn't matter)
-
-Check: $11 > 9$ ✓
-
-### Example 2: Decoding one code
-
-Write the decoding expression for the code $1011$ ($A_3$ is the MSB), with an active-HIGH output and with an active-LOW output.
-
-1. **Invert the inputs that should be 0** (only $A_2$ here):
-   $$
-   X = A_3\,\overline{A_2}\,A_1\,A_0 \quad (\text{AND gate, active-HIGH})
-   $$
-2. **Active-LOW:** use a NAND gate instead:
-   $$
-   \overline{X} = \overline{A_3\,\overline{A_2}\,A_1\,A_0}
-   $$
-
-The output is 1 (or 0 for active-LOW) only for $1011$.
-
-### Example 3: Decimal-to-BCD encoder
-
-Input line 6 of a decimal-to-BCD encoder is HIGH (all others LOW). What are the outputs?
-
-1. **Check which output expressions include input 6.** $A_2 = 4 + 5 + 6 + 7$ and $A_1 = 2 + 3 + 6 + 7$ do, and $A_3$ and $A_0$ don't.
-2. **Outputs:** $A_3A_2A_1A_0 = 0110$, which is 6 in BCD ✓
-
-### Example 4: Multiplexer output waveform
-
-A 4-to-1 MUX has $D_0 = 1$, $D_1 = 0$, $D_2 = 1$, $D_3 = 0$ held constant. The select lines step through $S_1S_0 = 00, 01, 10, 11, 10, 00$. What is $Y$ in each interval?
-
-|$S_1S_0$|00|01|10|11|10|00|
-|---|---|---|---|---|---|---|
-|Selected|$D_0$|$D_1$|$D_2$|$D_3$|$D_2$|$D_0$|
-|$Y$|1|0|1|0|1|1|
-
-### Example 5: A MUX as a function generator
-
-Implement $Y = \sum m(0, 3, 5, 6)$ (variables $A$, $B$, $C$; $A$ is the MSB) using (a) an 8-to-1 MUX and (b) a 4-to-1 MUX.
-
-**(a)** Connect $A$, $B$, $C$ to the three select lines. Tie $D_0$, $D_3$, $D_5$, $D_6$ **HIGH** and $D_1$, $D_2$, $D_4$, $D_7$ **LOW**.
-
-**(b)** Connect $A$, $B$ to $S_1$, $S_0$. For each pair of rows with the same $AB$, see how $Y$ depends on $C$:
-
-|$AB$|$Y$ when $C = 0$|$Y$ when $C = 1$|Data input|
-|---|---|---|---|
-|00|1|0|$D_0 = \overline{C}$|
-|01|0|1|$D_1 = C$|
-|10|0|1|$D_2 = C$|
-|11|1|0|$D_3 = \overline{C}$|
-
-That's one 4-to-1 MUX and one inverter. (This function is $\overline{A \oplus B \oplus C}$, which would otherwise need two XOR-type gates.)
-
-### Example 6: Demultiplexer
-
-Serial data $1, 0, 1, 1$ arrives on the data input of a 1-to-4 DEMUX, one bit per interval, while the select lines go $S_1S_0 = 00, 01, 10, 11$. Where does each bit end up?
-
-|Interval|1|2|3|4|
-|---|---|---|---|---|
-|$S_1S_0$|00|01|10|11|
-|Data in|1|0|1|1|
-|$D_0$|**1**|0|0|0|
-|$D_1$|0|**0**|0|0|
-|$D_2$|0|0|**1**|0|
-|$D_3$|0|0|0|**1**|
-
-Each bit only shows up on the selected output during its interval, and the other outputs stay 0.
-
-### Example 7: Parity
-
-(a) Find the even and odd parity bits for the data $1011001$. (b) The byte $1101\,0110$ (7 data bits + even parity bit) is received. Is there an error?
-
-**(a)** The data has four 1s (even), so $X = 1 \oplus 0 \oplus 1 \oplus 1 \oplus 0 \oplus 0 \oplus 1 = 0$.
-
-- Even parity bit: **0** (the total stays at four 1s)
-- Odd parity bit: **1** (makes five 1s)
-
-**(b)** The received byte has five 1s, so the checker outputs $X = 1$. With even parity that means **there's an error** (at least one bit flipped).
-
-### Example 8: A 7-segment segment equation
-
-Check that $a = A + C + BD + \overline{B}\,\overline{D}$ lights segment $a$ for digit 5 but not for digit 4.
-
-1. **Digit 5** $= 0101$: $A = 0$, $C = 0$, $BD = 1 \cdot 1 = 1$ → $a = 1$, lit ✓
-2. **Digit 4** $= 0100$: $A = 0$, $C = 0$, $BD = 1 \cdot 0 = 0$, $\overline{B}\,\overline{D} = 0 \cdot 1 = 0$ → $a = 0$, off ✓ (a "4" has no top bar)
 
 ## Common mistakes
 

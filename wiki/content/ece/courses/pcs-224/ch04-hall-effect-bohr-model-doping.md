@@ -27,7 +27,25 @@ Here $q$ is the charge (C, signed), $\vec{v}$ is its velocity, $\vec{B}$ is the 
 
 - Magnetic field lines are closed loops. (Electric field lines run from $+$ to $-$.)
 - The **right-hand rule** gives the force on a **positive** charge. Point your fingers along $\vec{v}$, curl them toward $\vec{B}$, and your thumb points along $\vec{F}_m$. For a negative charge, flip the answer.
-- The unit is $[B] = \text{T} = \text{V}\cdot\text{s/m}^2$ (derived in [[ch01-electrostatics-review#Example 5: Units check|Chapter 1]]).
+- The unit is $[B] = \text{T} = \text{V}\cdot\text{s/m}^2$ (derived in [[ch01-electrostatics-review#Example 1.7: Units check|Chapter 1]]).
+
+#### Example 4.1: Magnetic force on an electron
+
+An electron moves at $v = 2.0\times10^{6}$ m/s through a field $B = 0.10$ T. Find the force when the velocity is (a) perpendicular to $B$ and (b) at $30^\circ$ to $B$.
+
+**(a)** $\sin 90^\circ = 1$, so Eq. (4.1) gives
+
+$$
+F_m = |q|\,v\,B = (1.602\times10^{-19})(2.0\times10^{6})(0.10) = 3.2\times10^{-14}\ \text{N}
+$$
+
+**(b)** Only the component of $\vec{v}$ perpendicular to $\vec{B}$ matters:
+
+$$
+F_m = |q|\,v\,B\sin30^\circ = (3.2\times10^{-14})(0.50) = 1.6\times10^{-14}\ \text{N}
+$$
+
+The force is always perpendicular to $\vec{v}$, so it bends the path but never speeds the electron up. The direction is opposite to what the right-hand rule gives for a positive charge.
 
 **The trick that makes the Hall effect easy.** The current is $I = nqv_dA$ (from [[ch03-intro-to-semiconductors#Drift current and mobility|Chapter 3]]: $n$ is the carrier concentration, $q$ the carrier charge, $v_d$ the drift velocity and $A$ the cross-sectional area the current flows through), so $q\vec{v}$ points along the conventional current $\vec{I}$ no matter whether the carriers are electrons or holes. That means
 
@@ -73,6 +91,40 @@ $$
 
 Here $q$ means the magnitude of the carrier charge, $e$. Notice the width $W$ cancelled. Only the **thickness along $B$** matters.
 
+#### Example 4.2: Hall voltage and Hall field
+
+A p-type silicon Hall sample has $p = 5.0\times10^{15}$ cm⁻³. It is $d = 0.20$ mm thick and $W = 2.0$ mm wide, and carries $I = 2.0$ mA in a field $B = 0.10$ T. Find (a) $V_H$ and (b) the Hall field.
+
+**(a)** Convert to SI: $p = 5.0\times10^{15}\ \text{cm}^{-3} = 5.0\times10^{21}\ \text{m}^{-3}$ and $d = 2.0\times10^{-4}$ m. By Eq. (4.5):
+
+$$
+V_H = \frac{IB}{q\,p\,d} = \frac{(2.0\times10^{-3})(0.10)}{(1.602\times10^{-19})(5.0\times10^{21})(2.0\times10^{-4})} = 1.25\times10^{-3}\ \text{V} = 1.25\ \text{mV}
+$$
+
+It's positive because the carriers are holes.
+
+**(b)** Hall field across the width:
+
+$$
+E_H = \frac{V_H}{W} = \frac{1.25\times10^{-3}}{2.0\times10^{-3}} = 0.62\ \text{V/m} = 0.0062\ \text{V/cm}
+$$
+
+#### Example 4.3: Quick checks on the Hall voltage
+
+**(a) Twice the carrier density.** Two samples have the same geometry, current, field and carrier charge, but sample B has twice the carrier density. By Eq. (4.5), $V_H \propto 1/n$, so B has **half** the Hall voltage. Fewer carriers need to move faster to carry the same current, so the magnetic force and the Hall field are bigger, and a denser sample gives a *smaller* signal.
+
+**(b) Twice the width.** The width $W$ doubles while $I$, $B$, $n$ and $d$ stay the same. $V_H = v_dBW$ looks like it should double, but the drift speed falls because the same current is spread over a larger cross-section ($v_d = I/(nqWd)$). The $W$ cancels, so $V_H$ is **unchanged**.
+
+**(c) Hall voltage from the Hall field.** The field driving the current is $10$ V/cm and the Hall field is $3$ V/cm. The sample has $L = 5$ cm, $W = 2$ cm and $d = 1$ cm, with $I$ along $L$ and $B$ along $d$. The Hall voltage is measured across the width, so it uses the **Hall** field:
+
+$$
+V_H = E_HW = (3\ \text{V/cm})(2\ \text{cm}) = 6\ \text{V}
+$$
+
+(The $10$ V/cm field goes with $L$: $V = 10\times5 = 50$ V across the length, which is the supply voltage, not the Hall voltage.)
+
+**(d) Why does the sideways drift stop?** Because the Hall electric force balances the magnetic force (Eq. 4.3). The carriers don't run out of kinetic energy, the current doesn't stop, and the magnetic field doesn't weaken.
+
 **Finding the carrier sign.** Which edge ends up positive tells you who the carriers are.
 
 <div class="melon-semi" data-view="hall">Interactive Hall effect diagram (open this page on the site to use it).</div>
@@ -88,6 +140,14 @@ For any specific problem:
 3. Higher means positive carriers (p-type). Lower means negative carriers (n-type).
 
 > [!tip] Here's a quick case. $I$ to the right and $B$ into the page push carriers to the top edge. If the voltmeter reads the top edge as *negative*, the carriers are electrons.
+
+#### Example 4.4: Sign of the carriers
+
+A strip carries current to the right with $B$ into the page. The **top** edge is measured at a **lower** potential than the bottom edge. What are the carriers?
+
+- Direction of deflection: $\vec{I}\times\vec{B} = \hat{x}\times(-\hat{z}) = +\hat{y}$, **toward the top**, for both carrier signs.
+- The top edge is at the lower potential, so it holds **negative** charge.
+- Negative charge piling up means the carriers are **electrons**: the material is **n-type**.
 
 ### Measuring concentration, mobility and resistivity
 
@@ -113,6 +173,34 @@ These are tied together by $\sigma = q\,n\,\mu$ (or $q\,p\,\mu$), which makes a 
 
 > [!note] A Hall problem has **two** electric fields and **two** voltages. One drives the current along $L$, and one is the Hall field across $W$. Use the first for mobility and resistance, and the second for the carrier sign and concentration. Mixing them up is the most common mistake.
 
+#### Example 4.5: Everything from one measurement
+
+A semiconductor bar has $L = 2.0$ mm, $W = 0.20$ mm and $d = 0.020$ mm. With $I = 2.0$ mA, a supply voltage $V = 10$ V along the bar and $B = 0.10$ T, the Hall voltage is $V_H = -4.0$ mV. Find (a) the type and concentration of carriers, (b) the mobility, and (c) the resistivity.
+
+**(a) Type and concentration.** $V_H < 0$, so the carriers are **electrons** (n-type). Eq. (4.6), with $d = 2.0\times10^{-5}$ m:
+
+$$
+n = \frac{IB}{q\,d\,|V_H|} = \frac{(2.0\times10^{-3})(0.10)}{(1.602\times10^{-19})(2.0\times10^{-5})(4.0\times10^{-3})} = 1.56\times10^{22}\ \text{m}^{-3} = 1.6\times10^{16}\ \text{cm}^{-3}
+$$
+
+**(b) Mobility.** The drift speed from Eq. (4.4), and the driving field from the supply:
+
+$$
+v_d = \frac{|V_H|}{BW} = \frac{4.0\times10^{-3}}{(0.10)(2.0\times10^{-4})} = 200\ \text{m/s}, \qquad E_x = \frac{V}{L} = \frac{10}{2.0\times10^{-3}} = 5000\ \text{V/m}
+$$
+
+$$
+\mu = \frac{v_d}{E_x} = \frac{200}{5000} = 0.040\ \text{m}^2/\text{V}\cdot\text{s} = 400\ \text{cm}^2/\text{V}\cdot\text{s}
+$$
+
+**(c) Resistivity.**
+
+$$
+R = \frac{V}{I} = \frac{10}{2.0\times10^{-3}} = 5000\ \Omega, \qquad \rho = \frac{RA}{L} = \frac{(5000)(2.0\times10^{-4})(2.0\times10^{-5})}{2.0\times10^{-3}} = 0.010\ \Omega\cdot\text{m} = 1.0\ \Omega\cdot\text{cm}
+$$
+
+**Check:** $\sigma = qn\mu = (1.602\times10^{-19})(1.56\times10^{16})(400) = 1.0\ \text{S/cm}$ ✓.
+
 ### What Lab 2 looked like
 
 Lab 2 ran this whole section on a real sample: a **germanium wafer** with $L = 10.0$ mm, $W = 5.0$ mm and thickness $d = 1.0$ mm, sitting between two permanent magnets. The field was measured with a Gauss meter at five spots on the magnet face. The readings ran from $0.215$ T to $0.226$ T, so we used their average, $B = 0.2198$ T, and the spread across the face is the biggest field uncertainty (about $\pm2.5\%$).
@@ -136,7 +224,7 @@ $$
 n = \frac{B}{q\,d\,|\text{slope}|} = \frac{0.2198}{(1.602\times10^{-19})(1.0\times10^{-3})(2.46)} = 5.6\times10^{20}\ \text{m}^{-3} = 5.6\times10^{14}\ \text{cm}^{-3}
 $$
 
-That's about $23\times$ the intrinsic concentration of germanium ($n_i = 2.4\times10^{13}$ cm⁻³, the value used in [[ch03-intro-to-semiconductors#Example 5: Which carrier carries the current?|Chapter 3's germanium example]]), which is what a lightly n-doped sample should look like. Using the thickness $d$ is the point: the width $W$ never appears in this formula. A single point from Eq. (4.6) agrees ($5.59\times10^{20}$ m⁻³ at $50$ mA), but the fit uses all eleven points and averages out the noise.
+That's about $23\times$ the intrinsic concentration of germanium ($n_i = 2.4\times10^{13}$ cm⁻³, the value used in [[ch03-intro-to-semiconductors#Example 3.9: Which carrier carries the current?|Chapter 3's germanium example]]), which is what a lightly n-doped sample should look like. Using the thickness $d$ is the point: the width $W$ never appears in this formula. A single point from Eq. (4.6) agrees ($5.59\times10^{20}$ m⁻³ at $50$ mA), but the fit uses all eleven points and averages out the noise.
 
 **Mobility.** Eq. (4.7) says $\mu = \dfrac{V_H/(BW)}{V_L/L}$, so $V_H$ against $V_L$ is also a straight line, with slope $\dfrac{\mu W B}{L}$. We measured $-25.4$ mV/V, so
 
@@ -166,6 +254,20 @@ $$
 
 where $\lambda$ is the wavelength of the line, $R_H = 1.097\times10^{7}$ m⁻¹ is the **Rydberg constant** for hydrogen, and $n$ is a whole number labelling which line (the same $n$ as the quantum number below, *not* the carrier concentration from [[ch03-intro-to-semiconductors#Intrinsic semiconductors: electrons and holes|Chapter 3]]).
 
+#### Example 4.6: The first Balmer line
+
+Use Eq. (4.8) to find the wavelength of the hydrogen line that has $n = 3$.
+
+$$
+\frac{1}{\lambda} = R_H\left(\frac{1}{2^2} - \frac{1}{3^2}\right) = (1.097\times10^{7})(0.1389) = 1.524\times10^{6}\ \text{m}^{-1}
+$$
+
+$$
+\lambda = 6.56\times10^{-7}\ \text{m} = 656\ \text{nm}
+$$
+
+That is the red line of hydrogen. Larger $n$ gives shorter wavelengths that crowd toward $365$ nm (the $n \to \infty$ limit).
+
 **Puzzle 2: stability.** If an electron orbits the nucleus, it's constantly accelerating, and an accelerating charge radiates energy. A classical electron would spiral into the nucleus in about $10^{-11}$ s. Atoms obviously don't collapse.
 
 **Bohr's idea (1913).** Only **certain orbits are allowed**, and an electron in one of them does **not** radiate. Each allowed orbit has one specific energy, called an **allowed level**. We say the energies are **discrete** (also called **quantized**): the electron can have the energy of one level or another, but never a value in between.
@@ -181,6 +283,16 @@ $$
 - $n$ is the **principal quantum number**. $n = 1$ is the **ground state** and $n > 1$ are **excited states**. In this section $n$ always means this whole number, never a carrier concentration.
 - $r_n$ is the radius of the $n$th orbit, and $a_0$ is the **Bohr radius**, the radius of the ground-state orbit. $E_n$ is the energy of the $n$th level (the $13.6$ eV is hydrogen's ionization energy).
 - The energies are **negative** because the electron is bound. $E = 0$ means a free electron at rest, and the ground state sits $13.6$ eV below that.
+
+#### Example 4.7: Size and energy of the $n = 3$ orbit
+
+Find the radius and energy of hydrogen's $n = 3$ level, and how much energy is needed to ionize an electron sitting there.
+
+$$
+r_3 = 3^2a_0 = 9(5.29\times10^{-11}) = 4.76\times10^{-10}\ \text{m}, \qquad E_3 = -\frac{13.6}{9} = -1.51\ \text{eV}
+$$
+
+Ionizing means lifting the electron to $E = 0$, so it costs $0 - E_3 = 1.51$ eV. Higher levels are bigger orbits that are bound more loosely.
 
 ![[pcs-224-bohr-levels.svg]]
 *Figure 4.3: Hydrogen energy levels. A photon is emitted or absorbed when the electron jumps between levels. The ionization limit is $E = 0$.*
@@ -199,6 +311,42 @@ $$
 - **Ionization** means removing the electron completely, so the atom is left as a positive ion. In energy terms, the electron is lifted from its level up to $E = 0$ (a free electron at rest). The energy that costs is $0 - E_n$, so ionization from level $n$ costs $13.6/n^2$ eV. An atom that is already excited is easier to ionize than one in the ground state, because it starts closer to $E = 0$. The donor electron in the next section is the same idea with a much smaller energy: ionizing it means lifting it from $E_d$ up to $E_c$.
 
 Equation (4.11) reproduces the observed spectral lines exactly, which is why Bohr's model convinced everyone.
+
+#### Example 4.8: Photon from a Bohr transition
+
+A hydrogen electron drops from $n = 4$ to $n = 2$. Find the photon's energy and wavelength. Then find the energy needed to ionize hydrogen from $n = 2$.
+
+**Emission.**
+
+$$
+E = 13.6\left(\frac{1}{2^2} - \frac{1}{4^2}\right) = 13.6\left(0.250 - 0.0625\right) = 2.55\ \text{eV}
+$$
+
+$$
+\lambda = \frac{1240}{2.55} = 486\ \text{nm}
+$$
+
+That's a blue-green visible line (the second Balmer line).
+
+**Ionization from $n = 2$.** The energy needed is $0 - E_2 = 13.6/4 = 3.4$ eV, corresponding to $\lambda = 1240/3.4 = 365$ nm. Compare with $13.6$ eV (91.2 nm) from the ground state.
+
+#### Example 4.9: Excitation and capture
+
+(a) What photon energy lifts hydrogen from $n = 1$ to $n = 3$? (b) What is the wavelength of the photon emitted when a free electron at rest is captured into $n = 1$?
+
+**(a)**
+
+$$
+E = 13.6\left(\frac{1}{1^2} - \frac{1}{3^2}\right) = 13.6\left(1 - 0.111\right) = 12.1\ \text{eV} \quad(\lambda = 103\ \text{nm})
+$$
+
+**(b)** The free electron ($E = 0$) drops to $E_1 = -13.6$ eV, so the photon carries $13.6$ eV:
+
+$$
+\lambda = \frac{1240}{13.6} = 91.2\ \text{nm}
+$$
+
+This is also the **shortest** wavelength hydrogen can emit and the **longest** wavelength that can ionize it from the ground state.
 
 > [!warning] Bohr's formulas are exact only for **one-electron** atoms like hydrogen. Many-electron atoms and real crystals need full quantum mechanics ([[ch05-band-structure-and-fermi-function#Quantum rules for many electrons|Chapter 5]]). The big lesson survives, though: **electron energies are discrete** (quantized), with only certain allowed levels.
 
@@ -225,6 +373,22 @@ Here $E_c$ is the energy of the bottom of the [[ch05-band-structure-and-fermi-fu
 **p-type (acceptors).** A Group III atom like boron leaves a bond short, which gives an empty level $E_a$ just above the top of the valence band $E_v$ (again about $0.045$ eV for B in Si). At room temperature, valence electrons hop into it easily. That adds holes without adding electrons.
 
 > [!note] The key words are "just below $E_c$" and "just above $E_v$". A dopant level in the *middle* of the gap would never ionize at room temperature and would be useless. [[ch05-band-structure-and-fermi-function#From atomic levels to energy bands|Chapter 5]] builds up the band language ($E_c$, $E_v$, $E_F$) properly.
+
+#### Example 4.10: Why donors ionize at room temperature
+
+Compare the donor ionization energy of phosphorus in silicon with (a) $k_BT$ at $300$ K and (b) hydrogen's $13.6$ eV. (c) What light would free a donor electron directly?
+
+**(a)** $\dfrac{0.045}{0.02586} = 1.7$, so the thermal energy is within a factor of two of the binding energy. Plenty of the thermal energy distribution is large enough, so almost all donors are ionized.
+
+**(b)** $\dfrac{13.6}{0.045} \approx 300$. The donor electron is bound about $300$ times more weakly than hydrogen's, thanks to silicon's larger permittivity and smaller effective mass.
+
+**(c)** Using Eq. (2.3):
+
+$$
+\lambda = \frac{1240}{0.045} = 2.8\times10^{4}\ \text{nm} \approx 28\ \mu\text{m}
+$$
+
+That is far-infrared light. Visible photons ($2$–$3$ eV) are far more than enough.
 
 ## Key formulas
 
@@ -265,114 +429,6 @@ $$
 $$
 E_c - E_d \approx E_a - E_v \approx 0.045\ \text{eV} \tag{4.12}
 $$
-
-## Examples
-
-### Example 1: Hall voltage and Hall field
-
-A p-type silicon Hall sample has $p = 5.0\times10^{15}$ cm⁻³. It is $d = 0.20$ mm thick and $W = 2.0$ mm wide, and carries $I = 2.0$ mA in a field $B = 0.10$ T. Find (a) $V_H$ and (b) the Hall field.
-
-**(a)** Convert to SI: $p = 5.0\times10^{15}\ \text{cm}^{-3} = 5.0\times10^{21}\ \text{m}^{-3}$ and $d = 2.0\times10^{-4}$ m. By Eq. (4.5):
-
-$$
-V_H = \frac{IB}{q\,p\,d} = \frac{(2.0\times10^{-3})(0.10)}{(1.602\times10^{-19})(5.0\times10^{21})(2.0\times10^{-4})} = 1.25\times10^{-3}\ \text{V} = 1.25\ \text{mV}
-$$
-
-It's positive because the carriers are holes.
-
-**(b)** Hall field across the width:
-
-$$
-E_H = \frac{V_H}{W} = \frac{1.25\times10^{-3}}{2.0\times10^{-3}} = 0.62\ \text{V/m} = 0.0062\ \text{V/cm}
-$$
-
-### Example 2: Everything from one measurement
-
-A semiconductor bar has $L = 2.0$ mm, $W = 0.20$ mm and $d = 0.020$ mm. With $I = 2.0$ mA, a supply voltage $V = 10$ V along the bar and $B = 0.10$ T, the Hall voltage is $V_H = -4.0$ mV. Find (a) the type and concentration of carriers, (b) the mobility, and (c) the resistivity.
-
-**(a) Type and concentration.** $V_H < 0$, so the carriers are **electrons** (n-type). Eq. (4.6), with $d = 2.0\times10^{-5}$ m:
-
-$$
-n = \frac{IB}{q\,d\,|V_H|} = \frac{(2.0\times10^{-3})(0.10)}{(1.602\times10^{-19})(2.0\times10^{-5})(4.0\times10^{-3})} = 1.56\times10^{22}\ \text{m}^{-3} = 1.6\times10^{16}\ \text{cm}^{-3}
-$$
-
-**(b) Mobility.** The drift speed from Eq. (4.4), and the driving field from the supply:
-
-$$
-v_d = \frac{|V_H|}{BW} = \frac{4.0\times10^{-3}}{(0.10)(2.0\times10^{-4})} = 200\ \text{m/s}, \qquad E_x = \frac{V}{L} = \frac{10}{2.0\times10^{-3}} = 5000\ \text{V/m}
-$$
-
-$$
-\mu = \frac{v_d}{E_x} = \frac{200}{5000} = 0.040\ \text{m}^2/\text{V}\cdot\text{s} = 400\ \text{cm}^2/\text{V}\cdot\text{s}
-$$
-
-**(c) Resistivity.**
-
-$$
-R = \frac{V}{I} = \frac{10}{2.0\times10^{-3}} = 5000\ \Omega, \qquad \rho = \frac{RA}{L} = \frac{(5000)(2.0\times10^{-4})(2.0\times10^{-5})}{2.0\times10^{-3}} = 0.010\ \Omega\cdot\text{m} = 1.0\ \Omega\cdot\text{cm}
-$$
-
-**Check:** $\sigma = qn\mu = (1.602\times10^{-19})(1.56\times10^{16})(400) = 1.0\ \text{S/cm}$ ✓.
-
-### Example 3: Sign of the carriers
-
-A strip carries current to the right with $B$ into the page. The **top** edge is measured at a **lower** potential than the bottom edge. What are the carriers?
-
-- Direction of deflection: $\vec{I}\times\vec{B} = \hat{x}\times(-\hat{z}) = +\hat{y}$, **toward the top**, for both carrier signs.
-- The top edge is at the lower potential, so it holds **negative** charge.
-- Negative charge piling up means the carriers are **electrons**: the material is **n-type**.
-
-### Example 4: Photon from a Bohr transition
-
-A hydrogen electron drops from $n = 4$ to $n = 2$. Find the photon's energy and wavelength. Then find the energy needed to ionize hydrogen from $n = 2$.
-
-**Emission.**
-
-$$
-E = 13.6\left(\frac{1}{2^2} - \frac{1}{4^2}\right) = 13.6\left(0.250 - 0.0625\right) = 2.55\ \text{eV}
-$$
-
-$$
-\lambda = \frac{1240}{2.55} = 486\ \text{nm}
-$$
-
-That's a blue-green visible line (the second Balmer line).
-
-**Ionization from $n = 2$.** The energy needed is $0 - E_2 = 13.6/4 = 3.4$ eV, corresponding to $\lambda = 1240/3.4 = 365$ nm. Compare with $13.6$ eV (91.2 nm) from the ground state.
-
-### Example 5: Excitation and capture
-
-(a) What photon energy lifts hydrogen from $n = 1$ to $n = 3$? (b) What is the wavelength of the photon emitted when a free electron at rest is captured into $n = 1$?
-
-**(a)**
-
-$$
-E = 13.6\left(\frac{1}{1^2} - \frac{1}{3^2}\right) = 13.6\left(1 - 0.111\right) = 12.1\ \text{eV} \quad(\lambda = 103\ \text{nm})
-$$
-
-**(b)** The free electron ($E = 0$) drops to $E_1 = -13.6$ eV, so the photon carries $13.6$ eV:
-
-$$
-\lambda = \frac{1240}{13.6} = 91.2\ \text{nm}
-$$
-
-This is also the **shortest** wavelength hydrogen can emit and the **longest** wavelength that can ionize it from the ground state.
-
-### Example 6: Quick checks on the Hall voltage
-
-**(a) Twice the carrier density.** Two samples have the same geometry, current, field and carrier charge, but sample B has twice the carrier density. By Eq. (4.5), $V_H \propto 1/n$, so B has **half** the Hall voltage. Fewer carriers need to move faster to carry the same current, so the magnetic force and the Hall field are bigger, and a denser sample gives a *smaller* signal.
-
-**(b) Twice the width.** The width $W$ doubles while $I$, $B$, $n$ and $d$ stay the same. $V_H = v_dBW$ looks like it should double, but the drift speed falls because the same current is spread over a larger cross-section ($v_d = I/(nqWd)$). The $W$ cancels, so $V_H$ is **unchanged**.
-
-**(c) Hall voltage from the Hall field.** The field driving the current is $10$ V/cm and the Hall field is $3$ V/cm. The sample has $L = 5$ cm, $W = 2$ cm and $d = 1$ cm, with $I$ along $L$ and $B$ along $d$. The Hall voltage is measured across the width, so it uses the **Hall** field:
-
-$$
-V_H = E_HW = (3\ \text{V/cm})(2\ \text{cm}) = 6\ \text{V}
-$$
-
-(The $10$ V/cm field goes with $L$: $V = 10\times5 = 50$ V across the length, which is the supply voltage, not the Hall voltage.)
-
-**(d) Why does the sideways drift stop?** Because the Hall electric force balances the magnetic force (Eq. 4.3). The carriers don't run out of kinetic energy, the current doesn't stop, and the magnetic field doesn't weaken.
 
 ## Common mistakes
 

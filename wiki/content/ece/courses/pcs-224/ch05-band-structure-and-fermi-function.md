@@ -35,6 +35,19 @@ In an isolated atom, each electron state is labelled by quantum numbers $(n, l, 
 
 Together these mean electrons stack up from the bottom like water filling a glass. Each state holds at most one electron (per spin), so the next electron has to go higher.
 
+#### Example 5.1: Counting states in a shell
+
+Each combination of quantum numbers $(n, l, m)$ with a spin of $\pm\tfrac{1}{2}$ is one state, and Pauli exclusion allows one electron per state. For $l = 0, 1, \dots, n-1$ and $m = -l, \dots, +l$, how many electrons fit in the $n = 2$ shell?
+
+- $l = 0$: one value of $m$, times two spins, gives $2$ states.
+- $l = 1$: three values of $m$ ($-1, 0, +1$), times two spins, gives $6$ states.
+
+$$
+\text{total for } n = 2: \quad 2 + 6 = 8 \text{ electrons}
+$$
+
+In general the $n$th shell holds $2n^2$ electrons ($2, 8, 18, \dots$). Once a shell is full, the next electron must go to a higher level, which is the "fill from the bottom" rule in action.
+
 ### From atomic levels to energy bands
 
 An isolated atom has sharp allowed levels, each at one exact energy. A crystal is a huge number of atoms packed close together, and that changes things. Follow one level as the atoms approach (Figure 5.1):
@@ -48,6 +61,20 @@ A band is *not* one level that got wider. It's an enormous number of separate le
 
 ![[pcs-224-band-formation.svg]]
 *Figure 5.1: Follow the lines from left to right as the atoms are brought closer together. Each atomic level fans out into $N$ levels (eight are drawn here, but in a crystal there are $\sim 10^{22}$). At the spacing found in the crystal (dashed line) they form a band, and the space between the two bands is the forbidden gap.*
+
+#### Example 5.2: How tightly packed is a band?
+
+Suppose the atomic levels of $1\ \text{cm}^3$ of a crystal spread into a band $5$ eV wide, holding $N = 10^{22}$ levels. What is the average spacing between neighbouring levels, and how does it compare with $k_BT$ at $300$ K?
+
+$$
+\Delta E \approx \frac{5\ \text{eV}}{10^{22}} = 5\times10^{-22}\ \text{eV}
+$$
+
+$$
+\frac{k_BT}{\Delta E} = \frac{0.02586}{5\times10^{-22}} \approx 5\times10^{19}
+$$
+
+Thermal energy is some $10^{19}$ times larger than the spacing, so an electron can move from level to level at will. That is why we treat a band as a continuous range of energies rather than a list of separate levels.
 
 - **Energy band:** a range of energies where electron states exist.
 - **Energy gap** (forbidden band): a range of energies with **no** allowed states. Electrons can't be found there.
@@ -83,6 +110,47 @@ Typical band gaps:
 
 **Why temperature matters.** In a semiconductor the gap (about 1 eV) is small enough that at room temperature a few electrons at the top of the valence band get kicked across. In an insulator (about 10 eV) essentially none do. That's why a semiconductor conducts **better when it's hotter**, the opposite of a metal.
 
+#### Example 5.3: Light and the gap
+
+What's the longest wavelength of light that can excite an electron across the gap in (a) Ge ($0.67$ eV), (b) Si ($1.12$ eV), (c) GaAs ($1.43$ eV)?
+
+A photon must have $E \ge E_g$, so $\lambda \le 1240/E_g$:
+
+| Material | $E_g$ (eV) | $\lambda_{\max}$ (nm) | Region |
+| --- | --- | --- | --- |
+| Ge | 0.67 | 1850 | infrared |
+| Si | 1.12 | 1107 | near-infrared |
+| GaAs | 1.43 | 867 | near-infrared |
+
+Photons with a longer $\lambda$ than this pass through without exciting electrons. The same idea comes back with the LED and photodiode in [[ch08-junction-capacitance-and-optoelectronics|Chapter 8]].
+
+> [!example] Lab 4 runs this table backwards. An LED doesn't absorb a photon to lift an electron across the gap. It emits one when an electron drops back across it. The photon carries about $E_g$, so $E_g = hf = hc/\lambda$. Under forward bias, the current only becomes noticeable once each electron has been given roughly that much energy by the supply, so
+>
+> $$
+> eV_t \approx E_g = \frac{hc}{\lambda} \quad\Rightarrow\quad V_t = \frac{h}{e}\,f
+> $$
+>
+> where $V_t$ is the **turn-on voltage**. This is the stopping-potential line from [[ch02-photoelectric-effect#What Lab 1 looked like|Lab 1]] again, with the same slope $h/e$.
+>
+> We swept the voltage across seven LEDs with an Arduino and read the voltage where the current reached about $1$ mA on a log axis (steps of $0.025$ V, so $V_t$ is good to $\pm0.025$ V):
+>
+> | LED | $\lambda$ (nm) | $1240/\lambda$ (eV) | Measured $V_t$ (V) | Difference (V) |
+> | --- | --- | --- | --- | --- |
+> | UV | 395 | 3.14 | 2.94 | 0.20 |
+> | Blue | 461 | 2.69 | 2.60 | 0.09 |
+> | Green | 580 | 2.14 | 1.90 | 0.24 |
+> | Yellow | 591 | 2.10 | 1.91 | 0.19 |
+> | Red | 658 | 1.88 | 1.79 | 0.09 |
+> | IR | 940 | 1.32 | 1.04 | 0.28 |
+> | White | 450 | 2.76 | 2.91 | $-0.15$ |
+>
+> - **Shorter wavelength, bigger gap, higher turn-on voltage.** $V_t$ climbs from $1.04$ V for the IR LED to $2.94$ V for the UV one. It's a straight line against $f$.
+> - **The fitted slope gives $h$.** All seven points give $4.59\times10^{-15}$ V·s, so $h = 7.35\times10^{-34}$ J·s, which is $10.9\%$ high. The expected slope is $h/e = 4.136\times10^{-15}$ V·s.
+> - **The white LED is the odd one out.** It isn't a single-gap device. It's a blue or UV chip coated in yellow phosphor, so its turn-on is set by the chip, at $2.91$ V, not by the listed $450$ nm. Dropping it gives a slope of $4.32\times10^{-15}$ V·s and $h = 6.92\times10^{-34}$ J·s, only $4.4\%$ high. We report both, because the white LED was excluded for a physical reason and not because it improved the fit.
+> - **Every other LED turns on $0.1$ to $0.3$ V *below* $hc/(e\lambda)$.** That's why both fitted lines have a negative intercept ($-0.385$ V with all seven, $-0.283$ V without white) when the equation predicts a line through the origin. Current rises exponentially with voltage, so $1$ mA is already flowing slightly below $E_g/e$. The relation $eV_t = E_g$ is only approximate when $V_t$ is read at a fixed current. [[ch07-pn-junction#Lab 3: checking the diode equation|Chapter 7]] shows where that exponential comes from.
+>
+> LEDs are built from direct-gap III–V compounds like GaAs alloys. In Si and Ge, recombination also needs a lattice vibration, so most of the energy ends up as heat and very few photons come out.
+
 ### Electrons and holes in the band picture
 
 When an electron jumps from the valence band to the conduction band, **two** carriers appear:
@@ -117,6 +185,54 @@ where $E$ is the energy of the state you're asking about, $E_F$ is the Fermi ene
 - $E_F - E \gg k_BT$: $f \approx 1$.
 - Higher $T$ means more smearing: more probability above $E_F$, less below.
 
+#### Example 5.4: Reading the Fermi function
+
+At $300$ K, find the probability that a state is occupied if it lies (a) $0.10$ eV above $E_F$ and (b) $0.10$ eV below $E_F$. What is their sum?
+
+The exponent is $0.10/0.02586 = 3.87$ in both cases, with opposite signs.
+
+**(a)** Above $E_F$:
+
+$$
+f = \frac{1}{1 + e^{3.87}} = \frac{1}{1 + 47.8} = 0.0205
+$$
+
+**(b)** Below $E_F$:
+
+$$
+f = \frac{1}{1 + e^{-3.87}} = \frac{1}{1 + 0.0209} = 0.980
+$$
+
+The sum is $0.0205 + 0.980 = 1$. The curve is symmetric about $E_F$: the chance a state above is filled equals the chance a state the same distance below is *empty* (Eq. 5.3).
+
+#### Example 5.5: Effect of temperature
+
+A state lies $0.40$ eV above $E_F$. Compare its occupation probability at $300$ K and $400$ K.
+
+$$
+f(300\ \text{K}) \approx e^{-0.40/0.02586} = 1.9\times10^{-7}
+$$
+
+$$
+f(400\ \text{K}) \approx e^{-0.40/0.03447} = 9.1\times10^{-6}
+$$
+
+A $100$ K rise increases the probability by about $48\times$. The Fermi function depends **exponentially** on $T$, so the occupancy at the band edge, and with it the carrier density, is very sensitive to temperature.
+
+#### Example 5.6: Warming from 27 °C to 37 °C
+
+A silicon crystal has $E_g = 1.107$ eV with $E_F$ at mid-gap. How much does the probability of finding an electron at the bottom of the conduction band increase when the temperature goes from $300$ K to $310$ K?
+
+At the band edge $E_c - E_F = E_g/2$, which is many $k_BT$, so $f \approx e^{-E_g/(2k_BT)}$. The ratio of the two probabilities is
+
+$$
+\frac{f(310)}{f(300)} = \exp\!\left[\frac{E_g}{2k_B}\left(\frac{1}{300} - \frac{1}{310}\right)\right] = \exp\!\left[\frac{0.5535}{8.617\times10^{-5}}\,(1.075\times10^{-4})\right] = e^{0.69} \approx 2.0
+$$
+
+That's an increase of about **99%**, so a $10$ K rise **doubles** the probability. The Fermi function is exponentially sensitive to temperature, and this is the reason $n_i$ roughly doubles per 10 K in [[ch06-carrier-concentrations#Counting carriers|Chapter 6]].
+
+**What else changes?** The number of available states near the band edge, $N_c$ (the effective density of states, defined in [[ch06-carrier-concentrations#Counting carriers|Chapter 6]]), is proportional to $T^{3/2}$ and also grows, but only by about 5%, so the exponential is what dominates.
+
 **Two things set how many electrons are at an energy.** One is the probability $f(E)$ that a state is occupied. The other is **how many states** exist at that energy, called the **density of states** $g(E)$ (states per cm³ per unit energy). Multiplying the two gives the number of electrons at that energy, $n(E) = g(E)\,f(E)$ (Eq. 5.4; the examples below just use $g$ as the count of states at a level). $E_F$ only deals with the first. I think of it as the energy where the occupation probability would be $\frac{1}{2}$ *if* there were states everywhere.
 
 > [!warning] **$E_F$ can sit in the gap.** In an intrinsic semiconductor there are **no** states at $E_F$, so there are no electrons *at* $E_F$ even though $f(E_F) = \frac{1}{2}$. In a metal, $E_F$ is inside a band. In a semiconductor or insulator, it's in the gap.
@@ -127,6 +243,34 @@ $$
 E_c - E_F \approx E_F - E_v \approx \frac{E_g}{2} \tag{5.2}
 $$
 
+#### Example 5.7: Probability at the band edge
+
+A silicon crystal at $300$ K has $E_g = 1.12$ eV with $E_F$ at mid-gap. Find (a) the probability that a state at the bottom of the conduction band is occupied, and (b) the number of electrons per cm³ at that level if there are $1\times10^{19}$ states/cm³ there.
+
+**(a)** $E_c - E_F = E_g/2 = 0.56$ eV, and $k_BT = 0.02586$ eV:
+
+$$
+f(E_c) = \frac{1}{1 + e^{0.56/0.02586}} = \frac{1}{1 + e^{21.66}} \approx e^{-21.66} = 3.9\times10^{-10}
+$$
+
+**(b)**
+
+$$
+n = g\,f = (1\times10^{19})(3.9\times10^{-10}) = 3.9\times10^{9}\ \text{cm}^{-3}
+$$
+
+> [!note] That's already close to the order of magnitude of silicon's [[ch03-intro-to-semiconductors#Intrinsic semiconductors: electrons and holes|intrinsic carrier density]] ($\sim10^{10}$ cm⁻³). The Fermi function really is what produces $n_i$ (see [[ch06-carrier-concentrations#Counting carriers|Chapter 6]]).
+
+#### Example 5.8: A wider gap
+
+Repeat Example 5.7 for diamond, $E_g = 6.0$ eV, again with $E_F$ at mid-gap and $g = 1\times10^{19}$ cm⁻³.
+
+$$
+f(E_c) \approx e^{-3.0/0.02586} = e^{-116} = 4\times10^{-51}, \qquad n = (10^{19})(4\times10^{-51}) \approx 4\times10^{-32}\ \text{cm}^{-3}
+$$
+
+There are effectively **zero** electrons in the conduction band, so diamond is an excellent insulator at room temperature.
+
 ### Probability of holes
 
 A hole is just an **empty** state, so the probability that a state at energy $E$ holds a hole is
@@ -136,6 +280,22 @@ f_h(E) = 1 - f(E) = \frac{1}{1 + e^{(E_F - E)/k_BT}} \tag{5.3}
 $$
 
 It looks like Eq. (5.1) with $E - E_F$ swapped for $E_F - E$. Holes are only likely to be found a little **below** $E_F$ (a tail), just as electrons are only likely to be found a little above it.
+
+#### Example 5.9: Where is the hole probability 10%?
+
+At $300$ K, at what energy is the probability of finding a hole equal to $10\%$?
+
+A hole probability of $0.10$ means $f = 0.90$:
+
+$$
+0.90 = \frac{1}{1 + e^{(E-E_F)/k_BT}} \ \Rightarrow\ e^{(E-E_F)/k_BT} = \frac{1}{0.90} - 1 = 0.111
+$$
+
+$$
+E - E_F = k_BT\ln(0.111) = (0.02586)(-2.197) = -0.0568\ \text{eV}
+$$
+
+So $f_h = 10\%$ at **0.057 eV below $E_F$**. (By symmetry, $f = 10\%$ at $0.057$ eV above $E_F$.)
 
 **A semiconductor at room temperature:**
 
@@ -188,121 +348,6 @@ $$
 
 - $\lambda_{\max}$: the longest wavelength whose photons still have energy $\ge E_g$ (from $E = hc/\lambda$, [[ch02-photoelectric-effect#Einstein's photon picture (1905)|Chapter 2]])
 - $E_g = E_c - E_v$: band gap; $E_c$: bottom of the conduction band; $E_v$: top of the valence band
-
-## Examples
-
-### Example 1: Probability at the band edge
-
-A silicon crystal at $300$ K has $E_g = 1.12$ eV with $E_F$ at mid-gap. Find (a) the probability that a state at the bottom of the conduction band is occupied, and (b) the number of electrons per cm³ at that level if there are $1\times10^{19}$ states/cm³ there.
-
-**(a)** $E_c - E_F = E_g/2 = 0.56$ eV, and $k_BT = 0.02586$ eV:
-
-$$
-f(E_c) = \frac{1}{1 + e^{0.56/0.02586}} = \frac{1}{1 + e^{21.66}} \approx e^{-21.66} = 3.9\times10^{-10}
-$$
-
-**(b)**
-
-$$
-n = g\,f = (1\times10^{19})(3.9\times10^{-10}) = 3.9\times10^{9}\ \text{cm}^{-3}
-$$
-
-> [!note] That's already close to the order of magnitude of silicon's [[ch03-intro-to-semiconductors#Intrinsic semiconductors: electrons and holes|intrinsic carrier density]] ($\sim10^{10}$ cm⁻³). The Fermi function really is what produces $n_i$ (see [[ch06-carrier-concentrations#Counting carriers|Chapter 6]]).
-
-### Example 2: A wider gap
-
-Repeat Example 1 for diamond, $E_g = 6.0$ eV, again with $E_F$ at mid-gap and $g = 1\times10^{19}$ cm⁻³.
-
-$$
-f(E_c) \approx e^{-3.0/0.02586} = e^{-116} = 4\times10^{-51}, \qquad n = (10^{19})(4\times10^{-51}) \approx 4\times10^{-32}\ \text{cm}^{-3}
-$$
-
-There are effectively **zero** electrons in the conduction band, so diamond is an excellent insulator at room temperature.
-
-### Example 3: Where is the hole probability 10%?
-
-At $300$ K, at what energy is the probability of finding a hole equal to $10\%$?
-
-A hole probability of $0.10$ means $f = 0.90$:
-
-$$
-0.90 = \frac{1}{1 + e^{(E-E_F)/k_BT}} \ \Rightarrow\ e^{(E-E_F)/k_BT} = \frac{1}{0.90} - 1 = 0.111
-$$
-
-$$
-E - E_F = k_BT\ln(0.111) = (0.02586)(-2.197) = -0.0568\ \text{eV}
-$$
-
-So $f_h = 10\%$ at **0.057 eV below $E_F$**. (By symmetry, $f = 10\%$ at $0.057$ eV above $E_F$.)
-
-### Example 4: Effect of temperature
-
-A state lies $0.40$ eV above $E_F$. Compare its occupation probability at $300$ K and $400$ K.
-
-$$
-f(300\ \text{K}) \approx e^{-0.40/0.02586} = 1.9\times10^{-7}
-$$
-
-$$
-f(400\ \text{K}) \approx e^{-0.40/0.03447} = 9.1\times10^{-6}
-$$
-
-A $100$ K rise increases the probability by about $48\times$. The Fermi function depends **exponentially** on $T$, so the occupancy at the band edge, and with it the carrier density, is very sensitive to temperature.
-
-### Example 5: Light and the gap
-
-What's the longest wavelength of light that can excite an electron across the gap in (a) Ge ($0.67$ eV), (b) Si ($1.12$ eV), (c) GaAs ($1.43$ eV)?
-
-A photon must have $E \ge E_g$, so $\lambda \le 1240/E_g$:
-
-| Material | $E_g$ (eV) | $\lambda_{\max}$ (nm) | Region |
-| --- | --- | --- | --- |
-| Ge | 0.67 | 1850 | infrared |
-| Si | 1.12 | 1107 | near-infrared |
-| GaAs | 1.43 | 867 | near-infrared |
-
-Photons with a longer $\lambda$ than this pass through without exciting electrons. The same idea comes back with the LED and photodiode in [[ch08-junction-capacitance-and-optoelectronics|Chapter 8]].
-
-> [!example] Lab 4 runs this table backwards. An LED doesn't absorb a photon to lift an electron across the gap. It emits one when an electron drops back across it. The photon carries about $E_g$, so $E_g = hf = hc/\lambda$. Under forward bias, the current only becomes noticeable once each electron has been given roughly that much energy by the supply, so
->
-> $$
-> eV_t \approx E_g = \frac{hc}{\lambda} \quad\Rightarrow\quad V_t = \frac{h}{e}\,f
-> $$
->
-> where $V_t$ is the **turn-on voltage**. This is the stopping-potential line from [[ch02-photoelectric-effect#What Lab 1 looked like|Lab 1]] again, with the same slope $h/e$.
->
-> We swept the voltage across seven LEDs with an Arduino and read the voltage where the current reached about $1$ mA on a log axis (steps of $0.025$ V, so $V_t$ is good to $\pm0.025$ V):
->
-> | LED | $\lambda$ (nm) | $1240/\lambda$ (eV) | Measured $V_t$ (V) | Difference (V) |
-> | --- | --- | --- | --- | --- |
-> | UV | 395 | 3.14 | 2.94 | 0.20 |
-> | Blue | 461 | 2.69 | 2.60 | 0.09 |
-> | Green | 580 | 2.14 | 1.90 | 0.24 |
-> | Yellow | 591 | 2.10 | 1.91 | 0.19 |
-> | Red | 658 | 1.88 | 1.79 | 0.09 |
-> | IR | 940 | 1.32 | 1.04 | 0.28 |
-> | White | 450 | 2.76 | 2.91 | $-0.15$ |
->
-> - **Shorter wavelength, bigger gap, higher turn-on voltage.** $V_t$ climbs from $1.04$ V for the IR LED to $2.94$ V for the UV one. It's a straight line against $f$.
-> - **The fitted slope gives $h$.** All seven points give $4.59\times10^{-15}$ V·s, so $h = 7.35\times10^{-34}$ J·s, which is $10.9\%$ high. The expected slope is $h/e = 4.136\times10^{-15}$ V·s.
-> - **The white LED is the odd one out.** It isn't a single-gap device. It's a blue or UV chip coated in yellow phosphor, so its turn-on is set by the chip, at $2.91$ V, not by the listed $450$ nm. Dropping it gives a slope of $4.32\times10^{-15}$ V·s and $h = 6.92\times10^{-34}$ J·s, only $4.4\%$ high. We report both, because the white LED was excluded for a physical reason and not because it improved the fit.
-> - **Every other LED turns on $0.1$ to $0.3$ V *below* $hc/(e\lambda)$.** That's why both fitted lines have a negative intercept ($-0.385$ V with all seven, $-0.283$ V without white) when the equation predicts a line through the origin. Current rises exponentially with voltage, so $1$ mA is already flowing slightly below $E_g/e$. The relation $eV_t = E_g$ is only approximate when $V_t$ is read at a fixed current. [[ch07-pn-junction#Lab 3: checking the diode equation|Chapter 7]] shows where that exponential comes from.
->
-> LEDs are built from direct-gap III–V compounds like GaAs alloys. In Si and Ge, recombination also needs a lattice vibration, so most of the energy ends up as heat and very few photons come out.
-
-### Example 6: Warming from 27 °C to 37 °C
-
-A silicon crystal has $E_g = 1.107$ eV with $E_F$ at mid-gap. How much does the probability of finding an electron at the bottom of the conduction band increase when the temperature goes from $300$ K to $310$ K?
-
-At the band edge $E_c - E_F = E_g/2$, which is many $k_BT$, so $f \approx e^{-E_g/(2k_BT)}$. The ratio of the two probabilities is
-
-$$
-\frac{f(310)}{f(300)} = \exp\!\left[\frac{E_g}{2k_B}\left(\frac{1}{300} - \frac{1}{310}\right)\right] = \exp\!\left[\frac{0.5535}{8.617\times10^{-5}}\,(1.075\times10^{-4})\right] = e^{0.69} \approx 2.0
-$$
-
-That's an increase of about **99%**, so a $10$ K rise **doubles** the probability. The Fermi function is exponentially sensitive to temperature, and this is the reason $n_i$ roughly doubles per 10 K in [[ch06-carrier-concentrations#Counting carriers|Chapter 6]].
-
-**What else changes?** The number of available states near the band edge, $N_c$ (the effective density of states, defined in [[ch06-carrier-concentrations#Counting carriers|Chapter 6]]), is proportional to $T^{3/2}$ and also grows, but only by about 5%, so the exponential is what dominates.
 
 ## Common mistakes
 

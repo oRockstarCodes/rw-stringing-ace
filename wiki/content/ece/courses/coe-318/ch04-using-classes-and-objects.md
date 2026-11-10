@@ -62,6 +62,30 @@ Immutability is what makes sharing safe. If `a` and `b` point at the same pooled
 
 Asking for an index past the end, like `substring(1, 8)` on a 6-character string, throws a `StringIndexOutOfBoundsException`.
 
+#### Example 4.1: String methods
+
+Given `String licensePlate = new String("ABC 41");`, what is each value?
+
+```java
+char a = licensePlate.charAt(2);
+String extendedPlate = licensePlate.concat("564");
+int b = licensePlate.length();
+String newPlate = extendedPlate.replace('4', '0');
+String sub1 = licensePlate.substring(1);
+String sub2 = licensePlate.substring(1, 2);
+String sub3 = licensePlate.substring(1, 8);
+```
+
+Indices: `A`=0, `B`=1, `C`=2, space=3, `4`=4, `1`=5.
+
+1. `a` = `'C'`
+2. `extendedPlate` = `"ABC 41564"` (`licensePlate` itself is unchanged)
+3. `b` = `6` (the space counts)
+4. `newPlate` = `"ABC 01560"`: **every** `'4'` in `"ABC 41564"` is replaced
+5. `sub1` = `"BC 41"`
+6. `sub2` = `"B"` (index 1 only; length $2 - 1 = 1$)
+7. `sub3` throws `StringIndexOutOfBoundsException`: index 8 is past the end of a 6-character string
+
 ### Comparing values
 
 What "equal" means depends on what you're comparing:
@@ -80,6 +104,19 @@ final double TOLERANCE = 0.00000001;
 if (Math.abs(a - b) < TOLERANCE) { /* treat as equal */ }
 ```
 
+#### Example 4.2: Comparing decimals with a tolerance
+
+What do these print?
+
+```java
+double x = 0.1 + 0.2;
+System.out.println(x == 0.3);
+final double TOLERANCE = 0.00000001;
+System.out.println(Math.abs(x - 0.3) < TOLERANCE);
+```
+
+The first line prints **`false`**. `0.1` and `0.2` are stored as the nearest binary approximations, and their sum is `0.30000000000000004`, which isn't the stored `0.3`. The second prints **`true`**, because the difference is about $5.6 \times 10^{-17}$, far below `TOLERANCE`. Choose a tolerance that is bigger than the rounding error but smaller than any difference that matters in your problem.
+
 ### `==` vs `equals()`
 
 For references, `==` compares what's actually in the two variables, which is two **addresses**. So it asks **"are these the same object?"**, not "do these hold the same data?".
@@ -94,6 +131,25 @@ name1.equals(name2)   // true: same characters
 Think of two printed copies of the same book. They have identical contents (`equals` is true), but they're two different physical books (`==` is false). `equals` is a method the class provides to compare **contents**, and `String`'s version compares the characters one by one.
 
 > [!warning] Two identical literals (`"Lewis" == "Lewis"`) often come out `true`, but only because the String pool made them the same object. Strings built while the program runs (from input, or by joining) won't be pooled. Code that relies on `==` for Strings works in testing and then fails on real input. **Always use `.equals()` for Strings.**
+
+#### Example 4.3: `==` vs `equals` on Strings
+
+Given these lines, what does each comparison give?
+
+```java
+String s1 = "Lewis";
+String s2 = "Lewis";
+String s3 = new String("Lewis");
+```
+
+|Expression|Result|Why|
+|---|---|---|
+|`s1 == s2`|`true`|Both literals point at the same pooled object|
+|`s1 == s3`|`false`|`new` always builds a separate object|
+|`s1.equals(s3)`|`true`|Same characters|
+|`s3.equals(s2)`|`true`|`equals` ignores which object it is|
+
+Only the `equals` answers say whether the *text* matches. The `==` answers depend on how the Strings were created, which is why `equals` is the one to use.
 
 ### Comparing your own objects
 
@@ -150,6 +206,35 @@ Here the copied value is an address. `c` and `miniVan` are two boxes holding the
 ![[coe-318-parameter-passing.svg]]
 *Figure 4.1: A primitive argument is copied by value. A reference argument copies the address, so both variables reach the same object.*
 
+#### Example 4.4: Pass by value vs reference
+
+What does this print?
+
+```java
+public static void main(String[] args) {
+    int n = 5;
+    Car car = new Car("XYZ", 50, 100);
+    update(n, car);
+    System.out.println(n + " " + car.speed);
+}
+static void update(int n, Car c) {
+    n = 99;
+    c.speed = 80;
+    c = new Car("NEW", 0, 0);
+    c.speed = 10;
+}
+```
+
+1. `n = 99` only changes the method's own copy, so the caller's `n` stays `5`.
+2. `c.speed = 80` follows the reference to the caller's car, so its speed is now `80`.
+3. `c = new Car(...)` points the **local** `c` at a new object. The caller's `car` isn't touched.
+4. `c.speed = 10` changes the new object, which becomes garbage once the method returns.
+
+![[coe-318-ex-pass-by-reference.svg]]
+*Figure 4.3: Memory just before update returns. Only the first car was changed through the caller's reference, and the NEW car is lost afterwards.*
+
+Prints `5 80.0`.
+
 ### Linking objects
 
 A field can hold a reference to **another object**, and that **links** the two. This is how objects find each other: an object doesn't search for the others it needs, it keeps their addresses. A reference can also be `null`, meaning "linked to nothing".
@@ -180,93 +265,23 @@ else
 ![[coe-318-linked-employees.svg]]
 *Figure 4.2: Two Employee objects linked through the supervisor field. Stacey's own supervisor is null.*
 
-### Designing from a description
+#### Example 4.5: Following a chain of links
 
-Turning a paragraph of requirements into classes is the design phase from [[ch01-software-development-and-oop|Ch 1]]. A reliable starting point is to read the description for its grammar:
-
-1. **Nouns become classes** (Book, Member, Library). They're the things the problem is about.
-2. **Their properties become fields** (title, author, ISBN). That's what each thing needs to remember.
-3. **"Has many" becomes an array or list field** (a Member *has* borrowed books). That's a link to several objects at once.
-4. **Verbs become methods** (borrow, add, register). That's what the things do, and each method goes in the class whose data it mainly changes.
-5. Write a **tester class** that plays out the scenario in the description, to check the design can actually do what's asked.
-
-This works because OOP is built to mirror the problem ([[ch01-software-development-and-oop|Ch 1]]). If the description is about members borrowing books from a library, the code should have members, books and a library, doing borrowing.
-
-## Key syntax
-
-**Comparisons**
+Using `Employee` as above, a third employee is created with `Employee intern = new Employee("Ravi", emp);`. What do these give?
 
 ```java
-s1.equals(s2)                       // String contents
-Math.abs(a - b) < TOLERANCE         // floating-point
-obj1 == obj2                        // same object?
+intern.supervisor.name
+intern.supervisor.supervisor.name
+ceo.supervisor.name
 ```
 
-**Substring range**
+- `intern.supervisor` is `emp` (Gavin), so the first is **`"Gavin"`**.
+- `intern.supervisor.supervisor` is Gavin's supervisor, `ceo` (Stacey), so the second is **`"Stacey"`**.
+- `ceo.supervisor` is `null`, and `.name` on `null` throws a **`NullPointerException`**.
 
-$$
-\texttt{s.substring(i, j)} \text{ has length } j - i
-$$
+Guard a walk up the chain with a check such as `while (e.supervisor != null) { e = e.supervisor; }`, which stops at the top.
 
-- $i$: first index included
-- $j$: first index **excluded**
-
-## Examples
-
-### Example 1: String methods
-
-Given `String licensePlate = new String("ABC 41");`, what is each value?
-
-```java
-char a = licensePlate.charAt(2);
-String extendedPlate = licensePlate.concat("564");
-int b = licensePlate.length();
-String newPlate = extendedPlate.replace('4', '0');
-String sub1 = licensePlate.substring(1);
-String sub2 = licensePlate.substring(1, 2);
-String sub3 = licensePlate.substring(1, 8);
-```
-
-Indices: `A`=0, `B`=1, `C`=2, space=3, `4`=4, `1`=5.
-
-1. `a` = `'C'`
-2. `extendedPlate` = `"ABC 41564"` (`licensePlate` itself is unchanged)
-3. `b` = `6` (the space counts)
-4. `newPlate` = `"ABC 01560"`: **every** `'4'` in `"ABC 41564"` is replaced
-5. `sub1` = `"BC 41"`
-6. `sub2` = `"B"` (index 1 only; length $2 - 1 = 1$)
-7. `sub3` throws `StringIndexOutOfBoundsException`: index 8 is past the end of a 6-character string
-
-### Example 2: Pass by value vs reference
-
-What does this print?
-
-```java
-public static void main(String[] args) {
-    int n = 5;
-    Car car = new Car("XYZ", 50, 100);
-    update(n, car);
-    System.out.println(n + " " + car.speed);
-}
-static void update(int n, Car c) {
-    n = 99;
-    c.speed = 80;
-    c = new Car("NEW", 0, 0);
-    c.speed = 10;
-}
-```
-
-1. `n = 99` only changes the method's own copy, so the caller's `n` stays `5`.
-2. `c.speed = 80` follows the reference to the caller's car, so its speed is now `80`.
-3. `c = new Car(...)` points the **local** `c` at a new object. The caller's `car` isn't touched.
-4. `c.speed = 10` changes the new object, which becomes garbage once the method returns.
-
-![[coe-318-ex-pass-by-reference.svg]]
-*Figure 4.3: Memory just before update returns. Only the first car was changed through the caller's reference, and the NEW car is lost afterwards.*
-
-Prints `5 80.0`.
-
-### Example 3: Tracing an array of linked objects
+#### Example 4.6: Tracing an array of linked objects
 
 ```java
 class Coord {
@@ -316,7 +331,19 @@ System.out.println(alias[3].x + "," + alias[3].y);
 3,1
 ```
 
-### Example 4: Design an `Airport` class from its output
+### Designing from a description
+
+Turning a paragraph of requirements into classes is the design phase from [[ch01-software-development-and-oop|Ch 1]]. A reliable starting point is to read the description for its grammar:
+
+1. **Nouns become classes** (Book, Member, Library). They're the things the problem is about.
+2. **Their properties become fields** (title, author, ISBN). That's what each thing needs to remember.
+3. **"Has many" becomes an array or list field** (a Member *has* borrowed books). That's a link to several objects at once.
+4. **Verbs become methods** (borrow, add, register). That's what the things do, and each method goes in the class whose data it mainly changes.
+5. Write a **tester class** that plays out the scenario in the description, to check the design can actually do what's asked.
+
+This works because OOP is built to mirror the problem ([[ch01-software-development-and-oop|Ch 1]]). If the description is about members borrowing books from a library, the code should have members, books and a library, doing borrowing.
+
+#### Example 4.7: Design an `Airport` class from its output
 
 Write the `Airport` class so this `main` gives the output below.
 
@@ -358,7 +385,7 @@ public class Airport {
 }
 ```
 
-### Example 5: Library system design
+#### Example 4.8: Library system design
 
 A Book has a title, author and ISBN. A Member has a name and can borrow multiple books. A Library manages its books and members. John borrows *Anne of Green Gables*.
 
@@ -411,6 +438,25 @@ public class LibraryTest {
 ```
 
 > [!note] After `john.borrow(anne)`, the library's array and John's array both refer to the **same** `Book` object. That's what linking means. There's only ever one copy of the book.
+
+## Key syntax
+
+**Comparisons**
+
+```java
+s1.equals(s2)                       // String contents
+Math.abs(a - b) < TOLERANCE         // floating-point
+obj1 == obj2                        // same object?
+```
+
+**Substring range**
+
+$$
+\texttt{s.substring(i, j)} \text{ has length } j - i
+$$
+
+- $i$: first index included
+- $j$: first index **excluded**
 
 ## Common mistakes
 

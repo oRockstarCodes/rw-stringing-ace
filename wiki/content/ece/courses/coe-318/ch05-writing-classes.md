@@ -45,6 +45,16 @@ import coe318.*;           // every class in the package
 
 `java.lang` is imported automatically, because almost every program needs `String` and `Math`.
 
+#### Example 5.1: Which classes need an import?
+
+A program uses `String`, `Math.sqrt`, `Scanner` and `ArrayList`. Which of these need an `import`, and what are the lines?
+
+- `String` and `Math` are in `java.lang`, which is imported automatically, so they need **no** import.
+- `Scanner` is in `java.util`: `import java.util.Scanner;`
+- `ArrayList` is also in `java.util`: `import java.util.ArrayList;`
+
+Both can be covered at once by `import java.util.*;`, but naming each class makes it clear where it comes from.
+
 ### Encapsulation
 
 **Encapsulation** means hiding an object's variables inside the class, so other code can only reach them through the class's **methods**. The object becomes a sealed box with a few buttons on the outside.
@@ -87,6 +97,31 @@ mod.privMethod();      // compile error
 
 > [!note] The restriction is **per class**, not per object. If `main` is inside the same class, it can use the private members of any object of that class. `private` means "only code written inside this class", because that's the code the class's author controls.
 
+#### Example 5.2: Default vs private access
+
+`CarTest` is a different class from `Car`, in the same package. Which lines compile?
+
+```java
+// Version 1                          // Version 2
+public class Car {                    public class Car {
+    String licensePlate;                  private String licensePlate;
+    double speed;                         public double speed;
+    ...                                   ...
+}                                     }
+
+// in CarTest.main:
+Car miniVan = new Car("ABC", 50, 100);
+miniVan.licensePlate = "GHI";
+miniVan.speed = 100;
+```
+
+|Line|Version 1 (default)|Version 2|
+|---|---|---|
+|`miniVan.licensePlate = "GHI";`|OK (same package)|**Error** (`private`)|
+|`miniVan.speed = 100;`|OK|OK (`public`)|
+
+> [!note] Watch out for `miniVan.speed = "100";` (with quotes). A String into a `double` is a type error no matter what the access is.
+
 ### Rule of thumb
 
 |Member|Visibility|Name|
@@ -124,365 +159,26 @@ public class Car {
 
 > [!tip] This is where encapsulation pays off. A setter can **validate**: `if (speedVal >= 0 && speedVal <= maxSpeed) speed = speedVal;`. A public field can't protect itself like that.
 
-### Scope
+#### Example 5.3: A setter that protects the object
 
-A variable's **scope** is the part of the code where its name means something. It matches where the variable is declared and how long it lives:
-
-|Variable|Scope|Visible…|
-|---|---|---|
-|Instance variable|**Class scope**|Anywhere in the class, from its `{` to its `}`. It belongs to the object, so every method can use it.|
-|Local variable / parameter|**Block scope**|Only inside the `{ }` block where it's declared|
-
-**Why block scope?** A local variable only exists while its block is running; it lives on the stack and disappears when the block ends ([[ch03-variables|Ch 3]]). Letting code outside the block use the name would mean referring to something that doesn't exist anymore, so the compiler forbids it. A bonus is that small scopes keep names from colliding: a loop counter `i` in one method has nothing to do with an `i` in another.
-
-**Shadowing.** When a local variable or parameter has the **same name** as an instance variable, the name refers to the **nearest** declaration, the local one. The field is still there, just hidden ("in its shadow") inside that method. `this.name` reaches past the shadow to the field:
+`Car` has `maxSpeed = 120` and this setter:
 
 ```java
-public Point(double x, double y) {
-    this.x = x;    // field = parameter
-    this.y = y;
+public void setSpeed(double speedVal) {
+    if (speedVal >= 0 && speedVal <= maxSpeed)
+        speed = speedVal;
 }
 ```
 
-Shadowing in constructors and setters is normal, because the parameter's job is to carry a value for the field of the same name. Shadowing by accident (a local you forgot shares a field's name) is a classic bug: the method changes the local and the field silently stays the same.
+What is `speed` after `setSpeed(80)`, then `setSpeed(150)`, then `setSpeed(-5)`?
 
-### Arrays as parameters
+- `setSpeed(80)`: $0 \le 80 \le 120$, so `speed = 80`.
+- `setSpeed(150)`: above `maxSpeed`, so the `if` fails and `speed` **stays 80**.
+- `setSpeed(-5)`: negative, so it also stays **80**.
 
-Passing an array follows the same rule as any argument ([[ch04-using-classes-and-objects|Ch 4]]): Java copies what's in the variable. What's in the variable differs:
+With a `public` field, `car.speed = 150;` would have worked and broken the rule. Because the field is `private`, the setter is the only way in, so the rule can't be bypassed anywhere in the program.
 
-|Passing|What gets copied|Method can change caller's data?|
-|---|---|---|
-|The whole array, `f(xyz)`|The **reference** to the array|**Yes**: the method reaches the same array|
-|One element, `f(xyz[3])`|The element's **value** (if it's a primitive)|**No**: the method gets its own copy of that number|
-
-So a method like `void zeroOut(int[] a) { a[0] = 0; }` really does change the caller's array, since there's only one array and both variables point at it. `void zero(int n) { n = 0; }` called as `zero(xyz[3])` changes nothing, because `n` is just a copy of the number that was in slot 3.
-
-### 2D arrays
-
-Java doesn't really have a grid type. A 2D array is an **array of arrays**: an outer array whose elements are references to inner arrays, one per row.
-
-```java
-int[][] A = { {  1,  0, 12, -1 },
-              {  7, -3,  2,  5 },
-              { -5, -2,  2,  9 } };
-int[][] B = new int[3][4];      // 3 rows, 4 columns, all 0
-
-A.length        // 3: number of rows (length of the outer array)
-A[0].length     // 4: columns in row 0 (length of that inner array)
-A[1][2]         // 2: row 1, then element 2 of that row
-```
-
-Reading `A[1][2]` from left to right explains it: `A[1]` is the second row (itself an array), and `[2]` picks element 2 from it. That's also why `A.length` gives rows and `A[0].length` gives columns. Since each row is its own array, rows could even have different lengths, which is why careful code uses `A[row].length` rather than assuming every row is the same.
-
-Go through it with nested loops, rows on the outside and columns on the inside:
-
-```java
-for (int row = 0; row < A.length; row++)
-    for (int col = 0; col < A[row].length; col++)
-        System.out.println(A[row][col]);
-```
-
-The inner loop runs completely for each pass of the outer loop, so this visits row 0 left to right, then row 1, and so on, the same order you'd read a page.
-
-### User input with `Scanner`
-
-`Scanner` (in `java.util`) reads text from the keyboard or a file and turns it into the values you ask for:
-
-```java
-import java.util.Scanner;
-
-Scanner scan = new Scanner(System.in);                     // console
-Scanner fileScan = new Scanner(new FileReader("myfile"));  // file
-```
-
-**How it reads.** Everything the user types, including the Enter key (a newline character), goes into a buffer. Scanner works through that buffer from the front. Most methods read one **token**, a chunk of text up to the next whitespace (space, tab or newline):
-
-|Method|Reads|
-|---|---|
-|`nextLine()`|The whole rest of the current line, spaces included, and consumes the newline|
-|`next()`|One **token** (up to the next whitespace)|
-|`nextInt()` / `nextDouble()`|One token, converted to a number|
-|`hasNextInt()` / `hasNextDouble()`|`true` if the next token *is* that type. It only looks, without consuming anything|
-
-If the buffer is empty, the program **waits** at the `next...()` call until the user types something and presses Enter.
-
-> [!warning] **The `nextInt()` then `nextLine()` trap.** If the user types `42` and presses Enter, the buffer holds `42\n`. `nextInt()` takes the `42` but leaves the `\n` behind. A `nextLine()` right after it finds that leftover newline, returns an empty string immediately, and seems to "skip" the input. Fix it by calling an extra `scan.nextLine();` after `nextInt()` to clear the rest of the line.
-
-> [!warning] `nextInt()` throws an `InputMismatchException` if the next token isn't an int (the user typed `abc`). Because `hasNextInt()` only peeks, it lets you check first and handle bad input yourself:
-> ```java
-> while (!scan.hasNextInt()) {
->     System.out.println("Please enter a whole number.");
->     scan.next();               // throw away the bad token
-> }
-> int n = scan.nextInt();
-> ```
-
-## Key syntax
-
-**Encapsulated class template**
-
-```java
-public class Name {
-    private Type field;                          // private data
-
-    public Name(Type field) { this.field = field; }
-
-    public Type getField() { return field; }     // getter
-    public void setField(Type field) {           // setter (only if needed)
-        this.field = field;
-    }
-}
-```
-
-**Reading input**
-
-```java
-Scanner scan = new Scanner(System.in);
-String word = scan.next();
-int n = scan.nextInt();
-double d = scan.nextDouble();
-String line = scan.nextLine();
-```
-
-**2D array size**
-
-$$
-\text{elements} = \texttt{rows} \times \texttt{cols} = \texttt{A.length} \times \texttt{A[0].length}
-$$
-
-## Examples
-
-### Example 1: Default vs private access
-
-`CarTest` is a different class from `Car`, in the same package. Which lines compile?
-
-```java
-// Version 1                          // Version 2
-public class Car {                    public class Car {
-    String licensePlate;                  private String licensePlate;
-    double speed;                         public double speed;
-    ...                                   ...
-}                                     }
-
-// in CarTest.main:
-Car miniVan = new Car("ABC", 50, 100);
-miniVan.licensePlate = "GHI";
-miniVan.speed = 100;
-```
-
-|Line|Version 1 (default)|Version 2|
-|---|---|---|
-|`miniVan.licensePlate = "GHI";`|OK (same package)|**Error** (`private`)|
-|`miniVan.speed = 100;`|OK|OK (`public`)|
-
-> [!note] Watch out for `miniVan.speed = "100";` (with quotes). A String into a `double` is a type error no matter what the access is.
-
-### Example 2: Shadowing and `this`
-
-What prints for each object?
-
-```java
-public class Point {
-    private double x, y;
-
-    public Point() { x = 1; y = 1; }
-
-    public Point(double x, double y) {
-        this.x = x;
-        this.y = y;
-        this.x++;
-        System.out.println("this.x = " + this.x);
-        System.out.println("x = " + x);
-    }
-
-    public Point(double x, double y, boolean dummy) {
-        x++;
-        System.out.println("x = " + x);
-    }
-}
-
-Point p1 = new Point();
-Point p2 = new Point(2, 3);
-Point p3 = new Point(2, 3, false);
-```
-
-1. **`p1`:** there are no parameters, so `x` and `y` mean the fields. It sets them to `1.0` and prints nothing.
-2. **`p2`:** field `x` = 2, then `this.x++` makes the **field** 3, while the parameter `x` is still 2.
-   ```
-   this.x = 3.0
-   x = 2.0
-   ```
-3. **`p3`:** there's no `this.`, so `x++` bumps the **parameter** to 3. The fields never get set and stay `0.0`.
-   ```
-   x = 3.0
-   ```
-
-### Example 3: Recursive object chain
-
-```java
-public class A {
-    private A next;
-    private int v;
-
-    public A(A n, int i) { v = i; next = n; }
-
-    public int getT() {
-        int t = v;
-        if (next != null)
-            t = t + next.getT();
-        return t;
-    }
-}
-
-A a = new A(null, 3);
-A b = new A(a, 1);
-A c = new A(b, 2);
-System.out.println(a.getT());
-System.out.println(b.getT());
-System.out.println(c.getT());
-```
-
-The links make a chain $c \to b \to a \to \texttt{null}$. `getT()` adds this object's `v` to everything further down the chain:
-
-1. `a.getT()` = 3 (no `next`)
-2. `b.getT()` = $1 + 3 = 4$
-3. `c.getT()` = $2 + 4 = 6$
-
-![[coe-318-ex-object-chain.svg]]
-*Figure 5.1: The chain c, b, a, null. Each getT() adds its own v to the total of the objects after it.*
-
-Prints `3`, `4`, `6`.
-
-### Example 4: Fill in the blanks for the chain
-
-Using the same class `A`, fill in the blanks so the output is `5`, `8`, `6`.
-
-```java
-A a = new A(____, ____);
-A ___ = new A(____, 1);
-A ___ = new A(____, 2);
-System.out.println(a.getT());   // 5
-System.out.println(b.getT());   // 8
-System.out.println(c.getT());   // 6
-```
-
-1. `a` is declared first, so it can't link to anything yet and `next = null`. For `a.getT() = 5`, `v = 5`.
-2. The second object has `v = 1`. It can link to `null` or `a`, and linking to `a` gives $1 + 5 = 6$, which matches `c`. So the second variable is **`c`**.
-3. The third has `v = 2`. Linking to `c` gives $2 + 6 = 8$, which matches `b`.
-
-```java
-A a = new A(null, 5);
-A c = new A(a, 1);
-A b = new A(c, 2);
-```
-
-> [!tip] The variables don't have to be declared in alphabetical order. I work backwards from the totals.
-
-### Example 5: Arrays and elements as arguments
-
-What does each `aProc` print?
-
-```java
-void aProc() {                     void aProc() {
-    int[] xyz = new int[12];           int[] xyz = new int[12];
-    theProc(xyz);                      theProc(xyz[3]);
-    System.out.println(xyz[3]);        System.out.println(xyz[3]);
-}                                  }
-void theProc(int[] mno) {          void theProc(int mno) {
-    mno[3] = 15;                       mno = 15;
-}                                  }
-```
-
-1. **Left:** the whole array gets passed, so `mno` refers to the same array. It prints `15`.
-2. **Right:** `xyz[3]` is an `int`, so only its value (0) is copied. It prints `0`.
-
-### Example 6: Fill in `fiddle`
-
-Fill in the blanks so the program prints the four lines `10,5` · `15,19,12` · `20,21` · `19,15`.
-
-```java
-public static void main(String[] args) {
-    int[] test = new int[2];
-    test[0] = 10;
-    test[1] = 5;
-    System.out.println(test[0] + "," + test[1]);
-    fiddle(test, test[1]);
-    System.out.println(test[0] + "," + test[1]);
-}
-static void fiddle(int[] test, int element) {
-    ___ = 15;
-    ___ = 19;
-    ___ = 12;
-    System.out.println(___ + "," + ___ + "," + element);
-    test = new int[2];
-    test[0] = ___;
-    test[1] = ___;
-    System.out.println(test[0] + "," + test[1]);
-}
-```
-
-1. **Line 1** (`10,5`) is printed by `main` before the call.
-2. **The last line is `main`'s second print,** so after `fiddle` the original array has to hold `19, 15`. Those changes happen **before** `test = new int[2]`, while `test` still points at the original.
-3. **Line 2** ends with `element`, so `element = 12`, and the other two values are `15, 19`. That's `test[1]` and then `test[0]`.
-4. **After `test = new int[2]`,** `test` refers to a new local array. Setting it to `20, 21` gives line 3 without touching `main`'s array.
-
-```java
-static void fiddle(int[] test, int element) {
-    test[1] = 15;
-    test[0] = 19;
-    element = 12;
-    System.out.println(test[1] + "," + test[0] + "," + element);   // 15,19,12
-    test = new int[2];
-    test[0] = 20;
-    test[1] = 21;
-    System.out.println(test[0] + "," + test[1]);                   // 20,21
-}
-```
-
-![[coe-318-ex-fiddle.svg]]
-*Figure 5.2: Memory at the end of fiddle. Changes to the original array stay, but test = new int[2] only moved fiddle's own reference.*
-
-### Example 7: Filling a 2D table
-
-```java
-int[][] table = new int[5][10];
-for (int row = 0; row < table.length; row++)
-    for (int col = 0; col < table[row].length; col++)
-        table[row][col] = row * 10 + col;
-```
-
-1. `table.length` = 5 rows, `table[row].length` = 10 columns, so $5 \times 10 = 50$ elements
-2. Each element is `row * 10 + col`, so row 0 has 0–9, row 1 has 10–19, and so on up to row 4 with 40–49
-3. Printing with the same nested loops lists `0` through `49`, one per line
-
-### Example 8: Scanner with validation
-
-Read a first name and a birth year, then print the age. It shouldn't crash if the year isn't a number.
-
-```java
-import java.util.Scanner;
-
-class Age {
-    public static void main(String[] args) {
-        Scanner scan = new Scanner(System.in);
-        System.out.println("Enter your first name & year of birth");
-        String firstName = scan.next();          // one token
-        if (scan.hasNextInt()) {                  // check before reading
-            int yob = scan.nextInt();
-            System.out.println("Hello " + firstName + ", you are "
-                               + (2026 - yob) + " years old!");
-        } else {
-            System.out.println("Input error!");
-        }
-    }
-}
-```
-
-Input `Rocky 2006` prints `Hello Rocky, you are 20 years old!`, and input `Rocky abc` prints `Input error!` instead of throwing an exception.
-
-> [!note] `(2026 - yob)` needs the parentheses. Without them, `"... are " + 2026 - yob` tries to subtract from a String and won't compile.
-
-### Example 9: `Triangle` with a tester class
+#### Example 5.4: `Triangle` with a tester class
 
 Write `Triangle` with three private sides, getters, one mutator that sets all three, and `getPerimeter()`. Then write a tester that reads the sides from the user.
 
@@ -529,6 +225,350 @@ class TriangleTest {
 Input `3 4 5` prints the sides and `Perimeter: 12.0`.
 
 > [!note] By convention method names start lowercase, so it's `getSide1()` and not `GetSide1()`.
+
+#### Example 5.5: Recursive object chain
+
+```java
+public class A {
+    private A next;
+    private int v;
+
+    public A(A n, int i) { v = i; next = n; }
+
+    public int getT() {
+        int t = v;
+        if (next != null)
+            t = t + next.getT();
+        return t;
+    }
+}
+
+A a = new A(null, 3);
+A b = new A(a, 1);
+A c = new A(b, 2);
+System.out.println(a.getT());
+System.out.println(b.getT());
+System.out.println(c.getT());
+```
+
+The links make a chain $c \to b \to a \to \texttt{null}$. `getT()` adds this object's `v` to everything further down the chain:
+
+1. `a.getT()` = 3 (no `next`)
+2. `b.getT()` = $1 + 3 = 4$
+3. `c.getT()` = $2 + 4 = 6$
+
+![[coe-318-ex-object-chain.svg]]
+*Figure 5.1: The chain c, b, a, null. Each getT() adds its own v to the total of the objects after it.*
+
+Prints `3`, `4`, `6`.
+
+#### Example 5.6: Fill in the blanks for the chain
+
+Using the same class `A`, fill in the blanks so the output is `5`, `8`, `6`.
+
+```java
+A a = new A(____, ____);
+A ___ = new A(____, 1);
+A ___ = new A(____, 2);
+System.out.println(a.getT());   // 5
+System.out.println(b.getT());   // 8
+System.out.println(c.getT());   // 6
+```
+
+1. `a` is declared first, so it can't link to anything yet and `next = null`. For `a.getT() = 5`, `v = 5`.
+2. The second object has `v = 1`. It can link to `null` or `a`, and linking to `a` gives $1 + 5 = 6$, which matches `c`. So the second variable is **`c`**.
+3. The third has `v = 2`. Linking to `c` gives $2 + 6 = 8$, which matches `b`.
+
+```java
+A a = new A(null, 5);
+A c = new A(a, 1);
+A b = new A(c, 2);
+```
+
+> [!tip] The variables don't have to be declared in alphabetical order. I work backwards from the totals.
+
+### Scope
+
+A variable's **scope** is the part of the code where its name means something. It matches where the variable is declared and how long it lives:
+
+|Variable|Scope|Visible…|
+|---|---|---|
+|Instance variable|**Class scope**|Anywhere in the class, from its `{` to its `}`. It belongs to the object, so every method can use it.|
+|Local variable / parameter|**Block scope**|Only inside the `{ }` block where it's declared|
+
+**Why block scope?** A local variable only exists while its block is running; it lives on the stack and disappears when the block ends ([[ch03-variables|Ch 3]]). Letting code outside the block use the name would mean referring to something that doesn't exist anymore, so the compiler forbids it. A bonus is that small scopes keep names from colliding: a loop counter `i` in one method has nothing to do with an `i` in another.
+
+**Shadowing.** When a local variable or parameter has the **same name** as an instance variable, the name refers to the **nearest** declaration, the local one. The field is still there, just hidden ("in its shadow") inside that method. `this.name` reaches past the shadow to the field:
+
+```java
+public Point(double x, double y) {
+    this.x = x;    // field = parameter
+    this.y = y;
+}
+```
+
+Shadowing in constructors and setters is normal, because the parameter's job is to carry a value for the field of the same name. Shadowing by accident (a local you forgot shares a field's name) is a classic bug: the method changes the local and the field silently stays the same.
+
+#### Example 5.7: Shadowing and `this`
+
+What prints for each object?
+
+```java
+public class Point {
+    private double x, y;
+
+    public Point() { x = 1; y = 1; }
+
+    public Point(double x, double y) {
+        this.x = x;
+        this.y = y;
+        this.x++;
+        System.out.println("this.x = " + this.x);
+        System.out.println("x = " + x);
+    }
+
+    public Point(double x, double y, boolean dummy) {
+        x++;
+        System.out.println("x = " + x);
+    }
+}
+
+Point p1 = new Point();
+Point p2 = new Point(2, 3);
+Point p3 = new Point(2, 3, false);
+```
+
+1. **`p1`:** there are no parameters, so `x` and `y` mean the fields. It sets them to `1.0` and prints nothing.
+2. **`p2`:** field `x` = 2, then `this.x++` makes the **field** 3, while the parameter `x` is still 2.
+   ```
+   this.x = 3.0
+   x = 2.0
+   ```
+3. **`p3`:** there's no `this.`, so `x++` bumps the **parameter** to 3. The fields never get set and stay `0.0`.
+   ```
+   x = 3.0
+   ```
+
+### Arrays as parameters
+
+Passing an array follows the same rule as any argument ([[ch04-using-classes-and-objects|Ch 4]]): Java copies what's in the variable. What's in the variable differs:
+
+|Passing|What gets copied|Method can change caller's data?|
+|---|---|---|
+|The whole array, `f(xyz)`|The **reference** to the array|**Yes**: the method reaches the same array|
+|One element, `f(xyz[3])`|The element's **value** (if it's a primitive)|**No**: the method gets its own copy of that number|
+
+So a method like `void zeroOut(int[] a) { a[0] = 0; }` really does change the caller's array, since there's only one array and both variables point at it. `void zero(int n) { n = 0; }` called as `zero(xyz[3])` changes nothing, because `n` is just a copy of the number that was in slot 3.
+
+#### Example 5.8: Arrays and elements as arguments
+
+What does each `aProc` print?
+
+```java
+void aProc() {                     void aProc() {
+    int[] xyz = new int[12];           int[] xyz = new int[12];
+    theProc(xyz);                      theProc(xyz[3]);
+    System.out.println(xyz[3]);        System.out.println(xyz[3]);
+}                                  }
+void theProc(int[] mno) {          void theProc(int mno) {
+    mno[3] = 15;                       mno = 15;
+}                                  }
+```
+
+1. **Left:** the whole array gets passed, so `mno` refers to the same array. It prints `15`.
+2. **Right:** `xyz[3]` is an `int`, so only its value (0) is copied. It prints `0`.
+
+#### Example 5.9: Fill in `fiddle`
+
+Fill in the blanks so the program prints the four lines `10,5` · `15,19,12` · `20,21` · `19,15`.
+
+```java
+public static void main(String[] args) {
+    int[] test = new int[2];
+    test[0] = 10;
+    test[1] = 5;
+    System.out.println(test[0] + "," + test[1]);
+    fiddle(test, test[1]);
+    System.out.println(test[0] + "," + test[1]);
+}
+static void fiddle(int[] test, int element) {
+    ___ = 15;
+    ___ = 19;
+    ___ = 12;
+    System.out.println(___ + "," + ___ + "," + element);
+    test = new int[2];
+    test[0] = ___;
+    test[1] = ___;
+    System.out.println(test[0] + "," + test[1]);
+}
+```
+
+1. **Line 1** (`10,5`) is printed by `main` before the call.
+2. **The last line is `main`'s second print,** so after `fiddle` the original array has to hold `19, 15`. Those changes happen **before** `test = new int[2]`, while `test` still points at the original.
+3. **Line 2** ends with `element`, so `element = 12`, and the other two values are `15, 19`. That's `test[1]` and then `test[0]`.
+4. **After `test = new int[2]`,** `test` refers to a new local array. Setting it to `20, 21` gives line 3 without touching `main`'s array.
+
+```java
+static void fiddle(int[] test, int element) {
+    test[1] = 15;
+    test[0] = 19;
+    element = 12;
+    System.out.println(test[1] + "," + test[0] + "," + element);   // 15,19,12
+    test = new int[2];
+    test[0] = 20;
+    test[1] = 21;
+    System.out.println(test[0] + "," + test[1]);                   // 20,21
+}
+```
+
+![[coe-318-ex-fiddle.svg]]
+*Figure 5.2: Memory at the end of fiddle. Changes to the original array stay, but test = new int[2] only moved fiddle's own reference.*
+
+### 2D arrays
+
+Java doesn't really have a grid type. A 2D array is an **array of arrays**: an outer array whose elements are references to inner arrays, one per row.
+
+```java
+int[][] A = { {  1,  0, 12, -1 },
+              {  7, -3,  2,  5 },
+              { -5, -2,  2,  9 } };
+int[][] B = new int[3][4];      // 3 rows, 4 columns, all 0
+
+A.length        // 3: number of rows (length of the outer array)
+A[0].length     // 4: columns in row 0 (length of that inner array)
+A[1][2]         // 2: row 1, then element 2 of that row
+```
+
+Reading `A[1][2]` from left to right explains it: `A[1]` is the second row (itself an array), and `[2]` picks element 2 from it. That's also why `A.length` gives rows and `A[0].length` gives columns. Since each row is its own array, rows could even have different lengths, which is why careful code uses `A[row].length` rather than assuming every row is the same.
+
+Go through it with nested loops, rows on the outside and columns on the inside:
+
+```java
+for (int row = 0; row < A.length; row++)
+    for (int col = 0; col < A[row].length; col++)
+        System.out.println(A[row][col]);
+```
+
+The inner loop runs completely for each pass of the outer loop, so this visits row 0 left to right, then row 1, and so on, the same order you'd read a page.
+
+#### Example 5.10: Filling a 2D table
+
+```java
+int[][] table = new int[5][10];
+for (int row = 0; row < table.length; row++)
+    for (int col = 0; col < table[row].length; col++)
+        table[row][col] = row * 10 + col;
+```
+
+1. `table.length` = 5 rows, `table[row].length` = 10 columns, so $5 \times 10 = 50$ elements
+2. Each element is `row * 10 + col`, so row 0 has 0–9, row 1 has 10–19, and so on up to row 4 with 40–49
+3. Printing with the same nested loops lists `0` through `49`, one per line
+
+### User input with `Scanner`
+
+`Scanner` (in `java.util`) reads text from the keyboard or a file and turns it into the values you ask for:
+
+```java
+import java.util.Scanner;
+
+Scanner scan = new Scanner(System.in);                     // console
+Scanner fileScan = new Scanner(new FileReader("myfile"));  // file
+```
+
+**How it reads.** Everything the user types, including the Enter key (a newline character), goes into a buffer. Scanner works through that buffer from the front. Most methods read one **token**, a chunk of text up to the next whitespace (space, tab or newline):
+
+|Method|Reads|
+|---|---|
+|`nextLine()`|The whole rest of the current line, spaces included, and consumes the newline|
+|`next()`|One **token** (up to the next whitespace)|
+|`nextInt()` / `nextDouble()`|One token, converted to a number|
+|`hasNextInt()` / `hasNextDouble()`|`true` if the next token *is* that type. It only looks, without consuming anything|
+
+If the buffer is empty, the program **waits** at the `next...()` call until the user types something and presses Enter.
+
+> [!warning] **The `nextInt()` then `nextLine()` trap.** If the user types `42` and presses Enter, the buffer holds `42\n`. `nextInt()` takes the `42` but leaves the `\n` behind. A `nextLine()` right after it finds that leftover newline, returns an empty string immediately, and seems to "skip" the input. Fix it by calling an extra `scan.nextLine();` after `nextInt()` to clear the rest of the line.
+
+#### Example 5.11: The leftover newline
+
+The user types `42`, presses Enter, then types `Hello World` and presses Enter. What do `n` and `s` hold?
+
+```java
+int n = scan.nextInt();
+String s = scan.nextLine();
+```
+
+`n` is **`42`**, but `s` is the **empty string `""`**. After `nextInt()` takes `42`, the buffer still holds `\nHello World\n`. `nextLine()` reads up to the first newline, which is right at the front, so it returns nothing. `Hello World` is still waiting in the buffer.
+
+Add `scan.nextLine();` after `nextInt()` to throw away the leftover newline, and then `s` is `"Hello World"`.
+
+> [!warning] `nextInt()` throws an `InputMismatchException` if the next token isn't an int (the user typed `abc`). Because `hasNextInt()` only peeks, it lets you check first and handle bad input yourself:
+> ```java
+> while (!scan.hasNextInt()) {
+>     System.out.println("Please enter a whole number.");
+>     scan.next();               // throw away the bad token
+> }
+> int n = scan.nextInt();
+> ```
+
+#### Example 5.12: Scanner with validation
+
+Read a first name and a birth year, then print the age. It shouldn't crash if the year isn't a number.
+
+```java
+import java.util.Scanner;
+
+class Age {
+    public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Enter your first name & year of birth");
+        String firstName = scan.next();          // one token
+        if (scan.hasNextInt()) {                  // check before reading
+            int yob = scan.nextInt();
+            System.out.println("Hello " + firstName + ", you are "
+                               + (2026 - yob) + " years old!");
+        } else {
+            System.out.println("Input error!");
+        }
+    }
+}
+```
+
+Input `Rocky 2006` prints `Hello Rocky, you are 20 years old!`, and input `Rocky abc` prints `Input error!` instead of throwing an exception.
+
+> [!note] `(2026 - yob)` needs the parentheses. Without them, `"... are " + 2026 - yob` tries to subtract from a String and won't compile.
+
+## Key syntax
+
+**Encapsulated class template**
+
+```java
+public class Name {
+    private Type field;                          // private data
+
+    public Name(Type field) { this.field = field; }
+
+    public Type getField() { return field; }     // getter
+    public void setField(Type field) {           // setter (only if needed)
+        this.field = field;
+    }
+}
+```
+
+**Reading input**
+
+```java
+Scanner scan = new Scanner(System.in);
+String word = scan.next();
+int n = scan.nextInt();
+double d = scan.nextDouble();
+String line = scan.nextLine();
+```
+
+**2D array size**
+
+$$
+\text{elements} = \texttt{rows} \times \texttt{cols} = \texttt{A.length} \times \texttt{A[0].length}
+$$
 
 ## Common mistakes
 

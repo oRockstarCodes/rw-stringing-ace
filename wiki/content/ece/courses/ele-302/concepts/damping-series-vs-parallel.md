@@ -109,7 +109,7 @@ $$
 \frac{d^2 x}{dt^2} + \underbrace{2\alpha}_{\text{read }\alpha\text{ here}}\frac{dx}{dt} + \omega_0^2\,x = f
 $$
 
-In Example 11 that gives $\alpha = \frac{1}{2RC}$, which is the **parallel** formula even though the resistor is in series. Only the derivation tells you that. (It makes sense physically, since the L and C swap energy directly with each other and the resistor only sees the current going in and out of the pair.)
+In Example 8.13 of [[ch08-second-order-circuits|Ch 8]] that gives $\alpha = \frac{1}{2RC}$, which is the **parallel** formula even though the resistor is in series. Only the derivation tells you that. (It makes sense physically, since the L and C swap energy directly with each other and the resistor only sees the current going in and out of the pair.)
 
 > [!tip] A source transformation can often turn an awkward circuit into a pure series or parallel one first. See [[source-transformation|Source Transformation]].
 

@@ -10,7 +10,7 @@ tags:
 
 **A voltage source $V_s$ in series with a resistor $R$ behaves exactly the same, from the outside, as a current source $I_s = \frac{V_s}{R}$ in parallel with the same $R$.**
 
-In [[ch08-second-order-circuits|Ch 8]] this is how a circuit with a current source and a resistor gets turned into a plain series loop (Example 9), or how two resistors next to a source get combined (Example 12). Once a circuit is a pure series or parallel RLC, you can use the standard $\alpha$ formulas or write a single KVL/KCL equation.
+In [[ch08-second-order-circuits|Ch 8]] this is how a circuit with a current source and a resistor gets turned into a plain series loop (Example 8.11), or how two resistors next to a source get combined (Example 8.14). Once a circuit is a pure series or parallel RLC, you can use the standard $\alpha$ formulas or write a single KVL/KCL equation.
 
 ## Intuition
 
@@ -101,4 +101,4 @@ The load voltage is $(2)(2) = 4$ V in both versions. But the 4 Ω now has 4 V ac
 
 ## Seen in
 
-- [[ch08-second-order-circuits|Ch 8: Second-Order Circuits]] (Examples 9 and 12)
+- [[ch08-second-order-circuits|Ch 8: Second-Order Circuits]] (Examples 8.11 and 8.14)

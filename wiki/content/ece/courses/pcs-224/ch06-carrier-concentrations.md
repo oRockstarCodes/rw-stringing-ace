@@ -53,6 +53,28 @@ $$
 N_c(T) = N_c(300\,\text{K})\left(\frac{T}{300}\right)^{3/2} \tag{6.3}
 $$
 
+#### Example 6.1: Computing $N_c$ from the effective mass
+
+Silicon has $m_n^* = 1.08\,m_0$ (with $m_0 = 9.11\times10^{-31}$ kg). Find $N_c$ at $300$ K, where $k_BT = 0.02586$ eV $= 4.14\times10^{-21}$ J.
+
+$$
+N_c = 2\left(\frac{2\pi m_n^*k_BT}{h^2}\right)^{3/2} = 2\left(\frac{2\pi\,(9.84\times10^{-31})(4.14\times10^{-21})}{(6.626\times10^{-34})^2}\right)^{3/2} = 2\,(5.83\times10^{16})^{3/2}\ \text{m}^{-3}
+$$
+
+$$
+N_c = 2.8\times10^{25}\ \text{m}^{-3} = 2.8\times10^{19}\ \text{cm}^{-3}
+$$
+
+This matches the tabulated value, so the "given" $N_c$ in later problems is just this formula already worked out for you.
+
+#### Example 6.2: Electron concentration from $E_F$
+
+At $300$ K a semiconductor has its Fermi level $0.25$ eV below the conduction band, with $N_c = 2.8\times10^{19}$ cm⁻³. Find $n_0$.
+
+$$
+n_0 = N_c\,e^{-(E_c-E_F)/k_BT} = (2.8\times10^{19})\,e^{-0.25/0.02586} = (2.8\times10^{19})(6.31\times10^{-5}) = 1.8\times10^{15}\ \text{cm}^{-3}
+$$
+
 **Holes in the valence band.** A hole is a state *without* an electron, with probability $1 - f(E)$ ([[ch05-band-structure-and-fermi-function#Probability of holes|Eq. 5.3]]). The same calculation gives
 
 $$
@@ -66,6 +88,14 @@ N_v = 2\left(\frac{2\pi m_p^*k_BT}{h^2}\right)^{3/2} \tag{6.5}
 $$
 
 For silicon at 300 K, $N_v \approx 1.04\times10^{19}$ cm⁻³ (order of magnitude $10^{19}$ cm⁻³).
+
+#### Example 6.3: Hole concentration from $E_F$
+
+At $300$ K, $E_F$ is $0.28$ eV above $E_v$ and $N_v = 1.04\times10^{19}$ cm⁻³. Find $p_0$.
+
+$$
+p_0 = N_v\,e^{-(E_F-E_v)/k_BT} = (1.04\times10^{19})\,e^{-0.28/0.02586} = (1.04\times10^{19})(1.98\times10^{-5}) = 2.1\times10^{14}\ \text{cm}^{-3}
+$$
 
 > [!tip] The two formulas have the same shape: concentration = $N$ × $e^{-(\text{distance from } E_F \text{ to that band edge})/k_BT}$. The closer $E_F$ is to a band edge, the more carriers of that type. Learn one and the other follows by symmetry.
 
@@ -83,9 +113,41 @@ $$
 
 So $n_0p_0 = n_i^2$ shows up again, this time derived from the Fermi function and not from [[ch03-intro-to-semiconductors#The fundamental semiconductor equation|generation and recombination]].
 
+#### Example 6.4: Intrinsic concentration
+
+For silicon at $300$ K, $E_g = 1.12$ eV, $N_c = 2.8\times10^{19}$ and $N_v = 1.04\times10^{19}$ cm⁻³. Find $n_i$.
+
+$$
+n_i = \sqrt{N_cN_v}\,e^{-E_g/2k_BT} = \sqrt{(2.8\times10^{19})(1.04\times10^{19})}\;e^{-1.12/(2\times0.02586)}
+$$
+
+$$
+= (1.71\times10^{19})\,e^{-21.66} = (1.71\times10^{19})(3.9\times10^{-10}) = 6.7\times10^{9}\ \text{cm}^{-3}
+$$
+
+(The textbook value, $1.5\times10^{10}$ cm⁻³, is within a factor of 2. See the note in the Notes section.)
+
 **How $n_i$ depends on temperature.** Two factors compete: a slow power law ($\propto T^{3/2}$ from $\sqrt{N_cN_v}$) and the exponential $e^{-E_g/2k_BT}$. The exponential wins by far. A bigger gap means a much smaller $n_i$ at the same temperature.
 
 > [!note] Using Eq. (6.7) with $N_c = 2.8\times10^{19}$, $N_v = 1.04\times10^{19}$ and $E_g = 1.12$ eV gives $n_i \approx 6.7\times10^{9}$ cm⁻³ at 300 K. That's a bit below the usual $1.5\times10^{10}$ cm⁻³, because $n_i$ is exponentially sensitive to $E_g$ and to the rounded values of $N_c$ and $N_v$. Use whichever number the problem gives you.
+
+#### Example 6.5: How much do $N_c$ and $n_i$ change with temperature?
+
+Silicon warms from $300$ K to $310$ K. By what factor do (a) $N_c$ and (b) $n_i$ change?
+
+**(a)** From Eq. (6.3):
+
+$$
+\frac{N_c(310)}{N_c(300)} = \left(\frac{310}{300}\right)^{3/2} = 1.050 \quad\text{(a 5% increase)}
+$$
+
+**(b)** $n_i \propto T^{3/2}\,e^{-E_g/2k_BT}$:
+
+$$
+\frac{n_i(310)}{n_i(300)} = 1.050\times\exp\!\left[\frac{E_g}{2k_B}\left(\frac{1}{300}-\frac{1}{310}\right)\right] = 1.050\times\exp(0.7) \approx 2.1
+$$
+
+Just 10 K of warming roughly **doubles** the intrinsic carrier concentration, because the exponential wins out over the slow $T^{3/2}$ factor.
 
 ### Where is the Fermi level?
 
@@ -102,6 +164,22 @@ E_i = \frac{E_c + E_v}{2} + \frac{k_BT}{2}\ln\!\frac{N_v}{N_c} = E_{\text{mid}} 
 $$
 
 Here $E_{\text{mid}} = (E_c + E_v)/2$ is the exact middle of the gap, and $m_n^*$, $m_p^*$ are the electron and hole effective masses (from Eqs. 6.2 and 6.5, since $N_v/N_c = (m_p^*/m_n^*)^{3/2}$). $E_i$ is **very close to the middle of the gap**. The correction is a few tens of meV (for silicon, with $N_v/N_c = 1.04/2.8$, it's $-0.013$ eV), so $E_i \approx E_{\text{mid}}$ is a fine approximation.
+
+#### Example 6.6: How far is $E_i$ from mid-gap?
+
+Silicon has $m_n^* = 1.08\,m_0$ and $m_p^* = 0.56\,m_0$. At $300$ K, by how much does $E_i$ differ from $E_{\text{mid}}$, and how far is $E_i$ below $E_c$ if $E_g = 1.12$ eV?
+
+$$
+E_i - E_{\text{mid}} = \frac{3}{4}k_BT\ln\frac{m_p^*}{m_n^*} = (0.75)(0.02586)\ln\frac{0.56}{1.08} = (0.01940)(-0.657) = -0.013\ \text{eV}
+$$
+
+$E_i$ sits $13$ meV **below** mid-gap, because the lighter hole mass gives a smaller $N_v$. Measured from the conduction band:
+
+$$
+E_c - E_i = \frac{E_g}{2} + 0.013 = 0.56 + 0.013 = 0.573\ \text{eV}
+$$
+
+A shift of 13 meV is about half of $k_BT$, so treating $E_i$ as mid-gap is a fine approximation.
 
 **Measured from $E_i$.** Divide Eq. (6.1) by $n_i$ (and do the same for holes) to get a form that's often easier to use:
 
@@ -123,15 +201,73 @@ $$
 ![[pcs-224-fermi-level-positions.svg]]
 *Figure 6.2: $E_F$ moves toward $E_c$ in n-type material, sits near mid-gap ($E_i$) in intrinsic material, and moves toward $E_v$ in p-type material.*
 
+#### Example 6.7: Where is $E_F$ in doped silicon?
+
+Silicon at $300$ K is doped with $N_D = 1.0\times10^{16}$ cm⁻³. Find the position of $E_F$ (a) relative to $E_c$ and (b) relative to the intrinsic level. Use $N_c = 2.8\times10^{19}$ cm⁻³ and $n_i = 1.5\times10^{10}$ cm⁻³.
+
+The material is n-type with $n_0 \approx N_D = 1.0\times10^{16}$ cm⁻³.
+
+**(a)** Eq. (6.8):
+
+$$
+E_c - E_F = k_BT\ln\frac{N_c}{n_0} = (0.02586)\ln\frac{2.8\times10^{19}}{1.0\times10^{16}} = (0.02586)(7.94) = 0.205\ \text{eV}
+$$
+
+**(b)** Eq. (6.11):
+
+$$
+E_F - E_i = k_BT\ln\frac{n_0}{n_i} = (0.02586)\ln\frac{1.0\times10^{16}}{1.5\times10^{10}} = (0.02586)(13.4) = 0.347\ \text{eV}
+$$
+
+The two answers are consistent: $E_i$ is about $0.55$ eV below $E_c$ (roughly mid-gap), and $0.205 + 0.347 = 0.55$ eV ✓.
+
+> [!note] The two routes (via $N_c$ or via $n_i$) agree to within a few 0.01 eV, because the tabulated $n_i$ and the $n_i$ calculated from $N_c$, $N_v$, $E_g$ differ slightly. Use whichever quantity the problem gives you.
+
+#### Example 6.8: p-type silicon
+
+Silicon at $300$ K has $N_A = 2.0\times10^{16}$ cm⁻³ and $N_v = 1.04\times10^{19}$ cm⁻³. Find $E_F - E_v$ and the resulting electron concentration.
+
+$$
+p_0 \approx N_A \ \Rightarrow\ E_F - E_v = k_BT\ln\frac{N_v}{p_0} = (0.02586)\ln\frac{1.04\times10^{19}}{2.0\times10^{16}} = (0.02586)(6.25) = 0.162\ \text{eV}
+$$
+
+$E_F$ is $0.16$ eV above $E_v$, which is well below mid-gap, as expected for p-type. The minority electrons:
+
+$$
+n_0 = \frac{n_i^2}{p_0} = \frac{(1.5\times10^{10})^2}{2.0\times10^{16}} = 1.1\times10^{4}\ \text{cm}^{-3}
+$$
+
 **What moves $E_F$:**
 
 - **More doping** (bigger $N_D$ or $N_A$) pushes $E_F$ **farther** from mid-gap, toward the band edge of the majority carrier. Lighter doping keeps $E_F$ nearer the middle, and the sample acts more intrinsic.
 - **Higher temperature** creates more thermally made electrons and holes, which eventually outnumber the ones from dopants. $E_F$ slides **back toward mid-gap** and the material turns more intrinsic.
 - $n_0$ and $p_0$ depend **exponentially** on $E_F$. Shifting $E_F$ by an amount $\Delta E_F$ (in eV, toward the band edge) multiplies the concentration by $e^{\Delta E_F/k_BT}$, and a shift of just $0.26$ eV multiplies it by about $2.3\times10^4$ at room temperature.
 
+#### Example 6.9: Sensitivity to $E_F$
+
+In p-type silicon at $300$ K, $E_F$ moves $0.26$ eV **closer to** $E_v$ (down). By what factor do the hole concentration and the conductivity change?
+
+$$
+\frac{p_0'}{p_0} = e^{\Delta E/k_BT} = e^{0.26/0.02586} = e^{10.06} \approx 2.3\times10^{4}
+$$
+
+For p-type, $\sigma \approx q\mu_pp_0$ ([[ch03-intro-to-semiconductors#Drift current and mobility|Chapter 3]], with $q = e$ the [[ch01-electrostatics-review#Potential energy and potential|elementary charge]] and $\mu_p$ the hole mobility), and the mobility barely changes compared with an exponential, so **the conductivity goes up by about the same factor, $\approx 2.3\times10^4$**.
+
 ### The Fermi level is flat in equilibrium
 
 In thermal equilibrium, one $E_F$ applies to the whole system. If two materials with different Fermi levels touch, electrons flow from the side with the higher $E_F$ to the lower one until the levels line up. That charge transfer creates a potential difference between the two sides, the **built-in potential**, which is the heart of the p-n junction in [[ch07-pn-junction#Fermi levels and the built-in potential|Chapter 7]].
+
+#### Example 6.10: Fermi-level mismatch before contact
+
+A silicon n-type sample with $N_D = 10^{17}$ cm⁻³ and a p-type sample with $N_A = 10^{17}$ cm⁻³ are about to be joined at $300$ K ($n_i = 1.5\times10^{10}$ cm⁻³). How far apart are their Fermi levels, and what does that tell you about the junction?
+
+Use $E_F - E_i = k_BT\ln(n_0/n_i)$ on the n-side and $E_i - E_F = k_BT\ln(p_0/n_i)$ on the p-side. The gap between the two Fermi levels is the sum:
+
+$$
+\Delta E_F = k_BT\left[\ln\frac{N_D}{n_i} + \ln\frac{N_A}{n_i}\right] = k_BT\ln\frac{N_DN_A}{n_i^2} = (0.02586)\ln\frac{10^{34}}{2.25\times10^{20}} = (0.02586)(31.4) = 0.81\ \text{eV}
+$$
+
+Once joined, equilibrium forces one flat $E_F$, so the bands on the two sides must shift relative to each other by this same $0.81$ eV. That shift is the built-in potential, $V_{bi}\approx0.81$ V, derived properly in Chapter 7.
 
 ## Key formulas
 
@@ -168,102 +304,6 @@ E_i = \frac{E_c+E_v}{2} + \frac{k_BT}{2}\ln\frac{N_v}{N_c}, \qquad E_F - E_i = k
 $$
 
 - n-type: $E_F > E_i$. p-type: $E_F < E_i$
-
-## Examples
-
-### Example 1: Electron concentration from $E_F$
-
-At $300$ K a semiconductor has its Fermi level $0.25$ eV below the conduction band, with $N_c = 2.8\times10^{19}$ cm⁻³. Find $n_0$.
-
-$$
-n_0 = N_c\,e^{-(E_c-E_F)/k_BT} = (2.8\times10^{19})\,e^{-0.25/0.02586} = (2.8\times10^{19})(6.31\times10^{-5}) = 1.8\times10^{15}\ \text{cm}^{-3}
-$$
-
-### Example 2: Hole concentration from $E_F$
-
-At $300$ K, $E_F$ is $0.28$ eV above $E_v$ and $N_v = 1.04\times10^{19}$ cm⁻³. Find $p_0$.
-
-$$
-p_0 = N_v\,e^{-(E_F-E_v)/k_BT} = (1.04\times10^{19})\,e^{-0.28/0.02586} = (1.04\times10^{19})(1.98\times10^{-5}) = 2.1\times10^{14}\ \text{cm}^{-3}
-$$
-
-### Example 3: Intrinsic concentration
-
-For silicon at $300$ K, $E_g = 1.12$ eV, $N_c = 2.8\times10^{19}$ and $N_v = 1.04\times10^{19}$ cm⁻³. Find $n_i$.
-
-$$
-n_i = \sqrt{N_cN_v}\,e^{-E_g/2k_BT} = \sqrt{(2.8\times10^{19})(1.04\times10^{19})}\;e^{-1.12/(2\times0.02586)}
-$$
-
-$$
-= (1.71\times10^{19})\,e^{-21.66} = (1.71\times10^{19})(3.9\times10^{-10}) = 6.7\times10^{9}\ \text{cm}^{-3}
-$$
-
-(The textbook value, $1.5\times10^{10}$ cm⁻³, is within a factor of 2. See the note in the Notes section.)
-
-### Example 4: How much do $N_c$ and $n_i$ change with temperature?
-
-Silicon warms from $300$ K to $310$ K. By what factor do (a) $N_c$ and (b) $n_i$ change?
-
-**(a)** From Eq. (6.3):
-
-$$
-\frac{N_c(310)}{N_c(300)} = \left(\frac{310}{300}\right)^{3/2} = 1.050 \quad\text{(a 5% increase)}
-$$
-
-**(b)** $n_i \propto T^{3/2}\,e^{-E_g/2k_BT}$:
-
-$$
-\frac{n_i(310)}{n_i(300)} = 1.050\times\exp\!\left[\frac{E_g}{2k_B}\left(\frac{1}{300}-\frac{1}{310}\right)\right] = 1.050\times\exp(0.7) \approx 2.1
-$$
-
-Just 10 K of warming roughly **doubles** the intrinsic carrier concentration, because the exponential wins out over the slow $T^{3/2}$ factor.
-
-### Example 5: Where is $E_F$ in doped silicon?
-
-Silicon at $300$ K is doped with $N_D = 1.0\times10^{16}$ cm⁻³. Find the position of $E_F$ (a) relative to $E_c$ and (b) relative to the intrinsic level. Use $N_c = 2.8\times10^{19}$ cm⁻³ and $n_i = 1.5\times10^{10}$ cm⁻³.
-
-The material is n-type with $n_0 \approx N_D = 1.0\times10^{16}$ cm⁻³.
-
-**(a)** Eq. (6.8):
-
-$$
-E_c - E_F = k_BT\ln\frac{N_c}{n_0} = (0.02586)\ln\frac{2.8\times10^{19}}{1.0\times10^{16}} = (0.02586)(7.94) = 0.205\ \text{eV}
-$$
-
-**(b)** Eq. (6.11):
-
-$$
-E_F - E_i = k_BT\ln\frac{n_0}{n_i} = (0.02586)\ln\frac{1.0\times10^{16}}{1.5\times10^{10}} = (0.02586)(13.4) = 0.347\ \text{eV}
-$$
-
-The two answers are consistent: $E_i$ is about $0.55$ eV below $E_c$ (roughly mid-gap), and $0.205 + 0.347 = 0.55$ eV ✓.
-
-> [!note] The two routes (via $N_c$ or via $n_i$) agree to within a few 0.01 eV, because the tabulated $n_i$ and the $n_i$ calculated from $N_c$, $N_v$, $E_g$ differ slightly. Use whichever quantity the problem gives you.
-
-### Example 6: p-type silicon
-
-Silicon at $300$ K has $N_A = 2.0\times10^{16}$ cm⁻³ and $N_v = 1.04\times10^{19}$ cm⁻³. Find $E_F - E_v$ and the resulting electron concentration.
-
-$$
-p_0 \approx N_A \ \Rightarrow\ E_F - E_v = k_BT\ln\frac{N_v}{p_0} = (0.02586)\ln\frac{1.04\times10^{19}}{2.0\times10^{16}} = (0.02586)(6.25) = 0.162\ \text{eV}
-$$
-
-$E_F$ is $0.16$ eV above $E_v$, which is well below mid-gap, as expected for p-type. The minority electrons:
-
-$$
-n_0 = \frac{n_i^2}{p_0} = \frac{(1.5\times10^{10})^2}{2.0\times10^{16}} = 1.1\times10^{4}\ \text{cm}^{-3}
-$$
-
-### Example 7: Sensitivity to $E_F$
-
-In p-type silicon at $300$ K, $E_F$ moves $0.26$ eV **closer to** $E_v$ (down). By what factor do the hole concentration and the conductivity change?
-
-$$
-\frac{p_0'}{p_0} = e^{\Delta E/k_BT} = e^{0.26/0.02586} = e^{10.06} \approx 2.3\times10^{4}
-$$
-
-For p-type, $\sigma \approx q\mu_pp_0$ ([[ch03-intro-to-semiconductors#Drift current and mobility|Chapter 3]], with $q = e$ the [[ch01-electrostatics-review#Potential energy and potential|elementary charge]] and $\mu_p$ the hole mobility), and the mobility barely changes compared with an exponential, so **the conductivity goes up by about the same factor, $\approx 2.3\times10^4$**.
 
 ## Common mistakes
 

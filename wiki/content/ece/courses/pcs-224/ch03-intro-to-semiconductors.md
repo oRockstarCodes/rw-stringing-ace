@@ -30,6 +30,24 @@ $$
 
 where $k_B = 8.617\times10^{-5}$ eV/K is **Boltzmann's constant** (it converts a temperature into an energy), $T$ is the absolute temperature in [[ch01-electrostatics-review#Units|kelvin]], and $T(\text{K}) = T(^\circ\text{C}) + 273$. That's tiny next to $1.12$ eV. But there are so many bonds that a small fraction of them still break at room temperature.
 
+#### Example 3.1: Thermal energy at different temperatures
+
+(a) Find $k_BT$ at $27\,^\circ$C and at $100\,^\circ$C. (b) At $300$ K, how many times larger is the silicon gap than $k_BT$?
+
+**(a)** Convert to kelvin first, $T = {}^\circ\text{C} + 273$, then multiply by $k_B = 8.617\times10^{-5}$ eV/K:
+
+$$
+k_BT\,(300\ \text{K}) = (8.617\times10^{-5})(300) = 0.0259\ \text{eV}, \qquad k_BT\,(373\ \text{K}) = (8.617\times10^{-5})(373) = 0.0321\ \text{eV}
+$$
+
+**(b)**
+
+$$
+\frac{E_g}{k_BT} = \frac{1.12}{0.02586} = 43
+$$
+
+The gap is $43$ times the thermal energy, so only a tiny fraction of bonds are broken at any moment. That is why intrinsic silicon has just $\sim10^{10}$ free electrons per cm³ out of $5\times10^{22}$ atoms.
+
 Every broken bond creates two carriers (Figure 3.1, left):
 
 - A **free electron** that can move through the crystal. Its concentration is $n_0$ (per cm³).
@@ -54,6 +72,30 @@ $n_i$ is the **intrinsic carrier concentration**. It depends only on the materia
 | GaAs | 1.43 | $1.8\times10^{6}$ | 8500 | 400 |
 
 > [!note] These are the usual textbook (Neamen) values at 300 K. On an exam, use whatever numbers the question gives you. In every row, electrons are more mobile than holes.
+
+#### Example 3.2: How conductive is pure silicon?
+
+Using the table, find the fraction of silicon atoms that have given up an electron at $300$ K, and the conductivity and resistivity of intrinsic silicon. Silicon has $5.0\times10^{22}$ atoms/cm³.
+
+**Fraction.**
+
+$$
+\frac{n_i}{N_{\text{atoms}}} = \frac{1.5\times10^{10}}{5.0\times10^{22}} = 3\times10^{-13}
+$$
+
+That is about one free electron for every three trillion atoms.
+
+**Conductivity.** Both carriers exist in equal numbers, $n_0 = p_0 = n_i$, so both terms count (Eq. 3.11, introduced below):
+
+$$
+\sigma = e\,n_i\,(\mu_n + \mu_p) = (1.602\times10^{-19})(1.5\times10^{10})(1350 + 480) = 4.4\times10^{-6}\ \text{S/cm}
+$$
+
+$$
+\rho = \frac{1}{\sigma} = 2.3\times10^{5}\ \Omega\cdot\text{cm}
+$$
+
+That is a poor conductor, close to an insulator, which is why we need doping.
 
 ### Doping: extrinsic semiconductors
 
@@ -102,6 +144,24 @@ So $n_i$ belongs to the host material at that temperature, and doping can't chan
 | p-type | $p_0 = N_A$ | $n_0 = n_i^2/p_0 \ll p_0$ |
 | intrinsic | $n_0 = p_0 = n_i$ | |
 
+#### Example 3.3: Doped silicon concentrations
+
+A silicon crystal has one atom in every $10^8$ replaced with a Group V atom. Silicon has $5.0\times10^{22}$ atoms/cm³ and $n_i = 1.5\times10^{10}$ cm⁻³ at 300 K. Find $n_0$ and $p_0$.
+
+The material is n-type. Donor concentration:
+
+$$
+N_D = \frac{5.0\times10^{22}}{10^{8}} = 5.0\times10^{14}\ \text{cm}^{-3} \gg n_i
+$$
+
+So by Eq. (3.3), $n_0 \approx N_D = 5.0\times10^{14}$ cm⁻³. Then Eq. (3.5):
+
+$$
+p_0 = \frac{n_i^2}{n_0} = \frac{(1.5\times10^{10})^2}{5.0\times10^{14}} = 4.5\times10^{5}\ \text{cm}^{-3}
+$$
+
+That's nine orders of magnitude fewer holes than electrons, so $p_0 \ll n_0$.
+
 ### Compensation and neutrality
 
 A crystal can hold **both** donors and acceptors. This is called **compensation**. The donors' electrons fall into the acceptors' empty spots, so the two partly cancel, and the **larger** doping decides the type:
@@ -112,6 +172,22 @@ $$
 
 (This works when the difference is much bigger than $n_i$.) Then get the minority carrier from Eq. (3.5).
 
+#### Example 3.4: Compensated material
+
+A silicon sample has $N_D = 1.0\times10^{16}$ cm⁻³ and $N_A = 3.0\times10^{16}$ cm⁻³ at 300 K. What type is it, and what are $n_0$ and $p_0$?
+
+$N_A > N_D$, so the sample is **p-type**. By Eq. (3.6):
+
+$$
+p_0 \approx N_A - N_D = 3.0\times10^{16} - 1.0\times10^{16} = 2.0\times10^{16}\ \text{cm}^{-3}
+$$
+
+$$
+n_0 = \frac{n_i^2}{p_0} = \frac{(1.5\times10^{10})^2}{2.0\times10^{16}} = 1.1\times10^{4}\ \text{cm}^{-3}
+$$
+
+> [!warning] The majority concentration is the **difference** $N_A - N_D$, not $N_A$. Using $N_A$ alone overestimates $p_0$ by 50% here.
+
 Underneath is a general rule, **electroneutrality**: a semiconductor is neutral overall, so positive and negative charge balance:
 
 $$
@@ -119,6 +195,26 @@ N_D + p_0 = N_A + n_0 \tag{3.7}
 $$
 
 If neutrality were broken, huge fields and currents would appear and push it right back, so it holds even with current flowing. The one exception is the **boundary between two different materials**, which is where [[ch07-pn-junction#How a junction forms|junctions]] get their built-in field.
+
+#### Example 3.5: Using electroneutrality when doping is small
+
+A silicon sample at $300$ K has only donors, $N_D = 1.5\times10^{10}$ cm⁻³, which is the same size as $n_i = 1.5\times10^{10}$ cm⁻³. Find $n_0$ and $p_0$. Why can't we just write $n_0 \approx N_D$?
+
+Eq. (3.6) needs $N_D \gg n_i$, and here it isn't. Use the neutrality condition (3.7) with $N_A = 0$ and substitute $p_0 = n_i^2/n_0$:
+
+$$
+N_D + \frac{n_i^2}{n_0} = n_0 \quad\Rightarrow\quad n_0^2 - N_Dn_0 - n_i^2 = 0
+$$
+
+$$
+n_0 = \frac{N_D}{2} + \sqrt{\left(\frac{N_D}{2}\right)^2 + n_i^2} = 0.75\times10^{10} + \sqrt{(0.75\times10^{10})^2 + (1.5\times10^{10})^2} = 2.43\times10^{10}\ \text{cm}^{-3}
+$$
+
+$$
+p_0 = \frac{n_i^2}{n_0} = \frac{(1.5\times10^{10})^2}{2.43\times10^{10}} = 9.3\times10^{9}\ \text{cm}^{-3}
+$$
+
+Check Eq. (3.7): $N_D + p_0 = 1.5\times10^{10} + 0.93\times10^{10} = 2.43\times10^{10} = n_0$ ✓. The guess $n_0 \approx N_D$ would have been off by $60\%$. In practice dopings are $10^{14}$ cm⁻³ or more, so the shortcut nearly always works.
 
 ### Drift current and mobility
 
@@ -138,7 +234,25 @@ $$
 
 The constant $\mu$ is the **mobility**, in cm²/(V·s). It depends on the material, the temperature and the doping. More dopants means a messier crystal and more collisions, so $\mu$ falls as doping rises. Electrons have a bigger mobility than holes in the same material.
 
-> [!example] Lab 2 measured this directly. On an n-type germanium wafer, the drift speed was $v_d = 112$ m/s in a driving field of $483$ V/m, which is $\mu_n = 2311$ cm²/V·s. That's well below the $3900$ cm²/V·s used in Example 5 below. Contact resistance and self-heating from the $50$ mA current both push the measured mobility down. The full analysis is in [[ch04-hall-effect-bohr-model-doping#What Lab 2 looked like|Chapter 4]].
+#### Example 3.6: Drift speed and transit time
+
+An n-type silicon bar has a field of $100$ V/cm. Find the drift speed of electrons and of holes, and how long an electron takes to cross $10\ \mu\text{m}$.
+
+From Eq. (3.8), with $\mu_n = 1350$ and $\mu_p = 480$ cm²/(V·s):
+
+$$
+|v_{dn}| = \mu_nE = (1350)(100) = 1.35\times10^{5}\ \text{cm/s} = 1.35\times10^{3}\ \text{m/s}, \qquad v_{dp} = (480)(100) = 4.8\times10^{4}\ \text{cm/s}
+$$
+
+The electron crosses $10\ \mu\text{m} = 1.0\times10^{-3}$ cm in
+
+$$
+t = \frac{d}{v_{dn}} = \frac{1.0\times10^{-3}}{1.35\times10^{5}} = 7.4\times10^{-9}\ \text{s} = 7.4\ \text{ns}
+$$
+
+Electrons move about $2.8$ times faster than holes in the same field, which is just the ratio of their mobilities. Drift speeds are tiny next to the random thermal speed of about $10^{7}$ cm/s.
+
+> [!example] Lab 2 measured this directly. On an n-type germanium wafer, the drift speed was $v_d = 112$ m/s in a driving field of $483$ V/m, which is $\mu_n = 2311$ cm²/V·s. That's well below the $3900$ cm²/V·s used in Example 3.9 below. Contact resistance and self-heating from the $50$ mA current both push the measured mobility down. The full analysis is in [[ch04-hall-effect-bohr-model-doping#What Lab 2 looked like|Chapter 4]].
 
 **Current density.** Let $I$ be the current (A), $A$ the cross-section it flows through (cm²), and $J = I/A$ the **current density** (A/cm²). In Eq. (3.8), $v_{dn}$ and $v_{dp}$ are the electron and hole drift velocities, $E$ the electric field, and $\mu_n$, $\mu_p$ the electron and hole mobilities. If charges $q$ with concentration $n$ (here a generic carrier concentration) move at drift speed $v_d$, everything within a distance $v_dt$ of a surface crosses it in time $t$. That gives $I = nqv_dA$, so
 
@@ -160,6 +274,18 @@ where $e = 1.602\times10^{-19}$ C is the [[ch01-electrostatics-review#Potential 
 
 Equation (3.10) is **Ohm's law** at the microscopic level. $\sigma$ is the **conductivity** (S/cm) and $\rho$ is the **resistivity** (Ω·cm).
 
+#### Example 3.7: Drift current density
+
+An n-type silicon bar has $N_D = 1.0\times10^{16}$ cm⁻³ at 300 K. Find the drift current density in a field of $E = 20$ V/cm. Use $\mu_n = 1350$ cm²/V·s.
+
+Strongly n-type, so $\sigma \approx e\mu_nn_0$ with $n_0 = N_D$:
+
+$$
+J = \sigma E = e\,\mu_n N_D\,E = (1.602\times10^{-19})(1350)(1.0\times10^{16})(20) = 43.3\ \text{A/cm}^2
+$$
+
+(Units: C · cm²/(V·s) · cm⁻³ · V/cm = C/(s·cm²) = A/cm² ✓.)
+
 **Ohm's law for a bar.** Take a bar with length $L$ and cross-section $A$, with current flowing along the length. Then $V = EL$ and $I = JA$, so
 
 $$
@@ -168,7 +294,73 @@ $$
 
 $A$ is the area **perpendicular** to the current, and $L$ is the distance **along** the current. Send the current through a different pair of faces and both change.
 
+#### Example 3.8: Resistance of a bar, two directions
+
+A p-type silicon bar has $N_A = 1.0\times10^{16}$ cm⁻³. It is $4.0$ mm long, $1.0$ mm wide and $0.50$ mm thick. Find its resistance if the current goes (a) along the length, (b) through the thickness. Use $\mu_p = 480$ cm²/V·s.
+
+**Resistivity.** Strongly p-type, so $\sigma \approx e\mu_pp_0$:
+
+$$
+\rho = \frac{1}{e\,\mu_p N_A} = \frac{1}{(1.602\times10^{-19})(480)(1.0\times10^{16})} = 1.30\ \Omega\cdot\text{cm}
+$$
+
+**(a) Along the length.** $L = 0.40$ cm, and the cross-section is width × thickness: $A = (0.10)(0.050) = 0.0050$ cm².
+
+$$
+R = \frac{\rho L}{A} = \frac{(1.30)(0.40)}{0.0050} = 104\ \Omega
+$$
+
+**(b) Through the thickness.** Now $L = 0.050$ cm, and the cross-section is length × width: $A = (0.40)(0.10) = 0.040$ cm².
+
+$$
+R = \frac{(1.30)(0.050)}{0.040} = 1.6\ \Omega
+$$
+
+> [!note] It's the same bar and the same material but two very different resistances, since a short, wide path is much easier than a long, thin one. Always get $L$ and $A$ from the current's direction.
+
 > [!tip] In strongly doped material I only use one carrier. In n-type, $n_0 \gg p_0$, so $\sigma \approx e\mu_n n_0$ and I drop the holes. In p-type, $\sigma \approx e\mu_p p_0$. I only keep both terms for nearly intrinsic or compensated samples, or when a problem asks how much current each carrier type carries.
+
+#### Example 3.9: Which carrier carries the current?
+
+A p-type germanium rod is $6.00$ mm long, $1.00$ mm wide and $0.500$ mm thick, and has a resistance of $120\ \Omega$ along its length. Find (a) the impurity concentration and (b) the fraction of the conductivity due to electrons. Use $\mu_p = 1900$, $\mu_n = 3900$ cm²/V·s and $n_i = 2.4\times10^{13}$ cm⁻³.
+
+**(a)** $L = 0.600$ cm, $A = (0.100)(0.0500) = 0.00500$ cm²:
+
+$$
+\rho = \frac{RA}{L} = \frac{(120)(0.00500)}{0.600} = 1.00\ \Omega\cdot\text{cm} \quad\Rightarrow\quad \sigma = 1.00\ \text{S/cm}
+$$
+
+For p-type, $\sigma \approx e\mu_pp_0$:
+
+$$
+p_0 = \frac{\sigma}{e\,\mu_p} = \frac{1.00}{(1.602\times10^{-19})(1900)} = 3.3\times10^{15}\ \text{cm}^{-3}
+$$
+
+This is far above $n_i$, so $N_A \approx p_0 = 3.3\times10^{15}$ cm⁻³.
+
+**(b)** Electron concentration, then its share of $\sigma$:
+
+$$
+n_0 = \frac{n_i^2}{p_0} = \frac{(2.4\times10^{13})^2}{3.3\times10^{15}} = 1.7\times10^{11}\ \text{cm}^{-3}
+$$
+
+$$
+\frac{\sigma_n}{\sigma} = \frac{\mu_n n_0}{\mu_n n_0 + \mu_p p_0} = \frac{(3900)(1.7\times10^{11})}{(3900)(1.7\times10^{11}) + (1900)(3.3\times10^{15})} = \frac{6.6\times10^{14}}{6.3\times10^{18}} \approx 1\times10^{-4}
+$$
+
+Electrons carry about $0.01\%$ of the current, which is why in a strongly doped sample you only consider the majority carrier.
+
+#### Example 3.10: Concept checks
+
+**Is the carrier concentration equal to the number of valence electrons?** No. Silicon has about $5\times10^{22}$ atoms/cm³ (and four valence electrons each), but only about $10^{10}$ cm⁻³ of them are free at room temperature. Nearly all valence electrons are locked in bonds.
+
+**A metal has only one carrier type and a semiconductor has two. Do the electron and hole currents oppose each other?** No. Electrons drift against $\vec{E}$ and holes drift along it, but both currents point along $\vec{E}$, so they **add**. Metals conduct better because they have far more free carriers ($\sim10^{22}$ cm⁻³), not because of any cancellation.
+
+**Does the dominant positive charge in n-type material (the donor ions) carry current?** No. Donor ions are fixed in the lattice. They balance the mobile electrons' charge but they can't move, so they don't contribute to the current.
+
+**Which carrier contributes more to $\sigma$?** Compare $\mu n$ for electrons against $\mu p$ for holes. If $n = p$ but $\mu_n = 3\mu_p$, electrons carry **three times** as much current. If $n = 2p$ and $\mu_n = 3\mu_p$, then $J_n/J_p = (3)(2) = 6$. Charge sign doesn't matter, since both terms add.
+
+**Which direction gives the biggest current in a bar?** For a fixed applied voltage, $I = V/R$ and $R = \rho L/A$, so the largest current flows along the **shortest** path through the **largest** cross-section. If the bar has length $L$, width $W$ and height $H$ with $L > W > H$, that is the direction through the height $H$ (the shortest path, through the largest face of area $L \times W$).
 
 ## Key formulas
 
@@ -213,120 +405,6 @@ $$
 - $\mu_n$, $\mu_p$: mobilities (cm²/V·s)
 - $\sigma$: conductivity (S/cm); $\rho$: resistivity (Ω·cm)
 - $e = 1.602\times10^{-19}$ C
-
-## Examples
-
-### Example 1: Doped silicon concentrations
-
-A silicon crystal has one atom in every $10^8$ replaced with a Group V atom. Silicon has $5.0\times10^{22}$ atoms/cm³ and $n_i = 1.5\times10^{10}$ cm⁻³ at 300 K. Find $n_0$ and $p_0$.
-
-The material is n-type. Donor concentration:
-
-$$
-N_D = \frac{5.0\times10^{22}}{10^{8}} = 5.0\times10^{14}\ \text{cm}^{-3} \gg n_i
-$$
-
-So by Eq. (3.3), $n_0 \approx N_D = 5.0\times10^{14}$ cm⁻³. Then Eq. (3.5):
-
-$$
-p_0 = \frac{n_i^2}{n_0} = \frac{(1.5\times10^{10})^2}{5.0\times10^{14}} = 4.5\times10^{5}\ \text{cm}^{-3}
-$$
-
-That's nine orders of magnitude fewer holes than electrons, so $p_0 \ll n_0$.
-
-### Example 2: Compensated material
-
-A silicon sample has $N_D = 1.0\times10^{16}$ cm⁻³ and $N_A = 3.0\times10^{16}$ cm⁻³ at 300 K. What type is it, and what are $n_0$ and $p_0$?
-
-$N_A > N_D$, so the sample is **p-type**. By Eq. (3.6):
-
-$$
-p_0 \approx N_A - N_D = 3.0\times10^{16} - 1.0\times10^{16} = 2.0\times10^{16}\ \text{cm}^{-3}
-$$
-
-$$
-n_0 = \frac{n_i^2}{p_0} = \frac{(1.5\times10^{10})^2}{2.0\times10^{16}} = 1.1\times10^{4}\ \text{cm}^{-3}
-$$
-
-> [!warning] The majority concentration is the **difference** $N_A - N_D$, not $N_A$. Using $N_A$ alone overestimates $p_0$ by 50% here.
-
-### Example 3: Drift current density
-
-An n-type silicon bar has $N_D = 1.0\times10^{16}$ cm⁻³ at 300 K. Find the drift current density in a field of $E = 20$ V/cm. Use $\mu_n = 1350$ cm²/V·s.
-
-Strongly n-type, so $\sigma \approx e\mu_nn_0$ with $n_0 = N_D$:
-
-$$
-J = \sigma E = e\,\mu_n N_D\,E = (1.602\times10^{-19})(1350)(1.0\times10^{16})(20) = 43.3\ \text{A/cm}^2
-$$
-
-(Units: C · cm²/(V·s) · cm⁻³ · V/cm = C/(s·cm²) = A/cm² ✓.)
-
-### Example 4: Resistance of a bar, two directions
-
-A p-type silicon bar has $N_A = 1.0\times10^{16}$ cm⁻³. It is $4.0$ mm long, $1.0$ mm wide and $0.50$ mm thick. Find its resistance if the current goes (a) along the length, (b) through the thickness. Use $\mu_p = 480$ cm²/V·s.
-
-**Resistivity.** Strongly p-type, so $\sigma \approx e\mu_pp_0$:
-
-$$
-\rho = \frac{1}{e\,\mu_p N_A} = \frac{1}{(1.602\times10^{-19})(480)(1.0\times10^{16})} = 1.30\ \Omega\cdot\text{cm}
-$$
-
-**(a) Along the length.** $L = 0.40$ cm, and the cross-section is width × thickness: $A = (0.10)(0.050) = 0.0050$ cm².
-
-$$
-R = \frac{\rho L}{A} = \frac{(1.30)(0.40)}{0.0050} = 104\ \Omega
-$$
-
-**(b) Through the thickness.** Now $L = 0.050$ cm, and the cross-section is length × width: $A = (0.40)(0.10) = 0.040$ cm².
-
-$$
-R = \frac{(1.30)(0.050)}{0.040} = 1.6\ \Omega
-$$
-
-> [!note] It's the same bar and the same material but two very different resistances, since a short, wide path is much easier than a long, thin one. Always get $L$ and $A$ from the current's direction.
-
-### Example 5: Which carrier carries the current?
-
-A p-type germanium rod is $6.00$ mm long, $1.00$ mm wide and $0.500$ mm thick, and has a resistance of $120\ \Omega$ along its length. Find (a) the impurity concentration and (b) the fraction of the conductivity due to electrons. Use $\mu_p = 1900$, $\mu_n = 3900$ cm²/V·s and $n_i = 2.4\times10^{13}$ cm⁻³.
-
-**(a)** $L = 0.600$ cm, $A = (0.100)(0.0500) = 0.00500$ cm²:
-
-$$
-\rho = \frac{RA}{L} = \frac{(120)(0.00500)}{0.600} = 1.00\ \Omega\cdot\text{cm} \quad\Rightarrow\quad \sigma = 1.00\ \text{S/cm}
-$$
-
-For p-type, $\sigma \approx e\mu_pp_0$:
-
-$$
-p_0 = \frac{\sigma}{e\,\mu_p} = \frac{1.00}{(1.602\times10^{-19})(1900)} = 3.3\times10^{15}\ \text{cm}^{-3}
-$$
-
-This is far above $n_i$, so $N_A \approx p_0 = 3.3\times10^{15}$ cm⁻³.
-
-**(b)** Electron concentration, then its share of $\sigma$:
-
-$$
-n_0 = \frac{n_i^2}{p_0} = \frac{(2.4\times10^{13})^2}{3.3\times10^{15}} = 1.7\times10^{11}\ \text{cm}^{-3}
-$$
-
-$$
-\frac{\sigma_n}{\sigma} = \frac{\mu_n n_0}{\mu_n n_0 + \mu_p p_0} = \frac{(3900)(1.7\times10^{11})}{(3900)(1.7\times10^{11}) + (1900)(3.3\times10^{15})} = \frac{6.6\times10^{14}}{6.3\times10^{18}} \approx 1\times10^{-4}
-$$
-
-Electrons carry about $0.01\%$ of the current, which is why in a strongly doped sample you only consider the majority carrier.
-
-### Example 6: Concept checks
-
-**Is the carrier concentration equal to the number of valence electrons?** No. Silicon has about $5\times10^{22}$ atoms/cm³ (and four valence electrons each), but only about $10^{10}$ cm⁻³ of them are free at room temperature. Nearly all valence electrons are locked in bonds.
-
-**A metal has only one carrier type and a semiconductor has two. Do the electron and hole currents oppose each other?** No. Electrons drift against $\vec{E}$ and holes drift along it, but both currents point along $\vec{E}$, so they **add**. Metals conduct better because they have far more free carriers ($\sim10^{22}$ cm⁻³), not because of any cancellation.
-
-**Does the dominant positive charge in n-type material (the donor ions) carry current?** No. Donor ions are fixed in the lattice. They balance the mobile electrons' charge but they can't move, so they don't contribute to the current.
-
-**Which carrier contributes more to $\sigma$?** Compare $\mu n$ for electrons against $\mu p$ for holes. If $n = p$ but $\mu_n = 3\mu_p$, electrons carry **three times** as much current. If $n = 2p$ and $\mu_n = 3\mu_p$, then $J_n/J_p = (3)(2) = 6$. Charge sign doesn't matter, since both terms add.
-
-**Which direction gives the biggest current in a bar?** For a fixed applied voltage, $I = V/R$ and $R = \rho L/A$, so the largest current flows along the **shortest** path through the **largest** cross-section. If the bar has length $L$, width $W$ and height $H$ with $L > W > H$, that is the direction through the height $H$ (the shortest path, through the largest face of area $L \times W$).
 
 ## Common mistakes
 

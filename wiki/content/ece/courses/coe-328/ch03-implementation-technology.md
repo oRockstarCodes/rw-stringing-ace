@@ -101,7 +101,29 @@ The older style uses **only a PDN**. A PDN can pull the output to 0, but when it
 - **Series = AND**, **parallel = OR**, exactly as above.
 - The output is always the **complement** of the pull-down condition, which is why NAND and NOR come naturally and AND/OR need an extra inverter.
 
+#### Example 3.1: Reading an NMOS circuit
+
+An NMOS gate has a pull-up resistor to $V_{DD}$. Its pull-down network is NMOS $A$ in series with NMOS $B$, and that pair is in parallel with NMOS $C$. Find $f$.
+
+1. **When does the PDN conduct?** Series = AND, parallel = OR, so it conducts when $AB + C = 1$.
+2. **The output is LOW whenever the PDN conducts,** so it's the complement:
+   $$f = \overline{AB + C}$$
+
 **The drawback:** whenever the output is LOW, current flows from $V_{DD}$ through the resistor and the NMOS network to ground the whole time. That wastes power and makes heat, and CMOS fixes it.
+
+#### Example 3.2: The cost of static current
+
+An NMOS-logic gate has a $10\ \text{k}\Omega$ pull-up resistor and a $5$ V supply. When its output is LOW, the NMOS network's resistance is small compared with $10\ \text{k}\Omega$. Find the power the gate draws while LOW, and the total for a chip with $100{,}000$ such gates of which half are LOW.
+
+$$
+I \approx \frac{V_{DD}}{R} = \frac{5\ \text{V}}{10\ \text{k}\Omega} = 0.5\ \text{mA}, \qquad P = V_{DD}I = (5)(0.5\ \text{mA}) = 2.5\ \text{mW}
+$$
+
+$$
+P_{total} = 50{,}000 \times 2.5\ \text{mW} = 125\ \text{W}
+$$
+
+That heat is released even when nothing is switching, which is why this style cannot scale to millions of gates. A CMOS gate has no such path in a steady state.
 
 ### PMOS logic gates
 
@@ -168,6 +190,14 @@ Input 0 turns on the top valve and fills the bucket → output 1. Input 1 turns 
 
 If either input is 0, at least one PMOS is ON and fills the output to 1. Only when both are 1 do both NMOS turn on and drain it to 0.
 
+#### Example 3.3: Transistor states in a CMOS NOR
+
+For a 2-input CMOS NOR with $A = 0$, $B = 1$: which transistors are ON, and what is $f$?
+
+1. **PUN** (two PMOS in **series**): PMOS $A$ is ON (gate 0), PMOS $B$ is OFF (gate 1). Series needs both, so the PUN is **off**.
+2. **PDN** (two NMOS in **parallel**): NMOS $A$ is OFF, NMOS $B$ is ON. Parallel needs one, so the PDN **conducts**.
+3. The output is connected to GND, so $f = 0$. Check: $\overline{0 + 1} = 0$ ✓
+
 > [!note] To remember: **NMOS** = ON with a 1, on the bottom, pulls **down**. **PMOS** = ON with a 0, on top, pulls **up**. **PDN** = the NMOS network, **PUN** = the PMOS network. **CMOS** = both together, always exactly one ON.
 
 **Try it:** pick a gate and flip the inputs. ON transistors are drawn solid, OFF ones faded, and the network that's connected to the output is highlighted.
@@ -198,6 +228,27 @@ The recipe is to describe *when the output is 1* for the PUN and *when it's 0* f
 
 That uses fewer transistors than building each AND and OR as its own gate.
 
+#### Example 3.4: Designing a complex CMOS gate
+
+Design a CMOS circuit for $f = \overline{AB + C}$ and count its transistors.
+
+1. **PDN** realizes $\overline{f} = AB + C$: NMOS $A$ and $B$ in **series**, that pair in **parallel** with NMOS $C$.
+2. **PUN** is the dual: PMOS $A$ and $B$ in **parallel**, that pair in **series** with PMOS $C$.
+3. **Check the PUN directly:** by DeMorgan, $f = \overline{AB}\,\overline{C} = (\overline{A} + \overline{B})\,\overline{C}$. That's ($A = 0$ or $B = 0$) and $C = 0$: PMOS $A$ ∥ $B$, in series with $C$ ✓
+
+![[coe-328-cmos-complex-gate.svg]]
+*Figure 3.1: CMOS circuit for $f = \overline{AB + C}$.*
+
+**6 transistors.** Building it from an AND gate (6) and a NOR gate (4) would take 10.
+
+#### Example 3.5: CMOS gate from an expression with complemented inputs
+
+Design the CMOS networks for $f = \overline{A}\,\overline{B} + \overline{C}$.
+
+1. **PUN** from $f = 1$: ($A = 0$ AND $B = 0$) OR $C = 0$ → PMOS $A$ **series** $B$, that pair **parallel** with PMOS $C$.
+2. **PDN** from $\overline{f}$: by DeMorgan, $\overline{f} = \overline{\overline{A}\,\overline{B}}\;\overline{\overline{C}} = (A + B)\,C$ → NMOS $A$ **parallel** $B$, that pair in **series** with NMOS $C$.
+3. **Duality check:** the PUN's series pair ($A$, $B$) is a parallel pair in the PDN, and $C$ swaps from parallel to series ✓
+
 > [!tip] To sanity check a design, I pick one input combination and trace it. Does exactly one network conduct? If both do, you've made a short from $V_{DD}$ to GND, and if neither does, the output floats.
 
 ### Speed of logic gates
@@ -219,6 +270,16 @@ We don't do detailed timing analysis in this course, but remember the idea: more
 
 Fan-in matters too. A 4-input NAND has four NMOS in **series** in its PDN, so the path to ground adds up four resistances and is slower than a 2-input NAND. That's why big gates often get split into smaller ones.
 
+#### Example 3.6: Fan-out and load capacitance
+
+Each gate input presents $C = 10$ fF. A NAND gate drives $4$ other gates. What load does it see, and how does its delay compare with driving just one?
+
+$$
+C_4 = n\,C = 4(10\ \text{fF}) = 40\ \text{fF}
+$$
+
+The charging time is proportional to the load, so the delay is about $4\times$ the one-gate case (ignoring the gate's own internal delay). If one load takes $0.5$ ns, four take roughly $2$ ns. This is why a signal that must reach many inputs is often driven through a buffer.
+
 ### Transmission gates (§3.9)
 
 Everything so far connected the output to a **supply** ($V_{DD}$ or GND). A **transmission gate** connects one **signal** to another instead, like a door that either lets a signal $x$ through or blocks it.
@@ -234,6 +295,14 @@ Uses:
 
 - **XOR gate:** built from gates, $x_1 \oplus x_2 = x_1\overline{x_2} + \overline{x_1}x_2$ takes 22 transistors in CMOS (two ANDs and an OR at 6 each, two NOTs at 2 each). With **two transmission gates and two inverters** it only takes 8. When $x_1 = 0$ one transmission gate passes $x_2$, and when $x_1 = 1$ the other passes $\overline{x_2}$.
 - **2-to-1 multiplexer:** two transmission gates controlled by $s$ and $\overline{s}$. $s = 0$ passes $x_1$ and $s = 1$ passes $x_2$. It's the same function as the multiplexers in [[ch06-combinational-building-blocks|Ch 6]], just built at the transistor level.
+
+#### Example 3.7: XOR transistor count
+
+How many transistors does a CMOS XOR take when built from AND, OR, and NOT gates, versus with transmission gates?
+
+1. **Gates:** $x_1\overline{x_2} + \overline{x_1}x_2$ needs 2 NOTs (2 transistors each), 2 ANDs (6 each), and 1 OR (6):
+   $$2(2) + 2(6) + 6 = 22$$
+2. **Transmission gates:** 2 inverters (2 each) + 2 transmission gates (2 each) = **8**.
 
 ### Standard chips: the 7400 series (§3.5)
 
@@ -253,6 +322,16 @@ Before programmable logic, circuits were built by wiring together **standard chi
 - Lots of manufacturers make the same parts, which keeps them cheap and easy to get.
 - Packages got smaller over time. The **SOIC** (small-outline IC) is the same idea as a DIP but much smaller.
 
+#### Example 3.8: Implementing a function with 7400-series chips
+
+Implement $f = \overline{x_1}\,x_3 + x_2 x_3$ with 7400-series chips. Which chips are needed, and how many gates are left over?
+
+1. **Operations needed:** one NOT ($\overline{x_1}$), two 2-input ANDs ($\overline{x_1}x_3$ and $x_2x_3$), one 2-input OR.
+2. **Chips:** a **7404** for the NOT, a **7408** for the ANDs, a **7432** for the OR, each with power and ground connected.
+3. **Spare gates:** 5 NOTs, 2 ANDs, and 3 ORs are unused and available for other logic.
+
+> [!tip] Simplify first. $f = x_3(\overline{x_1} + x_2)$ only needs one NOT, one OR and one AND. That's still three chips, but fewer wires.
+
 **Buffers.** A buffer outputs the same logic value it's given ($Y = A$). It doesn't change the logic, it just **drives** the signal harder (more current), which helps with speed when there's a big load. A **tri-state buffer** adds an **enable** input. When enabled, $Y = A$, and when disabled the output is disconnected (**high impedance**, written Z).
 
 |Enable|$A$|$Y$|
@@ -263,6 +342,15 @@ Before programmable logic, circuits were built by wiring together **standard chi
 |1|1|1|
 
 "Tri-state" means the output has **three** states: 0, 1, and *not driving anything*. Z isn't a third voltage. It means the output is unplugged, like a transmission gate that's OFF. This lets **many devices share one wire** (a bus), since only one buffer is enabled at a time and they never fight over the wire's value. Buffers are one of the main things standard chips are still used for today.
+
+#### Example 3.9: Sharing a bus with tri-state buffers
+
+Three tri-state buffers drive one wire. Their data inputs are $A_1 = 1, A_2 = 0, A_3 = 1$. What is on the wire if only buffer 2 is enabled? What goes wrong if buffers 1 and 2 are both enabled?
+
+- **Only buffer 2 enabled:** its output is $A_2 = 0$ and the other two are Z (disconnected), so the wire is **0**.
+- **Buffers 1 and 2 enabled:** one tries to drive the wire to 1 and the other to 0. That is a **bus conflict**, because it shorts $V_{DD}$ to GND through the two output stages. The wire's voltage is undefined and the chips may overheat.
+
+A bus design must guarantee that at most one enable is active at a time.
 
 **Integration scale**
 
@@ -291,6 +379,15 @@ A product term can be **shared** by several outputs, which saves AND gates.
 
 *Why SOP?* Any function can be written as a sum of products (see [[ch02-intro-to-logic-circuits|Ch 2]]), so a PLA that can make **any** product and sum **any** products can implement any function that fits in its size. Simplifying with [[ch04-optimization-of-combinational-logic|K-maps (Ch 4)]] gives fewer product terms and a smaller PLA.
 
+#### Example 3.10: PLA product terms
+
+A PLA must implement $f_1 = x_1x_2 + \overline{x_1}\,x_3$ and $f_2 = x_1x_2 + x_3$. How many product terms does the AND plane need?
+
+1. **List the distinct products:** $P_1 = x_1x_2$, $P_2 = \overline{x_1}\,x_3$, $P_3 = x_3$.
+2. **OR plane:** $f_1 = P_1 + P_2$, $f_2 = P_1 + P_3$.
+
+**3 product terms**, since $P_1$ is shared by both outputs.
+
 **CPLD (complex PLD):** several PAL/PLA-like blocks on one chip, with a programmable interconnect between them.
 
 - It's programmed **in-system** (ISP) through a **JTAG** port (an IEEE standard that uses 4 wires), because big chips are too fragile for programming sockets.
@@ -306,6 +403,27 @@ A product term can be **shared** by several outputs, which saves AND gates.
 **How a LUT works:** a LUT is a tiny memory that stores a truth table. A 2-input LUT has $2^2 = 4$ storage cells, one per row. The inputs $x_1$, $x_2$ drive the select lines of a tree of multiplexers that pick the cell for the current row. So **any** function of 2 variables fits in a 2-input LUT, and you only change the stored bits.
 
 Think of it as a **cheat sheet** instead of a circuit. Rather than building gates that compute the answer, the LUT just *looks up* the answer for the current inputs. The multiplexers in it are the ones from [[ch06-combinational-building-blocks|Ch 6]]. See [[lookup-table|Lookup Tables]] for a worked example and how bigger functions are built from lots of LUTs.
+
+#### Example 3.11: Programming a LUT
+
+What bits are stored in a 2-input LUT to make it an XNOR gate? What would change to make it a NAND?
+
+1. **One cell per truth-table row** ($x_1x_2 = 00, 01, 10, 11$). XNOR is 1 when the inputs match: **1, 0, 0, 1**.
+2. **NAND** is 0 only for $11$: **1, 1, 1, 0**. Only the stored bits change, and the multiplexer tree stays the same.
+
+#### Example 3.12: Sizing a LUT
+
+(a) How many storage cells does a 4-input LUT have? (b) What bits make a 3-input LUT compute $x_1 \oplus x_2 \oplus x_3$?
+
+**(a)** $2^4 = 16$ cells.
+
+**(b)** A 3-input LUT has $2^3 = 8$ cells, one per row $x_1x_2x_3 = 000, \dots, 111$. A 3-way XOR is 1 when an odd number of inputs are 1:
+
+|$x_1\,x_2\,x_3$|000|001|010|011|100|101|110|111|
+|---|---|---|---|---|---|---|---|---|
+|stored bit|0|1|1|0|1|0|0|1|
+
+The function is just the stored bits. This is the same truth table as the three-way light control in Ch 2.
 
 ## Key formulas
 
@@ -341,81 +459,6 @@ $$
 $$
 
 - $k$: number of LUT inputs
-
-## Examples
-
-Try each one on paper before reading the solution.
-
-### Example 1: Reading an NMOS circuit
-
-An NMOS gate has a pull-up resistor to $V_{DD}$. Its pull-down network is NMOS $A$ in series with NMOS $B$, and that pair is in parallel with NMOS $C$. Find $f$.
-
-1. **When does the PDN conduct?** Series = AND, parallel = OR, so it conducts when $AB + C = 1$.
-2. **The output is LOW whenever the PDN conducts,** so it's the complement:
-   $$f = \overline{AB + C}$$
-
-### Example 2: Designing a complex CMOS gate
-
-Design a CMOS circuit for $f = \overline{AB + C}$ and count its transistors.
-
-1. **PDN** realizes $\overline{f} = AB + C$: NMOS $A$ and $B$ in **series**, that pair in **parallel** with NMOS $C$.
-2. **PUN** is the dual: PMOS $A$ and $B$ in **parallel**, that pair in **series** with PMOS $C$.
-3. **Check the PUN directly:** by DeMorgan, $f = \overline{AB}\,\overline{C} = (\overline{A} + \overline{B})\,\overline{C}$. That's ($A = 0$ or $B = 0$) and $C = 0$: PMOS $A$ ∥ $B$, in series with $C$ ✓
-
-![[coe-328-cmos-complex-gate.svg]]
-*Figure 3.1: CMOS circuit for $f = \overline{AB + C}$.*
-
-**6 transistors.** Building it from an AND gate (6) and a NOR gate (4) would take 10.
-
-### Example 3: CMOS gate from an expression with complemented inputs
-
-Design the CMOS networks for $f = \overline{A}\,\overline{B} + \overline{C}$.
-
-1. **PUN** from $f = 1$: ($A = 0$ AND $B = 0$) OR $C = 0$ → PMOS $A$ **series** $B$, that pair **parallel** with PMOS $C$.
-2. **PDN** from $\overline{f}$: by DeMorgan, $\overline{f} = \overline{\overline{A}\,\overline{B}}\;\overline{\overline{C}} = (A + B)\,C$ → NMOS $A$ **parallel** $B$, that pair in **series** with NMOS $C$.
-3. **Duality check:** the PUN's series pair ($A$, $B$) is a parallel pair in the PDN, and $C$ swaps from parallel to series ✓
-
-### Example 4: Transistor states in a CMOS NOR
-
-For a 2-input CMOS NOR with $A = 0$, $B = 1$: which transistors are ON, and what is $f$?
-
-1. **PUN** (two PMOS in **series**): PMOS $A$ is ON (gate 0), PMOS $B$ is OFF (gate 1). Series needs both, so the PUN is **off**.
-2. **PDN** (two NMOS in **parallel**): NMOS $A$ is OFF, NMOS $B$ is ON. Parallel needs one, so the PDN **conducts**.
-3. The output is connected to GND, so $f = 0$. Check: $\overline{0 + 1} = 0$ ✓
-
-### Example 5: Implementing a function with 7400-series chips
-
-Implement $f = \overline{x_1}\,x_3 + x_2 x_3$ with 7400-series chips. Which chips are needed, and how many gates are left over?
-
-1. **Operations needed:** one NOT ($\overline{x_1}$), two 2-input ANDs ($\overline{x_1}x_3$ and $x_2x_3$), one 2-input OR.
-2. **Chips:** a **7404** for the NOT, a **7408** for the ANDs, a **7432** for the OR, each with power and ground connected.
-3. **Spare gates:** 5 NOTs, 2 ANDs, and 3 ORs are unused and available for other logic.
-
-> [!tip] Simplify first. $f = x_3(\overline{x_1} + x_2)$ only needs one NOT, one OR and one AND. That's still three chips, but fewer wires.
-
-### Example 6: XOR transistor count
-
-How many transistors does a CMOS XOR take when built from AND, OR, and NOT gates, versus with transmission gates?
-
-1. **Gates:** $x_1\overline{x_2} + \overline{x_1}x_2$ needs 2 NOTs (2 transistors each), 2 ANDs (6 each), and 1 OR (6):
-   $$2(2) + 2(6) + 6 = 22$$
-2. **Transmission gates:** 2 inverters (2 each) + 2 transmission gates (2 each) = **8**.
-
-### Example 7: PLA product terms
-
-A PLA must implement $f_1 = x_1x_2 + \overline{x_1}\,x_3$ and $f_2 = x_1x_2 + x_3$. How many product terms does the AND plane need?
-
-1. **List the distinct products:** $P_1 = x_1x_2$, $P_2 = \overline{x_1}\,x_3$, $P_3 = x_3$.
-2. **OR plane:** $f_1 = P_1 + P_2$, $f_2 = P_1 + P_3$.
-
-**3 product terms**, since $P_1$ is shared by both outputs.
-
-### Example 8: Programming a LUT
-
-What bits are stored in a 2-input LUT to make it an XNOR gate? What would change to make it a NAND?
-
-1. **One cell per truth-table row** ($x_1x_2 = 00, 01, 10, 11$). XNOR is 1 when the inputs match: **1, 0, 0, 1**.
-2. **NAND** is 0 only for $11$: **1, 1, 1, 0**. Only the stored bits change, and the multiplexer tree stays the same.
 
 ## Common mistakes
 

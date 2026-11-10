@@ -139,6 +139,26 @@ name = "Dustin";
 
 **Why Java insists on types.** The type tells the compiler how much memory the box needs (an `int` and a `double` take different amounts) and which operations make sense on it. It also lets the compiler catch mistakes before the program runs: putting `"hello"` in an `int` is a compile error instead of a mysterious crash later.
 
+#### Example 1.1: Which declarations compile?
+
+Which of these lines compile, and why?
+
+```java
+int count = 7;
+int price = 9.99;
+String label = 5;
+double ratio = 3;
+boolean done = "true";
+```
+
+- `int count = 7;` compiles. An integer literal fits an `int`.
+- `int price = 9.99;` **fails**. `9.99` is a `double`, and storing it in an `int` would throw away the decimal part, so Java refuses.
+- `String label = 5;` **fails**. A number isn't a `String`. Write `"5"` for text.
+- `double ratio = 3;` compiles. An `int` converts to `double` automatically because no information is lost, so `ratio` holds `3.0`.
+- `boolean done = "true";` **fails**. `"true"` in quotes is a `String`. The value you want is the keyword `true`.
+
+The rule: Java converts automatically only when nothing can be lost (`int` to `double`), and otherwise stops you at compile time.
+
 ### Comments and output
 
 ```java
@@ -151,6 +171,40 @@ System.out.println("Newline after this");
 ```
 
 Comments are for people. The compiler ignores them. `print` leaves the cursor where it is, so the next output continues on the same line, while `println` ("print line") moves to a new line afterwards.
+
+#### Example 1.2: `print` vs `println`
+
+What does this print?
+
+```java
+System.out.print("Welcome to COE318!");
+System.out.print("Hope it will be fun!");
+System.out.println("Welcome to COE318!");
+System.out.println("Hope it will be fun!");
+```
+
+`print` doesn't add a newline, so the first two end up on one line. The first `println` carries on from there and then ends the line:
+
+```
+Welcome to COE318!Hope it will be fun!Welcome to COE318!
+Hope it will be fun!
+```
+
+#### Example 1.3: String concatenation in output
+
+```java
+int age;
+float weight;
+age = 5;
+System.out.println("My dog is " + age + "years old.");
+weight = 10;
+System.out.println("My dog weighs " + weight + " pounds.");
+```
+
+1. `+` next to a String joins text, so `age` gets turned into `"5"`. The literal has no space before `years`, so it prints `My dog is 5years old.`
+2. `weight` is a `float`, so `10` is stored as `10.0` and prints that way: `My dog weighs 10.0 pounds.`
+
+> [!tip] Whatever spaces are inside the string literals are exactly what get printed. Java won't add any for you.
 
 ### Methods
 
@@ -167,6 +221,19 @@ float result = sum(23.0f, 24.0f, 25.0f);  // calling it
 
 - **Parameters** (`a`, `b`, `c`) are the method's inputs. When you call it, the values you pass in get copied into them.
 - The **return type** (`float`) is the kind of value it hands back. `return` sends that value back to wherever the method was called. A method that doesn't hand anything back has return type `void`.
+
+#### Example 1.4: Spot the bugs
+
+```java
+float sum(float numberOne, float numberTwo, float numberThree) {
+    float returnVal = numberOne + numberTwo + NumberThree;
+    return returnVal;
+}
+float result = sum(23.0, 24.0, 25.0);
+```
+
+1. **`NumberThree` ≠ `numberThree`.** Java is case-sensitive, so `NumberThree` is an undefined variable and you get a compile error.
+2. **`23.0` is a `double` literal.** Passing a `double` where a `float` is expected is a narrowing conversion, so it won't compile. Write `23.0f` instead, or change the parameters to `double`.
 
 ### A first class: `Car`
 
@@ -211,6 +278,20 @@ What's happening:
 - The `.` operator means "on this particular object". `c.getSpeed()` asks car `c` for its speed, and `d.getSpeed()` asks car `d`. It's the same method, but it reads a different object's data, so the answers differ.
 - `private` means only `Car`'s own methods can touch those variables, and `public` means any code can call those methods. That's the "each object guards its own data" idea from OOP, written into the language ([[ch05-writing-classes|Ch 5]] covers it properly).
 
+#### Example 1.5: Two objects, two copies
+
+Using the `Car` class above, what does this print?
+
+```java
+Car c = new Car("C142", 30, 130);
+Car d = new Car("D234", 40, 140);
+c.setSpeed(60);
+System.out.println(c.getSpeed());
+System.out.println(d.getSpeed());
+```
+
+It prints `60.0` and then `40.0`. `c.setSpeed(60)` runs `setSpeed` on car `c` only, so it changes `c`'s own `speed`. Car `d` has a separate `speed` variable, which is still `40.0`. Both calls use the same method code, but each works on the object in front of the dot.
+
 ### Good practice and naming
 
 Code is read far more often than it's written, by other people and by you three weeks later. So:
@@ -227,6 +308,19 @@ Code is read far more often than it's written, by other people and by you three 
 |Variable / method|Starts **lowercase**, each later word capitalized|`firstName`, `getName()`|
 
 So in `Car car = new Car();`, the capital `Car` is the class (the blueprint) and the lowercase `car` is a variable holding one object.
+
+#### Example 1.6: Naming by convention
+
+Classify each name as a good class name, a good variable or method name, or neither: `bankAccount`, `BankAccount`, `Bank_account`, `getBalance`, `GetBalance`, `x1`.
+
+- `BankAccount`: a class name (capital first letter, each word capitalized).
+- `bankAccount`: a variable or method name (lowercase first letter), and a sensible one for an object of that class.
+- `getBalance`: a method name. It starts lowercase, and the verb-plus-noun reads like what it does.
+- `GetBalance`: legal Java, but it looks like a class, which misleads readers.
+- `Bank_account`: legal, but it breaks CamelCase because it uses an underscore.
+- `x1`: legal, but it says nothing about what it holds. Prefer a meaningful name.
+
+Compilers accept all of them. The conventions exist so a reader can tell classes from variables at a glance.
 
 ## Key syntax
 
@@ -259,55 +353,6 @@ returnType methodName(type param1, type param2) {
 ClassName obj = new ClassName(args);   // runs the matching constructor
 obj.method();                           // call a method on that object
 ```
-
-## Examples
-
-### Example 1: `print` vs `println`
-
-What does this print?
-
-```java
-System.out.print("Welcome to COE318!");
-System.out.print("Hope it will be fun!");
-System.out.println("Welcome to COE318!");
-System.out.println("Hope it will be fun!");
-```
-
-`print` doesn't add a newline, so the first two end up on one line. The first `println` carries on from there and then ends the line:
-
-```
-Welcome to COE318!Hope it will be fun!Welcome to COE318!
-Hope it will be fun!
-```
-
-### Example 2: String concatenation in output
-
-```java
-int age;
-float weight;
-age = 5;
-System.out.println("My dog is " + age + "years old.");
-weight = 10;
-System.out.println("My dog weighs " + weight + " pounds.");
-```
-
-1. `+` next to a String joins text, so `age` gets turned into `"5"`. The literal has no space before `years`, so it prints `My dog is 5years old.`
-2. `weight` is a `float`, so `10` is stored as `10.0` and prints that way: `My dog weighs 10.0 pounds.`
-
-> [!tip] Whatever spaces are inside the string literals are exactly what get printed. Java won't add any for you.
-
-### Example 3: Spot the bugs
-
-```java
-float sum(float numberOne, float numberTwo, float numberThree) {
-    float returnVal = numberOne + numberTwo + NumberThree;
-    return returnVal;
-}
-float result = sum(23.0, 24.0, 25.0);
-```
-
-1. **`NumberThree` ≠ `numberThree`.** Java is case-sensitive, so `NumberThree` is an undefined variable and you get a compile error.
-2. **`23.0` is a `double` literal.** Passing a `double` where a `float` is expected is a narrowing conversion, so it won't compile. Write `23.0f` instead, or change the parameters to `double`.
 
 ## Common mistakes
 

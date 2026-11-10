@@ -16,7 +16,7 @@ The whole chapter in four lines:
 3. The fastest escaping electron has $K_{\max} = hf - \phi$.
 4. Brightness only changes **how many** electrons come out, not how energetic they are.
 
-> [!note] Lab 1 is this experiment. You measure the stopping potential at several frequencies and get $h$ from the slope of Figure 2.2. [[#What Lab 1 looked like|Our actual numbers]] are further down, and Lab 4 gets $h/e$ as a slope a second way, from LEDs ([[ch05-band-structure-and-fermi-function#Example 5: Light and the gap|Chapter 5]]).
+> [!note] Lab 1 is this experiment. You measure the stopping potential at several frequencies and get $h$ from the slope of Figure 2.2. [[#What Lab 1 looked like|Our actual numbers]] are further down, and Lab 4 gets $h/e$ as a slope a second way, from LEDs ([[ch05-band-structure-and-fermi-function#Example 5.3: Light and the gap|Chapter 5]]).
 
 ## Notes
 
@@ -46,6 +46,22 @@ K_{\max} = e|V_s| \tag{2.1}
 $$
 
 where $K_{\max}$ is the kinetic energy of the fastest electrons and $e = 1.602\times10^{-19}$ C is the [[ch01-electrostatics-review#Potential energy and potential|elementary charge]]. So a stopping potential of $2.0$ V means $K_{\max} = 2.0$ eV. This is just energy conservation from [[ch01-electrostatics-review#Potential energy and potential|Chapter 1]].
+
+#### Example 2.1: Stopping potential to speed
+
+A photocell needs a stopping potential of $|V_s| = 2.0$ V to bring its current to zero. What is the kinetic energy of the fastest electrons, in eV and in joules, and how fast are they moving?
+
+Eq. (2.1) gives the energy directly. The number of volts equals the number of eV:
+
+$$
+K_{\max} = e|V_s| = 2.0\ \text{eV} = 2.0(1.602\times10^{-19}) = 3.2\times10^{-19}\ \text{J}
+$$
+
+Then from $K = \tfrac{1}{2}mv^2$:
+
+$$
+v = \sqrt{\frac{2K_{\max}}{m}} = \sqrt{\frac{2(3.2\times10^{-19})}{9.11\times10^{-31}}} = 8.4\times10^{5}\ \text{m/s}
+$$
 
 ### What the experiment shows
 
@@ -78,6 +94,30 @@ $$
 E\ (\text{eV}) = \frac{1240}{\lambda\ (\text{nm})} \tag{2.3}
 $$
 
+A beam of power $P$ delivers $P/E$ photons every second, where $E$ is the energy of one photon converted to joules. This is Eq. (2.6) in the Key formulas.
+
+#### Example 2.2: Photon energy from wavelength
+
+Red light has $\lambda = 650$ nm. Find the energy of one photon and the light's frequency.
+
+$$
+E = \frac{1240}{650} = 1.91\ \text{eV}, \qquad f = \frac{c}{\lambda} = \frac{3.00\times10^{8}}{650\times10^{-9}} = 4.62\times10^{14}\ \text{Hz}
+$$
+
+Check with $E = hf$: $(4.136\times10^{-15}\ \text{eV·s})(4.62\times10^{14}\ \text{Hz}) = 1.91$ eV ✓.
+
+#### Example 2.3: Photons per second
+
+A green laser pointer emits $5.0$ W at $\lambda = 532$ nm. How many photons does it emit per second, and per minute?
+
+1. **Energy of one photon**:
+   $$E = \frac{1240}{532} = 2.33\ \text{eV} = 2.33(1.602\times10^{-19}) = 3.73\times10^{-19}\ \text{J}$$
+2. **Photons per second**, Eq. (2.6):
+   $$\frac{N}{t} = \frac{5.0\ \text{J/s}}{3.73\times10^{-19}\ \text{J}} = 1.34\times10^{19}\ \text{s}^{-1}$$
+3. **Per minute**: $60\times1.34\times10^{19} = 8.0\times10^{20}$
+
+> [!note] Even a "small" optical power is an enormous number of photons. That's why light looks continuous in daily life, and the quantum nature only shows up when you look at single electrons.
+
 **One photon gives all its energy to one electron.** Part of that energy pays the work function and the rest becomes kinetic energy:
 
 $$
@@ -94,6 +134,30 @@ Here $\phi$ is the work function and $K_{\max}$ the kinetic energy of the fastes
   $$
 - **No delay.** The energy arrives all at once in one photon, so there's nothing to wait for.
 
+#### Example 2.4: Cutoff and stopping potential
+
+A metal has a work function of $\phi = 3.10$ eV. (a) Find the cutoff wavelength and frequency. (b) What is the stopping potential for $250$ nm light?
+
+**(a)** From Eq. (2.5):
+
+$$
+\lambda_0 = \frac{1240}{3.10} = 400\ \text{nm}, \qquad f_0 = \frac{\phi}{h} = \frac{3.10(1.602\times10^{-19})}{6.626\times10^{-34}} = 7.50\times10^{14}\ \text{Hz}
+$$
+
+(Check: $c/\lambda_0 = 3.00\times10^{8}/400\times10^{-9} = 7.50\times10^{14}$ Hz ✓.)
+
+**(b)** Photon energy at $250$ nm:
+
+$$
+E = \frac{1240}{250} = 4.96\ \text{eV}
+$$
+
+This is above $\phi$, so electrons come out. By Eq. (2.4):
+
+$$
+K_{\max} = 4.96 - 3.10 = 1.86\ \text{eV} \quad\Rightarrow\quad |V_s| = \frac{K_{\max}}{e} = 1.86\ \text{V}
+$$
+
 ![[pcs-224-photoelectric-k-vs-f.svg]]
 *Figure 2.2: $K_{\max}$ against frequency is a straight line with slope $h$. It crosses zero at $f_0 = \phi/h$ and would hit $-\phi$ at $f = 0$.*
 
@@ -103,7 +167,40 @@ Here $\phi$ is the work function and $K_{\max}$ the kinetic energy of the fastes
 - The **$f$-intercept** is the threshold frequency $f_0$.
 - The **vertical intercept** (extend the line back to $f = 0$) is $-\phi$.
 
+#### Example 2.5: Finding $\phi$ and $h$ from data
+
+An experiment gives a stopping potential of $1.00$ V at $\lambda = 400$ nm and $2.03$ V at $\lambda = 300$ nm. Find (a) the work function, (b) the cutoff wavelength, and (c) Planck's constant.
+
+**(a)** Photon energy at $400$ nm is $1240/400 = 3.10$ eV, so by Eq. (2.4):
+
+$$
+\phi = hf - e|V_s| = 3.10 - 1.00 = 2.10\ \text{eV}
+$$
+
+Check with the second point: $1240/300 = 4.13$ eV, and $4.13 - 2.10 = 2.03$ eV ✓.
+
+**(b)**
+
+$$
+\lambda_0 = \frac{1240}{2.10} = 590\ \text{nm}
+$$
+
+**(c)** $h$ is the slope of $K_{\max}$ against $f$. The two frequencies are $f_1 = c/400\,\text{nm} = 7.50\times10^{14}$ Hz and $f_2 = c/300\,\text{nm} = 1.00\times10^{15}$ Hz:
+
+$$
+h = \frac{\Delta K}{\Delta f} = \frac{(2.03 - 1.00)(1.602\times10^{-19})}{(1.000 - 0.750)\times10^{15}} = 6.6\times10^{-34}\ \text{J}\cdot\text{s}
+$$
+
 > [!warning] Keep these two apart: intensity changes **photons per second**, and frequency changes **energy per photon**. Doubling the brightness never raises $K_{\max}$, and a faint beam above threshold still ejects electrons instantly.
+
+#### Example 2.6: Quick concept checks
+
+Light with $\lambda = 400$ nm hits a metal with $\phi = 2.0$ eV.
+
+- **What's $K_{\max}$?** $1240/400 - 2.0 = 3.1 - 2.0 = 1.1$ eV.
+- **What if the intensity doubles?** The number of photons per second doubles, so the **saturation current doubles**. $K_{\max}$ and $|V_s|$ stay at $1.1$ eV and $1.1$ V.
+- **What if the light is switched to $0.8f_0$ and made extremely bright?** $hf = 0.8\phi < \phi$ for every photon, so **no** electrons are emitted.
+- **What if a photon has energy exactly $\phi$?** The electron barely escapes: $K_{\max} = 0$.
 
 ### What Lab 1 looked like
 
@@ -193,77 +290,6 @@ $$
 $$
 
 - $N/t$: number of photons per second; $P$: the beam's power (W = J/s); $E_{\text{photon}} = hf$: energy of one photon, in joules here (power is in J/s, so convert from eV)
-
-## Examples
-
-### Example 1: Cutoff and stopping potential
-
-A metal has a work function of $\phi = 3.10$ eV. (a) Find the cutoff wavelength and frequency. (b) What is the stopping potential for $250$ nm light?
-
-**(a)** From Eq. (2.5):
-
-$$
-\lambda_0 = \frac{1240}{3.10} = 400\ \text{nm}, \qquad f_0 = \frac{\phi}{h} = \frac{3.10(1.602\times10^{-19})}{6.626\times10^{-34}} = 7.50\times10^{14}\ \text{Hz}
-$$
-
-(Check: $c/\lambda_0 = 3.00\times10^{8}/400\times10^{-9} = 7.50\times10^{14}$ Hz ✓.)
-
-**(b)** Photon energy at $250$ nm:
-
-$$
-E = \frac{1240}{250} = 4.96\ \text{eV}
-$$
-
-This is above $\phi$, so electrons come out. By Eq. (2.4):
-
-$$
-K_{\max} = 4.96 - 3.10 = 1.86\ \text{eV} \quad\Rightarrow\quad |V_s| = \frac{K_{\max}}{e} = 1.86\ \text{V}
-$$
-
-### Example 2: Photons per second
-
-A green laser pointer emits $5.0$ W at $\lambda = 532$ nm. How many photons does it emit per second, and per minute?
-
-1. **Energy of one photon**:
-   $$E = \frac{1240}{532} = 2.33\ \text{eV} = 2.33(1.602\times10^{-19}) = 3.73\times10^{-19}\ \text{J}$$
-2. **Photons per second**, Eq. (2.6):
-   $$\frac{N}{t} = \frac{5.0\ \text{J/s}}{3.73\times10^{-19}\ \text{J}} = 1.34\times10^{19}\ \text{s}^{-1}$$
-3. **Per minute**: $60\times1.34\times10^{19} = 8.0\times10^{20}$
-
-> [!note] Even a "small" optical power is an enormous number of photons. That's why light looks continuous in daily life, and the quantum nature only shows up when you look at single electrons.
-
-### Example 3: Finding $\phi$ and $h$ from data
-
-An experiment gives a stopping potential of $1.00$ V at $\lambda = 400$ nm and $2.03$ V at $\lambda = 300$ nm. Find (a) the work function, (b) the cutoff wavelength, and (c) Planck's constant.
-
-**(a)** Photon energy at $400$ nm is $1240/400 = 3.10$ eV, so by Eq. (2.4):
-
-$$
-\phi = hf - e|V_s| = 3.10 - 1.00 = 2.10\ \text{eV}
-$$
-
-Check with the second point: $1240/300 = 4.13$ eV, and $4.13 - 2.10 = 2.03$ eV ✓.
-
-**(b)**
-
-$$
-\lambda_0 = \frac{1240}{2.10} = 590\ \text{nm}
-$$
-
-**(c)** $h$ is the slope of $K_{\max}$ against $f$. The two frequencies are $f_1 = c/400\,\text{nm} = 7.50\times10^{14}$ Hz and $f_2 = c/300\,\text{nm} = 1.00\times10^{15}$ Hz:
-
-$$
-h = \frac{\Delta K}{\Delta f} = \frac{(2.03 - 1.00)(1.602\times10^{-19})}{(1.000 - 0.750)\times10^{15}} = 6.6\times10^{-34}\ \text{J}\cdot\text{s}
-$$
-
-### Example 4: Quick concept checks
-
-Light with $\lambda = 400$ nm hits a metal with $\phi = 2.0$ eV.
-
-- **What's $K_{\max}$?** $1240/400 - 2.0 = 3.1 - 2.0 = 1.1$ eV.
-- **What if the intensity doubles?** The number of photons per second doubles, so the **saturation current doubles**. $K_{\max}$ and $|V_s|$ stay at $1.1$ eV and $1.1$ V.
-- **What if the light is switched to $0.8f_0$ and made extremely bright?** $hf = 0.8\phi < \phi$ for every photon, so **no** electrons are emitted.
-- **What if a photon has energy exactly $\phi$?** The electron barely escapes: $K_{\max} = 0$.
 
 ## Common mistakes
 

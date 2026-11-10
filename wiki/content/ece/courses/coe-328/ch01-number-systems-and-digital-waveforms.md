@@ -30,6 +30,17 @@ A digital signal is either **HIGH** or **LOW**. Each level is a **range** of vol
 
 **Why the gap?** It's a buffer zone. If 1 and 0 met at a single threshold, a signal sitting right at that threshold could flicker between them with the tiniest bit of noise. The gap means a valid 1 and a valid 0 are always well separated. A signal only passes through the gap briefly while switching.
 
+#### Example 1.1: Classifying voltages as logic levels
+
+Using the 5 V logic ranges above, classify (a) $3.9$ V, (b) $1.4$ V and (c) $0.3$ V. Then, (d) a gate drives a HIGH of $4.6$ V and noise pulls it down by $3.0$ V. Is the bit still read correctly?
+
+- **(a)** $3.9$ V is between $2$ V and $5$ V, so it is a valid HIGH (**1**).
+- **(b)** $1.4$ V is between $0.8$ V and $2$ V, so it is **invalid**. A circuit reading this can't tell what the bit is.
+- **(c)** $0.3$ V is below $0.8$ V, so it is a valid LOW (**0**).
+- **(d)** $4.6 - 3.0 = 1.6$ V, which falls in the invalid gap, so the bit is lost. A noise dip of $2.6$ V or less would have left it at $2.0$ V or more and it would still read as a 1.
+
+The wider the valid ranges and the smaller the noise, the more reliably a bit arrives.
+
 A single binary digit is a **bit**. Using HIGH = 1 and LOW = 0 is called **positive logic**, which is what this course uses.
 
 ### Digital waveforms
@@ -55,11 +66,39 @@ A waveform is **periodic** if its pulses repeat at a fixed interval (a clock), a
 
 $f = 1/T$ because frequency counts cycles per second and the period is seconds per cycle. They're the same information turned upside down: a 1 ms period means 1000 cycles fit in a second. A **square wave** is the special case with a 50% duty cycle, HIGH and LOW for equal times.
 
+#### Example 1.2: Period, frequency and pulse width
+
+(a) A clock runs at $100$ MHz with a $30\%$ duty cycle. Find $T$, $t_W$ and the LOW time. (b) A waveform has a period of $2.5$ ms. What is its frequency?
+
+**(a)**
+
+$$
+T = \frac{1}{f} = \frac{1}{100\ \text{MHz}} = 10\ \text{ns}, \qquad t_W = 0.30 \times 10\ \text{ns} = 3\ \text{ns}, \qquad t_{LOW} = 10 - 3 = 7\ \text{ns}
+$$
+
+**(b)**
+
+$$
+f = \frac{1}{2.5\ \text{ms}} = 400\ \text{Hz}
+$$
+
+A shorter period always means a higher frequency. The duty cycle only changes how the period is split between HIGH and LOW, not how long it is.
+
 ### Waveforms carry binary data
 
 To send a sequence of bits down one wire, you take turns: each bit gets an equal slice of time called the **bit time**, and during its slice the wire is HIGH for a 1 or LOW for a 0.
 
 But how does the receiver know where one slice ends and the next begins? Two 1s in a row look like one long HIGH. That's what the **clock** is for. Every waveform in the system is synchronized to a periodic clock signal whose period is one bit time, so the clock's ticks mark the slice boundaries. To read the bits off a waveform, check its level once during each clock period. The clock is a shared metronome everyone in the circuit keeps time to.
+
+#### Example 1.3: Bit time and a serial waveform
+
+A serial line is clocked at $2$ MHz and sends the 8 bits $10110010$, one per clock period. Find the bit time and the total time, and describe the waveform.
+
+$$
+t_{bit} = \frac{1}{2\ \text{MHz}} = 0.5\ \mu\text{s}, \qquad t_{total} = 8 \times 0.5 = 4\ \mu\text{s}
+$$
+
+Consecutive equal bits merge into one longer level, so the line is: HIGH for $0.5\ \mu$s (1), LOW for $0.5\ \mu$s (0), HIGH for $1.0\ \mu$s (11), LOW for $1.0\ \mu$s (00), HIGH for $0.5\ \mu$s (1), and LOW for $0.5\ \mu$s (0). Those add to $4\ \mu$s. Without the clock, a receiver seeing a $1.0\ \mu$s HIGH couldn't tell whether it was one long bit or two 1s.
 
 ### Reading an oscilloscope
 
@@ -69,6 +108,28 @@ An oscilloscope draws a voltage against time on a screen marked out in a grid of
 - **Horizontal (time/div):** time per division. Period = (number of divisions per cycle) × time/div.
 
 It's just like the scale on a map: count the squares, multiply by what each square represents. To sketch a waveform on a scope you go the other way and divide: divisions = value ÷ (value per division).
+
+#### Example 1.4: Reading a scope screen
+
+A square wave on a scope is 4 divisions tall and one cycle spans 5 divisions, of which the HIGH part takes 2. The scope is set to 0.5 V/div and 20 µs/div. Find $V_{pp}$, $T$, $f$, $t_W$, and the duty cycle.
+
+1. **Amplitude:** $V_{pp} = 4 \times 0.5\ \text{V} = 2\ \text{V}$
+2. **Period and frequency:**
+   $$T = 5 \times 20\ \mu\text{s} = 100\ \mu\text{s}, \qquad f = \frac{1}{100\ \mu\text{s}} = 10\ \text{kHz}$$
+3. **Pulse width and duty cycle:**
+   $$t_W = 2 \times 20\ \mu\text{s} = 40\ \mu\text{s}, \qquad \text{Duty} = \frac{40}{100} \times 100\% = 40\%$$
+
+> [!note] A 40% duty cycle means this isn't a "square" wave, even if it looks like one. Square means 50%.
+
+#### Example 1.5: Sketching a waveform on a scope
+
+Sketch a pulse waveform with $f = 25\ \text{MHz}$, $V_{pp} = 2\ \text{V}$, and a 60% duty cycle, on a scope set to 500 mV/div and 10 ns/div. How many divisions does each part take?
+
+1. **Period:** $T = \frac{1}{25\ \text{MHz}} = 40\ \text{ns}$, so one cycle spans $\frac{40\ \text{ns}}{10\ \text{ns/div}} = 4$ divisions.
+2. **Amplitude:** $\frac{2\ \text{V}}{0.5\ \text{V/div}} = 4$ divisions tall.
+3. **Pulse width:** $t_W = 0.60 \times 40\ \text{ns} = 24\ \text{ns}$, so the HIGH part spans $\frac{24}{10} = 2.4$ divisions and the LOW part the other 1.6.
+
+Check it with the oscilloscope above: set 25 MHz, 60%, 2 V, 500 mV/div, 10 ns/div.
 
 **Try it:** set a frequency, duty cycle and amplitude, then change the scope settings and see how many divisions each part takes up.
 
@@ -106,11 +167,27 @@ Binary uses only the digits 0 and 1 for the same reason decimal uses 0–9: a po
 |9|512|511|
 |10|1024|1023|
 
+#### Example 1.6: Range of an $n$-bit number
+
+What range of numbers can 7 bits count? How many bits are needed to count up to 300?
+
+1. **7 bits:** $2^7 - 1 = 127$, so 0 to 127 (128 different values).
+2. **Up to 300:** 8 bits only get to $2^8 - 1 = 255$, which isn't enough. 9 bits get to $2^9 - 1 = 511$, so you need **9 bits**.
+
 ### Converting between binary and decimal
 
 **Binary → decimal:** each 1 bit contributes its weight and each 0 contributes nothing, so add up the weights of the 1s.
 
 $$1101101_2 = 64 + 32 + 8 + 4 + 1 = 109_{10}$$
+
+#### Example 1.7: Binary to decimal
+
+Convert $1011011_2$ and $110.101_2$ to decimal.
+
+1. $1011011_2$: the 1s sit at weights 64, 16, 8, 2, 1.
+   $$64 + 16 + 8 + 2 + 1 = 91$$
+2. $110.101_2$: the whole part is $4 + 2 = 6$. The fraction has 1s at $2^{-1}$ and $2^{-3}$:
+   $$6 + 0.5 + 0.125 = 6.625$$
 
 **Decimal → binary**, two ways:
 
@@ -132,6 +209,28 @@ $$1101101_2 = 64 + 32 + 8 + 4 + 1 = 109_{10}$$
 
 Reading the remainders bottom to top: $156_{10} = 10011100_2$.
 
+#### Example 1.8: Decimal to binary
+
+Convert 74 using sum of weights, and 173 using repeated division by 2.
+
+**Sum of weights:** the largest weight that fits in 74 is 64, leaving 10 = 8 + 2.
+$$74 = 64 + 8 + 2 = 2^6 + 2^3 + 2^1 \quad\Rightarrow\quad 1001010_2$$
+
+**Repeated division:**
+
+|Division|Quotient|Remainder|
+|---|---|---|
+|$173 \div 2$|86|1 (LSB)|
+|$86 \div 2$|43|0|
+|$43 \div 2$|21|1|
+|$21 \div 2$|10|1|
+|$10 \div 2$|5|0|
+|$5 \div 2$|2|1|
+|$2 \div 2$|1|0|
+|$1 \div 2$|0|1 (MSB)|
+
+Reading bottom to top: $173 = 10101101_2$. Check: $128 + 32 + 8 + 4 + 1 = 173$ ✓
+
 ### Binary addition and subtraction
 
 Binary arithmetic follows exactly the same column-by-column method you learned for decimal. Only the rollover point changes: a column overflows at 2 instead of 10.
@@ -147,6 +246,38 @@ Binary arithmetic follows exactly the same column-by-column method you learned f
 $1 + 1 = 2$, and 2 is written $10$ in binary, so you write 0 and carry 1, just as 7 + 5 = 12 means "write 2, carry 1" in decimal. The $1 + 1 + 1$ row is what happens in a column that also received a carry.
 
 You only need to **borrow** when subtracting a 1 from a 0. It takes 1 from the next column to the left, and since each column is worth twice the one to its right, that borrowed 1 is worth **2** in the current column. Then $2 - 1 = 1$. (In decimal a borrow is worth 10, for the same reason.)
+
+#### Example 1.9: Binary addition and subtraction
+
+Find (a) $1011 + 0110$ and (b) $1100 - 0101$.
+
+**(a)** Work right to left, carrying when a column adds to 2 or more:
+
+- Column 0: $1 + 0 = 1$
+- Column 1: $1 + 1 = 10$, write 0, carry 1
+- Column 2: $0 + 1 + 1 = 10$, write 0, carry 1
+- Column 3: $1 + 0 + 1 = 10$, write 0, carry 1 into a new column
+
+$$
+\begin{array}{r}
+1011\\
++\;0110\\ \hline
+10001
+\end{array}
+$$
+
+Check: $11 + 6 = 17 = 10001_2$ ✓
+
+**(b)** Borrow when subtracting 1 from 0:
+
+- Column 0: $0 - 1$ needs a borrow. The column-1 bit is also 0, so the borrow comes from column 2, leaving column 2 = 0 and column 1 = 1. Column 0 becomes $10 - 1 = 1$.
+- Column 1: $1 - 0 = 1$
+- Column 2: $0 - 1$ needs a borrow from column 3, giving $10 - 1 = 1$ and column 3 = 0.
+- Column 3: $0 - 0 = 0$
+
+$$1100 - 0101 = 0111$$
+
+Check: $12 - 5 = 7$ ✓
 
 ### 1's and 2's complement
 
@@ -167,6 +298,18 @@ $$
 
 In general, the 2's complement of $x$ in $n$ bits is $2^n - x$. Add it to $x$ and you get exactly $2^n$, a 1 followed by $n$ zeros, which wraps around to zero. "The number that adds to $x$ to give zero" is the definition of $-x$. For example, in 4 bits, $3 = 0011$ and its 2's complement is $1101$. As an unsigned number that's 13, but $13 = 16 - 3$, and $0011 + 1101 = 1\,0000 \to 0000$. So $1101$ stands for $-3$.
 
+#### Example 1.10: Finding a negative number in 4 bits
+
+What bit pattern represents $-5$ in 4-bit 2's complement, and how can you check it?
+
+Start from $+5 = 0101$. Flip the bits to get $1010$, then add 1:
+
+$$
+-5 = 1010 + 1 = 1011
+$$
+
+Check: $5 + (-5)$ should be zero. $0101 + 1011 = 1\,0000$, and the fifth bit doesn't fit in 4 bits, so the result is $0000$ ✓. (As an unsigned number $1011$ is $11 = 16 - 5$, matching $2^n - x$.)
+
 **Why "flip and add 1" gives $2^n - x$.** Flipping every bit of $x$ gives $(2^n - 1) - x$, because $x$ plus its flipped version is all 1s, which is $2^n - 1$. Adding 1 makes it $2^n - x$.
 
 **Shortcut for 2's complement:** starting at the LSB, copy the bits up to and including the **first 1**, then flip all the bits after it.
@@ -174,6 +317,14 @@ In general, the 2's complement of $x$ in $n$ bits is $2^n - x$. Add it to $x$ an
 $$10111\underline{000} \;\rightarrow\; \text{copy } \underline{1000}, \text{ flip } 1011 \;\rightarrow\; 01001000$$
 
 This works because of what "add 1" does after flipping. The trailing 0s of the original became 1s when flipped, and adding 1 turns them back to 0s with a carry rippling left. The carry stops at the position of the first original 1, which had become 0 and now becomes 1 again. Everything to the left of that stays flipped.
+
+#### Example 1.11: 1's and 2's complements
+
+Find the 1's and 2's complements of $10110100$.
+
+1. **1's complement:** flip every bit: $01001011$
+2. **2's complement:** add 1: $01001011 + 1 = 01001100$
+3. **Check with the shortcut:** copy up to the first 1 from the right ($100$), flip the rest ($10110 \rightarrow 01001$): $01001\,100$ ✓
 
 ### Hexadecimal
 
@@ -197,7 +348,27 @@ Long binary numbers are hard for people to read and easy to copy wrong. **Hexade
 
 Group **from the right** because the right end is where the place values start ($2^0$). Grouping from the left would misalign every group whenever the length isn't a multiple of 4.
 
+#### Example 1.12: Binary and hexadecimal
+
+Convert $1101011100101_2$ to hex, and $3A7_{16}$ to binary.
+
+1. **Group by 4 from the right**, padding the left group: $0001\ 1010\ 1110\ 0101 = 1AE5_{16}$
+2. **Replace each hex digit:** $3A7_{16} = 0011\ 1010\ 0111_2$
+
 Counting keeps going past F like it does in decimal: …, E, F, 10, 11, …, 1F, 20, … Two hex digits (8 bits, one byte) get you to $FF_{16} = 255$, three get you to $FFF_{16} = 4095$, and four get you to $FFFF_{16} = 65\,535$. One byte is always exactly two hex digits, which is why hex is the standard way to show memory contents.
+
+#### Example 1.13: Hex and decimal
+
+Convert $2C7_{16}$ to decimal and $500_{10}$ to hex.
+
+1. **Hex → decimal:** $C = 12$, so
+   $$2C7_{16} = 2 \times 256 + 12 \times 16 + 7 \times 1 = 512 + 192 + 7 = 711$$
+2. **Decimal → hex** by dividing by 16:
+   - $500 \div 16 = 31$ remainder $4$
+   - $31 \div 16 = 1$ remainder $15 = F$
+   - $1 \div 16 = 0$ remainder $1$
+
+   Reading the remainders last to first: $500_{10} = 1F4_{16}$. Check: $256 + 240 + 4 = 500$ ✓
 
 ### Binary coded decimal (BCD)
 
@@ -210,6 +381,14 @@ Counting keeps going past F like it does in decimal: …, E, F, 10, 11, …, 1F,
 **Why use it?** Because it keeps the decimal digits separate. A digital clock or calculator display needs to show each decimal digit on its own segment display, and with BCD each 4-bit group drives one digit directly. Converting pure binary to separate decimal digits takes real computation. The cost is wasted space: 4 bits could represent 16 values but BCD only uses 10 of them, so BCD needs more bits than plain binary for the same number.
 
 > [!warning] BCD is not the same as binary. $35_{10}$ in binary is $100011$ (one number), but in BCD it's $0011\ 0101$ (a 3, then a 5).
+
+#### Example 1.14: BCD
+
+(a) Write 4073 in BCD. (b) Convert the BCD code $011010010010$ to decimal. (c) Is $0101\ 1011$ a valid BCD number?
+
+1. **(a)** One 4-bit group per digit: $4073 = 0100\ 0000\ 0111\ 0011$
+2. **(b)** Group from the right: $0110\ 1001\ 0010 = 692$
+3. **(c)** No. $1011$ is 11, which isn't a decimal digit, so it's one of the six invalid codes.
 
 **Try it:** click the bits to build a number and see it in every form from this chapter. (The signed rows make more sense after [[ch05-number-representation-and-arithmetic|Ch 5]].)
 
@@ -262,138 +441,6 @@ $$
 
 - $K_1$: 1's complement of $P$ (flip every bit)
 - $K_2$: 2's complement of $P$ (flip every bit, then add 1)
-
-## Examples
-
-Try each one on paper before reading the solution.
-
-### Example 1: Reading a scope screen
-
-A square wave on a scope is 4 divisions tall and one cycle spans 5 divisions, of which the HIGH part takes 2. The scope is set to 0.5 V/div and 20 µs/div. Find $V_{pp}$, $T$, $f$, $t_W$, and the duty cycle.
-
-1. **Amplitude:** $V_{pp} = 4 \times 0.5\ \text{V} = 2\ \text{V}$
-2. **Period and frequency:**
-   $$T = 5 \times 20\ \mu\text{s} = 100\ \mu\text{s}, \qquad f = \frac{1}{100\ \mu\text{s}} = 10\ \text{kHz}$$
-3. **Pulse width and duty cycle:**
-   $$t_W = 2 \times 20\ \mu\text{s} = 40\ \mu\text{s}, \qquad \text{Duty} = \frac{40}{100} \times 100\% = 40\%$$
-
-> [!note] A 40% duty cycle means this isn't a "square" wave, even if it looks like one. Square means 50%.
-
-### Example 2: Sketching a waveform on a scope
-
-Sketch a pulse waveform with $f = 25\ \text{MHz}$, $V_{pp} = 2\ \text{V}$, and a 60% duty cycle, on a scope set to 500 mV/div and 10 ns/div. How many divisions does each part take?
-
-1. **Period:** $T = \frac{1}{25\ \text{MHz}} = 40\ \text{ns}$, so one cycle spans $\frac{40\ \text{ns}}{10\ \text{ns/div}} = 4$ divisions.
-2. **Amplitude:** $\frac{2\ \text{V}}{0.5\ \text{V/div}} = 4$ divisions tall.
-3. **Pulse width:** $t_W = 0.60 \times 40\ \text{ns} = 24\ \text{ns}$, so the HIGH part spans $\frac{24}{10} = 2.4$ divisions and the LOW part the other 1.6.
-
-Check it with the oscilloscope above: set 25 MHz, 60%, 2 V, 500 mV/div, 10 ns/div.
-
-### Example 3: Range of an $n$-bit number
-
-What range of numbers can 7 bits count? How many bits are needed to count up to 300?
-
-1. **7 bits:** $2^7 - 1 = 127$, so 0 to 127 (128 different values).
-2. **Up to 300:** 8 bits only get to $2^8 - 1 = 255$, which isn't enough. 9 bits get to $2^9 - 1 = 511$, so you need **9 bits**.
-
-### Example 4: Binary to decimal
-
-Convert $1011011_2$ and $110.101_2$ to decimal.
-
-1. $1011011_2$: the 1s sit at weights 64, 16, 8, 2, 1.
-   $$64 + 16 + 8 + 2 + 1 = 91$$
-2. $110.101_2$: the whole part is $4 + 2 = 6$. The fraction has 1s at $2^{-1}$ and $2^{-3}$:
-   $$6 + 0.5 + 0.125 = 6.625$$
-
-### Example 5: Decimal to binary
-
-Convert 74 using sum of weights, and 173 using repeated division by 2.
-
-**Sum of weights:** the largest weight that fits in 74 is 64, leaving 10 = 8 + 2.
-$$74 = 64 + 8 + 2 = 2^6 + 2^3 + 2^1 \quad\Rightarrow\quad 1001010_2$$
-
-**Repeated division:**
-
-|Division|Quotient|Remainder|
-|---|---|---|
-|$173 \div 2$|86|1 (LSB)|
-|$86 \div 2$|43|0|
-|$43 \div 2$|21|1|
-|$21 \div 2$|10|1|
-|$10 \div 2$|5|0|
-|$5 \div 2$|2|1|
-|$2 \div 2$|1|0|
-|$1 \div 2$|0|1 (MSB)|
-
-Reading bottom to top: $173 = 10101101_2$. Check: $128 + 32 + 8 + 4 + 1 = 173$ ✓
-
-### Example 6: Binary addition and subtraction
-
-Find (a) $1011 + 0110$ and (b) $1100 - 0101$.
-
-**(a)** Work right to left, carrying when a column adds to 2 or more:
-
-- Column 0: $1 + 0 = 1$
-- Column 1: $1 + 1 = 10$, write 0, carry 1
-- Column 2: $0 + 1 + 1 = 10$, write 0, carry 1
-- Column 3: $1 + 0 + 1 = 10$, write 0, carry 1 into a new column
-
-$$
-\begin{array}{r}
-1011\\
-+\;0110\\ \hline
-10001
-\end{array}
-$$
-
-Check: $11 + 6 = 17 = 10001_2$ ✓
-
-**(b)** Borrow when subtracting 1 from 0:
-
-- Column 0: $0 - 1$ needs a borrow. The column-1 bit is also 0, so the borrow comes from column 2, leaving column 2 = 0 and column 1 = 1. Column 0 becomes $10 - 1 = 1$.
-- Column 1: $1 - 0 = 1$
-- Column 2: $0 - 1$ needs a borrow from column 3, giving $10 - 1 = 1$ and column 3 = 0.
-- Column 3: $0 - 0 = 0$
-
-$$1100 - 0101 = 0111$$
-
-Check: $12 - 5 = 7$ ✓
-
-### Example 7: 1's and 2's complements
-
-Find the 1's and 2's complements of $10110100$.
-
-1. **1's complement:** flip every bit: $01001011$
-2. **2's complement:** add 1: $01001011 + 1 = 01001100$
-3. **Check with the shortcut:** copy up to the first 1 from the right ($100$), flip the rest ($10110 \rightarrow 01001$): $01001\,100$ ✓
-
-### Example 8: Binary and hexadecimal
-
-Convert $1101011100101_2$ to hex, and $3A7_{16}$ to binary.
-
-1. **Group by 4 from the right**, padding the left group: $0001\ 1010\ 1110\ 0101 = 1AE5_{16}$
-2. **Replace each hex digit:** $3A7_{16} = 0011\ 1010\ 0111_2$
-
-### Example 9: Hex and decimal
-
-Convert $2C7_{16}$ to decimal and $500_{10}$ to hex.
-
-1. **Hex → decimal:** $C = 12$, so
-   $$2C7_{16} = 2 \times 256 + 12 \times 16 + 7 \times 1 = 512 + 192 + 7 = 711$$
-2. **Decimal → hex** by dividing by 16:
-   - $500 \div 16 = 31$ remainder $4$
-   - $31 \div 16 = 1$ remainder $15 = F$
-   - $1 \div 16 = 0$ remainder $1$
-
-   Reading the remainders last to first: $500_{10} = 1F4_{16}$. Check: $256 + 240 + 4 = 500$ ✓
-
-### Example 10: BCD
-
-(a) Write 4073 in BCD. (b) Convert the BCD code $011010010010$ to decimal. (c) Is $0101\ 1011$ a valid BCD number?
-
-1. **(a)** One 4-bit group per digit: $4073 = 0100\ 0000\ 0111\ 0011$
-2. **(b)** Group from the right: $0110\ 1001\ 0010 = 692$
-3. **(c)** No. $1011$ is 11, which isn't a decimal digit, so it's one of the six invalid codes.
 
 ## Common mistakes
 

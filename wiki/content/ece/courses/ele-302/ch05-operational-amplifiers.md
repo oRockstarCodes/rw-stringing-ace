@@ -9,6 +9,8 @@ tags:
 
 An **operational amplifier (op amp)** takes the difference between the voltages on its two inputs, multiplies it by a really large gain, and puts that out. Add some resistors for **negative feedback** and you can build amplifiers, summers, buffers and a lot more out of it.
 
+> [!note] Worked examples sit right after the concept they use. Problems marked **(T)** are tutorial problems, so try each one on paper before reading the solution.
+
 ## Components
 
 |Terminal|Name|What it does|
@@ -45,6 +47,22 @@ That's not much use as an amplifier, for two reasons:
 
 > [!note] Open loop is still good for a **comparator**. The output tells you which input is bigger (high rail if $v_+ > v_-$, low rail if $v_+ < v_-$).
 
+#### Example 5.1: Comparator or amplifier?
+
+An open-loop op amp has $A = 10^5$ and supplies of $\pm 15\ \text{V}$. Find $v_o$ for:
+
+- (a) $v_+ = 1.0000\ \text{V}$, $v_- = 1.0001\ \text{V}$
+- (b) $v_+ = 1.0000\ \text{V}$, $v_- = 1.0004\ \text{V}$
+- (c) $v_+ = 3\ \text{V}$, $v_- = 2\ \text{V}$
+
+Apply Eq. (5.1), then clip to the rails.
+
+- (a) $v_d = -0.1\ \text{mV}$, so $A v_d = -10\ \text{V}$. That is inside $\pm 15\ \text{V}$, so $v_o = -10\ \text{V}$.
+- (b) $v_d = -0.4\ \text{mV}$, so $A v_d = -40\ \text{V}$. That is past the rail, so $v_o = -15\ \text{V}$.
+- (c) $v_d = 1\ \text{V}$, so $A v_d = 10^5\ \text{V}$. The output saturates at $v_o = +15\ \text{V}$.
+
+Only inputs within about $0.15\ \text{mV}$ of each other give an output between the rails. Anything bigger just says which input is larger, which is what a comparator does.
+
 ### Negative Feedback
 
 **Negative feedback** fixes the open-loop problem by connecting the output back to the **inverting input** ($v_-$), through a resistor or just a wire, like the buffer in Figure 5.2.
@@ -79,6 +97,22 @@ $$
 - $\beta$: feedback factor, the fraction of $v_o$ that reaches $v_-$. For a non-inverting amp, $\beta = \frac{R_1}{R_1 + R_f}$
 
 For the non-inverting amp, $\frac{1}{\beta} = \frac{R_1 + R_f}{R_1} = 1 + \frac{R_f}{R_1}$, which is exactly its gain formula, Eq. (5.5). $A$ drops out, and that's the whole point. $A$ varies a lot between chips and with temperature, but resistor values are precise and stable.
+
+#### Example 5.2: How much does the gain depend on $A$?
+
+A non-inverting amp has $R_1 = 10\ \text{k}\Omega$ and $R_f = 90\ \text{k}\Omega$. Find $A_{CL}$ when $A = 10^5$, and again when a poorer chip has $A = 10^4$.
+
+The feedback factor is $\beta = \frac{R_1}{R_1 + R_f} = \frac{10}{100} = 0.1$, so the ideal gain is $1/\beta = 10$. From Eq. (5.2):
+
+$$
+A = 10^5:\quad A_{CL} = \frac{10^5}{1 + (10^5)(0.1)} = \frac{10^5}{10\,001} = 9.999
+$$
+
+$$
+A = 10^4:\quad A_{CL} = \frac{10^4}{1 + (10^4)(0.1)} = \frac{10^4}{1001} = 9.990
+$$
+
+$A$ dropped by a factor of 10, yet the closed-loop gain moved by only about $0.1\%$. The gain is set by the resistors.
 
 ### Positive Feedback
 
@@ -117,6 +151,21 @@ $v_o$ can only be $\pm V_{sat}$, so there are two thresholds, $+\beta V_{sat}$ a
 
 The gap between the two thresholds is called **hysteresis** (the loop in Figure 5.3), and it's the reason you'd use one of these. A noisy signal wobbling around a single threshold would make a plain comparator flip back and forth like crazy, but a Schmitt trigger ignores any wobble smaller than the gap.
 
+#### Example 5.3: Designing and tracing a Schmitt trigger
+
+An inverting Schmitt trigger (Figure 5.3) runs from $\pm 12\ \text{V}$ and must switch at $\pm 1.5\ \text{V}$. (a) Choose $R_1$ and $R_2$. (b) The output starts at $+12\ \text{V}$ and $v_i$ goes $0 \to 2 \to 1 \to -2\ \text{V}$. What does $v_o$ do?
+
+**(a)** The thresholds are $\pm\beta V_{sat}$, so $\beta = \frac{1.5}{12} = 0.125 = \frac{R_1}{R_1 + R_2}$. That gives $R_2 = 7R_1$. Choose $R_1 = 10\ \text{k}\Omega$ and $R_2 = 70\ \text{k}\Omega$.
+
+**(b)** Track the threshold, which depends on the current output:
+
+- $v_o = +12\ \text{V}$, so $v_+ = +1.5\ \text{V}$. While $v_i$ rises from $0$ to $1\ \text{V}$, it stays below $1.5\ \text{V}$ and $v_o$ stays at $+12\ \text{V}$.
+- $v_i$ reaches $2\ \text{V}$, which is above $1.5\ \text{V}$, so $v_o$ flips to $-12\ \text{V}$. Now $v_+ = -1.5\ \text{V}$.
+- $v_i$ falls back to $1\ \text{V}$. That is still above $-1.5\ \text{V}$, so $v_o$ **stays** at $-12\ \text{V}$. The old threshold of $+1.5\ \text{V}$ no longer applies.
+- $v_i$ reaches $-2\ \text{V}$, below $-1.5\ \text{V}$, so $v_o$ flips back to $+12\ \text{V}$.
+
+The hysteresis is $1.5 - (-1.5) = 3\ \text{V}$ wide, so a wobble of less than that around $0\ \text{V}$ can't toggle the output.
+
 ### Spotting the Feedback Type
 
 ![[ele-302-opamp-feedback-types.svg]]
@@ -139,6 +188,17 @@ An ideal op amp is a lot easier to work with. You assume $A \to \infty$, $R_i \t
 
 > [!tip] My solving method: use the two ideal rules, then do **KCL at the inverting node**. Don't write KCL at the output node, since the op amp supplies some unknown current there.
 
+#### Example 5.4: Sources connected directly to the inputs
+
+Determine $v_o$ in the op amp circuit of Figure 5.5.
+
+![[ele-302-opamp-ex04-sources-on-inputs.svg]]
+*Figure 5.5: Circuit for Example 5.4.*
+
+1. **$v_+$ is fixed by the voltage source:** $v_+ = 3\ \text{V}$, so $v_- = 3\ \text{V}$ too.
+2. **No current goes into the op amp,** so all 2 mA from the current source has to leave the $v_-$ node through the 5 kΩ resistor:
+   $$\frac{v_- - v_o}{5\text{k}} = 2\text{m} \quad\Rightarrow\quad 3 - v_o = 10 \quad\Rightarrow\quad v_o = -7\ \text{V}$$
+
 
 ### Real Op Amp Model
 
@@ -149,6 +209,36 @@ An ideal op amp is a lot easier to work with. You assume $A \to \infty$, $R_i \t
 **Try it:** pick each part of the model, then switch to the ideal op amp to see where the two ideal rules come from.
 
 <div class="melon-opamp" data-view="model">Interactive op amp model (open this page on the site to use it).</div>
+
+#### Example 5.5: Op amp equivalent model
+
+The equivalent model of an op amp is shown in Figure 5.6. Determine (a) the input resistance, (b) the output resistance, and (c) the voltage gain in dB.
+
+![[ele-302-opamp-ex01-model.svg]]
+*Figure 5.6: Equivalent model for Example 5.5.*
+
+Everything can be read right off the diagram:
+
+- (a) The resistance between the input terminals is $R_i = 2\ \text{M}\Omega$
+- (b) The resistance in series with the output is $R_o = 50\ \Omega$
+- (c) The open-loop gain is the number in front of $v_d$, so $A = 2 \times 10^5$. In decibels:
+  $$A_{dB} = 20\log_{10}A = 20\log_{10}(2 \times 10^5) = 106.02\ \text{dB}$$
+
+#### Example 5.6: Non-ideal voltage follower
+
+The op amp in Figure 5.7 has an open-loop gain of 50,000, an input resistance of 20 kΩ, and an output resistance of 50 Ω. Find the voltage gain $v_o/v_i$ using the non-ideal model.
+
+![[ele-302-opamp-ex02-buffer.svg]]
+*Figure 5.7: Voltage follower for Example 5.6.*
+
+1. **Swap the op amp for its model.** $R_i$ sits between $v_+ = v_i$ and $v_- = v_o$, and the output is $A v_d$ in series with $R_o$, where
+   $$v_d = v_+ - v_- = v_i - v_o$$
+2. **KCL at the output node.** The current through $R_i$ (from $v_i$ to $v_o$) plus the current through $R_o$ (from the source to $v_o$) has to add up to zero, since nothing else is connected:
+   $$\frac{v_i - v_o}{R_i} + \frac{A(v_i - v_o) - v_o}{R_o} = 0$$
+3. **Multiply through by $R_i R_o$ and solve:**
+   $$\frac{v_o}{v_i} = \frac{R_o + A R_i}{R_o + (A + 1)R_i} = \frac{50 + (5 \times 10^4)(20\text{k})}{50 + (50\,001)(20\text{k})} = 0.99998$$
+
+> [!note] The ideal answer is exactly 1. The non-ideal model is only worth the algebra when the question asks for it, like this one does.
 
 
 ## Key formulas
@@ -176,6 +266,78 @@ $$
 - $R_1$: input resistor, from $v_i$ to the inverting input
 - $R_f$: feedback resistor, from the output back to the inverting input
 
+#### Example 5.7: Inverting gain and saturation
+
+An inverting amp has $R_1 = 20\ \text{k}\Omega$, $R_f = 100\ \text{k}\Omega$ and $\pm 12\ \text{V}$ supplies. Find $v_o$ for $v_i = 0.5\ \text{V}$ and for $v_i = 3\ \text{V}$.
+
+The gain from Eq. (5.4) is $-\frac{R_f}{R_1} = -\frac{100}{20} = -5$.
+
+- $v_i = 0.5\ \text{V}$: $v_o = (-5)(0.5) = -2.5\ \text{V}$, inside the rails.
+- $v_i = 3\ \text{V}$: the formula says $-15\ \text{V}$, but the output can't go below $-12\ \text{V}$. So $v_o = -12\ \text{V}$ (saturated).
+
+Equation (5.4) only holds while the output stays between the rails.
+
+#### Example 5.8: Find $i_o$ with a resistor network on the input
+
+Determine $i_o$ in the circuit of Figure 5.8.
+
+![[ele-302-opamp-ex07-input-network.svg]]
+*Figure 5.8: Circuit for Example 5.8.*
+
+1. **Replace everything left of the 2 kΩ with its Thévenin equivalent** (1.5 V source, 3 kΩ, 6 kΩ):
+   $$V_{th} = 1.5 \cdot \frac{6}{3 + 6} = 1\ \text{V}, \qquad R_{th} = 3\text{k} \parallel 6\text{k} = 2\ \text{k}\Omega$$
+2. **Now it's just an inverting amp** with an input resistance of $R_{th} + 2\text{k} = 4\ \text{k}\Omega$. By Eq. (5.4):
+   $$v_o = -\frac{8}{4}(1) = -2\ \text{V}$$
+3. **$i_o$ flows down through the 4 kΩ load:**
+   $$i_o = \frac{v_o}{4\text{k}} = \frac{-2}{4\text{k}} = -0.5\ \text{mA}$$
+
+So 0.5 mA actually flows *up* through the load, into the op amp's output.
+
+> [!tip] Thévenin works here because the 2 kΩ connects to the virtual ground, so the circuit on its left always sees the same load. You could skip Thévenin and do KCL at the 6 kΩ node instead, and you'd get the same answer.
+
+#### Example 5.9: T-network in the feedback (T)
+
+(a) Determine the ratio $v_o/i_s$ for the circuit in Figure 5.9. (b) Evaluate it for $R_1 = 10\ \text{k}\Omega$, $R_2 = 5\ \text{k}\Omega$, $R_3 = 20\ \text{k}\Omega$.
+
+![[ele-302-opamp-ex06-t-network.svg]]
+*Figure 5.9: Circuit for Example 5.9. Call the middle node of the T $v_m$.*
+
+**(a)**
+
+1. **$v_- = v_+ = 0$.** All of $i_s$ flows from the $v_-$ node through $R_1$ to $v_m$:
+   $$\frac{0 - v_m}{R_1} = i_s \quad\Rightarrow\quad v_m = -i_s R_1$$
+2. **KCL at $v_m$** (in through $R_1$ = out through $R_2$ + out through $R_3$):
+   $$i_s = \frac{v_m}{R_2} + \frac{v_m - v_o}{R_3}$$
+3. **Solve for $v_o$ and substitute $v_m$:**
+   $$v_o = v_m\left(1 + \frac{R_3}{R_2}\right) - R_3\,i_s \quad\Rightarrow\quad \frac{v_o}{i_s} = -\left(R_1 + R_3 + \frac{R_1 R_3}{R_2}\right)$$
+
+**(b)**
+$$\frac{v_o}{i_s} = -\left(10\text{k} + 20\text{k} + \frac{(10\text{k})(20\text{k})}{5\text{k}}\right) = -70\ \text{k}\Omega$$
+
+> [!note] The ratio is in ohms because it's volts out per amp in. The T-network gets a large gain (70 kΩ) without needing one big resistor.
+
+#### Example 5.10: Non-ideal inverting amplifier (T)
+
+The op amp in Figure 5.10 has $R_i = 200\ \text{k}\Omega$, $R_o = 50\ \Omega$, and $A = 200{,}000$. Find the differential voltage $v_d$ and the output voltage $v_o$.
+
+![[ele-302-opamp-ex03-nonideal-inverting.svg]]
+*Figure 5.10: Inverting amplifier for Example 5.10.*
+
+Call the inverting-input node $v_1$. Since $v_+ = 0$, $v_d = v_+ - v_- = -v_1$, and the op amp's output source is $A v_d = -A v_1$.
+
+1. **KCL at $v_1$** (in through 20 kΩ = out through $R_i$ to ground + out through 100 kΩ):
+   $$\frac{2\text{m} - v_1}{20\text{k}} = \frac{v_1}{200\text{k}} + \frac{v_1 - v_o}{100\text{k}}$$
+   Multiplying by 200k: $\quad 20\text{m} = 13\,v_1 - 2\,v_o$
+2. **KCL at $v_o$** (in through 100 kΩ = out through $R_o$ into the source):
+   $$\frac{v_1 - v_o}{100\text{k}} = \frac{v_o - (-A v_1)}{50}$$
+   Multiplying by 100k: $\quad v_1 - v_o = 2000\,v_o + (4 \times 10^8)\,v_1 \quad\Rightarrow\quad v_1 \approx -5.0025 \times 10^{-6}\,v_o$
+3. **Substitute into step 1:**
+   $$20\text{m} = 13(-5.0025 \times 10^{-6})\,v_o - 2\,v_o \quad\Rightarrow\quad v_o \approx -9.9997\ \text{mV}$$
+4. **Then** $v_1 = (-5.0025 \times 10^{-6})(-9.9997\text{m}) \approx 50.02\ \text{nV}$, so
+   $$v_d = -v_1 \approx -50.02\ \text{nV}$$
+
+> [!tip] Quick check: the ideal answer is $-\frac{100}{20}(2\ \text{mV}) = -10\ \text{mV}$, and $v_d$ is tiny, so the virtual short works really well here.
+
 **Non-inverting amplifier**
 
 $$
@@ -187,6 +349,36 @@ $$
 - $R_1$: resistor from the inverting input to ground
 - $R_f$: feedback resistor, from the output back to the inverting input
 
+#### Example 5.11: Find $v_o$ and $i_o$
+
+Find $v_o$ and $i_o$ in the circuit of Figure 5.11.
+
+![[ele-302-opamp-ex05-divider-io.svg]]
+*Figure 5.11: Circuit for Example 5.11.*
+
+1. **$v_+$ from the divider** (no current into $v_+$, so the divider is unloaded):
+   $$v_+ = 2 \cdot \frac{30}{20 + 30} = 1.2\ \text{V}$$
+2. **Non-inverting gain,** Eq. (5.5):
+   $$v_o = \left(1 + \frac{40}{10}\right)(1.2) = 6\ \text{V}$$
+3. **$i_o$ is the op amp's output current.** It splits between the 12 kΩ load and the feedback path (40 kΩ, then 10 kΩ to ground):
+   $$i_o = \frac{6}{12\text{k}} + \frac{6}{40\text{k} + 10\text{k}} = 0.5\ \text{mA} + 0.12\ \text{mA} = 0.62\ \text{mA}$$
+
+> [!tip] The feedback path counts as a load too. Forgetting that is the most common mistake on $i_o$ questions.
+
+#### Example 5.12: Current source on the input, and power
+
+Refer to the op amp circuit in Figure 5.12. Calculate $i_x$ and the power absorbed by the 6 kΩ load.
+
+![[ele-302-opamp-ex08-current-source.svg]]
+*Figure 5.12: Circuit for Example 5.12.*
+
+1. **$v_+$:** no current goes into the op amp, so all 1.5 mA flows through the 6 kΩ and 3 kΩ in parallel:
+   $$v_+ = (1.5\text{m})(6\text{k} \parallel 3\text{k}) = (1.5\text{m})(2\text{k}) = 3\ \text{V}$$
+2. **Non-inverting gain,** Eq. (5.5):
+   $$v_o = \left(1 + \frac{4}{2}\right)(3) = 9\ \text{V}$$
+3. **Current and power in the load:**
+   $$i_x = \frac{9}{6\text{k}} = 1.5\ \text{mA}, \qquad P = v_o\,i_x = (9)(1.5\text{m}) = 13.5\ \text{mW}$$
+
 **Voltage follower (buffer)**
 
 $$
@@ -195,6 +387,20 @@ $$
 
 - $v_o$: output voltage (the output is wired straight to the inverting input)
 - $v_i$: input voltage, applied to the non-inverting input
+
+#### Example 5.13: Why use a buffer?
+
+A $6\ \text{V}$ source has a $100\ \text{k}\Omega$ series resistance and drives a $10\ \text{k}\Omega$ load. Find the load voltage (a) connected directly, and (b) through a voltage follower.
+
+**(a) Directly:** the source resistance and the load form a divider:
+
+$$
+v_L = 6 \cdot \frac{10}{100 + 10} = 0.545\ \text{V}
+$$
+
+**(b) With the buffer:** no current flows into $v_+$, so there is no drop across the $100\ \text{k}\Omega$ and $v_+ = 6\ \text{V}$. By Eq. (5.6), $v_o = v_L = 6\ \text{V}$. The op amp's output supplies the $0.6\ \text{mA}$ the load needs, so the source never has to.
+
+The buffer has gain 1, but it stops the load from loading down the source.
 
 **Summing amplifier** (inverting)
 
@@ -206,6 +412,18 @@ $$
 - $v_1, v_2, v_3$: input voltages being summed
 - $R_1, R_2, R_3$: input resistors, one per input, each going to the inverting input
 - $R_f$: feedback resistor, from the output back to the inverting input
+
+#### Example 5.14: Summing amplifier, find an unknown input
+
+For the circuit in Figure 5.13, determine the value of $v_2$ that makes $v_o = -9\ \text{V}$.
+
+![[ele-302-opamp-ex09-summing.svg]]
+*Figure 5.13: Summing amplifier for Example 5.14.*
+
+1. **Write Eq. (5.7)** with $R_f = 60\ \text{k}\Omega$:
+   $$v_o = -\left(\frac{60}{20}(2) + \frac{60}{30}\,v_2 + \frac{60}{40}(-4)\right) = -(6 + 2v_2 - 6) = -2\,v_2$$
+2. **Set it equal to the target:**
+   $$-2\,v_2 = -9 \quad\Rightarrow\quad v_2 = 4.5\ \text{V}$$
 
 **Difference amplifier** (general)
 
@@ -229,164 +447,23 @@ $$
 
 Eq. (5.8) is just superposition. The $v_1$ term is an inverting amp, and the $v_2$ term is a voltage divider ($R_3$, $R_4$) followed by a non-inverting amp. Eq. (5.9) is what you get when the ratios match.
 
-**Cascaded stages**
+#### Example 5.15: Difference amplifier with mismatched resistors
 
-$$
-A_{total} = A_1 \cdot A_2 \cdot A_3 \cdots \tag{5.10}
-$$
+The circuit in Figure 5.14 is a difference amplifier. Find $v_o$ given $v_1 = 2\ \text{V}$ and $v_2 = 3\ \text{V}$.
 
-- $A_{total}$: overall gain of the chain (final output ÷ first input)
-- $A_1, A_2, A_3, \ldots$: closed-loop gain of each individual stage
+![[ele-302-opamp-ex11-difference.svg]]
+*Figure 5.14: Difference amplifier for Example 5.15.*
 
-## Examples
+1. **Check the ratios first.** $R_1/R_2 = 5/20 = 0.25$ but $R_3/R_4 = 10/30 = 0.33$. They don't match, so the shortcut Eq. (5.9) **doesn't apply**.
+2. **$v_+$ from the divider:**
+   $$v_+ = 3 \cdot \frac{30}{10 + 30} = 2.25\ \text{V} = v_-$$
+3. **KCL at $v_-$:**
+   $$\frac{2 - 2.25}{5\text{k}} = \frac{2.25 - v_o}{20\text{k}} \quad\Rightarrow\quad 2.25 - v_o = -1 \quad\Rightarrow\quad v_o = 3.25\ \text{V}$$
+4. **Check with Eq. (5.8):** $-\frac{20}{5}(2) + \frac{30}{40}\left(1 + \frac{20}{5}\right)(3) = -8 + 11.25 = 3.25\ \text{V}$ ✓
 
-Problems marked **(T)** are tutorial problems. Try each one on paper before reading the solution.
+> [!warning] The shortcut would give $\frac{20}{5}(3 - 2) = 4\ \text{V}$ here, which is wrong. Always check the ratios first.
 
-### Example 1: Op amp equivalent model
-
-The equivalent model of an op amp is shown in Figure 5.5. Determine (a) the input resistance, (b) the output resistance, and (c) the voltage gain in dB.
-
-![[ele-302-opamp-ex01-model.svg]]
-*Figure 5.5: Equivalent model for Example 1.*
-
-Everything can be read right off the diagram:
-
-- (a) The resistance between the input terminals is $R_i = 2\ \text{M}\Omega$
-- (b) The resistance in series with the output is $R_o = 50\ \Omega$
-- (c) The open-loop gain is the number in front of $v_d$, so $A = 2 \times 10^5$. In decibels:
-  $$A_{dB} = 20\log_{10}A = 20\log_{10}(2 \times 10^5) = 106.02\ \text{dB}$$
-
-### Example 2: Non-ideal voltage follower
-
-The op amp in Figure 5.6 has an open-loop gain of 50,000, an input resistance of 20 kΩ, and an output resistance of 50 Ω. Find the voltage gain $v_o/v_i$ using the non-ideal model.
-
-![[ele-302-opamp-ex02-buffer.svg]]
-*Figure 5.6: Voltage follower for Example 2.*
-
-1. **Swap the op amp for its model.** $R_i$ sits between $v_+ = v_i$ and $v_- = v_o$, and the output is $A v_d$ in series with $R_o$, where
-   $$v_d = v_+ - v_- = v_i - v_o$$
-2. **KCL at the output node.** The current through $R_i$ (from $v_i$ to $v_o$) plus the current through $R_o$ (from the source to $v_o$) has to add up to zero, since nothing else is connected:
-   $$\frac{v_i - v_o}{R_i} + \frac{A(v_i - v_o) - v_o}{R_o} = 0$$
-3. **Multiply through by $R_i R_o$ and solve:**
-   $$\frac{v_o}{v_i} = \frac{R_o + A R_i}{R_o + (A + 1)R_i} = \frac{50 + (5 \times 10^4)(20\text{k})}{50 + (50\,001)(20\text{k})} = 0.99998$$
-
-> [!note] The ideal answer is exactly 1. The non-ideal model is only worth the algebra when the question asks for it, like this one does.
-
-### Example 3: Non-ideal inverting amplifier (T)
-
-The op amp in Figure 5.7 has $R_i = 200\ \text{k}\Omega$, $R_o = 50\ \Omega$, and $A = 200{,}000$. Find the differential voltage $v_d$ and the output voltage $v_o$.
-
-![[ele-302-opamp-ex03-nonideal-inverting.svg]]
-*Figure 5.7: Inverting amplifier for Example 3.*
-
-Call the inverting-input node $v_1$. Since $v_+ = 0$, $v_d = v_+ - v_- = -v_1$, and the op amp's output source is $A v_d = -A v_1$.
-
-1. **KCL at $v_1$** (in through 20 kΩ = out through $R_i$ to ground + out through 100 kΩ):
-   $$\frac{2\text{m} - v_1}{20\text{k}} = \frac{v_1}{200\text{k}} + \frac{v_1 - v_o}{100\text{k}}$$
-   Multiplying by 200k: $\quad 20\text{m} = 13\,v_1 - 2\,v_o$
-2. **KCL at $v_o$** (in through 100 kΩ = out through $R_o$ into the source):
-   $$\frac{v_1 - v_o}{100\text{k}} = \frac{v_o - (-A v_1)}{50}$$
-   Multiplying by 100k: $\quad v_1 - v_o = 2000\,v_o + (4 \times 10^8)\,v_1 \quad\Rightarrow\quad v_1 \approx -5.0025 \times 10^{-6}\,v_o$
-3. **Substitute into step 1:**
-   $$20\text{m} = 13(-5.0025 \times 10^{-6})\,v_o - 2\,v_o \quad\Rightarrow\quad v_o \approx -9.9997\ \text{mV}$$
-4. **Then** $v_1 = (-5.0025 \times 10^{-6})(-9.9997\text{m}) \approx 50.02\ \text{nV}$, so
-   $$v_d = -v_1 \approx -50.02\ \text{nV}$$
-
-> [!tip] Quick check: the ideal answer is $-\frac{100}{20}(2\ \text{mV}) = -10\ \text{mV}$, and $v_d$ is tiny, so the virtual short works really well here.
-
-### Example 4: Sources connected directly to the inputs
-
-Determine $v_o$ in the op amp circuit of Figure 5.8.
-
-![[ele-302-opamp-ex04-sources-on-inputs.svg]]
-*Figure 5.8: Circuit for Example 4.*
-
-1. **$v_+$ is fixed by the voltage source:** $v_+ = 3\ \text{V}$, so $v_- = 3\ \text{V}$ too.
-2. **No current goes into the op amp,** so all 2 mA from the current source has to leave the $v_-$ node through the 5 kΩ resistor:
-   $$\frac{v_- - v_o}{5\text{k}} = 2\text{m} \quad\Rightarrow\quad 3 - v_o = 10 \quad\Rightarrow\quad v_o = -7\ \text{V}$$
-
-### Example 5: Find $v_o$ and $i_o$
-
-Find $v_o$ and $i_o$ in the circuit of Figure 5.9.
-
-![[ele-302-opamp-ex05-divider-io.svg]]
-*Figure 5.9: Circuit for Example 5.*
-
-1. **$v_+$ from the divider** (no current into $v_+$, so the divider is unloaded):
-   $$v_+ = 2 \cdot \frac{30}{20 + 30} = 1.2\ \text{V}$$
-2. **Non-inverting gain,** Eq. (5.5):
-   $$v_o = \left(1 + \frac{40}{10}\right)(1.2) = 6\ \text{V}$$
-3. **$i_o$ is the op amp's output current.** It splits between the 12 kΩ load and the feedback path (40 kΩ, then 10 kΩ to ground):
-   $$i_o = \frac{6}{12\text{k}} + \frac{6}{40\text{k} + 10\text{k}} = 0.5\ \text{mA} + 0.12\ \text{mA} = 0.62\ \text{mA}$$
-
-> [!tip] The feedback path counts as a load too. Forgetting that is the most common mistake on $i_o$ questions.
-
-### Example 6: T-network in the feedback (T)
-
-(a) Determine the ratio $v_o/i_s$ for the circuit in Figure 5.10. (b) Evaluate it for $R_1 = 10\ \text{k}\Omega$, $R_2 = 5\ \text{k}\Omega$, $R_3 = 20\ \text{k}\Omega$.
-
-![[ele-302-opamp-ex06-t-network.svg]]
-*Figure 5.10: Circuit for Example 6. Call the middle node of the T $v_m$.*
-
-**(a)**
-
-1. **$v_- = v_+ = 0$.** All of $i_s$ flows from the $v_-$ node through $R_1$ to $v_m$:
-   $$\frac{0 - v_m}{R_1} = i_s \quad\Rightarrow\quad v_m = -i_s R_1$$
-2. **KCL at $v_m$** (in through $R_1$ = out through $R_2$ + out through $R_3$):
-   $$i_s = \frac{v_m}{R_2} + \frac{v_m - v_o}{R_3}$$
-3. **Solve for $v_o$ and substitute $v_m$:**
-   $$v_o = v_m\left(1 + \frac{R_3}{R_2}\right) - R_3\,i_s \quad\Rightarrow\quad \frac{v_o}{i_s} = -\left(R_1 + R_3 + \frac{R_1 R_3}{R_2}\right)$$
-
-**(b)**
-$$\frac{v_o}{i_s} = -\left(10\text{k} + 20\text{k} + \frac{(10\text{k})(20\text{k})}{5\text{k}}\right) = -70\ \text{k}\Omega$$
-
-> [!note] The ratio is in ohms because it's volts out per amp in. The T-network gets a large gain (70 kΩ) without needing one big resistor.
-
-### Example 7: Find $i_o$ with a resistor network on the input
-
-Determine $i_o$ in the circuit of Figure 5.11.
-
-![[ele-302-opamp-ex07-input-network.svg]]
-*Figure 5.11: Circuit for Example 7.*
-
-1. **Replace everything left of the 2 kΩ with its Thévenin equivalent** (1.5 V source, 3 kΩ, 6 kΩ):
-   $$V_{th} = 1.5 \cdot \frac{6}{3 + 6} = 1\ \text{V}, \qquad R_{th} = 3\text{k} \parallel 6\text{k} = 2\ \text{k}\Omega$$
-2. **Now it's just an inverting amp** with an input resistance of $R_{th} + 2\text{k} = 4\ \text{k}\Omega$. By Eq. (5.4):
-   $$v_o = -\frac{8}{4}(1) = -2\ \text{V}$$
-3. **$i_o$ flows down through the 4 kΩ load:**
-   $$i_o = \frac{v_o}{4\text{k}} = \frac{-2}{4\text{k}} = -0.5\ \text{mA}$$
-
-So 0.5 mA actually flows *up* through the load, into the op amp's output.
-
-> [!tip] Thévenin works here because the 2 kΩ connects to the virtual ground, so the circuit on its left always sees the same load. You could skip Thévenin and do KCL at the 6 kΩ node instead, and you'd get the same answer.
-
-### Example 8: Current source on the input, and power
-
-Refer to the op amp circuit in Figure 5.12. Calculate $i_x$ and the power absorbed by the 6 kΩ load.
-
-![[ele-302-opamp-ex08-current-source.svg]]
-*Figure 5.12: Circuit for Example 8.*
-
-1. **$v_+$:** no current goes into the op amp, so all 1.5 mA flows through the 6 kΩ and 3 kΩ in parallel:
-   $$v_+ = (1.5\text{m})(6\text{k} \parallel 3\text{k}) = (1.5\text{m})(2\text{k}) = 3\ \text{V}$$
-2. **Non-inverting gain,** Eq. (5.5):
-   $$v_o = \left(1 + \frac{4}{2}\right)(3) = 9\ \text{V}$$
-3. **Current and power in the load:**
-   $$i_x = \frac{9}{6\text{k}} = 1.5\ \text{mA}, \qquad P = v_o\,i_x = (9)(1.5\text{m}) = 13.5\ \text{mW}$$
-
-### Example 9: Summing amplifier, find an unknown input
-
-For the circuit in Figure 5.13, determine the value of $v_2$ that makes $v_o = -9\ \text{V}$.
-
-![[ele-302-opamp-ex09-summing.svg]]
-*Figure 5.13: Summing amplifier for Example 9.*
-
-1. **Write Eq. (5.7)** with $R_f = 60\ \text{k}\Omega$:
-   $$v_o = -\left(\frac{60}{20}(2) + \frac{60}{30}\,v_2 + \frac{60}{40}(-4)\right) = -(6 + 2v_2 - 6) = -2\,v_2$$
-2. **Set it equal to the target:**
-   $$-2\,v_2 = -9 \quad\Rightarrow\quad v_2 = 4.5\ \text{V}$$
-
-### Example 10: Design problem
+#### Example 5.16: Design problem
 
 Design an op amp circuit to perform $v_o = 2v_1 - 3v_2$. All resistances must be ≤ 100 kΩ.
 
@@ -398,32 +475,25 @@ Design an op amp circuit to perform $v_o = 2v_1 - 3v_2$. All resistances must be
 4. **Check:** $v_o = -\frac{60}{20}v_2 + \frac{50}{100}(4)\,v_1 = 2v_1 - 3v_2$ ✓, and every resistor is ≤ 100 kΩ ✓.
 
 ![[ele-302-opamp-ex10-design.svg]]
-*Figure 5.14: One possible design for Example 10. Lots of other resistor values work too.*
+*Figure 5.15: One possible design for Example 5.16. Lots of other resistor values work too.*
 
 > [!tip] Design questions have many right answers. Pick one resistor to be whatever you want (here $R_1$), then solve for the rest from the gains.
 
-### Example 11: Difference amplifier with mismatched resistors
+**Cascaded stages**
 
-The circuit in Figure 5.15 is a difference amplifier. Find $v_o$ given $v_1 = 2\ \text{V}$ and $v_2 = 3\ \text{V}$.
+$$
+A_{total} = A_1 \cdot A_2 \cdot A_3 \cdots \tag{5.10}
+$$
 
-![[ele-302-opamp-ex11-difference.svg]]
-*Figure 5.15: Difference amplifier for Example 11.*
+- $A_{total}$: overall gain of the chain (final output ÷ first input)
+- $A_1, A_2, A_3, \ldots$: closed-loop gain of each individual stage
 
-1. **Check the ratios first.** $R_1/R_2 = 5/20 = 0.25$ but $R_3/R_4 = 10/30 = 0.33$. They don't match, so the shortcut Eq. (5.9) **doesn't apply**.
-2. **$v_+$ from the divider:**
-   $$v_+ = 3 \cdot \frac{30}{10 + 30} = 2.25\ \text{V} = v_-$$
-3. **KCL at $v_-$:**
-   $$\frac{2 - 2.25}{5\text{k}} = \frac{2.25 - v_o}{20\text{k}} \quad\Rightarrow\quad 2.25 - v_o = -1 \quad\Rightarrow\quad v_o = 3.25\ \text{V}$$
-4. **Check with Eq. (5.8):** $-\frac{20}{5}(2) + \frac{30}{40}\left(1 + \frac{20}{5}\right)(3) = -8 + 11.25 = 3.25\ \text{V}$ ✓
-
-> [!warning] The shortcut would give $\frac{20}{5}(3 - 2) = 4\ \text{V}$ here, which is wrong. Always check the ratios first.
-
-### Example 12: Cascaded stages (T)
+#### Example 5.17: Cascaded stages (T)
 
 In the circuit of Figure 5.16, determine the voltage gain $v_o/v_s$. Take $R = 10\ \text{k}\Omega$.
 
 ![[ele-302-opamp-ex12-cascaded.svg]]
-*Figure 5.16: Two cascaded stages for Example 12.*
+*Figure 5.16: Two cascaded stages for Example 5.17.*
 
 1. **Stage 1 is non-inverting** ($v_s$ on $v_+$, $R$ to ground, $3R$ feedback). By Eq. (5.5):
    $$A_1 = \frac{v_1}{v_s} = 1 + \frac{3R}{R} = 4$$

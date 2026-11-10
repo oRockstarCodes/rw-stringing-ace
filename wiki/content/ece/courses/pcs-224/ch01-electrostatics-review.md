@@ -51,6 +51,30 @@ $$
 
 Between the plates the field points from $+$ to $-$ and is the same size everywhere in the gap.
 
+#### Example 1.1: Field and force from charged plates
+
+A large flat plate carries a charge density $\sigma = 2.0\ \mu\text{C/m}^2$. (a) Find the field next to it if it is alone. (b) Find the field in the gap if a second plate with $-2.0\ \mu\text{C/m}^2$ faces it. (c) What force acts on an electron in the gap?
+
+**(a)** One plate, Eq. (1.2):
+
+$$
+E = \frac{\sigma}{2\varepsilon_0} = \frac{2.0\times10^{-6}}{2(8.85\times10^{-12})} = 1.13\times10^{5}\ \text{V/m}
+$$
+
+**(b)** Two opposite plates double it, Eq. (1.3):
+
+$$
+E = \frac{\sigma}{\varepsilon_0} = 2.26\times10^{5}\ \text{V/m}
+$$
+
+**(c)** From $\vec{F} = q\vec{E}$ with $q = -e$:
+
+$$
+F = eE = (1.602\times10^{-19})(2.26\times10^{5}) = 3.6\times10^{-14}\ \text{N}
+$$
+
+The electron is negative, so the force points **opposite** to $\vec{E}$, which is toward the $+$ plate.
+
 ![[pcs-224-charged-plates.svg]]
 *Figure 1.1: The field of one large plate points away from it on both sides. Two opposite plates add inside the gap and cancel outside.*
 
@@ -89,6 +113,24 @@ Here $V_A$ and $V_B$ are the potentials at the start and end points, and $\Delta
 ![[pcs-224-uniform-field-potential.svg]]
 *Figure 1.2: Between two large, oppositely charged plates the field is uniform, and the potential falls in a straight line from the $+$ plate to the $-$ plate.*
 
+#### Example 1.2: Potential difference from a field
+
+A uniform field of $E = 800$ V/cm points to the right. Point B is $0.35$ cm to the right of point A. (a) Find $V_B - V_A$. (b) Find $V_B - V_A$ if instead B is $0.35$ cm to the **left** of A.
+
+**(a)** B is **along** the field from A, so potential falls. By Eq. (1.6):
+
+$$
+V_B - V_A = -E\,\Delta y = -(800\ \text{V/cm})(0.35\ \text{cm}) = -280\ \text{V}
+$$
+
+**(b)** Now the displacement is **against** the field, $\Delta y = -0.35$ cm:
+
+$$
+V_B - V_A = -(800)(-0.35) = +280\ \text{V}
+$$
+
+> [!note] The same distance gives equal and opposite answers. The sign just tells you whether you went with the field (downhill) or against it (uphill).
+
 **Getting the field from the potential.** Equation (1.6) is a special case of a more general rule:
 
 $$
@@ -96,6 +138,20 @@ E = -\frac{dV}{dx} \tag{1.7}
 $$
 
 Here $x$ is position along the direction you're measuring, so $dV/dx$ is the slope of the potential graph. The field is the **steepness** of the potential. Picture a hill: a steep slope means a strong field, a gentle slope means a weak one. (In 3D the derivative becomes a gradient, $\vec{E} = -\nabla V$, but in this course the field is almost always one-dimensional.)
+
+#### Example 1.3: Reading a field off a potential graph
+
+In a region the potential is $12$ V at $x = 0$ and falls in a straight line to $4$ V at $x = 4$ cm. From $x = 4$ cm to $x = 6$ cm it stays at $4$ V. Find $E$ in each stretch.
+
+For $0 < x < 4$ cm the graph has a constant slope, so the field is uniform. Eq. (1.7):
+
+$$
+E = -\frac{dV}{dx} = -\frac{4 - 12\ \text{V}}{4\ \text{cm}} = +2\ \text{V/cm} = 200\ \text{V/m}
+$$
+
+The sign is positive, so $\vec{E}$ points in $+x$, which is the direction the potential falls. For $4 < x < 6$ cm the graph is flat, so $E = 0$.
+
+The steep part of a potential graph is where the field is strong, and a flat part has no field.
 
 **The electron-volt.** A joule is enormous compared to the energy of one electron, so we use a smaller unit:
 
@@ -106,6 +162,66 @@ $$
 Here $e = 1.602\times10^{-19}$ C is the **elementary charge**, the size of the charge of one electron (an electron has $q = -e$, a proton $q = +e$). One electron-volt is the energy a charge $e$ gains or loses when it moves through **1 V**. Since $\Delta U = q\Delta V$, a charge of $\pm e$ moving through $\Delta V$ volts changes its energy by exactly $\Delta V$ eV. No conversion needed.
 
 > [!tip] I do all the energy bookkeeping in eV. A $+e$ charge that climbs a $6$ V rise gains $6$ eV of potential energy and loses $6$ eV of kinetic energy. An electron ($-e$) does the opposite: it speeds up when it moves to *higher* potential.
+
+#### Example 1.4: Electron crossing a gap
+
+Two large parallel plates are $8.0$ mm apart with a potential difference of $300$ V. An electron is released from rest at the negative plate. Find (a) the field between the plates, (b) the electron's kinetic energy at the positive plate, and (c) its speed there.
+
+**(a) Field.** Uniform field, Eq. (1.6) in magnitude:
+
+$$
+E = \frac{\Delta V}{d} = \frac{300\ \text{V}}{8.0\times10^{-3}\ \text{m}} = 3.75\times10^4\ \text{V/m} = 375\ \text{V/cm}
+$$
+
+**(b) Energy.** An electron that moves through $300$ V changes its energy by $300$ eV. It starts from rest, so by Eq. (1.5) all of the potential energy it loses becomes kinetic:
+
+$$
+K = 300\ \text{eV} = 300(1.602\times10^{-19}) = 4.81\times10^{-17}\ \text{J}
+$$
+
+**(c) Speed.**
+
+$$
+v = \sqrt{\frac{2K}{m}} = \sqrt{\frac{2(4.81\times10^{-17})}{9.11\times10^{-31}}} = 1.03\times10^{7}\ \text{m/s}
+$$
+
+Here $v$ is the electron's speed, and $m = 9.11\times10^{-31}$ kg is the electron's mass (from $K = \tfrac{1}{2}mv^2$).
+
+That's about 3% of the speed of light, so the non-relativistic $K = \frac{1}{2}mv^2$ is still a fine approximation.
+
+#### Example 1.5: How far before it turns around?
+
+A proton ($+e$) with $10$ eV of kinetic energy moves **against** a uniform field of $3.0$ V/cm. (a) What's its kinetic energy after $2.0$ cm? (b) How far does it travel before turning around?
+
+**(a)** Moving against the field raises the potential:
+
+$$
+\Delta V = +E\,d = (3.0)(2.0) = +6.0\ \text{V} \quad\Rightarrow\quad \Delta U = q\Delta V = +6.0\ \text{eV}
+$$
+
+By Eq. (1.5), $\Delta K = -6.0$ eV, so $K = 10 - 6.0 = 4.0$ eV.
+
+**(b)** It turns around when $K = 0$, which is when it's climbed $10$ eV, and that needs a $10$ V rise:
+
+$$
+d = \frac{10\ \text{V}}{3.0\ \text{V/cm}} = 3.3\ \text{cm}
+$$
+
+#### Example 1.6: Reading a potential energy
+
+A positive charge $q = +e$ has $U_A = 5$ eV and $U_B = 6$ eV near a large charged plate. (a) What is $V_B - V_A$? (b) Which point has the larger speed? (c) Which way does the field point, A to B or B to A?
+
+**(a)** $\Delta U = q\Delta V$ with $q = +e$ means $\Delta V$ in volts equals $\Delta U$ in eV:
+
+$$
+V_B - V_A = \frac{6 - 5\ \text{eV}}{+e} = +1\ \text{V}
+$$
+
+**(b)** The charge has more potential energy at B, so by Eq. (1.5) it has less kinetic energy there, which means **A** is faster.
+
+**(c)** $V$ is higher at B. Potential falls along $\vec{E}$, so $\vec{E}$ points **from B toward A**.
+
+> [!tip] For a **negative** charge the sign flips. $\Delta V = \Delta U / (-e)$, so the same $U_A = 5$ eV, $U_B = 6$ eV would mean $V_B - V_A = -1$ V.
 
 ### Units
 
@@ -141,6 +257,24 @@ Temperature is always in kelvin: $T(\text{K}) = T(^\circ\text{C}) + 273$. You'll
 4. Ask whether the answer makes sense.
 
 Those four steps catch both algebra mistakes and unit mistakes.
+
+#### Example 1.7: Units check
+
+Show that the tesla can be written as V·s/m².
+
+A charge $q$ moving at speed $v$ perpendicular to a magnetic field $B$ feels a force $F = qvB$ (more in [[ch04-hall-effect-bohr-model-doping#Magnetic force on a moving charge|Chapter 4]]), so $B = \dfrac{F}{qv}$. In units:
+
+$$
+[B] = \frac{\text{N}}{\text{C}\cdot\text{m/s}} = \frac{\text{N}\cdot\text{s}}{\text{C}\cdot\text{m}}
+$$
+
+Use $\text{N} = \text{J/m}$ and $\text{J/C} = \text{V}$:
+
+$$
+[B] = \frac{(\text{J/m})\,\text{s}}{\text{C}\cdot\text{m}} = \frac{\text{J}}{\text{C}}\cdot\frac{\text{s}}{\text{m}^2} = \frac{\text{V}\cdot\text{s}}{\text{m}^2}\ \checkmark
+$$
+
+You'll use this form of the tesla in the [[ch04-hall-effect-bohr-model-doping#The Hall effect|Hall effect]], where the voltage is $V_H = v_d B W$ ($v_d$ is the carriers' [[ch03-intro-to-semiconductors#Drift current and mobility|drift speed]] and $W$ the sample width, both defined in Chapters 3 and 4) and the units have to come out in volts.
 
 ## Key formulas
 
@@ -180,106 +314,6 @@ $$
 $$
 1\ \text{eV} = 1.602\times10^{-19}\ \text{J} \tag{1.8}
 $$
-
-## Examples
-
-Try each one on paper before reading the solution.
-
-### Example 1: Electron crossing a gap
-
-Two large parallel plates are $8.0$ mm apart with a potential difference of $300$ V. An electron is released from rest at the negative plate. Find (a) the field between the plates, (b) the electron's kinetic energy at the positive plate, and (c) its speed there.
-
-**(a) Field.** Uniform field, Eq. (1.6) in magnitude:
-
-$$
-E = \frac{\Delta V}{d} = \frac{300\ \text{V}}{8.0\times10^{-3}\ \text{m}} = 3.75\times10^4\ \text{V/m} = 375\ \text{V/cm}
-$$
-
-**(b) Energy.** An electron that moves through $300$ V changes its energy by $300$ eV. It starts from rest, so by Eq. (1.5) all of the potential energy it loses becomes kinetic:
-
-$$
-K = 300\ \text{eV} = 300(1.602\times10^{-19}) = 4.81\times10^{-17}\ \text{J}
-$$
-
-**(c) Speed.**
-
-$$
-v = \sqrt{\frac{2K}{m}} = \sqrt{\frac{2(4.81\times10^{-17})}{9.11\times10^{-31}}} = 1.03\times10^{7}\ \text{m/s}
-$$
-
-Here $v$ is the electron's speed, and $m = 9.11\times10^{-31}$ kg is the electron's mass (from $K = \tfrac{1}{2}mv^2$).
-
-That's about 3% of the speed of light, so the non-relativistic $K = \frac{1}{2}mv^2$ is still a fine approximation.
-
-### Example 2: Potential difference from a field
-
-A uniform field of $E = 800$ V/cm points to the right. Point B is $0.35$ cm to the right of point A. (a) Find $V_B - V_A$. (b) Find $V_B - V_A$ if instead B is $0.35$ cm to the **left** of A.
-
-**(a)** B is **along** the field from A, so potential falls. By Eq. (1.6):
-
-$$
-V_B - V_A = -E\,\Delta y = -(800\ \text{V/cm})(0.35\ \text{cm}) = -280\ \text{V}
-$$
-
-**(b)** Now the displacement is **against** the field, $\Delta y = -0.35$ cm:
-
-$$
-V_B - V_A = -(800)(-0.35) = +280\ \text{V}
-$$
-
-> [!note] The same distance gives equal and opposite answers. The sign just tells you whether you went with the field (downhill) or against it (uphill).
-
-### Example 3: How far before it turns around?
-
-A proton ($+e$) with $10$ eV of kinetic energy moves **against** a uniform field of $3.0$ V/cm. (a) What's its kinetic energy after $2.0$ cm? (b) How far does it travel before turning around?
-
-**(a)** Moving against the field raises the potential:
-
-$$
-\Delta V = +E\,d = (3.0)(2.0) = +6.0\ \text{V} \quad\Rightarrow\quad \Delta U = q\Delta V = +6.0\ \text{eV}
-$$
-
-By Eq. (1.5), $\Delta K = -6.0$ eV, so $K = 10 - 6.0 = 4.0$ eV.
-
-**(b)** It turns around when $K = 0$, which is when it's climbed $10$ eV, and that needs a $10$ V rise:
-
-$$
-d = \frac{10\ \text{V}}{3.0\ \text{V/cm}} = 3.3\ \text{cm}
-$$
-
-### Example 4: Reading a potential energy
-
-A positive charge $q = +e$ has $U_A = 5$ eV and $U_B = 6$ eV near a large charged plate. (a) What is $V_B - V_A$? (b) Which point has the larger speed? (c) Which way does the field point, A to B or B to A?
-
-**(a)** $\Delta U = q\Delta V$ with $q = +e$ means $\Delta V$ in volts equals $\Delta U$ in eV:
-
-$$
-V_B - V_A = \frac{6 - 5\ \text{eV}}{+e} = +1\ \text{V}
-$$
-
-**(b)** The charge has more potential energy at B, so by Eq. (1.5) it has less kinetic energy there, which means **A** is faster.
-
-**(c)** $V$ is higher at B. Potential falls along $\vec{E}$, so $\vec{E}$ points **from B toward A**.
-
-> [!tip] For a **negative** charge the sign flips. $\Delta V = \Delta U / (-e)$, so the same $U_A = 5$ eV, $U_B = 6$ eV would mean $V_B - V_A = -1$ V.
-
-### Example 5: Units check
-
-Show that the tesla can be written as V·s/m².
-
-A charge $q$ moving at speed $v$ perpendicular to a magnetic field $B$ feels a force $F = qvB$ (more in [[ch04-hall-effect-bohr-model-doping#Magnetic force on a moving charge|Chapter 4]]), so $B = \dfrac{F}{qv}$. In units:
-
-$$
-[B] = \frac{\text{N}}{\text{C}\cdot\text{m/s}} = \frac{\text{N}\cdot\text{s}}{\text{C}\cdot\text{m}}
-$$
-
-Use $\text{N} = \text{J/m}$ and $\text{J/C} = \text{V}$:
-
-$$
-[B] = \frac{(\text{J/m})\,\text{s}}{\text{C}\cdot\text{m}} = \frac{\text{J}}{\text{C}}\cdot\frac{\text{s}}{\text{m}^2} = \frac{\text{V}\cdot\text{s}}{\text{m}^2}\ \checkmark
-$$
-
-You'll use this form of the tesla in the [[ch04-hall-effect-bohr-model-doping#The Hall effect|Hall effect]], where the voltage is $V_H = v_d B W$ ($v_d$ is the carriers' [[ch03-intro-to-semiconductors#Drift current and mobility|drift speed]] and $W$ the sample width, both defined in Chapters 3 and 4) and the units have to come out in volts.
 
 ## Common mistakes
 
