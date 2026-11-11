@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-30 0 610 190" width="610" height="190" font-family="DM Sans, system-ui, sans-serif" font-size="13">
+  <g fill="none" stroke="#8a8a93" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+    <!-- Three T flip-flops -->
+    <rect x="70" y="30" width="70" height="80" rx="3"/>
+    <rect x="210" y="30" width="70" height="80" rx="3"/>
+    <rect x="350" y="30" width="70" height="80" rx="3"/>
+    <!-- Clock triangles -->
+    <polyline points="70,84 80,90 70,96"/>
+    <polyline points="210,84 220,90 210,96"/>
+    <polyline points="350,84 360,90 350,96"/>
+    <!-- T inputs tied to 1 -->
+    <polyline points="30,50 70,50"/>
+    <polyline points="190,150 190,50 210,50"/>
+    <polyline points="330,150 330,50 350,50"/>
+    <polyline points="30,150 330,150"/>
+    <!-- Clock -> first flip-flop -->
+    <polyline points="30,120 50,120 50,90 70,90"/>
+    <!-- Qbar of each stage -> clock of the next -->
+    <polyline points="140,100 175,100 175,90 210,90"/>
+    <polyline points="280,100 315,100 315,90 350,90"/>
+    <!-- Q outputs -->
+    <polyline points="140,50 175,50"/>
+    <polyline points="280,50 315,50"/>
+    <polyline points="420,50 460,50"/>
+  </g>
+  <g fill="#8a8a93">
+    <circle cx="190" cy="50" r="3"/>
+    <circle cx="330" cy="50" r="3"/>
+  </g>
+  <g fill="#8a8a93" font-size="12">
+    <text x="78" y="54">T</text>
+    <text x="218" y="54">T</text>
+    <text x="358" y="54">T</text>
+    <text x="132" y="54" text-anchor="end">Q</text>
+    <text x="272" y="54" text-anchor="end">Q</text>
+    <text x="412" y="54" text-anchor="end">Q</text>
+    <text x="132" y="104" text-anchor="end">Q&#772;</text>
+    <text x="272" y="104" text-anchor="end">Q&#772;</text>
+  </g>
+  <g fill="#c99a12" font-weight="600">
+    <text x="24" y="54" text-anchor="end">1</text>
+    <text x="24" y="124" text-anchor="end">Clock</text>
+    <text x="24" y="154" text-anchor="end">1</text>
+    <text x="170" y="40" text-anchor="end">Q<tspan font-size="10" dy="3">0</tspan></text>
+    <text x="310" y="40" text-anchor="end">Q<tspan font-size="10" dy="3">1</tspan></text>
+    <text x="466" y="54">Q<tspan font-size="10" dy="3">2</tspan></text>
+  </g>
+</svg>

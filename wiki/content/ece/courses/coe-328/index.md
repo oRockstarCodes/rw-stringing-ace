@@ -30,7 +30,8 @@ Digital logic from the ground up: Boolean algebra, implementation technology (tr
 | 5 | [[ch05-number-representation-and-arithmetic\|Ch 5]] · Number Representation and Arithmetic Circuits | §5.1–5.8 |
 | 6 | [[ch06-combinational-building-blocks\|Ch 6]] · Combinational Circuit Building Blocks | §6.1–6.6 |
 | 7–8 | [[ch07-intro-to-sequential-circuits\|Ch 7]] · Introduction to Sequential Circuits | §7.1–7.13 |
-| 9–11 | Ch 8 · Synchronous Sequential Circuits | §8.1–8.9 |
+| 9 | [[ch07b-counters\|Ch 7 (cont.)]] · Counters | §7.9, 7.11 |
+| 10–11 | [[ch08-synchronous-sequential-circuits\|Ch 8]] · Synchronous Sequential Circuits | §8.1, 8.3, 8.7 |
 | 12–13 | Ch 9 · Asynchronous Sequential Circuits | §9.1–9.6 |
 
 **Midterm** in week 7 (covers weeks 1–6). **Final** covers weeks 8–13.
