@@ -68,6 +68,10 @@ The count should go $3 \to 4$ ($011 \to 100$), and that needs **all three** flip
 
 For a short time the counter shows $010$ and $000$, values that **aren't part of the counting sequence**. If something decodes the count right then, it'll see a glitch. In an $n$-bit ripple counter the settling time grows with $n$, which is the main reason ripple counters are only used where speed doesn't matter.
 
+**Try it:** press the clock pulse on the ripple counter and step it through $011 \to 100$ to see the transient values. Then switch to the synchronous counter, where every stage changes on the same edge, and use $w$ to pause the count.
+
+<div class="melon-logic" data-view="counter" data-kind="ripple,sync">Interactive ripple and synchronous counters (open this page on the site to use it).</div>
+
 #### Example 7.15: Waveforms of a 3-bit counter
 
 Three negative edge-triggered J-K flip-flops ($J = K = 1$) are cascaded as in the first figure ($Q_A$ clocks B, $Q_B$ clocks C). Find the binary sequence.

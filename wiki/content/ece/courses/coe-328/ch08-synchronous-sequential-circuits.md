@@ -125,6 +125,10 @@ The machine starts in A (after Reset). The input $w$ at six successive rising ed
 
 $z$ only becomes 1 **after** the edge at which the second 1 is sampled, because $z$ depends on the state and the state only changes at the edge.
 
+**Try it:** flip $w$ and press the clock edge to step the Moore machine. The highlighted arrow is the transition that the next edge will take, and the table records each cycle. Try $1, 1, 1, 0, 1, 0$ to reproduce Example 8.1.
+
+<div class="melon-logic" data-view="fsm" data-model="moore">Interactive Moore state diagram (open this page on the site to use it).</div>
+
 ### State assignment
 
 Flip-flops store 0s and 1s, so the symbolic states A, B, C have to be given **binary codes**. Each bit of the code is a **state variable**, and each state variable is one flip-flop.
@@ -262,6 +266,10 @@ Both detectors are reset to A. The input is $w = 0, 1, 1, 1, 0, 0$ in clock cycl
 - Mealy: $z$ rises in cycle 3, the cycle in which the second 1 is on $w$. It also falls in cycle 5 as soon as $w$ is 0.
 
 So the **Mealy output is one clock cycle earlier**. The price is that a Mealy output depends on the input, so if $w$ changes in the middle of a clock cycle, $z$ can change in the middle of the cycle too.
+
+**Try it:** switch between Moore and Mealy, set $w = 1$, and clock twice. In the Mealy machine $z$ goes to 1 as soon as the second 1 is *present* (flip $w$ without clocking and watch $z$ follow it). In the Moore machine $z$ only changes after the clock edge.
+
+<div class="melon-logic" data-view="fsm" data-model="mealy,moore">Interactive Moore and Mealy state diagrams (open this page on the site to use it).</div>
 
 ### Design of a counter: the sequential-circuit approach
 

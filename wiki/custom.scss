@@ -3037,6 +3037,47 @@ article > * {
   .lg-seg {
     max-width: 130px;
   }
+  .lg-fsm {
+    max-width: 460px;
+  }
+  .lg-counter {
+    max-width: 560px;
+  }
+
+  // ----- State machines and counters -----
+
+  .lg-state {
+    fill: var(--light);
+    stroke: var(--gray);
+    stroke-width: 2;
+    transition: fill 0.2s, stroke 0.2s;
+  }
+  .lg-state.is-cur {
+    fill: var(--secondary);
+    stroke: var(--secondary);
+  }
+  text.lg-on {
+    fill: var(--light);
+  }
+  .lg-block.is-hot {
+    fill: color-mix(in srgb, var(--secondary) 22%, var(--light));
+    stroke: var(--secondary);
+  }
+  .lg-histwrap {
+    overflow-x: auto;
+    margin-top: 0.75rem;
+    display: flex;
+    justify-content: center;
+  }
+  .lg-hist tbody tr {
+    cursor: default;
+  }
+  .lg-hist tbody tr:hover {
+    background: transparent;
+  }
+  .lg-hist th {
+    text-align: left;
+  }
 
   // ----- SVG basics -----
 
@@ -3146,6 +3187,9 @@ article > * {
   }
   .lg-arrowhead {
     fill: var(--gray);
+  }
+  .lg-arrowhead.is-hot {
+    fill: var(--secondary);
   }
   .lg-pin {
     fill: var(--gray);

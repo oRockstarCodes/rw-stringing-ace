@@ -19,6 +19,10 @@ import { QuartzComponent, QuartzComponentConstructor } from "../types"
 //   <div class="melon-logic" data-view="adder"></div>     4-bit ripple-carry adder/subtractor
 //   <div class="melon-logic" data-view="mux"></div>       4-to-1 multiplexer
 //   <div class="melon-logic" data-view="sevenseg"></div>  BCD-to-7-segment decoder
+//   <div class="melon-logic" data-view="fsm" data-model="moore,mealy"></div>
+//     Sequence-detector state diagram: toggle w, clock it, watch the state and z. Models: moore, mealy.
+//   <div class="melon-logic" data-view="counter" data-kind="ripple,sync"></div>
+//     3-bit counter of T flip-flops with a waveform history. Kinds: ripple, sync.
 //
 // The script below fills them in on every page load (the text inside the div is only
 // a fallback for Obsidian and link previews). Styles are in wiki/custom.scss.
@@ -1378,9 +1382,283 @@ MelonLogic.afterDOMLoaded = `
     render()
   }
 
+  // ---------- Finite state machines: Moore and Mealy sequence detectors ----------
+
+  // The "two or more consecutive 1s" detector of Ch 8, as a Moore machine (3 states, z in the
+  // state) and as a Mealy machine (2 states, z on the arrow). Each edge is { from, w, d, lx, ly }.
+  const FSM = {
+    moore: {
+      label: "Moore",
+      nodes: [["A", 70, 100], ["B", 210, 100], ["C", 350, 100]],
+      next: { A: ["A", "B"], B: ["A", "C"], C: ["A", "C"] },
+      z: (s) => (s === "C" ? 1 : 0),
+      edges: [
+        { from: "A", w: 0, d: "M56,74 C36,20 104,20 84,74", lx: 70, ly: 28 },
+        { from: "A", w: 1, d: "M100,88 L180,88", lx: 140, ly: 80 },
+        { from: "B", w: 0, d: "M180,112 L100,112", lx: 140, ly: 130 },
+        { from: "B", w: 1, d: "M240,88 L320,88", lx: 280, ly: 80 },
+        { from: "C", w: 1, d: "M336,74 C316,20 384,20 364,74", lx: 350, ly: 28 },
+        { from: "C", w: 0, d: "M350,130 C350,196 70,196 70,130", lx: 210, ly: 196 },
+      ],
+    },
+    mealy: {
+      label: "Mealy",
+      nodes: [["A", 110, 100], ["B", 310, 100]],
+      next: { A: ["A", "B"], B: ["A", "B"] },
+      z: (s, w) => (s === "B" && w === 1 ? 1 : 0),
+      edges: [
+        { from: "A", w: 0, d: "M96,74 C76,20 144,20 124,74", lx: 110, ly: 28 },
+        { from: "A", w: 1, d: "M140,88 L280,88", lx: 210, ly: 80 },
+        { from: "B", w: 0, d: "M280,112 L140,112", lx: 210, ly: 130 },
+        { from: "B", w: 1, d: "M296,74 C276,20 344,20 324,74", lx: 310, ly: 28 },
+      ],
+    },
+  }
+
+  function buildFsm(root) {
+    const list = (root.dataset.model || "moore,mealy").split(",").map((s) => s.trim()).filter((k) => FSM[k])
+    if (!list.length) return
+    const id = ++uid
+    let key = list[0]
+    let s = "A"
+    let w = 0
+    let hist = []
+    root.innerHTML =
+      (list.length > 1 ? chips("model", list.map((k) => [k, FSM[k].label])) : "") +
+      '<svg class="lg-svg lg-fsm" viewBox="0 0 420 215" role="img" aria-label="State diagram of the sequence detector. The current state and transition are highlighted."></svg>' +
+      '<div class="lg-toggles">' + toggle("w", "w") +
+      '<button type="button" class="lg-btn" data-act="clock">Clock edge &#8593;</button>' +
+      '<button type="button" class="lg-btn" data-act="reset">Reset</button></div>' +
+      '<p class="lg-readout lg-prose"></p><div class="lg-histwrap"></div>'
+    const svg = root.querySelector(".lg-fsm")
+
+    const render = () => {
+      const m = FSM[key]
+      const z = m.z(s, w)
+      const to = m.next[s][w]
+      let h =
+        '<defs><marker id="fa-' + id + '" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path class="lg-arrowhead" d="M0,1 L9,5 L0,9 Z"/></marker>' +
+        '<marker id="fh-' + id + '" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path class="lg-arrowhead is-hot" d="M0,1 L9,5 L0,9 Z"/></marker></defs>'
+      m.edges.forEach((e) => {
+        const on = e.from === s && e.w === w
+        const lab = key === "mealy" ? e.w + "/" + m.z(e.from, e.w) : "" + e.w
+        h +=
+          '<path class="lg-wire' + (on ? " is-sel is-hi" : "") + '" d="' + e.d + '" marker-end="url(#' + (on ? "fh-" : "fa-") + id + ')"/>' +
+          '<text class="lg-val' + (on ? " lg-strong" : "") + '" x="' + e.lx + '" y="' + e.ly + '" text-anchor="middle">' + lab + "</text>"
+      })
+      m.nodes.forEach(([n, x, y]) => {
+        const cur = n === s
+        h += '<circle class="lg-state' + (cur ? " is-cur" : "") + '" cx="' + x + '" cy="' + y + '" r="30"/>'
+        if (key === "moore") {
+          h +=
+            '<text class="lg-label' + (cur ? " lg-on" : "") + '" x="' + x + '" y="' + (y - 2) + '" text-anchor="middle">' + n + "</text>" +
+            '<text class="lg-val' + (cur ? " lg-on" : "") + '" x="' + x + '" y="' + (y + 16) + '" text-anchor="middle">z=' + m.z(n) + "</text>"
+        } else {
+          h += '<text class="lg-label' + (cur ? " lg-on" : "") + '" x="' + x + '" y="' + (y + 5) + '" text-anchor="middle">' + n + "</text>"
+        }
+      })
+      svg.innerHTML = h
+      setToggle(root.querySelector('.lg-toggle[data-k="w"]'), w)
+      const why =
+        key === "moore"
+          ? "z = " + z + " depends only on the state, so flipping w does not change it until the next clock edge."
+          : "z = " + z + " depends on the state <em>and</em> w, so it follows w straight away, before any clock edge."
+      root.querySelector(".lg-readout").innerHTML =
+        "State <strong>" + s + "</strong>, w = <strong>" + w + "</strong>, z = <strong>" + z + "</strong>. " + why +
+        " At the next clock edge: " + s + " &rarr; <strong>" + to + "</strong>."
+      const rows = hist.slice(-8)
+      const first = hist.length - rows.length
+      const cells = (f) => rows.map((r) => "<td>" + f(r) + "</td>").join("")
+      root.querySelector(".lg-histwrap").innerHTML = rows.length
+        ? '<table class="lg-tt lg-hist"><tbody>' +
+          "<tr><th>Cycle</th>" + rows.map((r, i) => "<td>" + (first + i + 1) + "</td>").join("") + "</tr>" +
+          "<tr><th>w</th>" + cells((r) => r.w) + "</tr>" +
+          "<tr><th>State</th>" + cells((r) => r.s) + "</tr>" +
+          "<tr><th>z</th>" + cells((r) => r.z) + "</tr></tbody></table>"
+        : ""
+    }
+    const reset = () => {
+      s = "A"
+      w = 0
+      hist = []
+      render()
+    }
+    const clock = () => {
+      hist.push({ w, s, z: FSM[key].z(s, w) })
+      s = FSM[key].next[s][w]
+      render()
+    }
+    if (list.length > 1) onChips(root, "model", key, (k) => ((key = k), reset()))
+    root.querySelector('.lg-toggle[data-k="w"]').addEventListener("click", () => ((w ^= 1), render()))
+    root.querySelector('[data-act="clock"]').addEventListener("click", clock)
+    root.querySelector('[data-act="reset"]').addEventListener("click", reset)
+    render()
+  }
+
+  // ---------- Counters: ripple (asynchronous) vs synchronous, 3-bit with T flip-flops ----------
+
+  function buildCounter(root) {
+    const list = (root.dataset.kind || "ripple,sync").split(",").map((s) => s.trim()).filter((k) => k === "ripple" || k === "sync")
+    if (!list.length) return
+    const NAMES = { ripple: "Ripple (asynchronous)", sync: "Synchronous" }
+    const DELAY = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 450
+    let kind = list[0]
+    let q = [0, 0, 0]
+    let en = 1
+    let busy = false
+    let hot = []
+    let hist = [0]
+    let timer = 0
+    root.innerHTML =
+      (list.length > 1 ? chips("kind", list.map((k) => [k, NAMES[k]])) : "") +
+      '<svg class="lg-svg lg-counter" viewBox="0 0 460 300" role="img" aria-label="3-bit counter built from T flip-flops, with the waveforms of the last clock cycles"></svg>' +
+      '<div class="lg-toggles">' + toggle("w", "w (count enable)") +
+      '<button type="button" class="lg-btn" data-act="clock">Clock pulse &#8593;</button>' +
+      '<button type="button" class="lg-btn" data-act="reset">Reset</button></div>' +
+      '<p class="lg-readout lg-prose"></p>'
+    const svg = root.querySelector(".lg-counter")
+    const count = () => q[0] + 2 * q[1] + 4 * q[2]
+    const tIn = () => [en, en & q[0], en & q[0] & q[1]]
+
+    const render = () => {
+      if (!svg.isConnected) return
+      const sync = kind === "sync"
+      const t = sync ? tIn() : [1, 1, 1]
+      const tName = sync ? ["w", "w&middot;Q0", "w&middot;Q0&middot;Q1"] : ["1", "1", "1"]
+      let h = ""
+      // flip-flops
+      ;[0, 1, 2].forEach((i) => {
+        const x = 60 + i * 140
+        h +=
+          '<rect class="lg-block' + (hot.includes(i) ? " is-hot" : "") + '" x="' + x + '" y="40" width="70" height="70" rx="4"/>' +
+          '<text class="lg-block-label" x="' + (x + 35) + '" y="80" text-anchor="middle">T FF</text>' +
+          '<text class="lg-pin" x="' + (x + 4) + '" y="66">T</text>' +
+          '<text class="lg-pin" x="' + (x + 12) + '" y="99">CLK</text>' +
+          '<path class="lg-wire" d="M' + x + ',89 L' + (x + 8) + ',95 L' + x + ',101"/>' +
+          '<text class="lg-pin" x="' + (x + 66) + '" y="66" text-anchor="end">Q</text>' +
+          '<text class="lg-pin" x="' + (x + 66) + '" y="99" text-anchor="end">' + sbar("Q") + "</text>" +
+          '<text class="lg-label" x="' + (x + 35) + '" y="30" text-anchor="middle">' + ssub("Q", i) + "</text>"
+        // T input
+        h +=
+          '<line class="lg-wire' + (t[i] ? " is-hi" : "") + '" x1="' + (x - 24) + '" y1="62" x2="' + x + '" y2="62"/>' +
+          '<text class="lg-val' + (t[i] ? " lg-strong" : "") + '" x="' + (x - 26) + '" y="56" text-anchor="end">T=' + t[i] + "</text>" +
+          '<text class="lg-pin" x="' + (x + 35) + '" y="124" text-anchor="middle">T = ' + tName[i] + "</text>"
+        // Q output lamp
+        h +=
+          '<line class="lg-wire' + (q[i] ? " is-hi" : "") + '" x1="' + (x + 70) + '" y1="62" x2="' + (x + 74) + '" y2="62"/>' +
+          '<circle class="lg-term' + (q[i] ? " is-hi" : "") + '" cx="' + (x + 81) + '" cy="62" r="7"/>' +
+          '<text class="lg-val' + (q[i] ? " lg-on" : "") + '" x="' + (x + 81) + '" y="66" text-anchor="middle">' + q[i] + "</text>"
+      })
+      // clock wiring
+      if (sync) {
+        h += '<line class="lg-wire" x1="14" y1="95" x2="60" y2="95"/><line class="lg-wire" x1="46" y1="95" x2="46" y2="135"/><line class="lg-wire" x1="46" y1="135" x2="328" y2="135"/>'
+        ;[188, 328].forEach((bx) => {
+          h += '<line class="lg-wire" x1="' + bx + '" y1="135" x2="' + bx + '" y2="95"/><line class="lg-wire" x1="' + bx + '" y1="95" x2="' + (bx + 12) + '" y2="95"/><circle class="lg-node" cx="' + bx + '" cy="135" r="3"/>'
+        })
+        h += '<circle class="lg-node" cx="46" cy="95" r="3"/><text class="lg-pin" x="54" y="148">same clock</text>'
+      } else {
+        h += '<line class="lg-wire" x1="14" y1="95" x2="60" y2="95"/>'
+        ;[0, 1].forEach((i) => {
+          const x = 60 + i * 140
+          h += '<line class="lg-wire' + (hot.includes(i + 1) ? " is-hi" : "") + '" x1="' + (x + 70) + '" y1="95" x2="' + (x + 140) + '" y2="95"/>'
+        })
+      }
+      h += '<text class="lg-pin" x="14" y="110">Clock</text>'
+      // waveforms of the last clock cycles
+      const win = hist.slice(-9)
+      const X0 = 64
+      const CW = 46
+      const rowTop = [162, 192, 222, 252]
+      const yv = (r, v) => rowTop[r] + (v ? 4 : 22)
+      const wave = (r, lv) => {
+        let d = "M" + X0 + "," + yv(r, lv[0])
+        lv.forEach((v, j) => {
+          if (j > 0) d += " V" + yv(r, v)
+          d += " H" + (X0 + (j + 1) * CW)
+        })
+        return d
+      }
+      let wv = ""
+      win.forEach((c, j) => {
+        wv += '<line class="lg-edge" x1="' + (X0 + j * CW) + '" y1="156" x2="' + (X0 + j * CW) + '" y2="284"/>'
+        wv += '<text class="lg-axis" x="' + (X0 + j * CW + CW / 2) + '" y="296" text-anchor="middle">' + c + "</text>"
+      })
+      // clock: a pulse at the start of every interval after the first
+      let cd = "M" + X0 + "," + yv(0, 0)
+      win.forEach((c, j) => {
+        const x = X0 + j * CW
+        if (j > 0) cd += " V" + yv(0, 1) + " H" + (x + CW / 2) + " V" + yv(0, 0)
+        cd += " H" + (x + CW)
+      })
+      wv += '<path class="lg-wave is-clock" d="' + cd + '"/><text class="lg-axis" x="8" y="' + (rowTop[0] + 18) + '">CLK</text>'
+      ;[0, 1, 2].forEach((i) => {
+        wv += '<path class="lg-wave is-out" d="' + wave(i + 1, win.map((c) => (c >> i) & 1)) + '"/>'
+        wv += '<text class="lg-axis" x="8" y="' + (rowTop[i + 1] + 18) + '">Q' + i + "</text>"
+      })
+      svg.innerHTML = h + wv
+      const bitsStr = "" + q[2] + q[1] + q[0]
+      setToggle(root.querySelector('.lg-toggle[data-k="w"]'), en)
+      root.querySelector('.lg-toggle[data-k="w"]').hidden = !sync
+      const msg = busy
+        ? 'Q<sub>2</sub>Q<sub>1</sub>Q<sub>0</sub> = <strong>' + bitsStr + '</strong> <span class="lg-warn">(rippling: a transient value, not part of the count)</span>'
+        : 'Q<sub>2</sub>Q<sub>1</sub>Q<sub>0</sub> = <strong>' + bitsStr + "</strong> = count <strong>" + count() + "</strong>"
+      root.querySelector(".lg-readout").innerHTML =
+        msg + "<br>" +
+        (sync
+          ? "Every flip-flop sees the same clock edge, so all the stages that should change do so together. The T inputs are 1 only when every lower bit is 1 (and w = 1)."
+          : "Only the first stage sees the clock. Each later stage is clocked by the previous stage's Q&#772; and toggles when that stage falls, so a change ripples along one flip-flop delay at a time.")
+    }
+    const reset = () => {
+      clearTimeout(timer)
+      q = [0, 0, 0]
+      busy = false
+      hot = []
+      hist = [0]
+      render()
+    }
+    const clock = () => {
+      if (busy) return
+      if (kind === "sync") {
+        const t = tIn()
+        hot = []
+        t.forEach((v, i) => {
+          if (v) {
+            q[i] ^= 1
+            hot.push(i)
+          }
+        })
+        hist.push(count())
+        render()
+        return
+      }
+      busy = true
+      const step = (i) => {
+        const fell = q[i] === 1
+        q[i] ^= 1
+        hot = [i]
+        if (fell && i < 2) {
+          render()
+          timer = setTimeout(() => step(i + 1), DELAY)
+        } else {
+          busy = false
+          hist.push(count())
+          render()
+        }
+      }
+      step(0)
+    }
+    if (list.length > 1) onChips(root, "kind", kind, (k) => ((kind = k), reset()))
+    root.querySelector('.lg-toggle[data-k="w"]').addEventListener("click", () => ((en ^= 1), render()))
+    root.querySelector('[data-act="clock"]').addEventListener("click", clock)
+    root.querySelector('[data-act="reset"]').addEventListener("click", reset)
+    render()
+  }
+
   // ---------- Wire up every diagram on the page ----------
 
   const VIEWS = {
+    fsm: buildFsm,
+    counter: buildCounter,
     gates: buildGates,
     timing: buildTiming,
     kmap: buildKmap,
