@@ -21,11 +21,15 @@ if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
   const script = document.createElement("script")
   script.src = base + "lenis.min.js"
   script.onload = () => {
-    // Let the Explore sidebar scroll natively so the wheel moves it instead of the page.
+    // Let both sidebars (Explore on the left, table of contents on the right) and other
+    // inner scroll panels scroll natively, so the wheel moves them instead of the page.
     const lenis = new window.Lenis({
       autoRaf: true,
       anchors: true,
-      prevent: (node) => !!node.closest(".explorer"),
+      prevent: (node) =>
+        !!node.closest(
+          ".sidebar, .left, .right, .explorer, .explorer-content, .toc, .toc-content, .search, .graph, pre, [data-lenis-prevent]",
+        ),
     })
     // Quartz's page router jumps to the top on every navigation; do the same in Lenis
     // so it doesn't glide back up from the old position.
