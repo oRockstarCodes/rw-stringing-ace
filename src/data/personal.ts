@@ -4,8 +4,6 @@ export const me = {
   name: "Rocky Wang",
   handle: "rwangqz",
   tagline: "Computer Engineering student at Toronto Metropolitan University.",
-  // The home hero's right-hand line: a lead-in, then two big words (the second in gold).
-  role: { lead: "Computer Engineering student &", title: ["Small business", "owner"] },
   intro:
     "I build things, run a few small businesses, and keep my course notes in public. This site is the hub for all of it.",
   location: "Toronto, Ontario",

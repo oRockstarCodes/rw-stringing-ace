@@ -3,12 +3,11 @@ import * as THREE from "three";
 import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment.js";
 import { mergeVertices } from "three/examples/jsm/utils/BufferGeometryUtils.js";
 
-// A procedural cartoon bust of Rocky for the home hero: middle-part curtain hair, thin metal
-// glasses, black tee. The head turns toward the pointer, its eyes track the pointer, it
-// blinks, and it grins when the pointer is over it. Nothing is loaded
+// A procedural cartoon head for the home hero. It floats, turns toward the pointer, its eyes
+// track the pointer, it blinks, and it smiles when the pointer is over it. Nothing is loaded
 // from the network: every shape is built here, so there is no model file to host.
 
-const SKIN = "#e4b594";
+const SKIN = "#edbf9f";
 const clamp = (v: number, a: number, b: number) => Math.min(b, Math.max(a, v));
 const damp = (cur: number, target: number, lambda: number, dt: number) =>
   cur + (target - cur) * (1 - Math.exp(-lambda * dt));
@@ -27,66 +26,44 @@ function skullPoint(d: THREE.Vector3, out: THREE.Vector3) {
   let y = d.y;
   let z = d.z;
   if (y < 0) {
-    const p = 4;
+    const p = 3.4;
     const r = Math.hypot(x, y);
     const q = Math.pow(Math.abs(x) ** p + (-y) ** p, 1 / p);
-    const k = 1 + (r / Math.max(q, 1e-6) - 1) * 0.7 * Math.min(1, -y / 0.35);
+    const k = 1 + (r / Math.max(q, 1e-6) - 1) * 0.35 * Math.min(1, -y / 0.35);
     x *= k;
     y *= k;
     const t = Math.pow(-d.y, 1.4);
-    x *= 1 - 0.2 * t;
+    x *= 1 - 0.32 * t;
     z *= 1 - 0.06 * t;
   }
-  return out.set(x * 0.82, y * (y > 0 ? 1.1 : 1.04), z * 0.95);
+  return out.set(x * 0.86, y * (y > 0 ? 1.1 : 0.98), z * 0.95);
 }
 
 function buildHead() {
   const root = new THREE.Group();
   const head = new THREE.Group();
-  const body = new THREE.Group();
-  root.add(body, head);
+  root.add(head);
 
   const skin = new THREE.MeshPhysicalMaterial({
     color: SKIN,
-    roughness: 0.66,
-    clearcoat: 0.06,
-    clearcoatRoughness: 0.6,
-    sheen: 0.4,
+    roughness: 0.55,
+    clearcoat: 0.25,
+    clearcoatRoughness: 0.5,
+    sheen: 0.6,
     sheenColor: new THREE.Color("#ff9c7a"),
   });
   const hairMat = new THREE.MeshPhysicalMaterial({
-    color: "#070606",
-    roughness: 0.58,
-    metalness: 0.05,
-    clearcoat: 0.18,
-    clearcoatRoughness: 0.4,
-    sheen: 0.35,
-    sheenColor: new THREE.Color("#4a4a52"),
+    color: "#0d0b0b",
+    roughness: 0.32,
+    metalness: 0.1,
+    clearcoat: 0.8,
+    clearcoatRoughness: 0.18,
+    sheen: 0.8,
+    sheenColor: new THREE.Color("#7a6a5e"),
   });
   const ink = new THREE.MeshStandardMaterial({ color: "#1a0f0c", roughness: 0.6 });
   const white = new THREE.MeshPhysicalMaterial({ color: "#fdfdfb", roughness: 0.15, clearcoat: 1 });
-  const iris = new THREE.MeshPhysicalMaterial({ color: "#26130a", roughness: 0.25, clearcoat: 1 });
-  const tee = new THREE.MeshPhysicalMaterial({
-    color: "#16171b",
-    roughness: 0.9,
-    sheen: 1,
-    sheenRoughness: 0.6,
-    sheenColor: new THREE.Color("#6b7080"),
-  });
-
-  // Neck, shoulders and chest. The view is cropped at the chest, like a portrait bust.
-  const neck = new THREE.Mesh(new THREE.CylinderGeometry(0.42, 0.5, 1.2, 40), skin);
-  neck.position.set(0, -1.15, -0.12);
-  const torso = new THREE.Mesh(new THREE.SphereGeometry(1, 64, 40), tee);
-  torso.scale.set(2.25, 1.5, 0.8);
-  torso.position.set(0, -2.95, -0.18);
-  const traps = new THREE.Mesh(new THREE.SphereGeometry(1, 40, 28), tee);
-  traps.scale.set(1.1, 0.42, 0.64);
-  traps.position.set(0, -1.72, -0.18);
-  const collar = new THREE.Mesh(new THREE.TorusGeometry(0.55, 0.05, 14, 48), tee);
-  collar.rotation.x = Math.PI / 2 + 0.24;
-  collar.position.set(0, -1.46, -0.1);
-  body.add(neck, torso, traps, collar);
+  const iris = new THREE.MeshPhysicalMaterial({ color: "#5b2c14", roughness: 0.25, clearcoat: 1 });
 
   // Skull: a sphere with a squared-off jaw.
   const skullGeo = new THREE.SphereGeometry(1, 96, 64);
@@ -103,7 +80,7 @@ function buildHead() {
   for (const s of [-1, 1]) {
     const ear = new THREE.Mesh(new THREE.SphereGeometry(0.2, 32, 24), skin);
     ear.scale.set(0.55, 1.05, 0.8);
-    ear.position.set(s * 0.8, -0.02, -0.04); // tucked under the hair
+    ear.position.set(s * 0.87, -0.02, -0.04);
     ear.rotation.z = s * -0.12;
     head.add(ear);
 
@@ -113,14 +90,7 @@ function buildHead() {
   const eyes: THREE.Group[] = [];
   for (const s of [-1, 1]) {
     const eye = new THREE.Group();
-    eye.position.set(s * 0.35, 0.1, 0.795);
-    eye.scale.set(0.74, 0.56, 0.7); // almond-sized rather than cartoon-sized
-    // A dark lash line along the upper lid.
-    const lash = new THREE.Mesh(new THREE.TorusGeometry(0.25, 0.022, 8, 32, Math.PI * 0.84), ink);
-    lash.rotation.z = Math.PI * 0.08;
-    lash.scale.set(1, 0.52, 1);
-    lash.position.set(0, 0.03, 0.1);
-    eye.add(lash);
+    eye.position.set(s * 0.37, 0.1, 0.78);
     const ball = new THREE.Mesh(new THREE.SphereGeometry(0.235, 48, 32), white);
     ball.scale.set(1.05, 0.7, 0.55);
     eye.add(ball);
@@ -157,10 +127,10 @@ function buildHead() {
   // Brows
   const brows: THREE.Mesh[] = [];
   for (const s of [-1, 1]) {
-    const brow = new THREE.Mesh(new THREE.CapsuleGeometry(0.038, 0.29, 8, 16), ink);
+    const brow = new THREE.Mesh(new THREE.CapsuleGeometry(0.06, 0.3, 8, 16), hairMat);
     brow.rotation.z = Math.PI / 2;
-    brow.scale.set(1, 1, 0.6);
-    brow.position.set(s * 0.37, 0.32, 0.85);
+    brow.scale.set(1, 1, 0.9);
+    brow.position.set(s * 0.4, 0.42, 0.88);
     brow.userData.base = brow.position.clone();
     brow.userData.side = s;
     head.add(brow);
@@ -168,50 +138,19 @@ function buildHead() {
   }
 
   // Nose
-  // A bridge running down from between the brows, a rounded tip, and the two wings.
-  const bridge0 = new THREE.Mesh(new THREE.CapsuleGeometry(0.075, 0.3, 8, 20), skin);
-  bridge0.scale.set(0.9, 1, 0.8);
-  bridge0.rotation.x = -0.3;
-  bridge0.position.set(0, -0.04, 0.9);
-  const tip = new THREE.Mesh(new THREE.SphereGeometry(0.11, 32, 24), skin);
-  tip.scale.set(1.08, 0.8, 0.9);
-  tip.position.set(0, -0.25, 0.965);
-  head.add(bridge0, tip);
-  for (const s of [-1, 1]) {
-    const wing = new THREE.Mesh(new THREE.SphereGeometry(0.06, 24, 16), skin);
-    wing.scale.set(1, 0.8, 1);
-    wing.position.set(s * 0.1, -0.275, 0.9);
-    head.add(wing);
-  }
+  const nose = new THREE.Mesh(new THREE.SphereGeometry(0.15, 40, 28), skin);
+  nose.scale.set(0.95, 1.05, 0.9);
+  nose.position.set(0, -0.2, 0.96);
+  head.add(nose);
 
-  // Mouth: a thin line whose vertical scale sets how much it smiles, over a lower lip.
-  const mouth = new THREE.Mesh(new THREE.TorusGeometry(0.17, 0.013, 12, 40, Math.PI), ink);
-  mouth.position.set(0, -0.56, 0.875);
+  // Mouth: an arc whose vertical scale flips between a frown (-1) and a smile (1).
+  const mouth = new THREE.Mesh(new THREE.TorusGeometry(0.2, 0.026, 12, 40, Math.PI), ink);
+  mouth.position.set(0, -0.52, 0.86);
   mouth.rotation.z = Math.PI; // arc opens upward by default = frown
   head.add(mouth);
-  const lip = new THREE.Mesh(
-    new THREE.CapsuleGeometry(0.05, 0.13, 8, 20),
-    new THREE.MeshPhysicalMaterial({ color: "#c98b80", roughness: 0.5, sheen: 0.4 }),
-  );
-  lip.rotation.z = Math.PI / 2;
-  lip.scale.set(0.5, 1, 0.5);
-  lip.position.set(0, -0.63, 0.865);
-  head.add(lip);
-
-  // The mole on the cheek.
-  const mole = new THREE.Mesh(new THREE.SphereGeometry(0.02, 12, 8), ink);
-  mole.position.set(0.4, -0.44, 0.8);
-  head.add(mole);
 
   // Glasses: thin dark rectangular frames with a bridge and temple arms.
-  const frameMat = new THREE.MeshStandardMaterial({ color: "#3b3e45", metalness: 0.85, roughness: 0.3 });
-  const lensMat = new THREE.MeshPhysicalMaterial({
-    color: "#ffffff",
-    transparent: true,
-    opacity: 0.07,
-    roughness: 0.05,
-    depthWrite: false,
-  });
+  const frameMat = new THREE.MeshStandardMaterial({ color: "#2a2d33", metalness: 0.5, roughness: 0.35 });
   const rrect = (w: number, h: number, r: number, hole = false) => {
     const sh = new THREE.Path();
     const x = -w / 2;
@@ -227,34 +166,26 @@ function buildHead() {
     sh.quadraticCurveTo(x, y, x + r, y);
     return hole ? sh : new THREE.Shape(sh.getPoints());
   };
-  const outer = rrect(0.52, 0.32, 0.07) as THREE.Shape;
-  outer.holes.push(rrect(0.494, 0.294, 0.058, true));
-  const frameGeo = new THREE.ExtrudeGeometry(outer, { depth: 0.02, bevelEnabled: false });
-  const lensGeo = new THREE.ShapeGeometry(rrect(0.494, 0.294, 0.058) as THREE.Shape);
+  const outer = rrect(0.66, 0.46, 0.1) as THREE.Shape;
+  outer.holes.push(rrect(0.59, 0.39, 0.08, true));
+  const frameGeo = new THREE.ExtrudeGeometry(outer, { depth: 0.035, bevelEnabled: false });
   for (const s of [-1, 1]) {
     const rim = new THREE.Mesh(frameGeo, frameMat);
-    rim.position.set(s * 0.35, 0.08, 0.95);
+    rim.position.set(s * 0.4, 0.08, 0.95);
     head.add(rim);
-    const lens = new THREE.Mesh(lensGeo, lensMat);
-    lens.position.set(s * 0.35, 0.08, 0.965);
-    head.add(lens);
-    // The end piece that joins the rim to the arm.
-    const end = new THREE.Mesh(new THREE.BoxGeometry(0.15, 0.018, 0.02), frameMat);
-    end.position.set(s * 0.675, 0.12, 0.955);
-    head.add(end);
-    const arm = new THREE.Mesh(new THREE.BoxGeometry(0.018, 0.018, 0.5), frameMat);
-    arm.position.set(s * 0.74, 0.12, 0.72);
+    const arm = new THREE.Mesh(new THREE.BoxGeometry(0.03, 0.03, 1.0), frameMat);
+    arm.position.set(s * 0.87, 0.12, 0.5);
     arm.rotation.y = s * -0.1;
     head.add(arm);
   }
-  const bridge = new THREE.Mesh(new THREE.BoxGeometry(0.2, 0.018, 0.02), frameMat);
-  bridge.position.set(0, 0.14, 0.96);
+  const bridge = new THREE.Mesh(new THREE.BoxGeometry(0.16, 0.03, 0.03), frameMat);
+  bridge.position.set(0, 0.2, 0.965);
   head.add(bridge);
 
   // Hair: one sculpted mass. A dense sphere is pushed out over the skull where there is hair
   // and pulled under the skin where there isn't, so the hairline is wherever it dips inside.
-  // It is a middle part with curtains: a parting down the centre, each side lifted a little at
-  // the front, then falling over the temples and ears to about cheek height.
+  // It is a middle-part slick-back: a parting down the centre, each side lifted a little at
+  // the front and combed back, tight at the sides.
   const hairGeo = new THREE.SphereGeometry(1, 224, 160);
   hairGeo.deleteAttribute("normal");
   hairGeo.deleteAttribute("uv");
@@ -267,13 +198,13 @@ function buildHead() {
   };
   // Hairline height by angle around the head (0 = middle of the forehead, PI = nape).
   const lineAt: [number, number][] = [
-    [0, 0.5], // curtain bangs, parted in the middle
-    [0.4, 0.4],
-    [0.8, 0.26], // sweeping down past the brow
-    [1.08, -0.06], // and hanging beside the eye
-    [1.6, -0.34], // over the ear
-    [2.1, -0.72], // longer layers behind the ear
-    [Math.PI, -0.9], // and a long tail at the nape
+    [0, 0.6],
+    [0.55, 0.56],
+    [0.95, 0.42], // slightly receded at the temples
+    [1.3, 0.26], // over the ear
+    [1.75, 0.24],
+    [2.1, -0.25], // behind the ear
+    [Math.PI, -0.5], // the nape
   ];
   const hairline = (a: number) => {
     for (let k = 1; k < lineAt.length; k++) {
@@ -295,12 +226,11 @@ function buildHead() {
     const n1 = noise(d.x * 2.1, d.y * 2.1, d.z * 2.1);
     const n2 = noise(d.x * 4.7 + 3, d.y * 4.7, d.z * 4.7 - 1);
     const ax = Math.abs(d.x + 0.012 * n2); // distance from the parting
-    const phase = (d.z - 0.35 * ax) * 34 + n1 * 1.6 + n2 * 0.8;
+    const phase = Math.atan2(ax, d.y + 0.25) * 15 + n1 * 0.5 + d.z * 2.2;
     const comb = Math.abs(Math.cos(phase * 0.5));
 
     const a = Math.abs(Math.atan2(d.x, d.z));
-    // A wolf cut's ends are choppy, so the edge is ragged rather than a clean line.
-    let line = hairline(a) + 0.02 * n2 + 0.045 * Math.sin(a * 27 + n1 * 4) * smooth(0.15, 0.5, a);
+    let line = hairline(a) + 0.015 * n2;
     line += 0.06 * (1 - smooth(0.0, 0.07, ax)) * smooth(0.0, 0.6, d.z); // notch at the part
     const w = smooth(line - 0.03, line + 0.05, d.y);
 
@@ -309,21 +239,9 @@ function buildHead() {
     const onTop = smooth(0.45, 0.75, d.y) * smooth(-0.6, -0.1, d.z);
     const part = -0.09 * (1 - smooth(0.0, 0.06, ax)) * onTop;
     const sides = smooth(0.02, 0.17, ax) * (1 - smooth(0.45, 0.85, ax));
-    const lift = 0.07 * sides * smooth(0.4, 0.85, d.y) * smooth(-0.45, 0.45, d.z);
-    // The curtains stand off the head at the sides and flare a little toward their ends.
-    const curtain =
-      (0.11 + 0.05 * (1 - smooth(-0.25, 0.3, d.y))) *
-      smooth(0.6, 1.1, a) *
-      (1 - smooth(2.0, 2.8, a)) *
-      (1 - smooth(0.6, 0.95, d.y));
-    // Shaggy layers: volume at the crown, stepped tiers down the sides and back, and ends
-    // that flick outward, most of all in the long tail at the nape.
-    const crown = 0.07 * smooth(0.3, 0.9, d.y);
-    const tiers = 0.03 * (((d.y * 4.5 + n1 * 0.6) % 1) + 1) % 1 * smooth(0.5, 1.0, a);
-    const ends = 1 - smooth(line, line + 0.3, d.y);
-    const flick = ends * (0.07 * smooth(0.7, 1.2, a) + 0.14 * smooth(1.7, 2.3, a));
-    const top = 0.08 + crown + lift + part + curtain + tiers + flick;
-    const groove = 0.02 * (comb - 0.6) + 0.006 * Math.sin(phase * 2.3) + 0.022 * n1 + 0.012 * n2;
+    const lift = 0.18 * sides * smooth(0.4, 0.85, d.y) * smooth(-0.45, 0.45, d.z);
+    const top = 0.06 + 0.08 * smooth(0.2, 0.95, d.y) + lift + part;
+    const groove = 0.018 * (comb - 0.6) + 0.006 * Math.sin(phase * 3.1) + 0.01 * n1;
     const thick = w * (top + groove) - (1 - w) * 0.1;
     sk.addScaledVector(d, thick);
     hp.setXYZ(i, sk.x, sk.y, sk.z);
@@ -333,13 +251,10 @@ function buildHead() {
   head.add(hairMesh);
   hairGeo.dispose();
 
-  return { root, head, body, eyes, brows, mouth, lip };
+  return { root, head, eyes, brows, mouth };
 }
 
-// The bottom edge of the view, in scene units: the bust is cropped at the chest.
-const VIEW_BOTTOM = -2.95;
-
-const HeroHead = ({ animate = true, className = "absolute inset-0" }: { animate?: boolean; className?: string }) => {
+const HeroHead = ({ animate = true }: { animate?: boolean }) => {
   const host = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -381,10 +296,10 @@ const HeroHead = ({ animate = true, className = "absolute inset-0" }: { animate?
     fill.position.set(3, -2, 5);
     scene.add(key, rim, rimL, fill);
 
-    const { root, head, body, eyes, brows, mouth, lip } = buildHead();
+    const { root, head, eyes, brows, mouth } = buildHead();
     const pupils = eyes.map((eye) => eye.getObjectByName("pupil")!);
     const lids = eyes.map((eye) => eye.getObjectByName("lid")!);
-    let visH = 5.4;
+    let baseY = -0.6;
     scene.add(root);
 
     // The host's box, kept here so pointer moves don't force a layout read each time.
@@ -398,11 +313,11 @@ const HeroHead = ({ animate = true, className = "absolute inset-0" }: { animate?
       const h = el.clientHeight || 1;
       renderer.setSize(w, h, false);
       camera.aspect = w / h;
-      // The bust stands on the bottom edge of the canvas. A wide canvas shows the full
-      // shoulders; a tall one (phones) moves in closer and lets them run off the sides.
-      visH = camera.aspect < 1 ? Math.max(4.6, 2.6 / camera.aspect) : 5.4;
+      // Keep the whole head (and quiff) in frame on both wide and tall screens.
+      const visH = Math.max(4.7, 3.9 / camera.aspect);
       const dist = visH / (2 * Math.tan((camera.fov * Math.PI) / 360));
-      camera.position.set(0, VIEW_BOTTOM + visH / 2, dist);
+      camera.position.z = dist;
+      baseY = camera.aspect < 0.8 ? 0.5 : -0.6; // tall screens: the headline wraps, so lift the head
       camera.updateProjectionMatrix();
     };
     resize();
@@ -415,8 +330,8 @@ const HeroHead = ({ animate = true, className = "absolute inset-0" }: { animate?
       ptr.tx = (e.clientX / window.innerWidth) * 2 - 1;
       ptr.ty = -((e.clientY / window.innerHeight) * 2 - 1);
       const cx = rect.left + rect.width / 2;
-      const cy = rect.top + rect.height * ((VIEW_BOTTOM + visH) / visH); // the head sits at y = 0
-      ptr.over = Math.hypot(e.clientX - cx, e.clientY - cy) < (rect.height * 1.15) / visH;
+      const cy = rect.top + rect.height * 0.55;
+      ptr.over = Math.hypot(e.clientX - cx, e.clientY - cy) < rect.height * 0.28;
     };
     const onLeave = () => {
       ptr.tx = 0;
@@ -431,7 +346,7 @@ const HeroHead = ({ animate = true, className = "absolute inset-0" }: { animate?
       rx: 0,
       gx: 0,
       gy: 0,
-      smile: 0.36,
+      smile: -0.12,
       blink: 0,
       nextBlink: 1.8,
       intro: animate ? 0 : 1,
@@ -461,12 +376,11 @@ const HeroHead = ({ animate = true, className = "absolute inset-0" }: { animate?
         }
       }
 
-      // The entrance runs on real time, so it still finishes on a page drawing few frames.
-      st.intro = Math.min(1, st.intro + Math.min(raw, 0.5) / 1.3);
+      st.intro = Math.min(1, st.intro + dt / 1.3);
       const e = 1 - Math.pow(1 - st.intro, 3);
       const back = 1 + 1.6 * Math.pow(st.intro - 1, 3) + 0.6 * Math.pow(st.intro - 1, 2);
       root.scale.setScalar(0.6 + 0.4 * back);
-      root.position.y = (1 - e) * -1.6 + Math.sin(t * 1.1) * 0.025;
+      root.position.y = baseY + (1 - e) * -1.2 + Math.sin(t * 1.1) * 0.07;
 
       ptr.x = damp(ptr.x, ptr.tx, 5, dt);
       ptr.y = damp(ptr.y, ptr.ty, 5, dt);
@@ -475,7 +389,6 @@ const HeroHead = ({ animate = true, className = "absolute inset-0" }: { animate?
       head.rotation.y = st.ry + Math.sin(t * 0.7) * 0.04;
       head.rotation.x = st.rx + Math.sin(t * 0.9 + 1) * 0.025;
       head.rotation.z = -ptr.x * 0.05 + Math.sin(t * 0.6) * 0.015;
-      body.rotation.y = st.ry * 0.3;
 
       // Eyes lead the head: they turn further than the skull does.
       st.gx = damp(st.gx, ptr.x, 12, dt);
@@ -498,10 +411,9 @@ const HeroHead = ({ animate = true, className = "absolute inset-0" }: { animate?
       }
 
       // Smile when the pointer is on the face; brows rise with it.
-      st.smile = damp(st.smile, ptr.over ? 0.66 : 0.36, 8, dt);
+      st.smile = damp(st.smile, ptr.over ? 0.9 : -0.12, 8, dt);
       mouth.scale.y = st.smile;
-      mouth.position.y = -0.56 + 0.04 * st.smile;
-      lip.position.y = mouth.position.y - 0.17 * st.smile - 0.04;
+      mouth.position.y = -0.52 + (st.smile > 0 ? 0.05 : 0) * st.smile;
       st.browLift = damp(st.browLift, ptr.over ? 0.07 : 0, 8, dt);
       for (const b of brows) {
         const s = b.userData.side as number;
@@ -527,7 +439,10 @@ const HeroHead = ({ animate = true, className = "absolute inset-0" }: { animate?
     };
 
     // Reduced motion: draw one still frame (smiling, eyes forward) and never loop.
-    if (!animate) frame();
+    if (!animate) {
+      st.smile = 0.3;
+      frame();
+    }
 
     const io = new IntersectionObserver(([entry]) => {
       visible = entry.isIntersecting;
@@ -561,7 +476,7 @@ const HeroHead = ({ animate = true, className = "absolute inset-0" }: { animate?
     };
   }, [animate]);
 
-  return <div ref={host} aria-hidden="true" className={`${className} pointer-events-none`} />;
+  return <div ref={host} aria-hidden="true" className="absolute inset-0 pointer-events-none" />;
 };
 
 export default HeroHead;
