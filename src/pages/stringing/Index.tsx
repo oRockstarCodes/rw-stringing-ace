@@ -9,14 +9,14 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { faqs, processSteps, services, siteConfig, testimonials } from "@/data/site";
-import { ArrowRight, CheckCircle2, Quote, Star } from "lucide-react";
+import { faqs, processSteps, services, siteConfig } from "@/data/site";
+import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import heroImage from "@/assets/hero-badminton.jpg";
 
 const Index = () => {
   return (
-    <Layout>
+    <Layout title="Badminton Stringing">
       {/* Hero */}
       <section className="relative min-h-[92vh] flex items-center overflow-hidden">
         <div className="absolute inset-0 z-0">
@@ -43,9 +43,9 @@ const Index = () => {
               Calibrated tension, premium strings, and expert advice — so every shot feels exactly how you want it.
             </p>
             <div className="animate-fade-up-delay-3 flex flex-wrap gap-4">
-              <Link to="/stringing/contact">
+              <Link to="/stringing/pricing">
                 <Button size="lg" className="btn-gold text-base px-8 h-12">
-                  Book Now <ArrowRight className="ml-1" />
+                  See Pricing <ArrowRight className="ml-1" />
                 </Button>
               </Link>
               <Button
@@ -57,20 +57,6 @@ const Index = () => {
                 Our Services
               </Button>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Stats */}
-      <section className="border-y border-border bg-card/30">
-        <div className="container py-10">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-            {siteConfig.stats.map((stat) => (
-              <div key={stat.label} className="text-center">
-                <div className="stat-value">{stat.value}</div>
-                <p className="mt-1 text-sm text-muted-foreground">{stat.label}</p>
-              </div>
-            ))}
           </div>
         </div>
       </section>
@@ -158,37 +144,8 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Testimonials */}
-      <section className="py-20 md:py-28">
-        <div className="container">
-          <SectionHeading
-            badge="Testimonials"
-            title="Trusted by Local Players"
-            description="See why players keep coming back for consistent, quality stringing."
-          />
-
-          <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
-            {testimonials.map((t) => (
-              <Card key={t.author} className="card-premium p-6">
-                <Quote className="w-8 h-8 text-accent/40 mb-4" />
-                <div className="flex gap-0.5 mb-4">
-                  {Array.from({ length: t.rating }).map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-accent text-accent" />
-                  ))}
-                </div>
-                <p className="text-foreground/90 leading-relaxed mb-6">&ldquo;{t.quote}&rdquo;</p>
-                <div>
-                  <p className="font-semibold">{t.author}</p>
-                  <p className="text-sm text-muted-foreground">{t.role}</p>
-                </div>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* FAQ */}
-      <section className="py-20 md:py-28 bg-surface-elevated border-y border-border">
+      <section className="py-20 md:py-28">
         <div className="container max-w-3xl">
           <SectionHeading
             badge="FAQ"
@@ -215,41 +172,33 @@ const Index = () => {
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="py-20 md:py-28 relative overflow-hidden">
+      {/* Where to go next */}
+      <section className="py-20 md:py-28 relative overflow-hidden border-t border-border">
         <div className="absolute inset-0 bg-mesh-gold" aria-hidden />
         <div className="container relative z-10">
           <div className="max-w-3xl mx-auto text-center card-premium p-10 md:p-14 border-accent/20">
             <h2 className="text-3xl md:text-4xl font-bold text-gradient-gold mb-4">
-              Ready to Restring?
+              Choosing a String?
             </h2>
             <p className="text-muted-foreground text-lg mb-8">
-              Drop off your racket or send us a message — we&apos;ll have you court-ready in no time.
+              Compare every string by durability, repulsion, control and sound, then check what it costs.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
-              <Link to="/stringing/contact">
+              <Link to="/stringing/strings">
                 <Button size="lg" className="btn-gold px-8 h-12">
-                  Get in Touch <ArrowRight className="ml-1" />
+                  Browse String Guide <ArrowRight className="ml-1" />
                 </Button>
               </Link>
-              <Link to="/stringing/strings">
+              <Link to="/stringing/pricing">
                 <Button
                   variant="outline"
                   size="lg"
                   className="h-12 border-border hover:border-accent/40"
                 >
-                  Browse String Guide
+                  See Pricing
                 </Button>
               </Link>
             </div>
-            <ul className="mt-8 flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-muted-foreground">
-              {["Free tension consultation", "Member discounts", "24hr turnaround"].map((item) => (
-                <li key={item} className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-accent" />
-                  {item}
-                </li>
-              ))}
-            </ul>
           </div>
         </div>
       </section>

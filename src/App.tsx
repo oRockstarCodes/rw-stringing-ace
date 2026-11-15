@@ -1,20 +1,18 @@
 import { lazy, Suspense, type ReactNode } from "react";
-import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Navigate, Routes, Route } from "react-router-dom";
 import SmoothScroll from "@/components/SmoothScroll";
 import { features } from "@/data/site";
 
 // Routes are code-split so each page (and the whole CRM) loads on demand.
 const Home = lazy(() => import("./pages/Home"));
 const About = lazy(() => import("./pages/About"));
+const Projects = lazy(() => import("./pages/Projects"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const StringingIndex = lazy(() => import("./pages/stringing/Index"));
 const AboutUs = lazy(() => import("./pages/stringing/AboutUs"));
 const PricingPage = lazy(() => import("./pages/stringing/PricingPage"));
-const ContactPage = lazy(() => import("./pages/stringing/ContactPage"));
 const StringDetails = lazy(() => import("./pages/stringing/StringDetails"));
 const AuthProvider = lazy(() =>
   import("@/crm/AuthProvider").then((m) => ({ default: m.AuthProvider })),
@@ -47,8 +45,7 @@ const MaybeAuth = ({ children }: { children: ReactNode }) =>
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
+    <>
       <Sonner />
       <BrowserRouter>
         <SmoothScroll />
@@ -58,12 +55,13 @@ const App = () => (
             {/* Personal site */}
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
+            <Route path="/projects" element={<Projects />} />
 
-            {/* RW Stringing */}
+            {/* RW Stringing (on a break: information only, no booking) */}
             <Route path="/stringing" element={<StringingIndex />} />
             <Route path="/stringing/about" element={<AboutUs />} />
             <Route path="/stringing/pricing" element={<PricingPage />} />
-            <Route path="/stringing/contact" element={<ContactPage />} />
+            <Route path="/stringing/contact" element={<Navigate to="/stringing" replace />} />
             <Route path="/stringing/strings" element={<StringDetails />} />
 
             {/* /melon-files/* (Melon Files wiki) is a separate static build (Quartz) served directly by Cloudflare Pages */}
@@ -91,7 +89,7 @@ const App = () => (
         </MaybeAuth>
         </Suspense>
       </BrowserRouter>
-    </TooltipProvider>
+    </>
   </QueryClientProvider>
 );
 

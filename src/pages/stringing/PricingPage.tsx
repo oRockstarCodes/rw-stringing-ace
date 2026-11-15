@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 
 const PricingPage = () => {
   return (
-    <Layout>
+    <Layout title="Pricing">
       <PageHero
         badge="Pricing"
         title="Transparent Pricing"
@@ -114,11 +114,11 @@ const PricingPage = () => {
 
           <div className="mt-16 text-center">
             <p className="text-muted-foreground mb-6">
-              Need help choosing? We&apos;ll recommend the perfect string for your play style.
+              Not sure which string suits your game? The guide compares them all.
             </p>
-            <Link to="/stringing/contact">
+            <Link to="/stringing/strings">
               <Button size="lg" className="btn-gold px-8 h-12">
-                Book a Stringing <ArrowRight className="ml-1" />
+                Browse String Guide <ArrowRight className="ml-1" />
               </Button>
             </Link>
           </div>

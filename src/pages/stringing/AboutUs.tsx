@@ -4,6 +4,7 @@ import SectionHeading from "@/components/SectionHeading";
 import { Button } from "@/components/ui/button";
 import { Award, Target, Users, Sparkles, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import { siteConfig } from "@/data/site";
 
 const values = [
   {
@@ -16,7 +17,7 @@ const values = [
     icon: Target,
     title: "Precision",
     description:
-      "Every racket is strung with calibrated tension meters and careful attention to detail, guaranteeing accuracy within ±0.5 lbs.",
+      "Every racket is strung with calibrated tension meters and careful attention to detail.",
   },
   {
     icon: Users,
@@ -34,7 +35,7 @@ const values = [
 
 const AboutUs = () => {
   return (
-    <Layout>
+    <Layout title="About">
       <PageHero
         badge="About Us"
         title="Built by Players, for Players"
@@ -56,25 +57,14 @@ const AboutUs = () => {
 
               <div className="md:col-span-3">
                 <h2 className="text-3xl font-bold text-gradient-gold mb-1">Rocky Wang</h2>
-                <p className="text-accent font-medium mb-6">Head Stringer & Founder</p>
-                <p className="text-muted-foreground text-lg leading-relaxed mb-6">
-                  With over 10 years of experience, Rocky has strung thousands of rackets and specializes
-                  in precision tension control and hybrid string setups. As a former competitive badminton
-                  player, he understands how string choice and tension directly impact your game.
+                <p className="text-accent font-medium mb-6">Founder & Stringer</p>
+                {/* Keep this to facts. Add experience, certifications or playing history here
+                    only once they are real and specific. */}
+                <p className="text-muted-foreground text-lg leading-relaxed">
+                  Rocky runs RW Stringing out of {siteConfig.location.line1} in the{" "}
+                  {siteConfig.location.line2}, alongside studying Computer Engineering at Toronto
+                  Metropolitan University.
                 </p>
-                <ul className="space-y-3">
-                  {[
-                    "Certified professional stringer with 10+ years of experience",
-                    "Specialized in precision tension control and hybrid configurations",
-                    "Former competitive player with deep understanding of game mechanics",
-                    "Passionate about helping players of all levels perform their best",
-                  ].map((item) => (
-                    <li key={item} className="flex items-start gap-3 text-muted-foreground">
-                      <span className="text-accent mt-1.5 w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
               </div>
             </div>
           </div>
@@ -106,14 +96,14 @@ const AboutUs = () => {
       <section className="py-20 md:py-28">
         <div className="container max-w-3xl text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-gradient-gold mb-4">
-            Ready to Experience the Difference?
+            See What We String With
           </h2>
           <p className="text-muted-foreground text-lg mb-8">
-            Let us help you take your game to the next level with professional stringing you can trust.
+            Every string we carry, with its specs, feel and price.
           </p>
-          <Link to="/stringing/contact">
+          <Link to="/stringing/strings">
             <Button size="lg" className="btn-gold px-8 h-12">
-              Book Your Stringing Service <ArrowRight className="ml-1" />
+              Browse String Guide <ArrowRight className="ml-1" />
             </Button>
           </Link>
         </div>

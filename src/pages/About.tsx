@@ -22,6 +22,10 @@ const About = () => (
           <a href="/melon-files/" className="text-accent hover:underline">Melon Files</a>, my course wiki. Writing things up is how I make sure I
           actually understand them.
         </p>
+        <p>
+          What I'm building at the moment is on the{" "}
+          <Link to="/projects" className="text-accent hover:underline">Projects</Link> page.
+        </p>
       </div>
 
       <div className="mt-12 flex flex-wrap gap-4 text-sm">

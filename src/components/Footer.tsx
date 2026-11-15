@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Mail, MapPin, Phone, Clock, Instagram, Facebook } from "lucide-react";
+import { Mail, MapPin, Phone, Instagram, Facebook } from "lucide-react";
 import { features, navLinks, siteConfig } from "@/data/site";
 
 const Footer = () => {
@@ -16,7 +16,7 @@ const Footer = () => {
   return (
     <footer className="border-t border-border bg-card/50">
       <div className="container py-12 md:py-16">
-        <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-10 md:grid-cols-3">
           <div className="lg:col-span-1">
             <Link to="/stringing" className="font-display text-xl font-bold text-gradient-gold">
               {siteConfig.name}
@@ -89,19 +89,6 @@ const Footer = () => {
             </ul>
           </div>
 
-          <div>
-            <h3 className="font-display font-semibold text-foreground mb-4">Hours</h3>
-            <div className="flex items-start gap-2 text-sm text-muted-foreground">
-              <Clock className="w-4 h-4 text-accent mt-0.5 shrink-0" />
-              <p>{siteConfig.hours}</p>
-            </div>
-            <Link
-              to="/stringing/contact"
-              className="inline-flex mt-6 text-sm font-semibold text-accent hover:text-yellow-300 transition-colors"
-            >
-              Book a stringing appointment →
-            </Link>
-          </div>
         </div>
 
         <div className="mt-12 pt-8 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">

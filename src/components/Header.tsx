@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
@@ -81,8 +80,8 @@ const Header = () => {
                 </Link>
               ),
             )}
-            <Link to="/stringing/contact">
-              <Button className="btn-gold rounded-full px-6 h-10 text-sm">Book Now</Button>
+            <Link to="/" className={navItemClass(false)}>
+              rwangqz.ca
             </Link>
           </nav>
 
@@ -115,8 +114,11 @@ const Header = () => {
                   {link.label}
                 </Link>
               ))}
-              <Link to="/stringing/contact" className="mt-2">
-                <Button className="btn-gold w-full rounded-full">Book Now</Button>
+              <Link
+                to="/"
+                className="py-3 px-3 rounded-lg text-foreground/80 hover:text-accent hover:bg-accent/5 transition-colors"
+              >
+                rwangqz.ca
               </Link>
             </div>
           </nav>

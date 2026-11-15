@@ -18,12 +18,6 @@
       "runtimeExecutable": "npx",
       "runtimeArgs": ["--yes", "serve@14.2.4", "dist", "-l", "4322"],
       "port": 4322
-    },
-    {
-      "name": "coe328-preview",
-      "runtimeExecutable": "npx",
-      "runtimeArgs": ["--yes", "serve@14.2.4", ".claude/tmp-preview/coe328", "-l", "4330"],
-      "port": 4330
     }
   ]
 }

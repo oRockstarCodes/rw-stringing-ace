@@ -106,9 +106,9 @@ where id = '<auth-user-uuid>';
 
 Additional staff: create users in Supabase Auth, then set roles under **CRM → Staff**.
 
-#### Public contact form
+#### On a break
 
-Submissions on `/stringing/contact` insert into `inquiries` (anon insert allowed by RLS). Staff review them under **CRM → Inquiries** and can convert to customers.
+RW Stringing is paused, so the stringing pages are information only: no contact page, booking buttons or hours. The notice shown on every stringing page is `siteConfig.breakNotice` in [`src/data/site.ts`](src/data/site.ts); set it to `""` when the service reopens. The CRM's **Inquiries** page and the `inquiries` table are still there for when a contact form comes back.
 
 ### Site content
 
@@ -121,4 +121,4 @@ Phone and social links are hidden when left empty in `siteConfig`.
 
 ### Deploy
 
-Build with `npm run build` (output: `dist`, including `dist/melon-files`). Hosted on Cloudflare Pages, which falls back to `index.html` for app routes automatically; `public/_redirects` holds the old-URL redirects. Set the `VITE_SUPABASE_*` env vars in the Cloudflare Pages project (the contact form uses them even when the CRM is off).
+Build with `npm run build` (output: `dist`, including `dist/melon-files`). Hosted on Cloudflare Pages, which falls back to `index.html` for app routes automatically; `public/_redirects` holds the old-URL redirects. The `VITE_SUPABASE_*` env vars are only needed in the Cloudflare Pages project once the CRM is switched on.

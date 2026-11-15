@@ -37,6 +37,13 @@ const PAGES = [
       "Computer Engineering at Toronto Metropolitan University. Runs RW Stringing, Mist Window Cleaning and Alpha Prep Tutoring, and keeps course notes in the Melon Files.",
   },
   {
+    path: "/projects",
+    file: "projects.html",
+    label: "rwangqz.ca",
+    title: "Projects",
+    description: "Things I'm building or have built, at school, on teams, and on my own.",
+  },
+  {
     path: "/stringing",
     file: "stringing.html",
     label: "RW Stringing Service",
@@ -68,15 +75,6 @@ const PAGES = [
     label: "RW Stringing · String Guide",
     title: "Find Your Perfect String",
     description: "Detailed specs and performance characteristics for every string we carry.",
-    photo: true,
-  },
-  {
-    path: "/stringing/contact",
-    file: "stringing/contact.html",
-    label: "RW Stringing · Contact",
-    title: "Get In Touch",
-    description:
-      "Ready to get your racket professionally strung? Send a message and we'll respond shortly.",
     photo: true,
   },
 ]
@@ -123,7 +121,14 @@ async function writePages() {
     await fs.mkdir(path.dirname(out), { recursive: true })
     await fs.writeFile(out, html)
   }
-  console.log(`Wrote link previews for ${PAGES.length} pages`)
+  // The same pages as a sitemap for search engines (robots.txt points to it; the Melon Files
+  // have their own at /melon-files/sitemap.xml)
+  const urls = PAGES.map((page) => `  <url><loc>${SITE}${page.path}</loc></url>`).join("\n")
+  await fs.writeFile(
+    path.join(dist, "sitemap.xml"),
+    `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`,
+  )
+  console.log(`Wrote link previews and the sitemap for ${PAGES.length} pages`)
 }
 
 // ---------- The images (--images) ----------

@@ -18,18 +18,14 @@ export const siteConfig = {
     line2: "Greater Toronto Area",
     line3: "Ontario, Canada",
   },
-  hours: "Mon–Sat: 10am – 8pm · Sun: By appointment",
+  /** Shown on every stringing page while the service is paused. Set to "" when it reopens. */
+  breakNotice:
+    "RW Stringing is on a break and is not taking rackets right now. Prices and the string guide stay up for reference.",
   social: {
     /** Leave empty until real profiles are ready — footer only shows set links. */
     instagram: "",
     facebook: "",
   },
-  stats: [
-    { value: "5,000+", label: "Rackets Strung" },
-    { value: "10+", label: "Years Experience" },
-    { value: "±0.5 lbs", label: "Tension Accuracy" },
-    { value: "24hr", label: "Typical Turnaround" },
-  ],
 };
 
 export const navLinks = [
@@ -37,7 +33,6 @@ export const navLinks = [
   { label: "Pricing", href: "/stringing/pricing" },
   { label: "String Guide", href: "/stringing/strings" },
   { label: "About", href: "/stringing/about" },
-  { label: "Contact", href: "/stringing/contact" },
 ];
 
 export const services = [
@@ -102,8 +97,8 @@ export const services = [
 export const processSteps = [
   {
     step: "01",
-    title: "Drop Off or Book",
-    description: "Bring your racket in or message us with your preferred string, tension, and timeline.",
+    title: "Drop Off",
+    description: "Bring your racket in with your preferred string, tension, and timeline.",
   },
   {
     step: "02",
@@ -122,35 +117,11 @@ export const processSteps = [
   },
 ];
 
-export const testimonials = [
-  {
-    quote:
-      "Best stringing in the area. My BG80 at 27 lbs feels exactly the same every time — huge for tournament prep.",
-    author: "Alex T.",
-    role: "Competitive Singles Player",
-    rating: 5,
-  },
-  {
-    quote:
-      "Rocky helped me pick the right string for my play style. The hybrid setup gave me more power without losing control.",
-    author: "Michelle L.",
-    role: "Club Doubles Player",
-    rating: 5,
-  },
-  {
-    quote:
-      "Fast turnaround and fair pricing. Member discount is a nice bonus. I won't go anywhere else.",
-    author: "David K.",
-    role: "Recreational Player",
-    rating: 5,
-  },
-];
-
 export const faqs = [
   {
     question: "How long does stringing take?",
     answer:
-      "Most rackets are ready within 24 hours. Same-day service may be available — contact us to check availability.",
+      "Most rackets are ready within 24 hours of drop-off.",
   },
   {
     question: "What tension should I use?",
@@ -165,7 +136,7 @@ export const faqs = [
   {
     question: "What is Member pricing?",
     answer:
-      "Members receive discounted rates on all strings. Ask us about membership when dropping off your racket.",
+      "Members receive discounted rates on all strings. Ask about membership when dropping off your racket.",
   },
   {
     question: "How often should I restring?",

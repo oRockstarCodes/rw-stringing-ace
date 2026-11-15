@@ -1,14 +1,12 @@
 import { useMemo, useState } from "react";
-import { Link } from "react-router-dom";
 import Layout from "@/components/Layout";
 import PageHero from "@/components/PageHero";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { stringDatabase, type StringProduct } from "@/data/strings";
-import { Target, Zap, Shield, Activity, Star, Search, ArrowRight } from "lucide-react";
+import { Target, Zap, Shield, Activity, Star, Search } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
 const CharacteristicBar = ({
@@ -42,10 +40,6 @@ const CharacteristicBar = ({
 );
 
 const StringCard = ({ string }: { string: StringProduct }) => {
-  const label =
-    string.category === "own" ? "Own String (labor only)" : `${string.brand} ${string.model}`;
-  const bookHref = `/contact?string=${encodeURIComponent(label)}`;
-
   return (
     <Card className="card-premium relative h-full flex flex-col">
       {string.popular && (
@@ -113,23 +107,6 @@ const StringCard = ({ string }: { string: StringProduct }) => {
             <h4 className="text-xs font-semibold text-accent uppercase tracking-wider mb-1">Play Style</h4>
             <p className="text-sm text-muted-foreground leading-relaxed">{string.playStyle}</p>
           </div>
-
-          <div className="mt-auto pt-4">
-            <Button asChild className="btn-gold w-full">
-              <Link to={bookHref}>
-                Book with this string <ArrowRight className="w-4 h-4" />
-              </Link>
-            </Button>
-          </div>
-        </CardContent>
-      )}
-      {string.category === "own" && (
-        <CardContent className="pt-0 mt-auto">
-          <Button asChild className="btn-gold w-full">
-            <Link to={bookHref}>
-              Book labor-only stringing <ArrowRight className="w-4 h-4" />
-            </Link>
-          </Button>
         </CardContent>
       )}
     </Card>
@@ -155,7 +132,7 @@ export default function StringDetails() {
   }, [activeTab, search]);
 
   return (
-    <Layout>
+    <Layout title="String Guide">
       <PageHero
         badge="String Guide"
         title="Find Your Perfect String"

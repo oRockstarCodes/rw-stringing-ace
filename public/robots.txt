@@ -12,3 +12,6 @@ Allow: /
 
 User-agent: *
 Allow: /
+
+Sitemap: https://rwangqz.ca/sitemap.xml
+Sitemap: https://rwangqz.ca/melon-files/sitemap.xml

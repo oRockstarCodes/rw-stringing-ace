@@ -7,6 +7,7 @@ import { LAB_JUNK_DIRS, MelonLabsData } from "./quartz/plugins/custom/MelonLabsD
 import { MelonLabsPage } from "./quartz/plugins/custom/MelonLabsPage"
 import { HideEmptyChapters, MelonChapterStatus } from "./quartz/plugins/custom/MelonChapterStatus"
 import { MelonSummary } from "./quartz/plugins/custom/MelonSummary"
+import { MelonFigureAlt } from "./quartz/plugins/custom/MelonFigureAlt"
 
 // Copied into the Quartz engine at build time by scripts/build-wiki.sh.
 // Docs: https://quartz.jzhao.xyz/configuration
@@ -88,6 +89,8 @@ const config: QuartzConfig = {
         keepBackground: false,
       }),
       Plugin.ObsidianFlavoredMarkdown({ enableInHtmlEmbed: false }),
+      // A figure's caption becomes its image's alt text
+      MelonFigureAlt(),
       Plugin.GitHubFlavoredMarkdown(),
       Plugin.TableOfContents(),
       Plugin.CrawlLinks({ markdownLinkResolution: "shortest" }),

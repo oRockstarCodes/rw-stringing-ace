@@ -1,7 +1,10 @@
 # Old stringing URLs -> new location
 /pricing    /stringing/pricing    301
 /strings    /stringing/strings    301
-/contact    /stringing/contact    301
+/contact    /stringing            301
+
+# The contact page was removed while RW Stringing is on a break
+/stringing/contact    /stringing    301
 
 # Wiki moved from /wiki to /melon-files
 /wiki       /melon-files/          301

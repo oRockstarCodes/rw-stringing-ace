@@ -53,6 +53,9 @@ wiki/content/courses/*/labs/**/.vscode/
 wiki/content/courses/*/labs/**/*.class
 graphify-out/
 
+# Scratch previews made while working on diagrams
+.claude/tmp-preview/
+
 # Playwright
 /test-results/
 /playwright-report/
