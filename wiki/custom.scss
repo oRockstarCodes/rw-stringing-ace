@@ -365,6 +365,14 @@ body .explorer-content ul li > a.active {
   font-weight: 600;
 }
 
+// Quartz sets overscroll-behavior: contain on every <ul> in the explorer, including the
+// nested folder lists (overflow: hidden). Over a folder's contents the wheel stops at that
+// inner list and never reaches the scrollable outer list, so the sidebar can't scroll.
+// Only the outer .explorer-ul should contain its scroll.
+body .explorer-content ul:not(.explorer-ul) {
+  overscroll-behavior: auto;
+}
+
 // "Chapters" and "Concepts" headings inside a course in the sidebar (added by the
 // Explorer mapFn in quartz.layout.ts). They're the only notes there whose link ends in
 // /index, apart from "Lab reports".
