@@ -26,7 +26,7 @@ A comparator tells you how two binary numbers relate.
 - $A_3 = 0$ and $B_3 = 1$ → $A < B$.
 - $A_3 = B_3$ → no decision yet, so move to the next bit down and repeat.
 
-The first bit position where the numbers differ decides the answer. If no position differs, $A = B$. It's the same way you'd compare 4,821 and 4,793 by eye: scan from the left and stop at the first digit that differs.
+The first bit position where the numbers differ decides the answer. If no position differs, $A = B$. Starting at the MSB works because a 1 in a higher position is worth more than all the lower bits combined (for example $1000 = 8 > 0111 = 7$), so nothing below the first difference can change the result. It's the same way you'd compare 4,821 and 4,793 by eye: scan from the left and stop at the first digit that differs.
 
 #### Example 6.1: Comparing two numbers
 
@@ -46,7 +46,7 @@ Check: $11 > 9$ ✓
 
 A **decoder** detects a specific bit combination (code) on its inputs and signals it with an output level. In general it has $n$ inputs and up to $2^n$ outputs.
 
-**Decoding one code.** An AND gate is the basic decoding element because it's 1 only when every input is 1. You invert the inputs that should be 0. For example, to detect $1001$:
+**Decoding one code.** Think of it as a combination lock that only opens for one pattern. An AND gate is the basic decoding element because it's 1 only when every input is 1. You invert the inputs that should be 0, so that a 0 in the right place turns into a 1 at the gate. For example, to detect $1001$:
 
 $$X = A_3\,\overline{A_2}\,\overline{A_1}\,A_0$$
 
@@ -66,6 +66,8 @@ Write the decoding expression for the code $1011$ ($A_3$ is the MSB), with an ac
    $$
 
 The output is 1 (or 0 for active-LOW) only for $1011$.
+
+> [!tip] Labeling: an $n$-bit code uses bits $A_{n-1}$ down to $A_0$ (a 4-bit code has no $A_4$), and a decoder's outputs are named $Y_0$ to $Y_{2^n-1}$. So input $110 = 6$ activates $Y_6$, which is the 7th output if you count from 1.
 
 **Decoding every code.** A decoder with one output per input combination is called an **$n$-line-to-$2^n$-line** decoder, or a **1-of-$2^n$** decoder since exactly one output is active at a time.
 

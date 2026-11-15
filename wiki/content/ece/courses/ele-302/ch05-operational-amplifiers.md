@@ -27,6 +27,18 @@ An **operational amplifier (op amp)** takes the difference between the voltages 
 
 > [!note] Circuit diagrams usually leave the supply pins out, but they're still there, and they're the reason the output saturates.
 
+### How it amplifies
+
+The input signal doesn't get "made bigger". It **controls** how much of the supply reaches the output, and the extra energy comes from the supply pins. Think of a big water reservoir (the supply) with a valve whose handle takes almost no effort to turn (the inputs): a tiny twist swings a large flow.
+
+Inside, three stages do the work:
+
+1. **Differential pair:** two matched transistors share one fixed current. If $v_+ = v_-$ it splits 50/50, and if one input is higher it steers more current down that side. That's why only the *difference* $v_+ - v_-$ matters.
+2. **Gain stage(s):** the current imbalance flows through a large load and becomes a big voltage. Stacked stages multiply, which reaches $A \approx 10^5$.
+3. **Output stage:** buffers the result so it can drive a load (the small $R_o$). It can't pull past the supplies, which is saturation.
+
+The input transistors are voltage-sensed, so they draw almost no current. That's the physical reason for the ideal rule $i_+ = i_- = 0$. For the transistor-level detail, with equations and a worked example, see [[mosfet#Using a MOSFET as an amplifier|MOSFET: using it as an amplifier]].
+
 ## Notes
 
 ### Open Loop
@@ -44,6 +56,8 @@ That's not much use as an amplifier, for two reasons:
 
 - **It saturates almost right away.** $A$ is huge (around $10^5$), so with $\pm 15\ \text{V}$ supplies the output hits a rail as soon as the inputs differ by more than $15 / 10^5 = 0.15\ \text{mV}$. Real signals are bigger than that, so the output just sits at $+15$ or $-15\ \text{V}$.
 - **The gain isn't reliable.** $A$ changes from chip to chip, with temperature, and with frequency, so even a tiny signal wouldn't get a predictable gain.
+
+> [!tip] Picture a seesaw with a hair trigger: if $v_+$ is even slightly above $v_-$ the output slams to the positive rail, and slightly below sends it to the negative rail. A quick sign check before you calculate: **bigger $v_-$ means a negative output, bigger $v_+$ means a positive output.** The usual slip is dropping the minus sign when $v_- > v_+$.
 
 > [!note] Open loop is still good for a **comparator**. The output tells you which input is bigger (high rail if $v_+ > v_-$, low rail if $v_+ < v_-$).
 
@@ -79,6 +93,8 @@ Only inputs within about $0.15\ \text{mV}$ of each other give an output between 
 
 The output settles at whatever voltage makes $v_-$ almost exactly equal to $v_+$. That's where the **virtual short** ($v_+ = v_-$) comes from.
 
+> [!note] Why it's safe to say $v_+ = v_-$: the leftover gap is tiny compared to the signal. In the buffer example below the gap is about $20\ \mu\text{V}$ on a $2\ \text{V}$ signal, roughly a hundred-thousandth of it. It isn't exactly zero, but it's small enough to ignore.
+
 > [!example] Buffer with $A = 10^5$ and $v_i = 2\ \text{V}$
 > The output is wired straight to $v_-$, so $v_- = v_o$:
 > $$v_o = A(v_i - v_o) \quad\Rightarrow\quad v_o = \frac{A}{1 + A}\,v_i = \frac{10^5}{100\,001}(2) \approx 1.99998\ \text{V}$$
@@ -97,6 +113,15 @@ $$
 - $\beta$: feedback factor, the fraction of $v_o$ that reaches $v_-$. For a non-inverting amp, $\beta = \frac{R_1}{R_1 + R_f}$
 
 For the non-inverting amp, $\frac{1}{\beta} = \frac{R_1 + R_f}{R_1} = 1 + \frac{R_f}{R_1}$, which is exactly its gain formula, Eq. (5.5). $A$ drops out, and that's the whole point. $A$ varies a lot between chips and with temperature, but resistor values are precise and stable.
+
+Two different gains show up from here on, so keep them straight:
+
+|Gain|Symbol|What it is|Typical value|
+|---|---|---|---|
+|Open-loop|$A$|The bare op amp with no feedback, $v_o = A(v_+ - v_-)$|$10^5$, huge but unreliable|
+|Closed-loop|$A_{CL}$|The finished circuit with feedback connected, $v_o / v_i$|Small (like 20), set by the resistors|
+
+Feedback trades a huge, sloppy gain for a smaller, precise one.
 
 #### Example 5.2: How much does the gain depend on $A$?
 
@@ -151,6 +176,19 @@ $v_o$ can only be $\pm V_{sat}$, so there are two thresholds, $+\beta V_{sat}$ a
 
 The gap between the two thresholds is called **hysteresis** (the loop in Figure 5.3), and it's the reason you'd use one of these. A noisy signal wobbling around a single threshold would make a plain comparator flip back and forth like crazy, but a Schmitt trigger ignores any wobble smaller than the gap.
 
+**Only one threshold is active at a time,** and which one depends on the current output:
+
+|Current $v_o$|Active threshold ($v_+$)|Output flips when...|Flips to|
+|---|---|---|---|
+|$+V_{sat}$|$+\beta V_{sat}$|$v_i$ rises **above** it|$-V_{sat}$|
+|$-V_{sat}$|$-\beta V_{sat}$|$v_i$ falls **below** it|$+V_{sat}$|
+
+Each flip moves the active threshold to the other side, and that's the circuit's memory. The same $v_i$ can give either output depending on which way it got there, and the hysteresis is $2\beta V_{sat}$ wide ($4.8\ \text{V}$ in the example above).
+
+> [!warning] Don't assume the upper threshold sends the output to the upper rail. That's true for a **non-inverting** Schmitt trigger, but here $v_i$ is on the inverting pin, so crossing the upper threshold sends the output **down**, and crossing the lower threshold sends it **up**. The thresholds are named by the *input* level.
+
+> [!tip] To trace a Schmitt trigger: (1) find the current output, (2) read off the active threshold, (3) ask which way $v_i$ has to move to cross it. If $v_i$ moves the other way, nothing happens.
+
 #### Example 5.3: Designing and tracing a Schmitt trigger
 
 An inverting Schmitt trigger (Figure 5.3) runs from $\pm 12\ \text{V}$ and must switch at $\pm 1.5\ \text{V}$. (a) Choose $R_1$ and $R_2$. (b) The output starts at $+12\ \text{V}$ and $v_i$ goes $0 \to 2 \to 1 \to -2\ \text{V}$. What does $v_o$ do?
@@ -177,6 +215,8 @@ The hysteresis is $1.5 - (-1.5) = 3\ \text{V}$ wide, so a wobble of less than th
 |$v_+$ (non-inverting input)|Positive|Output runs away to a supply rail|No|
 |Nothing (open loop)|None|Output saturates (comparator)|No|
 
+> [!note] The feedback type depends on where the **output** connects, not on where the input signal enters. The inverting amplifier has $v_i$ coming in at $v_-$ (through $R_1$) and still uses negative feedback, because $R_f$ connects the output back to $v_-$.
+
 > [!warning] Every amplifier circuit in this chapter uses negative feedback. If you can't find a path from the output back to $v_-$, don't assume the virtual short.
 
 ### Ideal Op Amp Model
@@ -187,6 +227,8 @@ An ideal op amp is a lot easier to work with. You assume $A \to \infty$, $R_i \t
 2. **The inputs are at the same voltage** (virtual short): $v_+ = v_-$ (only valid with negative feedback)
 
 > [!tip] My solving method: use the two ideal rules, then do **KCL at the inverting node**. Don't write KCL at the output node, since the op amp supplies some unknown current there.
+
+> [!note] Rule 1 only covers the **inputs**. The output current $i_o$ is *not* zero: the output stage supplies whatever the load and feedback path need, drawn from the supply pins (like the $0.62\ \text{mA}$ in Example 5.11). A real op amp has a maximum output current, often a few tens of mA, and past that the output sags even though the voltage is inside the rails.
 
 #### Example 5.4: Sources connected directly to the inputs
 
@@ -265,6 +307,10 @@ $$
 - $v_i$: input voltage, fed through $R_1$ into the inverting input
 - $R_1$: input resistor, from $v_i$ to the inverting input
 - $R_f$: feedback resistor, from the output back to the inverting input
+
+**Why $R_1$ is needed:** negative feedback works by adjusting $v_-$, so $v_-$ can't be held rigidly by something else. If an ideal voltage source were wired straight to $v_-$, it would force $v_- = v_i$, the loop couldn't pull $v_-$ toward $v_+ = 0$, the virtual short would break, and the output would saturate. $R_1$ isolates the source so $v_-$ is free to move, and it turns $v_i$ into a current $v_i / R_1$ that flows on through $R_f$. (A *current* source on $v_-$ is fine, as in Example 5.4, because it doesn't fix the node's voltage.)
+
+**Input resistance:** the inverting amp's source sees just $R_1$ (since $v_-$ is a virtual ground). The non-inverting amp's source sees only an op amp input, which draws almost no current, so its input resistance is very large.
 
 #### Example 5.7: Inverting gain and saturation
 
