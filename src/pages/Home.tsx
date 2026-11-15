@@ -1,4 +1,4 @@
-import { lazy, Suspense, useLayoutEffect, useRef } from "react";
+import { useLayoutEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { ArrowUpRight, BookOpen } from "lucide-react";
 import PersonalLayout from "@/components/personal/PersonalLayout";
@@ -28,7 +28,8 @@ const useHeroMotion = (scope: React.RefObject<HTMLElement>) =>
     const ctx = gsap.context(() => {
       gsap
         .timeline({ defaults: { ease: "power3.out" } })
-        .from("[data-hero=char]", { yPercent: 115, duration: 0.85, stagger: 0.04 })
+        .from("[data-hero=eyebrow]", { y: 14, opacity: 0, duration: 0.5 })
+        .from("[data-hero=char]", { yPercent: 115, duration: 0.85, stagger: 0.03 }, "-=0.25")
         .from("[data-hero=line]", { y: 18, opacity: 0, duration: 0.6, stagger: 0.12 }, "-=0.45");
       gsap.to("[data-hero=glow]", {
         scale: 1.12,
@@ -68,51 +69,28 @@ const useScrollReveal = (scope: React.RefObject<HTMLElement>) =>
     return () => ctx.revert();
   }, [scope]);
 
-// three.js is a large chunk, so it loads after the page paints; the headline is readable meanwhile.
-const HeroHead = lazy(() => import("@/components/personal/HeroHead"));
-
-const firstName = me.name.split(" ")[0];
-
 const Home = () => {
   const page = useRef<HTMLDivElement>(null);
-  const prefersReduced = reducedMotion();
   useHeroMotion(page);
   useScrollReveal(page);
   return (
     <PersonalLayout>
       <div ref={page}>
-        {/* The headline sits behind a 3D head that overlaps it, like a poster. */}
-        <section className="relative overflow-hidden min-h-[calc(100svh-4rem)] flex flex-col">
+        <section className="relative overflow-hidden">
           {/* Its own layer, so the endless drift is moved by the compositor instead of repainted. */}
           <div data-hero="glow" className="absolute inset-0 bg-mesh-gold opacity-60 will-change-transform" />
-          <div className="container relative pt-8 md:pt-10">
-            <h1
-              aria-label={`Hi, I'm ${firstName}`}
-              className="font-display font-extrabold uppercase leading-[0.9] tracking-tight text-center text-[21vw] sm:text-[clamp(3rem,12.4vw,12.5rem)] text-[#c9d0d7]"
-            >
-              <SplitName text={`Hi, I'm ${firstName}`} />
+          <div className="container relative pt-20 pb-16 md:pt-32 md:pb-24">
+            <p data-hero="eyebrow" className="text-sm font-medium text-accent">Hi, I'm</p>
+            <h1 aria-label={me.name} className="mt-2 text-5xl md:text-7xl font-bold leading-[1.05]">
+              <SplitName text={me.name} />
             </h1>
-          </div>
-          <Suspense fallback={null}>
-            <HeroHead animate={!prefersReduced} />
-          </Suspense>
-          <div className="container relative z-20 mt-auto pb-8 md:pb-10 flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
-            <div data-hero="line" className="max-w-xs">
-              <p className="text-xs md:text-sm font-medium uppercase tracking-[0.08em] text-foreground">{me.tagline}</p>
-              <p className="mt-3 hidden md:block text-sm text-muted-foreground leading-relaxed">{me.intro}</p>
-            </div>
-            <a data-hero="line" href="/melon-files/" className="btn-gold self-start sm:self-auto px-7 py-3 text-sm uppercase tracking-wide">
-              Open Melon Files
-              <ArrowUpRight className="h-4 w-4" />
-            </a>
+            <p data-hero="line" className="mt-6 max-w-xl text-lg md:text-xl text-foreground/85">{me.tagline}</p>
+            <p data-hero="line" className="mt-3 max-w-xl text-muted-foreground leading-relaxed">{me.intro}</p>
           </div>
         </section>
 
         {/* The wiki is the main thing here, so its courses are listed right under the hero. */}
         <section className="container pb-20">
-          <p className="mx-auto mb-10 max-w-md text-center text-sm leading-relaxed text-muted-foreground md:hidden">
-            {me.intro}
-          </p>
           <div data-reveal data-reveal-delay="0.5" className="card-premium p-6 md:p-8">
             <div className="flex flex-wrap items-start justify-between gap-4">
               <div className="flex items-start gap-4">
