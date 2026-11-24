@@ -136,7 +136,9 @@ Retry question: v_o = −12 V, v_i falling from +5 V — where and which way? (E
 
 ---
 
-## Concept 4: The ideal op amp model and solving method — 🟡 in progress
+## Concept 4: The ideal op amp model and solving method — ✅ merged into wiki
+
+Merged into `ch05-operational-amplifiers.md`: KCL sign-convention tip (current = higher − lower, direction of flow) plus the input-side sign check. Rocky confirmed he's comfortable.
 
 ### Explanation given
 - Ideal op amp: A → ∞, R_i → ∞, R_o → 0. Gives two rules: (1) i+ = i− = 0; (2) v+ = v− (virtual short, only with negative feedback).
@@ -148,8 +150,81 @@ Retry question: v_o = −12 V, v_i falling from +5 V — where and which way? (E
 
 ### Check question
 Non-inverting amp: v_i = 2 V on v+, R1 = 10 kΩ from v− to ground, Rf = 30 kΩ from v_o to v−. Use KCL at v− to find v_o. (Expected: 8 V.)
-*(My first version of this question started at v_o = −12 V with v_i = −5 V, which is an impossible state: at v_i = −5 V the output must already be +12 V. Corrected with Rocky.)*
-(Expected: 0 V: +12, thr +2.4; 3 V: crosses +2.4, flips to −12, thr now −2.4; 1 V: still above −2.4, stays −12; −3 V: below −2.4, flips to +12, thr +2.4.)
-- Seesaw / hair-trigger picture for v_o = A(v+ − v−).
-- Quick sign rule: bigger v− → output negative; bigger v+ → output positive.
-- Common slip: dropping the sign when v− > v+.
+**Rocky (attempt 1):** wrote v-/10k = (v- − v_o)/30k ✗. Setup right (KCL at v−, v− = 2 V) but the Rf current has the wrong sign; it flows from v_o toward v−, so it is (v_o − v−)/Rf. His version gives −4 V, which is impossible for a non-inverting amp with positive input.
+Sign rule given: current = (higher-voltage end − lower-voltage end)/R, in the direction it actually flows.
+**Retry:** v_o = 8 V ✓ (matches 1 + Rf/R1 = 4, 4 × 2 V).
+**Status:** correct after one sign correction.
+
+### Second check: inverting amp via KCL (v_i = 1.5 V, R1 = 10k, Rf = 40k, v+ = 0)
+Rocky asked for better lesson formatting (short steps, tables, circuit diagram); the question was re-posed that way.
+**Rocky:** v− = 0 ✓; i_R1 = 0.15 mA ✓; skipped the Rf-current and KCL equation steps; v_o = 6 V ✗ (sign); said the −Rf/R1 check matches ✗ (that formula gives −6 V).
+**Correction:** current through Rf flows from v− toward v_o: (v− − v_o)/Rf = 0.15 mA → (0 − v_o)/40k = 0.15 mA → v_o = −6 V. Same sign slip as before: dropping the minus on inverting circuits.
+**Retry:** wrote 0.15 mA = −v_o/40k ✓, solved v_o = −6 V ✓ (matches −Rf/R1 · v_i = −4 × 1.5).
+**Status:** all Concept 4 checks correct after sign corrections on both. Rocky confirmed comfortable; merged (see header).
+
+---
+
+## Concept 5: Summing amplifier (and then difference amplifier) — ✅ merged into wiki
+
+Merged into `ch05-operational-amplifiers.md`: why summing inputs don't interfere, KCL in-vs-out direction tip, difference amp solving order, and the "can't divide R1/R2 to ground" warning with the two-end divider form. Rocky wrote the full KCL equation (1 − 1.5)/10k = (1.5 − v_o)/30k, got v_o = 3 V and confirmed he's comfortable.
+
+---
+
+## Concept 6: Cascaded stages, then the non-ideal op amp model — ✅ merged into wiki
+
+Merged into `ch05-operational-amplifiers.md`: "three voltages" note (v_d vs A·v_d vs v_o), R_o/R_L divider with the 4.5 V example and 50 pA input-current point, and a saturation-in-a-cascade warning. Rocky's side questions: "is R_L the resistance in the op amp?" (no: it's the external load) and the v_d / A·v_d / v_o naming (v_d is the input difference, not "the source voltage"). Rocky confirmed he's comfortable.
+
+### Part 1: Cascaded stages
+- Each stage's output feeds the next stage's input; overall gain = product of the stage gains (Eq. 5.10).
+- Why it works: an ideal op amp output acts like an ideal voltage source (R_o → 0), so the next stage does not load the previous one.
+- Solve each stage on its own, in order, using its own gain formula.
+
+### Rocky's questions
+*(none yet)*
+
+### Check question
+Stage 1: non-inverting, R1 = 10k, Rf = 30k. Stage 2: inverting, R = 10k, Rf = 50k. v_s = 0.2 V, rails ±12 V. Find v1 and v_o. (Expected: gain 4 → v1 = 0.8 V; gain −5 → v_o = −4 V; overall −20.)
+**Rocky:** gains 4 and −5 ✓; v1 = 0.8 V, v_o = −4 V ✓; overall −20, no rails hit ✓.
+Harder version (v_s = 2.5 V): v1 = 10 V ✓, v_o = −12 V ✓ (stage 2 saturates; the −20 shortcut would wrongly give −50 V).
+Takeaways: overall gain holds only while every stage stays inside its rails; check each stage's output in order; a saturated stage breaks the virtual short.
+**Status:** part 1 understood; Rocky confirmed comfortable.
+
+### Part 2: Non-ideal op amp model
+- Model: R_i between v+ and v−; dependent source A·v_d (v_d = v+ − v−) in series with R_o to the output. Real values: A ~10^5–10^8, R_i ~10^6–10^13 Ω, R_o ~10–100 Ω. Output still limited by the rails.
+- R_i explains the tiny input current; R_o forms a divider with the load.
+**Check question:** R_i = 1 MΩ, A = 10^5, R_o = 100 Ω, v_d = 50 µV, R_L = 900 Ω. Find input current, A·v_d, v_o.
+**Rocky:** 50 pA ✓, 5 V ✓, 4.5 V ✓ (R_o/R_L divider).
+**Status:** all correct first try. Waiting for Rocky to say he's comfortable before merging Concept 6.
+
+### Explanation given
+- Summing amp = inverting amp with several input resistors all feeding v−. Each input pushes its own current into the v− node; v− = 0 (virtual ground), so the currents don't interact.
+- KCL at v−: v1/R1 + v2/R2 + v3/R3 = −v_o/Rf → v_o = −(Rf/R1·v1 + Rf/R2·v2 + Rf/R3·v3).
+
+### Rocky's questions
+*(none yet)*
+
+### Check question
+v1 = 2 V via R1 = 10k, v2 = −1 V via R2 = 20k, Rf = 40k. Find v_o. (Expected: −(4·2 + 2·(−1)) = −6 V.)
+**Rocky:** currents 0.2 mA and −0.05 mA ✓; KCL written as 0.15 mA = −(v− − v_o)/40k ✗ (sign flipped; that equation gives +6 V); v_o = −6 V ✓ (correct, but doesn't follow from his equation); check "yes" ✓.
+**Correction:** the Rf current flows v− → v_o, so it is +(v− − v_o)/Rf = −v_o/40k. Equation: 0.15 mA = −v_o/40k → v_o = −6 V.
+**Status:** answer right, equation sign slipped again (third time on the Rf current). Asked him to rewrite the equation.
+**Rocky's question:** "I thought I could set the direction to whichever I wanted."
+**A:** Yes, any direction works as long as the KCL equation matches it. His equation set (current into node) = (current into node), which violates KCL (in = out). Two valid forms: arrow out of v− → in = out: 0.15 mA = (v− − v_o)/Rf; arrow into v− → sum in = 0: 0.15 mA + (v_o − v−)/Rf = 0. Both give −6 V.
+*Wiki extra:* the in-vs-out consistency rule (table of the two forms).
+**Rocky:** solved the second form, v_o = −6 V ✓. Rocky confirmed comfortable with the summing amp (merge of Concept 5 deferred until the difference amp is also understood).
+
+### Part 2: Difference amplifier
+- v1 → R1 → v−, Rf (called R2 in wiki) from v_o to v−; v2 → R3 → v+, R4 from v+ to ground.
+- v+ = v2·R4/(R3+R4) (no current into v+, so unloaded divider); v− = v+; KCL at v−.
+- Check question: R1 = 10k, R2 = 30k, R3 = 20k, R4 = 60k, v1 = 1 V, v2 = 2 V. (Expected: v+ = 1.5 V, v_o = 3 V; ratios match, so also (R2/R1)(v2 − v1) = 3 V.)
+**Rocky:** asked "is the answer 1.5 V" (that was v+ = v−, step 1 ✓, not v_o). Then "is v_o 3 V" ✓ (correct). Did not show the KCL equation yet; asked for it to confirm the setup.
+**Rocky's questions:**
+- "Does the other side of the divider not do anything?" → The v− side can't change v+ (i+ = 0, so R3/R4 is an unloaded divider). But v+ → v− → KCL → v_o, so v2, R3, R4 all change v_o (e.g. R4 = 20k gives v_o = 1 V instead of 3 V). Superposition view: v1 alone = −3 V, v2 alone = +6 V, sum 3 V.
+- "So it doesn't matter what v2, R3, R4 are, v_o is the same?" → No; misread. Showed the R4 change.
+- "Can't I just do voltage division on the v− side?" → Yes, but the R1–R2 string runs between v1 and v_o, not ground: v− = v1 + (v_o − v1)·R1/(R1+R2). Gives v_o = 3 V. Breaks if anything else connects to v−.
+- "I did voltage division at v− to find v−, then KCL at v− to find v_o. Correct?" → Correct only if the divider was R3/R4 (v+ side). R1/R2 can't give v− without v_o.
+**Rocky's realization:** can't divide R1/R2 to find v− because the other end of R2 is at v_o (not ground). ✓
+*Wiki extra:* "why you can't divide R1/R2 to ground" note, and v2/R3/R4 → v+ → v− → KCL → v_o chain.
+
+### Session resumed 2026-11-16
+Rocky asked to pick up where he left off. Recapped the two ideal rules and the KCL-at-v− method, then re-asked the check question above.

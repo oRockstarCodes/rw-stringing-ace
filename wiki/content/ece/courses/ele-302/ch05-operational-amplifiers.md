@@ -228,6 +228,8 @@ An ideal op amp is a lot easier to work with. You assume $A \to \infty$, $R_i \t
 
 > [!tip] My solving method: use the two ideal rules, then do **KCL at the inverting node**. Don't write KCL at the output node, since the op amp supplies some unknown current there.
 
+> [!tip] Getting the signs right in KCL at $v_-$: write every current as (higher-voltage end − lower-voltage end) / R, in the direction it actually flows. The source current comes in through $R_1$ and has to leave through $R_f$ toward $v_o$, so the $R_f$ current is $(v_- - v_o)/R_f$ for an inverting amp (and $(v_o - v_-)/R_f$ for a non-inverting amp, where $v_o$ sits above $v_-$). Then check the sign of the answer against the circuit: signal into $v_+$ gives the same sign out, signal into $v_-$ through $R_1$ gives the opposite sign. Compare the **sign** as well as the size when you check against a gain formula.
+
 > [!note] Rule 1 only covers the **inputs**. The output current $i_o$ is *not* zero: the output stage supplies whatever the load and feedback path need, drawn from the supply pins (like the $0.62\ \text{mA}$ in Example 5.11). A real op amp has a maximum output current, often a few tens of mA, and past that the output sags even though the voltage is inside the rails.
 
 #### Example 5.4: Sources connected directly to the inputs
@@ -247,6 +249,10 @@ Determine $v_o$ in the op amp circuit of Figure 5.5.
 - It's modeled as an input resistance $R_i$ between the inputs, plus a dependent source $A v_d$ in series with an output resistance $R_o$.
 - Typical values: $A \approx 10^5$–$10^8$, $R_i \approx 10^6$–$10^{13}\ \Omega$, $R_o \approx 10$–$100\ \Omega$.
 - **Saturation:** the output can't go past the supplies, so $V_{CC-} \le v_o \le V_{CC+}$.
+
+> [!note] Three voltages to keep apart: $v_d = v_+ - v_-$ is the **input** difference (the voltage across $R_i$, tiny, often microvolts). $A v_d$ is the voltage of the dependent source **inside** the model. $v_o$ is the voltage at the output pin. The path is $v_d \to \times A \to A v_d \to$ lose some across $R_o \to v_o$.
+>
+> A load $R_L$ is **outside** the op amp (it connects from $v_o$ to ground), and $R_o$ and $R_L$ form a divider: $v_o = A v_d \cdot \dfrac{R_L}{R_L + R_o}$. For example, $A v_d = 5\ \text{V}$, $R_o = 100\ \Omega$ and $R_L = 900\ \Omega$ gives $v_o = 4.5\ \text{V}$. Keep $R_L \gg R_o$ if you want $v_o \approx A v_d$. Also, $v_d = 50\ \mu\text{V}$ across $R_i = 1\ \text{M}\Omega$ draws only $50\ \text{pA}$, which is why $i_+ = i_- = 0$ is a safe assumption.
 
 **Try it:** pick each part of the model, then switch to the ideal op amp to see where the two ideal rules come from.
 
@@ -459,6 +465,10 @@ $$
 - $R_1, R_2, R_3$: input resistors, one per input, each going to the inverting input
 - $R_f$: feedback resistor, from the output back to the inverting input
 
+> [!note] Why the inputs don't interfere: $v_-$ is a virtual ground (0 V), so each input sees only its own resistor to 0 V and pushes in a current $v_n / R_n$ that depends on that input alone. The currents add at the $v_-$ node and, since nothing enters the op amp, all leave through $R_f$. KCL: $\frac{v_1}{R_1} + \frac{v_2}{R_2} + \frac{v_3}{R_3} = -\frac{v_o}{R_f}$, which rearranges to Eq. (5.7).
+
+> [!tip] Any current direction is fine in KCL as long as the equation matches it. If an arrow points **out** of the node, put it on the "out" side ($\text{in} = \text{out}$). If it points **in**, it goes on the "in" side ($\text{in} + \text{in} = 0$). Writing an in-current equal to another in-current flips the sign of the answer.
+
 #### Example 5.14: Summing amplifier, find an unknown input
 
 For the circuit in Figure 5.13, determine the value of $v_2$ that makes $v_o = -9\ \text{V}$.
@@ -492,6 +502,10 @@ $$
 - $R_4$: resistor from the non-inverting input to ground
 
 Eq. (5.8) is just superposition. The $v_1$ term is an inverting amp, and the $v_2$ term is a voltage divider ($R_3$, $R_4$) followed by a non-inverting amp. Eq. (5.9) is what you get when the ratios match.
+
+> [!tip] Solving order for a difference amp: $v_2, R_3, R_4 \to v_+ \to v_- = v_+ \to$ KCL at $v_- \to v_o$. No current enters $v_+$, so $R_3$ and $R_4$ are an unloaded divider and nothing on the $v_-$ side can change $v_+$. But $v_+$ sets $v_-$, so $v_2$, $R_3$ and $R_4$ all change $v_o$ (making $R_4$ smaller in Example 5.15 would drop $v_o$).
+
+> [!warning] Don't divide $R_1$ and $R_2$ to find $v_-$ as if $R_2$ went to ground. Its far end is at $v_o$, which isn't known yet. If you want a divider there, it runs between the two end voltages: $v_- = v_1 + (v_o - v_1)\dfrac{R_1}{R_1 + R_2}$. That works while nothing else connects to $v_-$. Otherwise use KCL.
 
 #### Example 5.15: Difference amplifier with mismatched resistors
 
@@ -549,6 +563,8 @@ In the circuit of Figure 5.16, determine the voltage gain $v_o/v_s$. Take $R = 1
    $$\frac{v_o}{v_s} = A_1 A_2 = (4)(-2) = -8$$
 
 > [!note] $R$ cancels out of every ratio, so its value ($10\ \text{k}\Omega$) doesn't change the answer. Stage 1 can feed stage 2 directly because an op amp output acts like an ideal voltage source.
+
+> [!warning] The product $A_{total} = A_1 A_2 \cdots$ only holds while **every** stage stays inside its rails. Check each stage's output in order. For example, with stage gains of $4$ and $-5$, $\pm 12\ \text{V}$ rails and $v_s = 2.5\ \text{V}$: $v_1 = 10\ \text{V}$ is fine, but stage 2 would want $-50\ \text{V}$, so $v_o = -12\ \text{V}$, not $-20 \times 2.5 = -50\ \text{V}$. A saturated stage's virtual short no longer holds.
 
 ## Common mistakes
 
