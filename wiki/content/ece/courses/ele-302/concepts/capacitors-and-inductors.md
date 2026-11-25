@@ -23,18 +23,18 @@ Both parts are **stubborn**, and they are stubborn about different things:
 - A **capacitor** is stubborn about its **voltage**. It doesn't like the voltage across it changing quickly, so it takes *time* to fill up (or empty out) its voltage.
 - An **inductor** is stubborn about its **current**. It doesn't like the current through it changing quickly, so it takes *time* to build up (or stop) its current.
 
-Think of a **bucket** and a **heavy merry-go-round**:
+The reason is that each one stores energy in a **field**, and a field can't be built up or torn down in zero time:
 
-- A capacitor is a **bucket**. Pour water in (current) and the water level (voltage) rises slowly. You can't make the bucket full in an instant, no matter how hard you pour. The fuller it gets, the harder it pushes back, so the last bit fills the slowest.
-- An inductor is a **heavy merry-go-round** in a pipe of flowing water. Push on it (apply voltage) and it speeds up slowly, because it's heavy. Once it's spinning (current is flowing) it *wants to keep spinning*, and if you try to stop it suddenly it shoves back hard.
+- A **capacitor** stores energy in an **electric field** between its plates. The field comes from the charge sitting on the plates, and that charge is what sets the voltage ($q = Cv$). Charge only gets onto the plates by flowing in as current, which takes time. So the voltage can't jump, and changing it quickly needs a large current.
+- An **inductor** stores energy in a **magnetic field** around its coil. The field comes from the current. If the current changes, the field changes, and a changing field **induces a voltage in the coil that opposes the change** (Lenz's law). A steady current makes a steady field, which induces nothing. So the current can't jump, and changing it quickly needs a large voltage across the coil.
 
-| | Capacitor (bucket) | Inductor (merry-go-round) |
+| | Capacitor | Inductor |
 |---|---|---|
-| What it's stubborn about | Voltage (the water level) | Current (how fast it's spinning) |
-| What takes time | Voltage building up | Current building up |
-| If you try to change it instantly | Needs a huge rush of current | Makes a huge voltage spike |
-| After a long time at DC | Full bucket, no more water flows in: **open** | Spinning at full speed, nothing pushing on it: **short** |
-| What it's storing | Energy in an electric field | Energy in a magnetic field |
+| What it's stubborn about | Voltage | Current |
+| Where the energy is stored | Electric field (set by the charge, so by $v$) | Magnetic field (set by the current) |
+| What takes time | Charge flowing onto the plates | Current building up the field |
+| If you try to change it instantly | Needs a huge current | Induces a huge voltage |
+| After a long time at DC | Fully charged, so the current stops: **open** | Current steady, so the field stops changing and no voltage is induced: **short** |
 
 Everything below is just this picture with the math attached.
 
@@ -100,7 +100,7 @@ $$
 
 So an inductor's voltage depends on how fast its **current changes**. A steady current, however large, produces no voltage. By Lenz's law the induced voltage always **opposes the change** that caused it. Try to speed the current up and the inductor pushes back, and try to stop it and the inductor pushes forward to keep it going. That's the inductor's "inertia", and it's the reason an LC circuit overshoots and rings.
 
-> [!tip] Water analogy: an inductor is like a heavy flywheel (or paddle wheel) sitting in a pipe. Water (current) has to spin the heavy wheel up before it can flow at full speed, so the flow builds up slowly. Once it's flowing, the spinning wheel keeps the water moving, and if you slam the valve shut the wheel keeps pushing and makes a big pressure spike (voltage).
+> [!tip] How to picture it: current makes a magnetic field, and a field that is **changing** induces a voltage that fights the change. The field never opposes a steady current. When the current rises, the induced voltage acts against the rise, and when it falls, the induced voltage acts to keep it up. That's why the current can't change instantly. And when you open a switch on a coil that is carrying current, the field collapses fast, which induces a large voltage spike.
 
 **Why an inductor takes time to build up current.** Connect an inductor to a battery through a resistor. At the first instant the current is 0 (it can't jump), so there's no voltage across the resistor, and the whole battery voltage sits across the inductor. A big $v_L$ means a big $\frac{di}{dt}$, so the current starts climbing. As the current climbs, the resistor takes more of the battery voltage, so less is left across the inductor, so the climb slows down. The current creeps up to its final value $V_s/R$:
 
@@ -108,7 +108,7 @@ $$
 i_L(t) = \frac{V_s}{R}\left(1 - e^{-Rt/L}\right), \qquad \tau = \frac{L}{R}
 $$
 
-It's the mirror image of the capacitor: the same 63% after one $\tau$ and about $5\tau$ to finish. A bigger $L$ (a heavier flywheel) makes it slower, but a bigger $R$ makes it *faster*, since the final current is smaller and there's less to build up to.
+It's the mirror image of the capacitor: the same 63% after one $\tau$ and about $5\tau$ to finish. A bigger $L$ (more field to build) makes it slower, but a bigger $R$ makes it *faster*, since the final current is smaller and there's less to build up to.
 
 ![[ele-302-cap-ind-structure.svg]]
 *Figure 1: A capacitor stores energy in the electric field between its plates (left). An inductor stores energy in the magnetic field through its coil (right).*

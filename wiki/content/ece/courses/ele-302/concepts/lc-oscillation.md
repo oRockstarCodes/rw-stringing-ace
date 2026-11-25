@@ -37,6 +37,17 @@ Start with the capacitor charged to $+V_m$ and no current flowing, then let the 
 4. **The whole thing runs in reverse.** The capacitor now discharges the other way, and the current flows backwards and reaches its most negative value when $v_C$ passes through 0 again.
 5. **Back to the start.** After one full period the capacitor is at $+V_m$ again with no current, exactly like step 1, and the cycle repeats forever.
 
+Here's the same cycle as a table:
+
+|Stage|$v_C$|$i_L$|Where the energy is|
+|---|---|---|---|
+|1|Maximum|0|All in the capacitor's electric field|
+|2|0|Maximum|All in the inductor's magnetic field|
+|3|Maximum, reversed|0|All in the capacitor again|
+|4|0|Maximum, reversed|All in the inductor again|
+
+> [!note] Why the current keeps flowing at stage 2, when the capacitor is empty and pushes nothing: the current has built up a magnetic field. As the current is forced to fall, the field shrinks, and a shrinking field induces a voltage that opposes the fall (Lenz's law). That induced voltage is what pushes charge onto the capacitor the other way. At every instant $\frac{1}{2}Cv^2 + \frac{1}{2}Li^2$ is the same, so whenever one goes up the other goes down by the same amount.
+
 ![[ele-302-concept-lc-oscillation.svg]]
 *Figure 2: Capacitor voltage (gold) and current (gray) over one period. The circled numbers are the stages in the list above.*
 

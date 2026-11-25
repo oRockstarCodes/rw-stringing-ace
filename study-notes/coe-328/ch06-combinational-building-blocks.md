@@ -42,7 +42,32 @@ Merged: combination-lock picture and "a 0 turns into a 1 at the gate" reasoning 
 
 ---
 
-## Concept 3: Encoders — 🟡 in progress
+## Concept 3: Encoders — ✅ merged into wiki
+
+Merged: "Reading the table by columns" paragraph (each output bit = one column of the digit-to-BCD table; why A0 has five terms and A3 two) and the note that exactly one input is HIGH while the four outputs form one 4-bit code, added after the encoder table in `ch06-combinational-building-blocks.md`. The OR expressions and Example 6.5 were already there. Rocky said the first explanation didn't click, the column/table view did, and confirmed "yes im clear".
+
+---
+
+## Concept 4: Multiplexers (the data selector) — 🟡 in progress
+
+### Explanation given
+- A **multiplexer (MUX)** is a **selector switch** for data. Several data inputs come in, and the **select inputs** pick exactly one of them to appear on the single output Y. Picture a TV remote: many channels in, you choose one, and only that one reaches the screen.
+- With n select lines you can pick among 2^n data inputs (2 selects → 4 inputs, 3 selects → 8).
+- **4-to-1 MUX** (data D0–D3, selects S1 S0): the select bits are just the *number* of the input you want.
+  - S1S0 = 00 → Y = D0
+  - S1S0 = 01 → Y = D1
+  - S1S0 = 10 → Y = D2
+  - S1S0 = 11 → Y = D3
+- Inside: a decoder on the select lines turns on exactly one AND gate, that AND lets its data input through, and an OR gathers the four ANDs into Y. So Y = D0·S1'S0' + D1·S1'S0 + D2·S1S0' + D3·S1S0.
+- The data inputs themselves can be anything (0, 1, or changing signals); the select lines decide which one you see.
+
+### Rocky's questions
+*(none yet)*
+
+### Check question
+A 4-to-1 MUX has D0 = 0, D1 = 1, D2 = 1, D3 = 0 held constant. Find Y for S1S0 = 00, 01, 10, 11, 01.
+
+**Rocky's answer:** *(pending)*
 
 ### Explanation given
 - An **encoder** is a decoder run backwards. A decoder turns a code into "one line active"; an encoder turns "one line active" into a code. Think of a keypad: press key 6 (one line goes HIGH) and the encoder outputs the binary code for 6.
@@ -61,7 +86,17 @@ Merged: combination-lock picture and "a 0 turns into a 1 at the gate" reasoning 
 ### Check question
 (a) Line 9 of a decimal-to-BCD encoder is HIGH (all others LOW). Which output expressions include line 9, and what is A3A2A1A0? (b) Why does the A0 expression have five terms but A3 only two?
 
-**Rocky's answer:** *(pending)*
+**Rocky's answer:** (a) "1001" (b) "as more numbers uses that bit"
+**Feedback:**
+- (a) 1001 ✓ (9 in BCD). Not stated: which expressions contain line 9 → **A3 = 8 + 9** and **A0 = 1 + 3 + 5 + 7 + 9**; A2 and A1 don't. That is why the output is 1 0 0 1.
+- (b) ✓ Correct idea. Sharpened: among digits 0–9 the weight-1 bit is 1 for every odd digit (1, 3, 5, 7, 9 = five), while the weight-8 bit is 1 only for 8 and 9 (two), because BCD stops at 9.
+**Status:** both correct. Waiting for Rocky to confirm he's comfortable before marking 🟢.
+
+### Rocky's question: "im not quite a fan of how you explained it, can you try explaining it differently"
+**Second explanation given (table-column view):** write each digit 0–9 next to its 4-bit BCD code. Each output bit is one *column* of that table. The wire for that bit must go HIGH whenever the pressed digit has a 1 in its column, so you OR together the digits that have a 1 there. A keypad picture: each key is a switch, and each output bit has a wire that every "1-in-this-column" key touches.
+
+### Rocky's follow-up: "so an encoder takes the 9 inputs and output them into 4 outputs"
+**Answer given:** Yes, with two fixes: it's **10** input lines (keys 0–9; key 0 just needs no gate because 0000 is what you get when nothing else is pressed), and only **one** input is HIGH at a time. The 4 outputs are not a copy of the inputs but a single 4-bit *code* naming which input is active (10 lines compressed into 4 bits, since 2^4 = 16 ≥ 10).
 
 ### Explanation given
 - A **decoder** watches n input bits and signals when it sees one specific code. Think of it as a combination lock that only "opens" for one pattern.

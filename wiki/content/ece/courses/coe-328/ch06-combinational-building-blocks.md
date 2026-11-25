@@ -117,6 +117,10 @@ An **encoder** is the reverse of a decoder. It takes an active level on **one** 
 
 (Here "8 + 9" means the OR of input lines 8 and 9.) Input 0 doesn't need a gate, since all the outputs are 0 when nothing else is active.
 
+**Reading the table by columns.** If you forget the expressions, rebuild them. Write each digit 0–9 next to its BCD code. Each output bit is one **column** of that table, and its OR gate collects every digit that has a 1 in that column. For example, the 1s in the weight-1 column are at 1, 3, 5, 7, 9, giving $A_0 = 1 + 3 + 5 + 7 + 9$. That's also why $A_0$ has five terms and $A_3$ only two: among digits 0–9, every odd digit has a 1 in the last place, but only 8 and 9 have one in the weight-8 place.
+
+Only **one** input line is HIGH at a time, and the four outputs together form **one** 4-bit code naming that line (10 lines compressed into 4 bits, since $2^4 = 16 \ge 10$).
+
 #### Example 6.5: Decimal-to-BCD encoder
 
 Input line 6 of a decimal-to-BCD encoder is HIGH (all others LOW). What are the outputs?

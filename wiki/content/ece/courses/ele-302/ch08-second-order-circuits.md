@@ -56,6 +56,8 @@ $$
 
 Here $0^-$ means "just before the switch moves" and $0^+$ means "just after". Nothing else is protected. Resistor voltages, the capacitor's *current* and the inductor's *voltage* are all allowed to jump.
 
+> [!tip] Intuition for the inductor: current makes a magnetic field, and only a **changing** field induces a voltage (Faraday's law). That voltage acts against the change (Lenz's law), whether the current is rising or falling. A steady current makes a steady field, so $v_L = 0$. And a jump in current would be an instant change in the field, which would induce an infinite voltage, so $i_L$ can't jump. More in [[capacitors-and-inductors|Capacitors and Inductors]].
+
 > [!note] Integral forms
 > If you rearrange Eq. (8.1) and integrate from 0 to $t$, you get each element's value at any time, starting from its initial value ([[capacitors-and-inductors#Integral form|more on the integral form]]). You'll use these in Step 1 to write KVL/KCL with only one unknown:
 > $$i_L(t) = \frac{1}{L}\int_0^t v_L\,dt + i_L(0), \qquad v_C(t) = \frac{1}{C}\int_0^t i_C\,dt + v_C(0)$$
@@ -69,6 +71,8 @@ You can also see this from impedance. DC means $\omega = 0$, so $Z_L = j\omega L
 
 ![[ele-302-rlc-dc-equivalents.svg]]
 *Figure 8.1: At DC steady state, an inductor acts like a short and a capacitor acts like an open.*
+
+> [!warning] The zero belongs to the *other* quantity. In DC steady state the inductor's **voltage** is 0 but its **current** is not (the rest of the circuit sets it), and the capacitor's **current** is 0 but its **voltage** is not. Example: a 12 V source with a 3 Ω and an inductor in series carries $12/3 = 4\ \text{A}$ through the inductor. A 12 V source with a 6 Ω and a capacitor in series puts the **full 12 V** across the capacitor, because no current flows to drop any voltage across the 6 Ω.
 
 #### Example 8.1: Which quantities can jump?
 
@@ -153,7 +157,19 @@ $$
 
 $\alpha$ (the **neper frequency**, in Np/s) measures how fast resistance drains energy out of the circuit. $\omega_0$ (the **resonant frequency**, in rad/s) measures how fast energy wants to swing between L and C.
 
+In terms of time scales: the envelope $e^{-\alpha t}$ falls to about 37% of its size after $\frac{1}{\alpha}$ seconds, and the pure LC swing (no resistance) takes $\frac{2\pi}{\omega_0}$ seconds per cycle. $\omega_0$ only depends on $L$ and $C$, while $\alpha$ depends on $R$. The damping case comes from which one is bigger: if $\alpha < \omega_0$ the circuit has time to swing before the energy drains, so it rings, and if $\alpha > \omega_0$ the drain wins and it can't ring.
+
 **$R$ does opposite things in series and parallel.** In a series circuit the oscillating current flows *through* the resistor, so a bigger $R$ burns more energy and means **more** damping. In a parallel circuit the resistor sits *beside* L and C and only the current leaking through it is lost, so a bigger $R$ means **less** damping. That's why Eq. (8.7) grows with $R$ and Eq. (8.8) shrinks. The power argument, a comparison table and the critical resistance are in [[damping-series-vs-parallel|Damping in Series and Parallel RLC]].
+
+|  | Series RLC | Parallel RLC |
+|---|---|---|
+| Same for every element | Current $i$ | Voltage $v$ |
+| Different across elements | The voltages | The currents |
+| Law used | KVL | KCL |
+| Variable in the equation | $i$ | $v$ |
+| Source turned off | A voltage source becomes a **short** (0 V) | A current source becomes an **open**, and $v$ is still there |
+
+> [!note] With no source in a **series** circuit, the voltage across the whole chain is 0 V, so KVL gives $v_R + v_L + v_C = 0$. Each element still has its own nonzero voltage, and they cancel when added. For example, at $t = 0^+$ with $v_C = 10\ \text{V}$ and $i = 0$, $v_R = 0$ and $v_L = -10\ \text{V}$. In a **parallel** circuit the common voltage $v$ is the variable you solve for.
 
 #### Example 8.2: Same parts, different wiring
 
@@ -232,6 +248,8 @@ $$
 - The constants ($A_1$, $A_2$, or $A$ and $\theta$) stay unknown until Step 4.
 - The textbook writes the underdamped case as $e^{-\alpha t}(B_1\cos\omega_d t + B_2\sin\omega_d t)$. It's the same function, and either form gets full marks.
 
+> [!note] What "underdamped" looks like: the response crosses its final value again and again, with each swing smaller than the last. For a **source-free** circuit the final value is 0, so a voltage or current alternates between positive and negative (the capacitor charges the opposite way, or the current reverses). With a DC source it swings above and below $x_F$ instead (Example 8.11 settles at 14 V and swings around it). Overdamped and critically damped responses never cross the final value. Critical damping is the boundary: the fastest settling that doesn't overshoot. For a series circuit it happens at $R = 2\sqrt{L/C}$, and in the roots it's where the square root in Eq. (8.11) is exactly 0.
+
 #### Example 8.3: Type of damping
 
 A series RLC circuit has $R = 50\ \Omega$, $L = 10\ \text{mH}$ and $C = 1\ \mu\text{F}$. What type of damping does it have? What value of $R$ would make it critically damped?
@@ -275,6 +293,23 @@ $$
 $$
 
 > [!tip] If your Step 1 variable isn't $i_L$ or $v_C$ (a resistor current, say), find its value and slope from the $0^+$ circuit too. Only $i_L$ and $v_C$ are guaranteed to carry over from $0^-$.
+
+**Which way does the current go at $0^+$?** Use KCL at a node. If the source is cut off and the inductor's current is leaving a node, the same amount has to arrive through the other branch. Then compare that direction with the capacitor's $+$ terminal:
+
+|Current direction|Sign of $i_C$ in $i_C = C\frac{dv_C}{dt}$|
+|---|---|
+|**Into** the $+$ terminal|Positive|
+|**Out of** the $+$ terminal|Negative|
+
+Sanity check: current leaving the $+$ terminal means the capacitor is losing charge, so $v_C$ should be falling and $\frac{dv_C}{dt}$ should be negative. Note that $i_C$ can jump at the switch (from 0 at $0^-$ to a nonzero value at $0^+$) while $v_C$ stays put.
+
+**Finding $v_L(0^+)$.** When two branches connect the same two nodes, the top-to-bottom voltage is the same through either branch. Find it through the branch where everything is known, then use it on the other branch to solve for $v_L$.
+
+> [!example] A 12 V source feeds two parallel branches: 3 Ω in series with a 2 H inductor, and 6 Ω in series with a 0.5 F capacitor. The switch opens at $t = 0$ after a long time. 
+> - **Before:** $i_L(0^-) = \frac{12}{3} = 4\ \text{A}$, $v_C(0^-) = 12\ \text{V}$ (nothing flows through the 6 Ω).
+> - **After, continuity:** $i_L(0^+) = 4\ \text{A}$, $v_C(0^+) = 12\ \text{V}$.
+> - **Capacitor slope:** the 4 A going down through the inductor branch must come back up through the capacitor branch, out of its $+$ terminal, so $i_C = -4\ \text{A}$ and $\frac{dv_C}{dt}(0^+) = \frac{-4}{0.5} = -8\ \text{V/s}$.
+> - **Inductor slope:** top-to-bottom through the capacitor branch is $6(-4) + 12 = -12\ \text{V}$. Through the inductor branch it is $3(4) + v_L$, so $v_L = -24\ \text{V}$ and $\frac{di_L}{dt}(0^+) = \frac{-24}{2} = -12\ \text{A/s}$.
 
 #### Example 8.5: Initial and final values
 
@@ -369,6 +404,8 @@ x_T = x_N + x_F \tag{8.17}
 $$
 
 Now use the two initial conditions from Step 3 on the **total** solution $x_T$ (not on $x_N$ alone) to get two equations for the two unknown constants.
+
+> [!tip] Two things that make this step less error-prone. First, the value equation includes $x_F$ ($x_F + A_1 + A_2 = x(0)$ in the overdamped case), but $x_F$ is a constant, so it disappears when you differentiate and the slope equation only involves the exponentials. Second, test your final answer against what you know: $x(0)$ and $x'(0)$ should match the initial conditions, and $x(\infty)$ should equal $x_F$. For example, $x'' + 6x' + 8x = 16$ with $x(0) = x'(0) = 0$ gives $x_F = 2$, roots $-2, -4$, and $x(t) = 2 - 4e^{-2t} + 2e^{-4t}$. Check: $x(0) = 0$, $x'(0) = 8 - 8 = 0$, $x(\infty) = 2$.
 
 #### Example 8.7: Switch from A to B, overdamped
 
