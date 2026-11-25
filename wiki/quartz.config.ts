@@ -8,6 +8,7 @@ import { MelonLabsPage } from "./quartz/plugins/custom/MelonLabsPage"
 import { HideEmptyChapters, MelonChapterStatus } from "./quartz/plugins/custom/MelonChapterStatus"
 import { MelonSummary } from "./quartz/plugins/custom/MelonSummary"
 import { MelonFigureAlt } from "./quartz/plugins/custom/MelonFigureAlt"
+import { MelonExamples } from "./quartz/plugins/custom/MelonExamples"
 
 // Copied into the Quartz engine at build time by scripts/build-wiki.sh.
 // Docs: https://quartz.jzhao.xyz/configuration
@@ -98,6 +99,8 @@ const config: QuartzConfig = {
       // The link-preview summary: the page's first real paragraph
       MelonSummary(),
       Plugin.Latex({ renderEngine: "katex" }),
+      // Worked examples hide their answer behind a "Show answer" toggle
+      MelonExamples(),
       // Each course's labs/ folder, shown on the course page
       MelonLabsData(),
       // Marks chapters that are still an empty template, and unlinks links to them

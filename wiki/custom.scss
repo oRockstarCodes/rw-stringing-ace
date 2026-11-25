@@ -455,6 +455,91 @@ body .section-ul .section-li {
   }
 }
 
+// Worked examples: the answer is folded away behind a "Show answer" button
+// (plugins/MelonExamples.ts) so readers can try the problem first
+article details.melon-answer {
+  margin: 0.9rem 0 1.4rem;
+
+  & > summary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    list-style: none;
+    cursor: pointer;
+    user-select: none;
+    padding: 0.35rem 0.85rem;
+    border: 1px solid var(--lightgray);
+    border-radius: 999px;
+    background: var(--melon-soft);
+    color: var(--darkgray);
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition:
+      border-color 0.2s var(--melon-ease),
+      color 0.2s var(--melon-ease);
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+
+    &::before {
+      content: "";
+      width: 0.45em;
+      height: 0.45em;
+      border-right: 2px solid currentColor;
+      border-bottom: 2px solid currentColor;
+      transform: rotate(-45deg);
+      transition: transform 0.2s var(--melon-ease);
+    }
+
+    &:hover {
+      border-color: var(--secondary);
+      color: var(--secondary);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--secondary);
+      outline-offset: 2px;
+    }
+  }
+
+  .melon-answer-hide {
+    display: none;
+  }
+
+  &[open] {
+    & > summary {
+      margin-bottom: 0.6rem;
+
+      &::before {
+        transform: rotate(45deg);
+      }
+    }
+
+    .melon-answer-show {
+      display: none;
+    }
+
+    .melon-answer-hide {
+      display: inline;
+    }
+  }
+
+  // The answer keeps the same reading width as the rest of the page
+  & > p,
+  & > ul,
+  & > ol,
+  & > blockquote {
+    max-width: var(--melon-measure);
+  }
+}
+
+// The "?" cells in a question's copy of a table whose answers are hidden
+article td.melon-answer-blank {
+  color: var(--secondary);
+  font-weight: 700;
+}
+
 // Figure captions: an italic line written directly under an embedded diagram
 // (Quartz's base styles already place it as a caption below the image)
 article p > img + em {

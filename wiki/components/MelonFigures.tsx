@@ -100,6 +100,8 @@ document.addEventListener("nav", () => {
     const line = window.innerHeight * 0.35
     let index = markers.length ? markers[0].index : 0
     for (const m of markers) {
+      // Inside a folded example answer (plugins/MelonExamples.ts): not on screen
+      if (m.el.closest("details:not([open])")) continue
       if (m.el.getBoundingClientRect().top > line) break
       index = m.index
     }
@@ -124,6 +126,9 @@ document.addEventListener("nav", () => {
   // Clicking the figure jumps to it in the text
   const onView = () => {
     const target = figures[shown].img
+    // A figure in a folded example answer: unfold it first
+    const folded = target.closest("details:not([open])")
+    if (folded) folded.open = true
     target.scrollIntoView({ behavior: "smooth", block: "center" })
     target.closest("p")?.classList.add("melon-figure-flash")
     setTimeout(() => target.closest("p")?.classList.remove("melon-figure-flash"), 1200)
