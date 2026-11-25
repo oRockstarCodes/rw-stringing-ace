@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 510 195" width="510" height="195" font-family="DM Sans, system-ui, sans-serif" font-size="13">
+<g fill="none" stroke="#8a8a93" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+<circle cx="400" cy="95" r="16"/>
+<polyline points="400,79 400,40 470,40"/>
+<polyline points="470,40 470,70.0 478,74.2 462,82.5 478,90.8 462,99.2 478,107.5 462,115.8 470,120.0 470,150"/>
+<polyline points="400,111 400,150 470,150"/>
+</g>
+<line x1="30.0" y1="123.8" x2="330.0" y2="123.8" stroke="#8a8a93" stroke-width="1.4"/>
+<line x1="60.0" y1="20.0" x2="60.0" y2="170.0" stroke="#8a8a93" stroke-width="1.4"/>
+<line x1="120.0" y1="119.8" x2="120.0" y2="127.8" stroke="#8a8a93" stroke-width="1.4"/>
+<text x="120.0" y="141.8" fill="#8a8a93" font-weight="400" text-anchor="middle" font-size="11">½</text>
+<line x1="180.0" y1="119.8" x2="180.0" y2="127.8" stroke="#8a8a93" stroke-width="1.4"/>
+<text x="180.0" y="141.8" fill="#8a8a93" font-weight="400" text-anchor="middle" font-size="11">1</text>
+<line x1="240.0" y1="119.8" x2="240.0" y2="127.8" stroke="#8a8a93" stroke-width="1.4"/>
+<text x="240.0" y="141.8" fill="#8a8a93" font-weight="400" text-anchor="middle" font-size="11">1½</text>
+<line x1="300.0" y1="119.8" x2="300.0" y2="127.8" stroke="#8a8a93" stroke-width="1.4"/>
+<text x="300.0" y="141.8" fill="#8a8a93" font-weight="400" text-anchor="middle" font-size="11">2</text>
+<line x1="56.0" y1="37.3" x2="64.0" y2="37.3" stroke="#8a8a93" stroke-width="1.4"/>
+<text x="52.0" y="41.3" fill="#8a8a93" font-weight="400" text-anchor="end" font-size="11">3</text>
+<line x1="56.0" y1="152.7" x2="64.0" y2="152.7" stroke="#8a8a93" stroke-width="1.4"/>
+<text x="52.0" y="156.7" fill="#8a8a93" font-weight="400" text-anchor="end" font-size="11">−1</text>
+<text x="330" y="115.8" fill="#8a8a93" font-weight="400" text-anchor="end" font-size="11">t (s)</text>
+<text x="68.0" y="30" fill="#8a8a93" font-weight="400" text-anchor="start" font-size="11">v<tspan font-size="10" dy="4">s</tspan><tspan dy="-4">​</tspan>(t) (V)</text>
+<polyline points="30.0,152.7 60.0,152.7 60.0,37.3 120.0,37.3 120.0,152.7 180.0,152.7 180.0,37.3 240.0,37.3 240.0,152.7 300.0,152.7 300.0,37.3 330.0,37.3" fill="none" stroke="#c99a12" stroke-width="2.2" stroke-linejoin="round"/>
+<text x="400" y="92" fill="#8a8a93" font-size="14" text-anchor="middle">+</text>
+<text x="400" y="106" fill="#8a8a93" font-size="14" text-anchor="middle">−</text>
+<text x="378" y="100" fill="#c99a12" font-weight="600" text-anchor="end">v<tspan font-size="10" dy="4">s</tspan><tspan dy="-4">​</tspan></text>
+<text x="456" y="100.0" fill="#c99a12" font-weight="600" text-anchor="end">10 Ω</text>
+<polygon points="440,40 430.4,46.0 430.4,34.0" fill="#2a9d8f"/>
+<text x="436" y="28" fill="#2a9d8f" font-weight="600" text-anchor="middle">i(t)</text>
+</svg>

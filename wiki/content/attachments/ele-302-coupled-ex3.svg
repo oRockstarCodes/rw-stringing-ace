@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 490 215" width="490" height="215" font-family="DM Sans, system-ui, sans-serif" font-size="13">
+<g fill="none" stroke="#8a8a93" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+<circle cx="50" cy="118" r="16"/>
+<polyline points="50,102 50,50 75,50"/>
+<polyline points="50,134 50,185"/>
+<polyline points="75,50 90.0,50 94.2,42 102.5,58 110.8,42 119.2,58 127.5,42 135.8,58 140.0,50 155,50"/>
+<polyline points="155,50 180.0,50"/>
+<polyline points="190.0,50 215,50"/>
+<polyline points="180.0,38 180.0,62"/>
+<polyline points="190.0,38 190.0,62"/>
+<polyline points="215,50 250,50"/>
+<path d="M250 50 V93.5 a6 6 0 0 1 0 12 a6 6 0 0 1 0 12 a6 6 0 0 1 0 12 a6 6 0 0 1 0 12 V185"/>
+<path d="M250 50 H290.0 a5 5 0 0 1 10 0 a5 5 0 0 1 10 0 a5 5 0 0 1 10 0 a5 5 0 0 1 10 0 H370"/>
+<polyline points="370,50 430,50"/>
+<polyline points="430,50 430,92.5 438,96.7 422,105.0 438,113.3 422,121.7 438,130.0 422,138.3 430,142.5 430,185"/>
+<polyline points="430,185 50,185"/>
+</g>
+<text x="50" y="115" fill="#8a8a93" font-size="14" text-anchor="middle">+</text>
+<text x="50" y="129" fill="#8a8a93" font-size="14" text-anchor="middle">−</text>
+<text x="26" y="123" fill="#c99a12" font-weight="600" text-anchor="end">V</text>
+<text x="115.0" y="36" fill="#c99a12" font-weight="600" text-anchor="middle">R<tspan font-size="10" dy="4">1</tspan><tspan dy="-4">​</tspan></text>
+<text x="185.0" y="32" fill="#c99a12" font-weight="600" text-anchor="middle">C</text>
+<circle cx="250" cy="50" r="3" fill="#8a8a93"/>
+<text x="234" y="122.5" fill="#c99a12" font-weight="600" text-anchor="end">L<tspan font-size="10" dy="4">1</tspan><tspan dy="-4">​</tspan></text>
+<circle cx="237" cy="96.5" r="5" fill="#2a9d8f"/>
+<text x="310.0" y="34" fill="#c99a12" font-weight="600" text-anchor="middle">L<tspan font-size="10" dy="4">2</tspan><tspan dy="-4">​</tspan></text>
+<circle cx="342" cy="63" r="5" fill="#2a9d8f"/>
+<path d="M266 112 Q322 110 322 62" fill="none" stroke="#2a9d8f" stroke-width="1.6"/>
+<text x="318" y="108" fill="#2a9d8f" font-weight="600" text-anchor="start">M</text>
+<text x="446" y="122.5" fill="#c99a12" font-weight="600" text-anchor="start">R<tspan font-size="10" dy="4">2</tspan><tspan dy="-4">​</tspan></text>
+<circle cx="250" cy="185" r="3" fill="#8a8a93"/>
+<polygon points="68,50 58.4,56.0 58.4,44.0" fill="#2a9d8f"/>
+<text x="62" y="38" fill="#2a9d8f" font-weight="600" text-anchor="middle">I<tspan font-size="10" dy="4">1</tspan><tspan dy="-4">​</tspan></text>
+<polygon points="410,50 400.4,56.0 400.4,44.0" fill="#2a9d8f"/>
+<text x="406" y="38" fill="#2a9d8f" font-weight="600" text-anchor="middle">I<tspan font-size="10" dy="4">2</tspan><tspan dy="-4">​</tspan></text>
+<polygon points="264,175 258.0,165.4 270.0,165.4" fill="#2a9d8f"/>
+<text x="272" y="172" fill="#2a9d8f" font-weight="600" text-anchor="start">I<tspan font-size="10" dy="4">1</tspan><tspan dy="-4">​</tspan> − I<tspan font-size="10" dy="4">2</tspan><tspan dy="-4">​</tspan></text>
+</svg>

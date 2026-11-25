@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 430 195" width="430" height="195" font-family="DM Sans, system-ui, sans-serif" font-size="13">
+<g fill="none" stroke="#8a8a93" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+<circle cx="50" cy="100" r="16"/>
+<polyline points="50,84 50,40 95,40"/>
+<polyline points="95,40 110.0,40 114.2,32 122.5,48 130.8,32 139.2,48 147.5,32 155.8,48 160.0,40 175,40"/>
+<polyline points="175,40 210,40"/>
+<path d="M210 40 V76.0 a6 6 0 0 1 0 12 a6 6 0 0 1 0 12 a6 6 0 0 1 0 12 a6 6 0 0 1 0 12 V160"/>
+<polyline points="210,40 230.0,40 234.2,32 242.5,48 250.8,32 259.2,48 267.5,32 275.8,48 280.0,40 300,40"/>
+<polyline points="300,40 360,40"/>
+<polyline points="360,40 360,75.0 368,79.2 352,87.5 368,95.8 352,104.2 368,112.5 352,120.8 360,125.0 360,160"/>
+<polyline points="50,116 50,160 360,160"/>
+</g>
+<text x="50" y="97" fill="#8a8a93" font-size="14" text-anchor="middle">+</text>
+<text x="50" y="111" fill="#8a8a93" font-size="14" text-anchor="middle">−</text>
+<text x="26" y="105" fill="#c99a12" font-weight="600" text-anchor="end">v(t)</text>
+<text x="135.0" y="26" fill="#c99a12" font-weight="600" text-anchor="middle">R<tspan font-size="10" dy="4">1</tspan><tspan dy="-4">​</tspan> = 4 Ω</text>
+<circle cx="210" cy="40" r="3" fill="#8a8a93"/>
+<text x="196" y="105.0" fill="#c99a12" font-weight="600" text-anchor="end">L = 2 H</text>
+<polygon points="222,70 216.0,60.4 228.0,60.4" fill="#2a9d8f"/>
+<text x="230" y="72" fill="#2a9d8f" font-weight="600" text-anchor="start">i<tspan font-size="10" dy="4">o</tspan><tspan dy="-4">​</tspan></text>
+<text x="255.0" y="26" fill="#c99a12" font-weight="600" text-anchor="middle">R<tspan font-size="10" dy="4">2</tspan><tspan dy="-4">​</tspan></text>
+<text x="376" y="105.0" fill="#c99a12" font-weight="600" text-anchor="start">R<tspan font-size="10" dy="4">3</tspan><tspan dy="-4">​</tspan></text>
+<circle cx="210" cy="160" r="3" fill="#8a8a93"/>
+<polygon points="78,40 68.4,46.0 68.4,34.0" fill="#2a9d8f"/>
+<text x="72" y="28" fill="#2a9d8f" font-weight="600" text-anchor="middle">i</text>
+<text x="285" y="185" fill="#8a8a93" font-weight="400" text-anchor="middle" font-size="12">R<tspan font-size="10" dy="4">2</tspan><tspan dy="-4">​</tspan> + R<tspan font-size="10" dy="4">3</tspan><tspan dy="-4">​</tspan> = 4 Ω</text>
+</svg>

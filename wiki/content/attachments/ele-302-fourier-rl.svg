@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 330 180" width="330" height="180" font-family="DM Sans, system-ui, sans-serif" font-size="13">
+<g fill="none" stroke="#8a8a93" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+<circle cx="60" cy="90" r="16"/>
+<polyline points="60,74 60,35 90,35"/>
+<polyline points="90,35 115.0,35 119.2,27 127.5,43 135.8,27 144.2,43 152.5,27 160.8,43 165.0,35 190,35"/>
+<polyline points="190,35 240,35"/>
+<path d="M240 35 V66.0 a6 6 0 0 0 0 12 a6 6 0 0 0 0 12 a6 6 0 0 0 0 12 a6 6 0 0 0 0 12 V145"/>
+<polyline points="240,35 290,35"/>
+<polyline points="240,145 290,145"/>
+<polyline points="60,106 60,145 240,145"/>
+</g>
+<text x="60" y="87" fill="#8a8a93" font-size="14" text-anchor="middle">+</text>
+<text x="60" y="101" fill="#8a8a93" font-size="14" text-anchor="middle">−</text>
+<text x="36" y="95" fill="#c99a12" font-weight="600" text-anchor="end">v<tspan font-size="10" dy="4">s</tspan><tspan dy="-4">​</tspan>(t)</text>
+<text x="140.0" y="21" fill="#c99a12" font-weight="600" text-anchor="middle">R = 5 Ω</text>
+<text x="226" y="95.0" fill="#c99a12" font-weight="600" text-anchor="end">L = 2 H</text>
+<circle cx="290" cy="35" r="3.5" fill="none" stroke="#8a8a93" stroke-width="2"/>
+<circle cx="290" cy="145" r="3.5" fill="none" stroke="#8a8a93" stroke-width="2"/>
+<text x="290" y="66" fill="#8a8a93" font-size="14" text-anchor="middle">+</text>
+<text x="290" y="124" fill="#8a8a93" font-size="14" text-anchor="middle">−</text>
+<text x="298" y="96" fill="#c99a12" font-weight="600" text-anchor="start">v<tspan font-size="10" dy="4">o</tspan><tspan dy="-4">​</tspan></text>
+</svg>

@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 524 215" width="524" height="215" font-family="DM Sans, system-ui, sans-serif" font-size="13">
+<g fill="none" stroke="#8a8a93" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+<circle cx="70" cy="115" r="16"/>
+<polyline points="70,99 70,45"/>
+<polyline points="70,131 70,185"/>
+<polyline points="70,45 100,45"/>
+<polyline points="100,45 115.0,45 119.2,37 127.5,53 135.8,37 144.2,53 152.5,37 160.8,53 165.0,45 180,45"/>
+<polyline points="180,45 215.0,45"/>
+<polyline points="225.0,45 260,45"/>
+<polyline points="215.0,33 215.0,57"/>
+<polyline points="225.0,33 225.0,57"/>
+<polyline points="260,45 290,45 290,80"/>
+<polyline points="290,150 290,185 70,185"/>
+<path d="M290 80 V91.0 a6 6 0 0 1 0 12 a6 6 0 0 1 0 12 a6 6 0 0 1 0 12 a6 6 0 0 1 0 12 V150"/>
+<path d="M334 80 V91.0 a6 6 0 0 0 0 12 a6 6 0 0 0 0 12 a6 6 0 0 0 0 12 a6 6 0 0 0 0 12 V150"/>
+<polyline points="309.0,91.0 309.0,139.0"/>
+<polyline points="315.0,91.0 315.0,139.0"/>
+<polyline points="334,80 334,45 454,45"/>
+<polyline points="334,150 334,185 454,185"/>
+<polyline points="454,45 454,90.0 462,94.2 446,102.5 462,110.8 446,119.2 462,127.5 446,135.8 454,140.0 454,185"/>
+</g>
+<text x="70" y="112" fill="#8a8a93" font-size="14" text-anchor="middle">+</text>
+<text x="70" y="126" fill="#8a8a93" font-size="14" text-anchor="middle">−</text>
+<text x="46" y="120" fill="#c99a12" font-weight="600" text-anchor="end">V</text>
+<text x="140.0" y="31" fill="#c99a12" font-weight="600" text-anchor="middle">R<tspan font-size="10" dy="4">1</tspan><tspan dy="-4">​</tspan></text>
+<text x="220.0" y="27" fill="#c99a12" font-weight="600" text-anchor="middle">C</text>
+<circle cx="277" cy="94.0" r="5" fill="#2a9d8f"/>
+<circle cx="347" cy="94.0" r="5" fill="#2a9d8f"/>
+<text x="470" y="120.0" fill="#c99a12" font-weight="600" text-anchor="start">R<tspan font-size="10" dy="4">2</tspan><tspan dy="-4">​</tspan></text>
+<polygon points="94,45 84.4,51.0 84.4,39.0" fill="#2a9d8f"/>
+<text x="90" y="33" fill="#2a9d8f" font-weight="600" text-anchor="middle">I<tspan font-size="10" dy="4">1</tspan><tspan dy="-4">​</tspan></text>
+<polygon points="390,45 399.6,39.0 399.6,51.0" fill="#2a9d8f"/>
+<text x="386" y="33" fill="#2a9d8f" font-weight="600" text-anchor="middle">I<tspan font-size="10" dy="4">2</tspan><tspan dy="-4">​</tspan></text>
+<text x="312.0" y="30" fill="#8a8a93" font-weight="600" text-anchor="middle">N<tspan font-size="10" dy="4">1</tspan><tspan dy="-4">​</tspan> : N<tspan font-size="10" dy="4">2</tspan><tspan dy="-4">​</tspan> = 1 : 2</text>
+</svg>

@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 444 215" width="444" height="215" font-family="DM Sans, system-ui, sans-serif" font-size="13">
+<g fill="none" stroke="#8a8a93" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+<circle cx="70" cy="115" r="16"/>
+<polyline points="70,99 70,45"/>
+<polyline points="70,131 70,185"/>
+<polyline points="70,45 100,45"/>
+<polyline points="100,45 115.0,45 119.2,37 127.5,53 135.8,37 144.2,53 152.5,37 160.8,53 165.0,45 180,45"/>
+<polyline points="180,45 210,45 210,80"/>
+<polyline points="210,150 210,185 70,185"/>
+<path d="M210 80 V91.0 a6 6 0 0 1 0 12 a6 6 0 0 1 0 12 a6 6 0 0 1 0 12 a6 6 0 0 1 0 12 V150"/>
+<path d="M254 80 V91.0 a6 6 0 0 0 0 12 a6 6 0 0 0 0 12 a6 6 0 0 0 0 12 a6 6 0 0 0 0 12 V150"/>
+<polyline points="254,80 254,45 374,45"/>
+<polyline points="254,150 254,185 374,185"/>
+<polyline points="374,45 374,110.0"/>
+<polyline points="374,120.0 374,185"/>
+<polyline points="362,110.0 386,110.0"/>
+<polyline points="362,120.0 386,120.0"/>
+</g>
+<text x="70" y="112" fill="#8a8a93" font-size="14" text-anchor="middle">+</text>
+<text x="70" y="126" fill="#8a8a93" font-size="14" text-anchor="middle">−</text>
+<text x="46" y="120" fill="#c99a12" font-weight="600" text-anchor="end">V</text>
+<text x="140.0" y="31" fill="#c99a12" font-weight="600" text-anchor="middle">R</text>
+<text x="194" y="120.0" fill="#c99a12" font-weight="600" text-anchor="end">L<tspan font-size="10" dy="4">1</tspan><tspan dy="-4">​</tspan></text>
+<text x="270" y="120.0" fill="#c99a12" font-weight="600" text-anchor="start">L<tspan font-size="10" dy="4">2</tspan><tspan dy="-4">​</tspan></text>
+<circle cx="197" cy="94.0" r="5" fill="#2a9d8f"/>
+<circle cx="267" cy="136.0" r="5" fill="#2a9d8f"/>
+<path d="M216 86 Q232.0 58 248 86" fill="none" stroke="#2a9d8f" stroke-width="1.6"/>
+<text x="232.0" y="66" fill="#2a9d8f" font-weight="600" text-anchor="middle">M</text>
+<text x="392" y="120.0" fill="#c99a12" font-weight="600" text-anchor="start">C</text>
+<polygon points="94,45 84.4,51.0 84.4,39.0" fill="#2a9d8f"/>
+<text x="90" y="33" fill="#2a9d8f" font-weight="600" text-anchor="middle">I<tspan font-size="10" dy="4">1</tspan><tspan dy="-4">​</tspan></text>
+<polygon points="324,45 314.4,51.0 314.4,39.0" fill="#2a9d8f"/>
+<text x="320" y="33" fill="#2a9d8f" font-weight="600" text-anchor="middle">I<tspan font-size="10" dy="4">2</tspan><tspan dy="-4">​</tspan></text>
+</svg>

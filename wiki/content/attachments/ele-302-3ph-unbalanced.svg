@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 470 220" width="470" height="220" font-family="DM Sans, system-ui, sans-serif" font-size="13">
+<g fill="none" stroke="#8a8a93" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+<polyline points="40,50 40,190"/>
+<polyline points="40,50 74,50"/>
+<circle cx="90" cy="50" r="16"/>
+<polyline points="106,50 140,50"/>
+<polyline points="40,120 74,120"/>
+<circle cx="90" cy="120" r="16"/>
+<polyline points="106,120 140,120"/>
+<polyline points="40,190 74,190"/>
+<circle cx="90" cy="190" r="16"/>
+<polyline points="106,190 140,190"/>
+<polyline points="140,50 260,50"/>
+<polyline points="140,120 260,120"/>
+<polyline points="140,190 260,190"/>
+<polyline points="260,50 298.0,50"/>
+<polyline points="342.0,50 380,50"/>
+<rect x="298.0" y="40" width="44" height="20" rx="3"/>
+<polyline points="260,120 298.0,120"/>
+<polyline points="342.0,120 380,120"/>
+<rect x="298.0" y="110" width="44" height="20" rx="3"/>
+<polyline points="260,190 298.0,190"/>
+<polyline points="342.0,190 380,190"/>
+<rect x="298.0" y="180" width="44" height="20" rx="3"/>
+<polyline points="380,50 380,190"/>
+</g>
+<text x="97" y="55" fill="#8a8a93" font-size="14" text-anchor="middle">+</text>
+<text x="83" y="55" fill="#8a8a93" font-size="14" text-anchor="middle">−</text>
+<text x="90" y="26" fill="#c99a12" font-weight="600" text-anchor="middle">V<tspan font-size="10" dy="4">an</tspan><tspan dy="-4">​</tspan></text>
+<circle cx="140" cy="50" r="3.5" fill="none" stroke="#8a8a93" stroke-width="2"/>
+<text x="140" y="40" fill="#8a8a93" font-weight="600" text-anchor="middle">a</text>
+<text x="97" y="125" fill="#8a8a93" font-size="14" text-anchor="middle">+</text>
+<text x="83" y="125" fill="#8a8a93" font-size="14" text-anchor="middle">−</text>
+<text x="90" y="96" fill="#c99a12" font-weight="600" text-anchor="middle">V<tspan font-size="10" dy="4">bn</tspan><tspan dy="-4">​</tspan></text>
+<circle cx="140" cy="120" r="3.5" fill="none" stroke="#8a8a93" stroke-width="2"/>
+<text x="140" y="110" fill="#8a8a93" font-weight="600" text-anchor="middle">b</text>
+<text x="97" y="195" fill="#8a8a93" font-size="14" text-anchor="middle">+</text>
+<text x="83" y="195" fill="#8a8a93" font-size="14" text-anchor="middle">−</text>
+<text x="90" y="166" fill="#c99a12" font-weight="600" text-anchor="middle">V<tspan font-size="10" dy="4">cn</tspan><tspan dy="-4">​</tspan></text>
+<circle cx="140" cy="190" r="3.5" fill="none" stroke="#8a8a93" stroke-width="2"/>
+<text x="140" y="180" fill="#8a8a93" font-weight="600" text-anchor="middle">c</text>
+<circle cx="40" cy="120" r="3" fill="#8a8a93"/>
+<text x="30" y="125" fill="#8a8a93" font-weight="600" text-anchor="end">n</text>
+<polygon points="208.0,50 198.4,56.0 198.4,44.0" fill="#2a9d8f"/>
+<text x="202.0" y="72" fill="#2a9d8f" font-weight="600" text-anchor="middle">I<tspan font-size="10" dy="4">a</tspan><tspan dy="-4">​</tspan></text>
+<circle cx="260" cy="50" r="3.5" fill="none" stroke="#8a8a93" stroke-width="2"/>
+<text x="260" y="40" fill="#8a8a93" font-weight="600" text-anchor="middle">A</text>
+<polygon points="208.0,120 198.4,126.0 198.4,114.0" fill="#2a9d8f"/>
+<text x="202.0" y="142" fill="#2a9d8f" font-weight="600" text-anchor="middle">I<tspan font-size="10" dy="4">b</tspan><tspan dy="-4">​</tspan></text>
+<circle cx="260" cy="120" r="3.5" fill="none" stroke="#8a8a93" stroke-width="2"/>
+<text x="260" y="110" fill="#8a8a93" font-weight="600" text-anchor="middle">B</text>
+<polygon points="208.0,190 198.4,196.0 198.4,184.0" fill="#2a9d8f"/>
+<text x="202.0" y="212" fill="#2a9d8f" font-weight="600" text-anchor="middle">I<tspan font-size="10" dy="4">c</tspan><tspan dy="-4">​</tspan></text>
+<circle cx="260" cy="190" r="3.5" fill="none" stroke="#8a8a93" stroke-width="2"/>
+<text x="260" y="180" fill="#8a8a93" font-weight="600" text-anchor="middle">C</text>
+<text x="320.0" y="34" fill="#c99a12" font-weight="600" text-anchor="middle">Z<tspan font-size="10" dy="4">A</tspan><tspan dy="-4">​</tspan></text>
+<text x="320.0" y="104" fill="#c99a12" font-weight="600" text-anchor="middle">Z<tspan font-size="10" dy="4">B</tspan><tspan dy="-4">​</tspan></text>
+<text x="320.0" y="174" fill="#c99a12" font-weight="600" text-anchor="middle">Z<tspan font-size="10" dy="4">C</tspan><tspan dy="-4">​</tspan></text>
+<circle cx="380" cy="120" r="3" fill="#8a8a93"/>
+<text x="390" y="125" fill="#8a8a93" font-weight="600" text-anchor="start">N  (V<tspan font-size="10" dy="4">N</tspan><tspan dy="-4">​</tspan> ≠ 0)</text>
+</svg>

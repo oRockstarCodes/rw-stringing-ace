@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 190" width="420" height="190" font-family="DM Sans, system-ui, sans-serif" font-size="13">
+<g fill="none" stroke="#8a8a93" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+<path d="M44 55 H107.0 a5 5 0 0 1 10 0 a5 5 0 0 1 10 0 a5 5 0 0 1 10 0 a5 5 0 0 1 10 0 H210"/>
+<path d="M210 55 H273.0 a5 5 0 0 1 10 0 a5 5 0 0 1 10 0 a5 5 0 0 1 10 0 a5 5 0 0 1 10 0 H376"/>
+<path d="M210 55 V83.5 a6 6 0 0 1 0 12 a6 6 0 0 1 0 12 a6 6 0 0 1 0 12 a6 6 0 0 1 0 12 V160"/>
+<polyline points="44,160 376,160"/>
+</g>
+<circle cx="40" cy="55" r="3.5" fill="none" stroke="#8a8a93" stroke-width="2"/>
+<circle cx="40" cy="160" r="3.5" fill="none" stroke="#8a8a93" stroke-width="2"/>
+<circle cx="380" cy="55" r="3.5" fill="none" stroke="#8a8a93" stroke-width="2"/>
+<circle cx="380" cy="160" r="3.5" fill="none" stroke="#8a8a93" stroke-width="2"/>
+<text x="127.0" y="39" fill="#c99a12" font-weight="600" text-anchor="middle">L<tspan font-size="10" dy="4">a</tspan><tspan dy="-4">​</tspan> = L<tspan font-size="10" dy="4">1</tspan><tspan dy="-4">​</tspan> − M</text>
+<text x="293.0" y="39" fill="#c99a12" font-weight="600" text-anchor="middle">L<tspan font-size="10" dy="4">b</tspan><tspan dy="-4">​</tspan> = L<tspan font-size="10" dy="4">2</tspan><tspan dy="-4">​</tspan> − M</text>
+<circle cx="210" cy="55" r="3" fill="#8a8a93"/>
+<text x="226" y="112.5" fill="#c99a12" font-weight="600" text-anchor="start">L<tspan font-size="10" dy="4">c</tspan><tspan dy="-4">​</tspan> = M</text>
+<circle cx="210" cy="160" r="3" fill="#8a8a93"/>
+<polygon points="80,55 70.4,61.0 70.4,49.0" fill="#2a9d8f"/>
+<text x="76" y="77" fill="#2a9d8f" font-weight="600" text-anchor="middle">I<tspan font-size="10" dy="4">1</tspan><tspan dy="-4">​</tspan></text>
+<polygon points="340,55 349.6,49.0 349.6,61.0" fill="#2a9d8f"/>
+<text x="344" y="77" fill="#2a9d8f" font-weight="600" text-anchor="middle">I<tspan font-size="10" dy="4">2</tspan><tspan dy="-4">​</tspan></text>
+<text x="40" y="81" fill="#8a8a93" font-size="14" text-anchor="middle">+</text>
+<text x="40" y="150" fill="#8a8a93" font-size="14" text-anchor="middle">−</text>
+<text x="380" y="81" fill="#8a8a93" font-size="14" text-anchor="middle">+</text>
+<text x="380" y="150" fill="#8a8a93" font-size="14" text-anchor="middle">−</text>
+<text x="30" y="112" fill="#c99a12" font-weight="600" text-anchor="end">V<tspan font-size="10" dy="4">1</tspan><tspan dy="-4">​</tspan></text>
+<text x="390" y="112" fill="#c99a12" font-weight="600" text-anchor="start">V<tspan font-size="10" dy="4">2</tspan><tspan dy="-4">​</tspan></text>
+</svg>
