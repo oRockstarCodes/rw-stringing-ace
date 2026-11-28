@@ -54,6 +54,9 @@ That's why one complex number per frequency is enough to describe a circuit. If 
 - $|H|$ is the **gain**: how much the amplitude is multiplied by.
 - $\angle H$ is the **phase shift**: how far the output leads ($+$) or lags ($-$) the input.
 
+> [!tip] Why a bigger angle means "leads"
+> $\cos(\omega t + \phi)$ peaks when $\omega t + \phi = 0$, at $\omega t = -\phi$. A bigger $\phi$ puts the peak **earlier**, and whichever wave peaks first is ahead. So compare the output's phase with the input's: if the output's angle is bigger it leads, if smaller it lags. That's the same as reading the sign of $\angle H$. Easy slip: with input $4\sin(1000t - 10^\circ)$ and $H = 2.5\angle 45^\circ$, the output $10\sin(1000t + 35^\circ)$ **leads** by $45^\circ$, not lags.
+
 The rest of the chapter is about how $H$ changes as you sweep $\omega$.
 
 #### Example 14.1: Reading gain and phase
@@ -104,6 +107,11 @@ Describe $e^{st}$ for (a) $s = -2 + j10$, (b) $s = j10$, (c) $s = -5$, (d) $s = 
 - (c) $\omega = 0$: **pure decay**, $e^{-5t}$, with no oscillation.
 - (d) $\alpha = +1 > 0$: a **growing oscillation**, $e^{t}\cos 3t$. A passive circuit never has this, because it would mean the circuit creates energy.
 
+> [!tip] Reading a signal off $s$
+> - **Recipe:** $s = \alpha + j\omega$ → $e^{\alpha t}\cos\omega t$. The real part goes in the exponential, the imaginary part goes in the cosine.
+> - **$s = 0$ is DC, not "nothing":** $e^{0\cdot t} = 1$, a constant that never changes.
+> - **Further left decays faster.** The time constant is $1/|\alpha|$. Compare $-1 + j6$ and $-4 + j6$: same height, so the same wiggle ($6$ rad/s), but at $t = 1$ s the first is still at $e^{-1} \approx 0.37$ while the second is down to $e^{-4} \approx 0.018$ (time constants 1 s vs 0.25 s). Height only sets how fast it wiggles.
+
 > [!note] Watch the two $\alpha$'s. Here $\alpha$ is the real part of $s$, so it's negative when something decays. In Ch 8, $\alpha = R/2L$ was a positive decay rate inside $e^{-\alpha t}$. They describe the same thing with opposite signs. From the resonance section on, $\alpha$ means $R/2L$ again. (The textbook avoids the clash by calling the real part $\sigma$.)
 
 ### Impedance in the s-Domain
@@ -131,6 +139,13 @@ That's the big payoff: **calculus becomes algebra**. Voltage dividers, series an
 |Capacitor, $Z_C = \frac{1}{j\omega C}$|$\infty$, an **open**|$0$, a **short**|
 
 > [!tip] This table is the fastest sanity check in the chapter. Before trusting any $H(s)$, redraw the circuit with the shorts and opens for $\omega \to 0$ and $\omega \to \infty$, find the output by inspection, and make sure your formula agrees.
+
+> [!warning] Judge the whole combination, not one element
+> After swapping in the shorts and opens, look at how the elements are connected:
+> - **Series:** one **open** opens the whole chain. A series RLC is open at *both* ends ($|Z| \to \infty$: C open at DC, L open at $\infty$), with a dip in the middle.
+> - **Parallel:** one **short** shorts the whole thing. A parallel RLC is shorted at *both* ends ($|Z| \to 0$: L short at DC, C short at $\infty$), with a peak in the middle.
+>
+> Easy slip: reading one element's column ("C is open, L is short") instead of asking what the combination does.
 
 #### Example 14.3: Impedance at a frequency
 
@@ -180,6 +195,10 @@ Find the zeros and poles of $H(s) = \dfrac{3(s + 4)}{(s + 1)(s + 5)}$, then find
 
 The denominator $(s+1)(s+5) = s^2 + 6s + 5$ is the circuit's characteristic equation. Comparing with $s^2 + 2\alpha s + \omega_0^2$ gives $\alpha = 3$ and $\omega_0 = \sqrt5 = 2.24$. Since $\alpha > \omega_0$ the poles are real, so the circuit is overdamped and its natural response is $A_1e^{-t} + A_2e^{-5t}$.
 
+> [!warning] Two easy slips
+> - **An open means zero *current*, not zero voltage.** RC low-pass (output across C) at DC: C is open, so no current flows, R drops nothing, and all of $V_i$ appears across the gap. $V_o = V_i$, so $H(0) = 1$. The zero output is at the *short* end ($\omega \to \infty$). Take the output across R instead and it flips: $H(0) = 0$, $H(\infty) = 1$, a high-pass.
+> - **α is half the middle coefficient.** In $s^2 + 4s + 13$, $2\alpha = 4$, so $\alpha = 2$. Don't divide by $\omega_0$: $\alpha/\omega_0$ is a different quantity (the damping ratio $\zeta$). Cross-check with complex poles $-\alpha \pm j\omega_d$: here $-2 \pm j3$, and $\omega_d = \sqrt{13 - 4} = 3$ ✓.
+
 ### Decibels
 
 Gains in real circuits range from millions down to millionths, so they're measured on a log scale. The **decibel** comes from power ratios: $G_{\text{dB}} = 10\log_{10}\frac{P_2}{P_1}$. Power goes with voltage squared ($P = V^2/R$), and the square comes out of the log as a factor of 2. That's why voltage and current gain use **20**:
@@ -213,6 +232,9 @@ The log scale earns its place for one reason: **it turns multiplication into add
 
 This is why the dB scale helps. A chain of stages becomes a sum.
 
+> [!tip] dB without a calculator
+> Two anchors do most of the work: **×10 = +20 dB** and **×2 ≈ +6 dB** (so ×0.5 = −6 dB). Build other values from them: $20 = 10 \times 2 \to 20 + 6 = 26$ dB; $0.05 = 0.1 \times 0.5 \to -20 - 6 = -26$ dB; $1000 = 10^3 \to 60$ dB. It runs backwards too: $26$ dB $= 20 + 6 \to 10 \times 2 = 20$.
+
 ### Bode Plots
 
 A **Bode plot** is two graphs with a log-scale frequency axis: **magnitude** ($H_{\text{dB}}$ against $\log\omega$) and **phase** ($\phi$ in degrees against $\log\omega$).
@@ -245,6 +267,11 @@ For $H = \dfrac{1}{1 + j\omega/100}$, compare the exact gain and phase with the 
 
 The sketch is excellent a decade away from the corner in either direction and worst *at* the corner, where the true curve is 3 dB lower and the phase is exactly $-45^\circ$. That is why you mark the corner and then round it.
 
+> [!warning] Straight line vs exact at the corner
+> - The **straight-line** value at the corner is **0 dB**: the two asymptotes meet there. The **exact** curve is **−3 dB**. Keep the two apart when a question asks for one or the other.
+> - $|1 + j| = \sqrt{1^2 + 1^2} = \sqrt2$, **not** 2. Using 2 gives −6 dB, which is wrong; the corner is the half-*power* point, −3 dB.
+> - One octave above the corner ($\omega = 2p$): $|1 + j2| = \sqrt5$, so the exact value is $1/\sqrt5 = 0.447$, or −7 dB.
+
 #### Standard form
 
 The two-lines trick only works if every factor **equals 1 at low frequency**, so that it contributes 0 dB until its corner. That's why you rewrite each factor before plotting: $(s + z) = z\left(1 + \frac{s}{z}\right)$. Pull every constant out like this, collect them into a single gain $K$, and set $s = j\omega$:
@@ -266,6 +293,12 @@ $$
 $$
 
 > [!warning] Skipping the $(s + z) \to z(1 + s/z)$ step is the classic mistake. If you plot $(s + 2)$ as though it were $(1 + s/2)$, the whole magnitude plot is off by $20\log 2 = 6$ dB, because that 2 belongs in $K$.
+
+> [!tip] Finding $K$ fast, and reading the corners
+> - $K = \dfrac{\text{front constant} \times \text{zeros' numbers}}{\text{poles' numbers}}$. For $\frac{200(s+10)}{(s+2)(s+100)}$: $K = \frac{200 \times 10}{2 \times 100} = 10$. With no bare $s$ factor, $K = H(0)$, so plug $s = 0$ into the original as a check.
+> - Write $K$ and $K_{\text{dB}}$ separately: $K = 10$, $K_{\text{dB}} = 20$ dB.
+> - A root at $s = -10$ puts the corner at $\omega = 10$ rad/s. The Bode axis uses the positive numbers.
+> - **Why a negative $K$ starts the phase at $180^\circ$:** $-10 = 10\angle 180^\circ$, a point on the negative real axis. At low $\omega$ every $(1 + j\omega/z)$ factor is about $1\angle 0^\circ$, so $H \approx K$ and the phase starts at $K$'s angle. $+180^\circ$ and $-180^\circ$ are the same point, so use whichever keeps the plot tidy.
 
 #### Example 14.7: Standard form with a negative constant
 
@@ -302,6 +335,9 @@ Some reasons behind the table:
 - **A negative $K$ is a $180^\circ$ shift.** Multiplying a sine by $-1$ flips it upside down, which is the same as shifting it half a cycle. That's why every inverting amplifier adds $180^\circ$.
 - **Powers multiply everything.** A factor squared has double the slope and double the phase. A double pole falls at $-40$ dB/decade and its phase goes to $-180^\circ$.
 - **A quadratic is "two poles at once".** At high frequency the $(j\omega/\omega_n)^2$ term wins, so it's $\omega^2$: $-40$ dB/decade and $-180^\circ$.
+
+> [!warning] Nothing happens at $\omega = 1$
+> An origin factor's $\pm 20$ slope runs at **every** frequency, from the far left of the plot. $\omega = 1$ is not a corner. It's only where that line passes through its own 0 dB, which makes it the handy point to **pin** the whole plot: there the plot sits at $20\log_{10}|K|$ (as long as no corner comes before $\omega = 1$; if one does, extend the starting line out to $\omega = 1$ to place it). Slopes change only at corners: a **pole bends the plot down** by 20 dB/decade, a **zero bends it up** by 20. Run the counting checks in [[#Procedure]] every time; they catch a flipped sign right away.
 
 #### Example 14.8: Zero, pole at the origin and a simple pole
 
@@ -362,6 +398,18 @@ The squared factor counts twice: **40** log and **2** tan⁻¹.
 
 > [!note] If $\zeta \geq 1$, the quadratic has real roots, the same test as overdamped vs. underdamped in Ch 8. Then it's really two simple poles in disguise, so factor it and use the simple-pole rules (Examples 14.11 and 14.23). Only a genuinely underdamped quadratic needs the peak treatment.
 
+> [!tip] The quadratic, step by step
+> 1. **Where it comes from.** Any circuit with both L and C. A series RLC with the output across C gives $\frac{1/sC}{R + sL + 1/sC} = \frac{1}{LCs^2 + RCs + 1} = \frac{\omega_0^2}{s^2 + 2\alpha s + \omega_0^2}$. The denominator is Ch 8's characteristic equation.
+> 2. **Read it off.** From $s^2 + bs + c$: $\omega_n = \sqrt{c}$ (Ch 8's $\omega_0$) and $\zeta = \frac{b}{2\omega_n}$ (Ch 8's $\alpha/\omega_0$).
+> 3. **Why it peaks at $\omega_n$.** There $\left(\frac{j\omega_n}{\omega_n}\right)^2 = j^2 = -1$ cancels the 1, leaving only $j2\zeta$. So $|H| = \frac{1}{2\zeta}$ and the phase is exactly $-90^\circ$. Physically, the L and C reactances cancel (resonance) and only the damping (R) limits the response.
+> 4. **How tall:**
+>
+> |$\zeta$|0.05|0.1|0.25|0.5|0.707|$\geq 1$|
+> |---|---|---|---|---|---|---|
+> |$\frac{1}{2\zeta}$|10 (20 dB)|5 (14 dB)|2 (6 dB)|1 (0 dB)|0.707 (−3 dB, no peak)|factor into two simple poles|
+>
+> **Quick example:** $\frac{25}{s^2 + s + 25}$ has $\omega_n = 5$ and $\zeta = \frac{1}{10} = 0.1$. At $s = j5$ the bottom is $-25 + j5 + 25 = j5$, so $|H| = 5$ (14 dB) at $-90^\circ$, where the straight lines say 0 dB.
+
 #### Example 14.10: A lightly damped quadratic
 
 Describe the Bode plot of $H(s) = \dfrac{100}{s^2 + 4s + 100}$.
@@ -388,6 +436,11 @@ The straight-line sketch says 0 dB at $\omega_n$, but the real curve is 8 dB hig
 > - **High-frequency slope** $= 20 \times$ (total zeros $-$ total poles) dB/decade, with a quadratic counting as two.
 >
 > These come straight from which terms win at each end. They should agree with the short/open picture of the circuit at $\omega \to 0$ and $\omega \to \infty$.
+>
+> **Why they work.** At low $\omega$ every $(1 + j\omega/z)$ is about 1 and adds nothing, so only the bare $s$ factors count. At high $\omega$ every $(1 + j\omega/z)$ is about $j\omega/z$, so each one acts like a bare $s$ and *all* of them count. Shortcut for the high end: (highest power of $s$ on top − highest power on the bottom) × 20. If a check doesn't match the first or last row of your table, look for a corner with the wrong sign; you don't need to redo the plot.
+
+> [!warning] Change in dB = slope × decades
+> Walk the region table left to right and carry the value along. In a **flat** region (slope 0) the value doesn't change, however many decades it spans. For $\frac{1000(s+1)}{s(s+100)}$: 20 dB at $\omega = 1$, flat to $\omega = 100$ (still 20 dB, not 40), then $-20$ for one decade to 0 dB at $\omega = 1000$.
 
 #### Example 14.11: Transfer function from a circuit, then its Bode plot
 
@@ -523,6 +576,29 @@ Below $\omega_0$ the capacitor's reactance is bigger and the circuit acts capaci
 - $\mathbf{V}_L$ and $\mathbf{V}_C$ are equal and opposite. They cancel each other in KVL, so the whole source voltage lands on R.
 - But each one on its own can be **much bigger than the source**: $|V_L| = |V_C| = Q\,V_m$. The energy sloshing between L and C builds up large voltages that cancel out in the loop. Example 14.15 gets 500 V across the inductor from a 20 V source.
 
+> [!tip] What "acts inductive" or "acts capacitive" means
+> Write $Z = R + jX$, where $X$ is the net reactance (all the $+j\omega L$ and $-j/\omega C$ terms added up).
+>
+> |$X$|Acts|Looks to the source like|Current vs voltage|
+> |---|---|---|---|
+> |$> 0$|inductive|R + one inductor, $L_{eq} = X/\omega$|lags|
+> |$= 0$|resistive (resonance)|just R|in phase|
+> |$< 0$|capacitive|R + one capacitor, $C_{eq} = 1/(\omega\lvert X\rvert)$|leads|
+>
+> Why: $\angle I = \angle V - \angle Z$. In an inductor $v = L\,di/dt$ peaks when the current is rising fastest, *before* the current peaks, so the current lags; in a capacitor it's the other way round. Memory aid: **ELI the ICE man** (in L, voltage E before current I; in C, current I before voltage E). Example 14.14 at $\omega = 500$: $Z = 20 - j150$, so it's capacitive, looks like 20 Ω plus a 13.3 µF capacitor, and the current leads by $82.4^\circ$.
+
+> [!warning] At resonance, keep the $j$'s in KVL
+> Take a 5 V source with $R = 10\ \Omega$ and $\omega_0 L = \frac{1}{\omega_0 C} = 50\ \Omega$, so $I = 0.5\angle 0^\circ$ A:
+>
+> |Element|$Z$|$V = ZI$|
+> |---|---|---|
+> |R|10|5|
+> |L|$+j50$|$+j25$|
+> |C|$-j50$|$-j25$|
+> |Sum||$5$ = the source ✓|
+>
+> $|V_L| = \omega_0 L \cdot I = 25$ V, five times the source. The $j$ only sets direction. Easy slip: giving $V_R$ (5 V, the whole source) as $V_L$.
+
 #### Example 14.14: A first resonance calculation
 
 A series circuit has $R = 20\ \Omega$, $L = 0.1\ \text{H}$ and $C = 10\ \mu\text{F}$, driven by a $10$ V peak sinusoid. Find $\omega_0$, the current at resonance, the inductor voltage at resonance, and the current at $\omega = 500$ rad/s.
@@ -592,6 +668,16 @@ $$
 $\omega_0$ is the **geometric** mean of the half-power frequencies, not the average. That's because the curve is symmetric on a **log** axis, not a linear one (the same ratio above and below). When $Q$ is high, the peak is so narrow that log and linear look the same, and $\omega_0 \mp \frac{B}{2}$ is a good shortcut. When $Q$ is low, it isn't (Example 14.18).
 
 > [!tip] $\frac{R}{2L}$ in Eq. (14.11) is Ch 8's series $\alpha$. So $\omega_{1,2} = \mp\alpha + \sqrt{\alpha^2 + \omega_0^2}$ and $B = 2\alpha$. The damping that made Ch 8's response decay is the same thing that sets the bandwidth here.
+
+> [!warning] Reading the resonance curve without tripping
+> - **B is the full width**, from $\omega_1$ (below the peak) to $\omega_2$ (above it). Peak to one side is only about $B/2$.
+> - **Current graph or power graph, same points.** On a current graph the half-power points sit at $0.707\,I_{\max}$; on a power graph ($P = I^2R$) at $\frac12 P_{\max}$. Since $0.707^2 = 0.5$, both give the same $\omega_1$, $\omega_2$ and $B$.
+> - **The peak height doesn't depend on $\omega_0$ or $Q$.** At resonance only R is left, so $I_{\max} = V/R$ and $P_{\max} = V^2/R$. $\omega_0$ sets *where* the peak is, R sets *how tall*, and $Q$ sets *how narrow* relative to its position.
+> - **$Q$ is a ratio, not a slope.** $B = 100$ rad/s is a thin spike at $\omega_0 = 10\,000$ ($Q = 100$) and a wide hump at $\omega_0 = 200$ ($Q = 2$).
+> - **"Selective" in numbers:** a signal 5% above $\omega_0$ gets about 72% of the peak current through when $Q = 10$, but about 98% when $Q = 2$. High $Q$ passes $\omega_0$ and nearly blocks its neighbours.
+> - **The current at $\omega_1$ and $\omega_2$ is $I_{\max}/\sqrt2$ by definition.** If you check it with numbers, use the net reactance $X = \omega L - \frac{1}{\omega C}$, which equals $\pm R$ there, not one reactance on its own.
+> - **"Exact vs shortcut" is only about $\omega_1$, $\omega_2$.** $\omega_0 = 1/\sqrt{LC}$ is always exact.
+> - **Sign trap:** Ch 8's ringing frequency is $\omega_d = \sqrt{\omega_0^2 - \alpha^2}$ (minus, below $\omega_0$). The half-power formula uses $\sqrt{\alpha^2 + \omega_0^2}$ (plus, a little *above* $\omega_0$). If your $\sqrt{\alpha^2 + \omega_0^2}$ comes out smaller than $\omega_0$, a square went wrong. Finish with $\sqrt{\omega_1\omega_2} = \omega_0$.
 
 #### Example 14.15: Series resonance (high Q)
 
@@ -685,6 +771,15 @@ Eq. (14.14) still holds.
 |Bandwidth|$\frac{R}{L}$|$\frac{1}{RC}$|
 |Bigger $R$ gives|lower $Q$, wider band|higher $Q$, narrower band|
 
+> [!tip] Why series $B$ has only L and parallel $B$ has only C
+> The half-power points are where the leftover reactance $X = \omega L - \frac{1}{\omega C}$ reaches $\pm R$. Near $\omega_0$, $X$ changes at a rate of $L + \frac{1}{\omega^2 C}$, and at $\omega_0$ the capacitor's share $\frac{1}{\omega_0^2C}$ equals $L$ exactly. So $X$ climbs at $2L$, needs to reach $R$ on each side, and $B = 2 \cdot \frac{R}{2L} = \frac{R}{L}$. C isn't missing; at resonance its effect is the same size as L's. Parallel is the dual (susceptance climbs at $2C$ and must reach $\frac1R$, so $B = \frac{1}{RC}$). A consequence: in series, changing C **moves the peak but keeps its width**. With $R = 20\ \Omega$ and $L = 0.1$ H, going from $C = 10\ \mu$F to $2.5\ \mu$F moves $\omega_0$ from 1000 to 2000 while $B$ stays 200, so $Q$ goes from 5 to 10.
+
+> [!warning] Finding branch currents in parallel
+> - **Don't add magnitudes.** $|Z_1 + Z_2| \neq |Z_1| + |Z_2|$. Combine the complex $Z$'s (or $Y$'s) with their $j$'s first, then take the size. Using one element's own $|Z|$ for its own current is fine. At $\omega_0$, $Z_{\text{total}} = R$; combining magnitudes instead (1 kΩ, 100 Ω, 100 Ω) gives a wrong 47.6 Ω.
+> - **Current divider:** $I_x = I_s \cdot \frac{Z_{\text{total}}}{Z_x}$, with $Z_x$ on the **bottom** (a bigger branch impedance gets less current). Magnitudes are fine here because $\left|\frac{a}{b}\right| = \frac{|a|}{|b|}$; only sums need the complex form.
+> - **Easier: find V first.** $V = I_s / Y_{\text{total}}$ ($= I_sR$ at $\omega_0$), then each branch is $V/|Z|$. This is the same as KCL at the top node and works at any frequency. $I_L = Q\,I_s$ is a shortcut that holds **only at $\omega_0$**.
+> - **Red flag:** when $Q > 1$, the L and C branch currents at resonance must come out *bigger* than the source current.
+
 #### Example 14.17: Parallel resonance (high Q)
 
 A parallel RLC has $R = 8$ kΩ, $L = 0.2$ mH and $C = 8\ \mu$F, driven by a current source of amplitude $I_m = 1.25$ mA. Find (a) $\omega_0$, (b) $Q$, (c) $B$, (d) $\omega_1$ and $\omega_2$, and (e) the voltage and power at $\omega_0$, $\omega_1$ and $\omega_2$.
@@ -732,6 +827,8 @@ A parallel RLC has $R = 5\ \Omega$, $L = 10$ H and $C = 0.1$ F, driven by a 10 A
 > [!warning] With $Q = 0.5$, the shortcut $\omega_0 \mp \frac{B}{2}$ gives 0 and 2 rad/s, which is badly wrong. The peak is so wide that it's visibly lopsided on a linear axis: $\omega_2$ is 1.4 rad/s above $\omega_0$ but $\omega_1$ is only 0.6 below. On a log axis it's symmetric, which is why the exact rule is the geometric mean: $\sqrt{(0.414)(2.414)} = 1$ ✓.
 
 #### Example 14.19: Design a resonant circuit
+
+> [!tip] Design recipe: **B first, then $\omega_0$, then check $Q$.** The bandwidth formula holds only one of L or C (series $L = R/B$, parallel $C = 1/(RB)$), so it pins that one down; $\omega_0^2 = \frac{1}{LC}$ then gives the other; finish by checking $\frac{\omega_0}{B}$ against $\frac{\omega_0 L}{R}$ (series) or $\omega_0 RC$ (parallel).
 
 (a) Design a series RLC with $\omega_0 = 1000$ rad/s and $B = 50$ rad/s, using $R = 10\ \Omega$. (b) Design a parallel RLC with the same $\omega_0$ and $B$, using $R = 10$ kΩ.
 
@@ -856,6 +953,16 @@ $$
 
 The $s$ on top is a zero at the origin, which is the "blocks DC completely" behaviour written as algebra (Example 14.22).
 
+> [!tip] Low-pass or high-pass at a glance, and the numbers at the cutoff
+> |Where the reactive element sits|Blocks|Type|
+> |---|---|---|
+> |C across the output, or L in the series path|high frequencies|low-pass|
+> |C in the series path, or L across the output|low frequencies|high-pass|
+>
+> - **Cutoff:** set the reactive element's impedance equal to R. $\frac{1}{\omega_c C} = R$ gives $\frac{1}{RC}$; $\omega_c L = R$ gives $\frac{R}{L}$ (divide, don't multiply: $\Omega/\text{H}$ is 1/s, $\Omega \cdot \text{H}$ isn't a frequency). For an R–L with the output across L: $H = \frac{sL}{R + sL}$, high-pass.
+> - **At the cutoff, $|1 + j| = \sqrt2$, not 2,** so $|H| = 0.707$ (−3 dB). A −6 dB answer means $\sqrt2$ became 2. One decade past the cutoff, the straight line is −20 dB and the exact curve −20.04 dB; don't add the corner's 3 dB onto the slope.
+> - **Phase at the cutoff:** angle of a fraction = angle of the top − angle of the bottom. High-pass: $\frac{j}{1 + j}$ gives $90^\circ - 45^\circ = +45^\circ$ (leads). Low-pass: $\frac{1}{1 + j}$ gives $-45^\circ$ (lags). A decade either side, the high-pass phase is $84.3^\circ$ (at $\omega_c/10$) and $5.7^\circ$ (at $10\omega_c$).
+
 #### Example 14.22: RC high-pass filter
 
 For the high-pass filter in Figure 14.16 with $R = 8\ \Omega$ and $C = 4$ F, find $H(s)$ and sketch the Bode plot.
@@ -939,6 +1046,14 @@ $$
 The zeros at $s = \pm j\omega_0$ sit right on the frequency axis. That's the algebra saying "this exact frequency is completely blocked".
 
 > [!tip] Band-pass and band-stop are two halves of one circuit. By KVL, the voltage across R plus the voltage across the L–C pair equals the input, so $H_{BP} + H_{BS} = 1$. Whatever one passes, the other rejects.
+
+> [!example] One circuit, two outputs
+> |Output across|DC|$\omega_0$|$\infty$|Filter|
+> |---|---|---|---|---|
+> |R|0|1|0|band-pass|
+> |the L–C pair|1|0|1|band-stop|
+>
+> Both share $\omega_0$, $B = R/L$ and $Q$. For the band-stop at any frequency, $|H| = \frac{|X|}{\sqrt{R^2 + X^2}}$ with $X = \omega L - \frac{1}{\omega C}$ (the band-pass is $\frac{R}{\sqrt{R^2 + X^2}}$). Quick check with $R = 20\ \Omega$, $L = 10$ mH, $C = 1\ \mu$F: $\omega_0 = 10^4$, $B = 2000$, $Q = 5$; the band-stop gives 1 at DC, 0 at $\omega_0$, 0.707 at $\omega_1 = 9049.9$, and 0.991 at $20\,000$ rad/s.
 
 Both filters fit the standard form with a quadratic: dividing top and bottom by $\omega_0^2$ and writing $\frac{R}{L} = 2\alpha$ gives a quadratic factor with $\omega_n = \omega_0$ and $\zeta = \frac{\alpha}{\omega_0} = \frac{1}{2Q}$. So the filter's sharpness, its $Q$, and its damping are all the same number seen three ways.
 
